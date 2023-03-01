@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import "react-phone-input-2/lib/style.css"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Layout/SideNavBar.css";
@@ -14,7 +13,7 @@ import "./Favourites/Favourites.css";
 import "./Settings/Settings.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-// import "./StyleSheet/custom.css";
+import App from './App';
 import { BrowserRouter as Router } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
