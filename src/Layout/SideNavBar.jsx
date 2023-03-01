@@ -10,6 +10,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { BsChevronDoubleRight } from "react-icons/bs";
 import { BsChevronDoubleLeft } from "react-icons/bs";
 import Gaudio from '../assets/images/guitar.mp3';
+import { Link } from "react-router-dom";
 
 const SideNavBar = () => {
 	const audio = new Audio(Gaudio);
@@ -71,14 +72,14 @@ const SideNavBar = () => {
 				</div>
 				<div className="nav-menu">
 					{menuItems.map(({ text, icon, links }) => (
-						<a
+						<Link
 							className={isExpanded ? "menu-item" : "menu-item menu-item-NX "}
-							href={links} 
+							to={links} 
 						>{/* Add active class */}
 						
 							{icon}
 							{isExpanded && <p className="l-sb">{text}</p>}
-						</a>
+						</Link>
 					))}
 				</div>
 			</div>

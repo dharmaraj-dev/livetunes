@@ -39,7 +39,7 @@
 .cart-details-box .inner-artist-detail{font-size: 18px;}
 .cart-details-box .inner-artist-detail .form-control{border: 0.5px solid #000000;border-radius: 4px;padding: 0 9px;height: 30px;width: 170px;}
 .cart-details-box .inner-artist-detail .hstack{margin: 14px 0;}
-.cart-details-box .value-sec{position: absolute;top: 21px;right: 0;font-size: 22px;}
+.cart-details-box .value-sec{position: absolute;top: 21px;right: 20px;font-size: 22px;}
 .cart-footer{border-top: 2px solid #000;padding: 24px 0 0;margin: 8px 0 0;}
 .cart-footer button, .cart-footer button:hover, .cart-footer button:first-child:active{padding: 10px 32px;font-size: 16px;border-radius: 10px;margin: 0 0 20px;}
 .pay-button{padding: 12px 0;font-size: 18px;margin: 20px 0 0;}

@@ -19,6 +19,7 @@ h2{font-weight: bold;}
 .black-color{color: #000;}
 .red-color{color: #EE3642;}
 .green-color{color: #008137;}
+.red-bg{background-color: #EE3642 !important;color: #fff !important;}
 
 .fnt-18{font-size: 18px;}
 
@@ -35,6 +36,7 @@ h2{font-weight: bold;}
 a:hover{color: #000;}
 a{text-decoration: none;color: #000000;}
 .cursor-pointer{cursor: pointer;}
+.border-radius-36{border-radius: 36px;}
 
 .form-control, .search-wrapper{border: 0.5px solid #707070;border-radius: 8px;height: 48px;font-size: 16px;color: #000;}
 input, input.form-control{font-family: 'Lato', sans-serif !important;}
@@ -228,6 +230,8 @@ body.modal-open .App{filter: blur(6px);}
     /* .lottie-gift{width: 20%;} */
     .reward-sec h2 {font-size: 20px;}
     .main-coupons-sucess-sec .modal-dialog{max-width: 50%;}
+    .top-right-menu .dropdown-menu {min-width: 30rem;max-height: 490px;overflow-y: scroll;}
+    .profile-upload-sec{min-height: 400px;}
 
     
 }
@@ -294,6 +298,8 @@ body.modal-open .App{filter: blur(6px);}
     .cart-details-box{margin: 22px 0 24px;}
     .reward-sec{padding: 20px 100px 30px;}
     .main-coupons-sucess-sec .modal-dialog {max-width: 70%;}
+    .profile-upload-sec {min-height: 340px;}
+    .profile-upload-sec .inner-profile-upload-sec{width: 200px;height: 200px;}
     
 }
 
@@ -355,7 +361,6 @@ body.modal-open .App{filter: blur(6px);}
     
 .side-nav-container{position: fixed;}
 .main{margin: 0 0 0 85px;}
-
 
 
 
