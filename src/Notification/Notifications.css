@@ -1,0 +1,42 @@
+.setting-ico svg{font-size: 30px;color: #000;}
+.mark-all-read .btn{border: 1px solid #000000;border-radius: 12px;background: #fff;color: #000;margin: 0 0 -7px;}
+.btn-check:checked+.btn{
+    color: #fff;
+    background-color: #fd3743;
+    border-color: #fd3743;
+}
+.btn-check+.btn:hover {
+    color: #000000;
+    background-color: var(--bs-btn-bg);
+    border-color: #fd3743;
+}
+
+.noti-tab-sec{padding: 26px 0 0;}
+.noti-tab-sec .nav-tabs .nav-link .badge{vertical-align: text-top;margin: 0 0 0 8px;border: 1px solid #444444;border-radius: 6px;background: #fff !important;color: #000;padding: 3px 6px;}
+.noti-tab-sec .nav-tabs .nav-link.active .badge{background-color: #FD3743 !important;border: 1px solid #fd3743;color: #fff;}
+.noti-tab-sec .nav-tabs{border-bottom: 1px solid #000;}
+.noti-tab-sec .nav-tabs .nav-link{border: 0;color: #444444;background-color: #fff;border-color: #fff;font-size: 18px;font-weight: 400;}
+.noti-tab-sec .nav-tabs .nav-link.active{font-weight: bold;color: #FD3743;border-bottom: 3px solid #fd3743;}
+.noti-tab-sec .inner-noti-tab-sec{padding: 20px 0 0;}
+.noti-tab-sec .inner-noti-tab-sec .head{font-size: 24px;margin: 0 0 26px;}
+.noti-tab-sec .inner-noti-tab-sec .img-sec{width: 60px;border-radius: 34px;}
+.noti-tab-sec .inner-noti-tab-sec .name-head{font-size: 18px;}
+.noti-tab-sec .inner-noti-tab-sec .inner-msg-sec{padding: 0 0 30px;}
+.noti-tab-sec .inner-noti-tab-sec .inner-msg-sec button{width: 110px;margin: 0 0 0 12px;}
+.noti-tab-sec .inner-noti-tab-sec .inner-msg-sec:last-child{border-bottom: 1px solid #000000;}
+
+.top-right-menu .dropdown-menu {min-width: 37rem;}
+.notification-class .noti-head-sec h2{font-size: 20px;}
+.notification-class .noti-tab-sec {padding: 6px 0 0;}
+.notification-class .noti-tab-sec .nav-tabs .nav-link{font-size: 16px;}
+.notification-class .noti-tab-sec .inner-noti-tab-sec .head {font-size: 18px;margin: 0;}
+.notification-class .noti-tab-sec .inner-noti-tab-sec .name-head {font-size: 16px;}
+.notification-class .noti-tab-sec .inner-noti-tab-sec .inner-msg-sec button{display: none;}
+.notification-class .noti-tab-sec .inner-noti-tab-sec .inner-msg-sec:last-child {border-bottom: none;}
+.notification-class .noti-tab-sec .inner-noti-tab-sec .inner-msg-sec {padding: 10px 0 10px;}
+.notification-class .setting-ico svg {color: #000;margin: -5px 0 0 0;}
+.navbar-expand .navbar-nav .dropdown-menu{border: 0.5px solid #000000;border-radius: 16px;}
+.see-all-text{border-bottom: 1px solid #fd3743;cursor: pointer;}
+
+.see-all-text{display: none;}
+.notification-class .see-all-text{display: block;}

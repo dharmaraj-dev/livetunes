@@ -1,0 +1,14 @@
+.login-setting-cart .accordion-button{text-align: right;display: block;padding: 0;}
+.login-setting-cart .accordion-item{border: 0;}
+.acco-header-login-setting svg{margin: -4px 6px 0 0;}
+.acco-header-login-setting .accordion-button.collapsed .acco-hide{display: none;}
+.acco-header-login-setting .accordion-button.collapsed .acco-show{display: block;}
+.acco-header-login-setting .accordion-button .acco-show{display: none;}
+.login-setting-cart .accordion{top: -23px;}
+.login-setting-cart .accordion .accordion-body {padding: 24px 0 0;}
+.main-settings-sec .cart-details-box{padding: 32px;}
+
+.inner-setting-button button{padding: 10px 70px;margin: 20px 0 0;}
+.main-inner-setting-sec{padding: 34px 0 0;box-shadow: inset 0px 5px 9px -9px rgb(0 0 0 / 76%);}
+.main-inner-setting-sec .col-sec-1{padding: 0 42px 0 12px;}
+.main-inner-setting-sec .col-sec-2{padding: 0 12px 0 42px;border-left: 1px solid #000;}

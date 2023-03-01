@@ -1,0 +1,27 @@
+.navbar{height: 72px;background: #444444;padding: 0 24px !important; position: fixed;width: -webkit-fill-available;width: -moz-available;    z-index: 999;}
+.top-search{position: relative;width: 20%;}
+.top-search input.form-control{height: 42px;}
+.top-search-button{position: absolute;top: 7px;right: 10px;background: #ffff;padding: 0;margin: 0;}
+.top-search-button svg{font-size: 22px;}
+.top-search-button,.top-search-button:hover{color: #5e5e5e !important;background-color: #fff !important;border-color: transparent !important;transition: all 0.5s !important;box-shadow: none !important;}
+.top-right-menu button.btn-primary{background: none; border: none;}
+.top-right-menu button.btn-primary::after{display: none;}
+.top-right-menu button.btn-primary.show, .top-right-menu button.btn-primary:active{background: none;}
+.notification-class button{margin: 12px 5px 11px;}
+.notification-class button svg{font-size: 30px;}
+.profile-class{margin: 10px 5px 10px;}
+.profile-class img{width: 52px;}
+.top-right-menu .dropdown-menu{min-width: 20rem;}
+
+.navbar-nav .setting-ico{margin: 18px 5px 11px;}
+.navbar-nav .setting-ico svg{color: #fff;}
+.setting-ico:hover svg{
+    animation-name: rotate; 
+    animation-duration: 2s; 
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@keyframes rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
