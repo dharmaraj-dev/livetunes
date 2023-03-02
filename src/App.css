@@ -244,6 +244,8 @@ body.modal-open .App{filter: blur(6px);}
 
 @media (min-width:1800px){
     .main-artists-list {padding: 0 10%;}
+    .main-inner-setting-sec .col-sec-1 {padding: 0 60px 0 12px;}
+    .main-inner-setting-sec .col-sec-2 {padding: 0 12px 0 60px;}
 
 }
 
@@ -297,6 +299,7 @@ body.modal-open .App{filter: blur(6px);}
     .value-card-text {font-size: 22px;}
     .value-text{font-size: 17px;}
     .cart-details-box{margin: 22px 0 24px;}
+    .main-settings-sec .cart-details-box {padding: 22px;}
     .reward-sec{padding: 20px 100px 30px;}
     .main-coupons-sucess-sec .modal-dialog {max-width: 70%;}
     .profile-upload-sec {min-height: 340px;}
@@ -350,6 +353,9 @@ body.modal-open .App{filter: blur(6px);}
     .availability-not-found {padding: 20px 20px;}
     .availability-not-found .lottie-sademoji { width: 40%; margin: 0 auto 12px;}
     .availability-not-found .sub-head{line-height: 30px;}
+    .main-inner-setting-sec .col-sec-1{padding: 0 12px 0 12px;}
+    .main-inner-setting-sec .col-sec-2 {padding: 26px 12px 0 12px;border-left: none;border-top: 1px solid #000;margin: 26px 0 0;}
+    .login-setting-cart .accordion {top: 0px;}
 
 
 

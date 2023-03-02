@@ -104,7 +104,13 @@ const LoginSetting = () => {
                                     Confirm OTP
                                   </Form.Label>
                                   <Col sm={9}>
-                                    <Form.Control type="text" placeholder="" />
+                                    <div className="otp-set-field d-flex">   
+                                      <Form.Control type="text" className="l-r" />
+                                      <Form.Control type="text" className="l-r" />
+                                      <Form.Control type="text" className="l-r" />
+                                      <Form.Control type="text" className="l-r" />
+                                      <Form.Control type="text" className="l-r" />
+                                    </div>
                                     <Form.Text className="l-sb red-color">
                                       An OTP has been sent to you new phone no.
                                     </Form.Text>

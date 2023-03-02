@@ -1,6 +1,9 @@
 import React from 'react';
 import Stack from "react-bootstrap/Stack";
 import Accordion from 'react-bootstrap/Accordion';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 import { FiEdit } from "react-icons/fi";
 import { RxCrossCircled } from "react-icons/rx";
 import Paysvgrepo from '../assets/images/credit-cards-svgrepo-com.png';
@@ -29,13 +32,67 @@ const Payments = () => {
                 <Accordion.Item eventKey="0">
                     <Accordion.Header className="acco-header-login-setting"><span className="red-color acco-show"><FiEdit size={24}/> Change/add card</span> <span className="acco-hide red-color"><RxCrossCircled size={24}/> Close</span></Accordion.Header>
                     <Accordion.Body>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
+                    <div className="main-inner-setting-sec">
+                        <Row>
+                          <Col lg={6} className="col-sec-1">
+                            <div className="inner-setting-sec">
+                              
+                            </div>
+                          </Col>
+                          <Col lg={6} className="col-sec-2">
+                            <div className="inner-setting-sec">
+                              <Form>
+                                <Form.Group as={Row} className="mb-3" controlId="">
+                                  <Form.Label column sm={3} className="l-sb fs-6">
+                                  Card no.
+                                  </Form.Label>
+                                  <Col sm={9}>
+                                    <Form.Control type="text" placeholder="" />
+                                  </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} className="mb-3 l-sb fs-6" controlId="">
+                                  <Form.Label column sm={3}>
+                                  Name
+                                  </Form.Label>
+                                  <Col sm={9}>
+                                    <Form.Control type="text" placeholder="" />
+                                  </Col>
+                                </Form.Group>
+                          
+                                <Row>
+                                  <Col sm={6}>
+                                    <Form.Group as={Row} className="mb-3 l-sb fs-6" controlId="">
+                                      <Form.Label column sm={6}>
+                                       Expiry date
+                                      </Form.Label>
+                                      <Col sm={6}>
+                                        <Form.Control type="text" placeholder="" />
+                                      </Col>
+                                    </Form.Group>
+                                  </Col>
+                                  <Col sm={6}>
+                                    <Form.Group as={Row} className="mb-3 l-sb fs-6" controlId="">
+                                      <Form.Label column sm={6} className="text-end">
+                                        CVV
+                                      </Form.Label>
+                                      <Col sm={6}>
+                                        <Form.Control type="text" placeholder="" />
+                                      </Col>
+                                    </Form.Group>
+                                  </Col>
+                                </Row>
+                                <Form.Group as={Row} className="text-center inner-setting-button">
+                                  <Col>
+                                    <button type="button" class="l-b btnn btn btn-primary border-radius-36">Save changes</button>
+                                  </Col>
+                                </Form.Group>
+
+                              </Form>
+                            </div>
+                          </Col>
+                        </Row>
+                      </div>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
