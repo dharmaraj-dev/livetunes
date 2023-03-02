@@ -17,3 +17,5 @@
 .otp-set-field input {margin: 0 10px;text-align: center;font-size: 20px;}
 
 .inner-paycard{margin: 0 0 22px;background: transparent linear-gradient(330deg, #F4A460 0%, #CD5C5C 100%) 0% 0% no-repeat padding-box;color: #fff;padding: 22px 30px;border-radius: 14px;}
+.save-address-sec{border-top: 1px solid #000;padding: 24px 0 0;margin: 8px 0 0;}
+.inner-save-address-sec{margin: 20px 0 0;}

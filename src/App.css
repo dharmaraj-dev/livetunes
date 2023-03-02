@@ -40,7 +40,7 @@ a{text-decoration: none;color: #000000;}
 
 .form-control, .search-wrapper{border: 0.5px solid #707070;border-radius: 8px;height: 48px;font-size: 16px;color: #000;}
 input, input.form-control{font-family: 'Lato', sans-serif !important;}
-input:focus, input.form-control:focus, .form-select:focus,.form-select, .form-check-input:focus{border-color: #707070;box-shadow: none;}
+input:focus, input.form-control:focus, .form-select:focus,.form-select, .form-check-input:focus, textarea.form-control:focus{border-color: #707070;box-shadow: none;}
 
 .form-select{font-weight: 600;color: #444444;}
 
