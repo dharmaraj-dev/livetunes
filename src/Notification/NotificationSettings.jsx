@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useState} from 'react';
 import Stack from "react-bootstrap/Stack";
 import Accordion from 'react-bootstrap/Accordion';
-import { FiEdit } from "react-icons/fi";
+import Switch from "react-switch";
 import { RxCrossCircled } from "react-icons/rx";
 import Notifiimg from '../assets/images/notifiimg.png';
 
 const NotificationSettings = () => {
+  const [checked, setChecked] = useState(false);
+  const [checked2, setChecked2] = useState(false);
+  const [checked3, setChecked3] = useState(false);
+
+  const handleChange = nextChecked => {
+    setChecked(nextChecked);
+  };
+  const handleChange2 = nextChecked => {
+    setChecked2(nextChecked);
+  };
+  const handleChange3 = nextChecked => {
+    setChecked3(nextChecked);
+  };
+
   return (
     <>
         <div className="cart-details-box  login-setting-cart">
@@ -29,13 +43,47 @@ const NotificationSettings = () => {
                 <Accordion.Item eventKey="0">
                     <Accordion.Header className="acco-header-login-setting"><span className="red-color acco-show"> Details</span> <span className="acco-hide red-color"><RxCrossCircled size={24}/> Close</span></Accordion.Header>
                     <Accordion.Body>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                    minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
+                      <div className="main-inner-setting-sec">
+                        <div className="noti-request-sec">
+                          <Stack direction="horizontal" gap={3}>
+                            <h5 className="l-sb head">Booking request notification</h5>
+                            <div className="ms-auto">
+                              <Switch
+                                onChange={handleChange}
+                                checked={checked}
+                                className="react-switch"
+                              />
+                            </div>
+                          </Stack>
+                        </div>
+
+                        <div className="noti-request-sec">
+                          <Stack direction="horizontal" gap={3}>
+                            <h5 className="l-sb head">Connection request notification</h5>
+                            <div className="ms-auto">
+                              <Switch
+                                onChange={handleChange2}
+                                checked={checked2}
+                                className="react-switch"
+                              />
+                            </div>
+                          </Stack>
+                        </div>
+
+                        <div className="noti-request-sec">
+                          <Stack direction="horizontal" gap={3}>
+                            <h5 className="l-sb head">Upcoming events notification</h5>
+                            <div className="ms-auto">
+                              <Switch
+                                onChange={handleChange3}
+                                checked={checked3}
+                                className="react-switch"
+                              />
+                            </div>
+                          </Stack>
+                        </div>
+                        
+                      </div>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>

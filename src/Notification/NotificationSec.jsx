@@ -31,7 +31,9 @@ const NotificationSec = () => {
                 
             </div>
             <div className="setting-ico cursor-pointer">
-                <SlSettings/>
+                <Link to="/settings">
+                    <SlSettings/>
+                </Link>
             </div>
             </Stack>
         </div>

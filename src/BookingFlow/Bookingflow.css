@@ -115,3 +115,5 @@
 .availability-not-found .head{font-size: 54px;}
 .availability-not-found .sub-head{font-size: 24px;color: #606060;line-height: 27px;margin: 15px 0 20px;}
 .availability-not-found button{padding: 8px 40px;font-size: 20px;}
+
+.give-feedback-sec .modal-body{padding: 20px;}

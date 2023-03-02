@@ -29,9 +29,11 @@ const NavBar = () => {
             <div className="justify-content-end d-flex top-right-menu">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <div className="setting-ico cursor-pointer">
-                        <SlSettings/>
-                    </div>
+                    <Link to="/settings">
+                      <div className="setting-ico cursor-pointer">
+                          <SlSettings/>
+                      </div>
+                    </Link>
                   </li>
                   <li class="nav-item">
                   <DropdownButton align="end" id="dropdown-menu-align-end" className="notification-class dropdown-menu-lg" title={<TfiBell className="white-color bell"/>}>

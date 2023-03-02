@@ -355,7 +355,7 @@ body.modal-open .App{filter: blur(6px);}
     .availability-not-found .sub-head{line-height: 30px;}
     .main-inner-setting-sec .col-sec-1{padding: 0 12px 0 12px;}
     .main-inner-setting-sec .col-sec-2 {padding: 26px 12px 0 12px;border-left: none;border-top: 1px solid #000;margin: 26px 0 0;}
-    .login-setting-cart .accordion {top: 0px;}
+    .login-setting-cart .accordion {top: 10px;}
 
 
 
