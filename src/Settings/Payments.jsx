@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { FiEdit } from "react-icons/fi";
 import { RxCrossCircled } from "react-icons/rx";
 import Paysvgrepo from '../assets/images/credit-cards-svgrepo-com.png';
+import PayCard from './PayCard';
 
 const Payments = () => {
   return (
@@ -36,7 +37,7 @@ const Payments = () => {
                         <Row>
                           <Col lg={6} className="col-sec-1">
                             <div className="inner-setting-sec">
-                              
+                              <PayCard/>
                             </div>
                           </Col>
                           <Col lg={6} className="col-sec-2">
