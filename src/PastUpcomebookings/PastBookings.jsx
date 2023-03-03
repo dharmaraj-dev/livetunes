@@ -27,7 +27,7 @@ const PastBookings = () => {
           <Stack direction="horizontal" gap={5}>
             <h4 className="l-sb">Booking ID : 2122212</h4>
             <h4 className="l-sb ms-auto">22, Jun, 2022</h4>
-            <h5 className="l-b red-color text-decoration-underline"><a href="#" class="text-reset">Invoice</a></h5>
+            <h5 className="l-b red-color text-decoration-underline"><a class="text-reset cursor-pointer">Invoice</a></h5>
           </Stack>
         </div>
         <div className="d-flex postion-r">
@@ -69,7 +69,7 @@ const PastBookings = () => {
               <StarRate/> <h5 className="l-r">(overall ratings)</h5>
             </div>
             <div className="ms-auto">
-                <h5 className="l-b red-color"><a href="#" class="text-reset"  onClick={handleShow}>Give Feedback</a></h5>
+                <h5 className="l-b red-color"><a class="text-reset cursor-pointer"  onClick={handleShow}>Give Feedback</a></h5>
             </div>
           </Stack>
         </div>

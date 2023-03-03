@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Sitelogo from '../assets/images/logo.png';
 import subtraction from '../assets/images/subtraction.png';
 

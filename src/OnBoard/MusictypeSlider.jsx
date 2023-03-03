@@ -1,7 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
 import Badge from 'react-bootstrap/Badge';
-import CloseButton from 'react-bootstrap/CloseButton';
 import Musicimg1 from '../assets/images/musicimg1.png';
 import Musicimg2 from '../assets/images/musicimg2.png';
 import Musicimg3 from '../assets/images/musicimg3.png';
@@ -57,21 +56,21 @@ const MusictypeSlider = () => {
             <div>
                 <label className="music-type-slide-sec btn-light active">
                   <input type="checkbox"/>
-                  <img src={Musicimg1} className="mx-auto w-100" />
+                  <img src={Musicimg1} className="mx-auto w-100" alt="img" />
                   <span className="l-b white-color music-type-text">Electronic Music</span>
                 </label>
             </div>
             <div>
               <label className="music-type-slide-sec btn-light">
                 <input type="checkbox" />
-                <img src={Musicimg2} className="mx-auto w-100" />
+                <img src={Musicimg2} className="mx-auto w-100" alt="img"/>
                 <span className="l-b white-color music-type-text">POP Music</span>
               </label>
             </div>
             <div>
               <label className="music-type-slide-sec btn-light">
                 <input type="checkbox" />
-                <img src={Musicimg3} className="mx-auto w-100" />
+                <img src={Musicimg3} className="mx-auto w-100" alt="img" />
                 <div className="music-type-text">
                   <span className="l-b white-color">Rock</span>
                 </div>
@@ -80,21 +79,21 @@ const MusictypeSlider = () => {
             <div>
               <label className="music-type-slide-sec btn-light">
                 <input type="checkbox" />
-                <img src={Musicimg4} className="mx-auto w-100" />
+                <img src={Musicimg4} className="mx-auto w-100" alt="img" />
                 <span className="l-b white-color music-type-text">Concert</span>
               </label>
             </div>
             <div>
               <label className="music-type-slide-sec btn-light">
                 <input type="checkbox" />
-                <img src={Musicimg1} className="mx-auto w-100" />
+                <img src={Musicimg1} className="mx-auto w-100" alt="img" />
                 <span className="l-b white-color music-type-text">Electronic Music</span>
               </label>
             </div>
             <div>
               <label className="music-type-slide-sec btn-light">
                 <input type="checkbox" />
-                <img src={Musicimg2} className="mx-auto w-100" />
+                <img src={Musicimg2} className="mx-auto w-100" alt="img" />
                 <span className="l-b white-color music-type-text">POP Music</span>
               </label>
             </div>

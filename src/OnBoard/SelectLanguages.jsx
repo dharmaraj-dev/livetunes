@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 
 const SelectMultiotion = () => {
-    const [options, setOptions] =useState(['English','Hindi','Panjabi','Gujrati','Tamil','Bangali','Malyalam','Nepali']) ;
+    const [options] =useState(['English','Hindi','Panjabi','Gujrati','Tamil','Bangali','Malyalam','Nepali']) ;
   return (
     <>
         

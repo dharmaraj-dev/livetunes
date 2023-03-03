@@ -6,7 +6,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
-import Profileupload from '../assets/images/avtar.png';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 
@@ -35,7 +34,7 @@ const Profile = () => {
                                 <div className="profile-upload-sec">
                                     <div className="inner-profile-upload-sec">
                                         {/* <img src={Profileupload} alt="" className="w-100"/> */}
-                                        <img src={file} className="w-100" />
+                                        <img src={file} className="w-100" alt="img "/>
                                     </div>
                                     <div class="upload-btn-sec">
                                         {/* <input type="file" id="upload" hidden/> */}

@@ -55,7 +55,7 @@ const Gallery = () => {
             {data.map((item, index)=>{
                 return(
                     <div className="pics" key={index} onClick={()=> getImg(item.imgSrc)}>
-                        <img src={item.imgSrc} className="w-100" />
+                        <img src={item.imgSrc} className="w-100" alt="img" />
                     </div>
                 )
             })}

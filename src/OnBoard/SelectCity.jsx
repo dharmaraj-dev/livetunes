@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 
 const SelectCity = () => {
-    const [options, setOptions] =useState(['Nagpur','Pune','Mumbai','Banglore','Hydrabad','Jaipur','Delhi','Lucknow']) ;
+    const [options] =useState(['Nagpur','Pune','Mumbai','Banglore','Hydrabad','Jaipur','Delhi','Lucknow']) ;
   return (
     <>
         <Multiselect
