@@ -1,10 +1,4 @@
 /* NX = not expanded */
-:root {
-	--primary: #0091ff;
-	--dark: #061b28;
-	--gray: #756388;
-	--light: #ffffff;
-}
 .side-nav-container {background-color: #FD3743;width: 250px;height: 100vh;position: relative;color: #fff;transition: 0.4s;position: -webkit-sticky;position: sticky;top: 0;left: 0;z-index: 9999;}
 .side-nav-container-NX {width: 85px;}
 .side-nav-container-NX .side-minilogo{display: block !important;width: 67%;text-align: center;margin: 0 auto;}
@@ -28,7 +22,7 @@
 .menu-item.active{background-color: #ffffff;font-weight: 900;color: #000;}
 .menu-item.active p{font-weight: 900;}
 .menu-item svg, .footer-logout{font-size: 29px;}
-.menu-item-NX {margin: 12px auto;}
+.menu-item-NX {margin: 12px auto;justify-content: center;}
 .menu-item:hover {background-color: #ffffff;color: #000;}
 .menu-item:hover p{font-weight: bold;}
 .menu-item img {width: 70px;padding: 0 20px;}
