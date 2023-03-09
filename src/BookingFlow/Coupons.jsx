@@ -61,17 +61,17 @@ const Coupons = () => {
                   <div className="coupons-box">
                     <h2 className="mb-0">Get <span className="red-color">20% OFF</span> upto Rs. 2000</h2>
                     <p className="l-r text-sec">Valid for 1st Time user <span className="l-sb ms-3"><a className="cursor-pointer">view details</a> </span></p>
-                    <div class="d-flex">
-                      <div class="me-auto code-text green-color l-b">LIVETUNENEW</div>
-                      <div class=""><button type="button" class="l-r btnn code-apply-btn btn btn-primary">APPLY</button></div>
+                    <div className="d-flex">
+                      <div className="me-auto code-text green-color l-b">LIVETUNENEW</div>
+                      <div className=""><button type="button" className="l-r btnn code-apply-btn btn btn-primary">APPLY</button></div>
                     </div>
                   </div>
                   <div className="coupons-box">
                     <h2 className="mb-0">Get <span className="red-color">20% OFF</span> upto Rs. 2000</h2>
                     <p className="l-r text-sec">Valid for 1st Time user <span className="l-sb ms-3"><a className="cursor-pointer">view details</a> </span></p>
-                    <div class="d-flex">
-                      <div class="me-auto code-text green-color l-b">LIVETUNENEW</div>
-                      <div class=""><button type="button" class="l-r btnn code-apply-btn btn btn-primary">APPLY</button></div>
+                    <div className="d-flex">
+                      <div className="me-auto code-text green-color l-b">LIVETUNENEW</div>
+                      <div className=""><button type="button" className="l-r btnn code-apply-btn btn btn-primary">APPLY</button></div>
                     </div>
                   </div>
                 </div>

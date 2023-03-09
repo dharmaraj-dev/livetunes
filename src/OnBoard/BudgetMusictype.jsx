@@ -22,16 +22,16 @@ const BudgetMusictype = () => {
                 <Container fluid>
                     <section className="main-budget-mtype-sec postion-r">
                         <div className="inner-budget-mtype-sec">
-                            <div class="heading-sec">
-                                <p class="l-bl head">High Budget, Good Performer!</p>
-                                <p class="l-l sub-head">Whats Your Budget</p>
+                            <div className="heading-sec">
+                                <p className="l-bl head">High Budget, Good Performer!</p>
+                                <p className="l-l sub-head">Whats Your Budget</p>
                             </div>
                             <RangeSlider/>
                         </div>
                         <div className="inner-budget-mtype-sec">
-                            <div class="heading-sec">
-                                <p class="l-bl head">What’s Your Musicality Type</p>
-                                <p class="l-l sub-head">Choose From Vivid Genre</p>
+                            <div className="heading-sec">
+                                <p className="l-bl head">What’s Your Musicality Type</p>
+                                <p className="l-l sub-head">Choose From Vivid Genre</p>
                             </div>
                             <MusictypeSlider/>
                         </div>

@@ -64,10 +64,10 @@ const MoveCart = () => {
             <div className="cart-footer">
                 <Stack direction="horizontal" gap={3}>
                 <div className="ms-auto">
-                    <button type="button" class="l-b wbtnn btn btn-primary w-100 red-color">Remove</button>
+                    <button type="button" className="l-b wbtnn btn btn-primary w-100 red-color">Remove</button>
                 </div>
                 <div className="">
-                    <button type="button" class="l-b wbtnn btn btn-primary w-100">Move to cart</button>
+                    <button type="button" className="l-b wbtnn btn btn-primary w-100">Move to cart</button>
                 </div>
                 </Stack>
             </div>

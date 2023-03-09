@@ -27,7 +27,7 @@ const PastBookings = () => {
           <Stack direction="horizontal" gap={5}>
             <h4 className="l-sb">Booking ID : 2122212</h4>
             <h4 className="l-sb ms-auto">22, Jun, 2022</h4>
-            <h5 className="l-b red-color text-decoration-underline"><a class="text-reset cursor-pointer">Invoice</a></h5>
+            <h5 className="l-b red-color text-decoration-underline"><a className="text-reset cursor-pointer">Invoice</a></h5>
           </Stack>
         </div>
         <div className="d-flex postion-r">
@@ -69,7 +69,7 @@ const PastBookings = () => {
               <StarRate/> <h5 className="l-r">(overall ratings)</h5>
             </div>
             <div className="ms-auto">
-                <h5 className="l-b red-color"><a class="text-reset cursor-pointer"  onClick={handleShow}>Give Feedback</a></h5>
+                <h5 className="l-b red-color"><a className="text-reset cursor-pointer"  onClick={handleShow}>Give Feedback</a></h5>
             </div>
           </Stack>
         </div>
@@ -111,11 +111,11 @@ const PastBookings = () => {
                 <section>
                     <Row>
                         <Col lg="6" className="mt-3">
-                            <Form.Label className="l-sb"><AiFillLike className="red-color"/>Likes</Form.Label>
+                            <Form.Label className="l-sb"><AiFillLike className="red-color"/> Likes</Form.Label>
                             <Form.Control placeholder="What you liked about the artists?" type="text"/>
                         </Col>
                         <Col lg="6" className="mt-3">
-                            <Form.Label className="l-sb"><AiFillDislike className="red-color"/>Likes</Form.Label>
+                            <Form.Label className="l-sb"><AiFillDislike className="red-color"/> Dislikes</Form.Label>
                             <Form.Control placeholder="What you Disliked about the artists?" type="text"/>
                         </Col>
                         <Col lg="12" className="mt-3">
@@ -123,7 +123,7 @@ const PastBookings = () => {
                             <Form.Control as="textarea" placeholder="Type any additional feedback" style={{ height: '100px' }} />
                         </Col>
                         <p className="text-center m-0">
-                            <button type="button" class="l-b btnn btn btn-primary border-radius-36">SUBMIT</button>
+                            <button type="button" className="l-b btnn btn btn-primary border-radius-36">SUBMIT</button>
                         </p>
                     </Row>
                 </section>

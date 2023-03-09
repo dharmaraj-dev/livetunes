@@ -104,19 +104,19 @@ const EventDetailVenue = () => {
             <section className="event-check-button-sec">
                 <Row>
                     <Col lg="12">
-                        <button type="button" class="l-b btnn btn btn-primary w-100" onClick={handleShow2}>Check Availability</button>
+                        <button type="button" className="l-b btnn btn btn-primary w-100" onClick={handleShow2}>Check Availability</button>
                         {/* onClick={handleShow2} */}
                     </Col>
                 </Row>
                 <Row>
                     <Col lg="6">
                         <Link to="/checkavailability">
-                        <button type="button" class="l-b wbtnn back-btn btn btn-primary w-100">Back</button>
+                        <button type="button" className="l-b wbtnn back-btn btn btn-primary w-100">Back</button>
                         </Link>
                     </Col>
                     <Col lg="6">
                         <Link to="/cart">
-                        <button type="button" class="l-b btnn btn btn-primary w-100">Proceed to book</button>
+                        <button type="button" className="l-b btnn btn btn-primary w-100">Proceed to book</button>
                         </Link>
                     </Col>
                 </Row>
@@ -187,7 +187,7 @@ const EventDetailVenue = () => {
                             </div>
                         </div>
                         <div className="select-btn-sec">
-                            <button type="button" class="l-b select-btn btnn btn btn-primary w-100">Select location</button>
+                            <button type="button" className="l-b select-btn btnn btn btn-primary w-100">Select location</button>
                         </div>
                         </Col>
                         <Col lg={6}>
@@ -225,7 +225,7 @@ const EventDetailVenue = () => {
                                 </div>
                                 <h1 className="l-bl red-color head">We are Sorry!</h1>
                                 <p className="l-r sub-head">Artist is not available for the selected date. Please select some other artist or Change the dates if you can. Extremely sorry for your inconvenience.</p>
-                                <button type="button" class="l-sb btnn  btn btn-primary" onClick={handleClose2}>OK</button>
+                                <button type="button" className="l-sb btnn  btn btn-primary" onClick={handleClose2}>OK</button>
                             </div>
                         </Col>
                     </Row>

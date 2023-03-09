@@ -25,9 +25,9 @@ const ArtistList = () => {
                       <Filter/>
                     </section>
                     <section className="artists-found-card">
-                      <div class="found-heading-sec">
-                        <p class="l-sb head">For You</p>
-                        <p class="l-l sub-head"><span>150</span> Artists Found!</p>
+                      <div className="found-heading-sec">
+                        <p className="l-sb head">For You</p>
+                        <p className="l-l sub-head"><span>150</span> Artists Found!</p>
                       </div>
                       <div className="artists-card-sec">
                         <ArtistCard/>

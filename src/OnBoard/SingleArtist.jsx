@@ -64,7 +64,7 @@ const SingleArtist = () => {
                                      <SocialIcon/>
                                     </div>
                                     <Link to="/checkavailability">
-                                        <button type="button" class="l-b btnn check-btn btn btn-primary">Check Availability</button>
+                                        <button type="button" className="l-b btnn check-btn btn btn-primary">Check Availability</button>
                                     </Link>
                                 </div>
                             </div>

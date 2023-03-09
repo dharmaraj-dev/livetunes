@@ -28,7 +28,7 @@ const Billdetail = () => {
                     <div className="bill-text l-b red-color ms-auto">Rs.47,200</div>
                 </Stack>
             </div>
-            <button type="button" class="l-b btnn pay-button btn btn-primary w-100">Pay now</button>
+            <button type="button" className="l-b btnn pay-button btn btn-primary w-100">Pay now</button>
         </div>
     </>
   )

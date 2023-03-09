@@ -71,7 +71,7 @@ const LoginSetting = () => {
 
                                 <Form.Group as={Row} className="text-center inner-setting-button">
                                   <Col>
-                                    <button type="button" class="l-b btnn btn btn-primary border-radius-36">Save changes</button>
+                                    <button type="button" className="l-b btnn btn btn-primary border-radius-36">Save changes</button>
                                   </Col>
                                 </Form.Group>
 
@@ -119,7 +119,7 @@ const LoginSetting = () => {
 
                                 <Form.Group as={Row} className="text-center inner-setting-button">
                                   <Col>
-                                    <button type="button" class="l-b btnn btn btn-primary border-radius-36">Save changes</button>
+                                    <button type="button" className="l-b btnn btn btn-primary border-radius-36">Save changes</button>
                                   </Col>
                                 </Form.Group>
 

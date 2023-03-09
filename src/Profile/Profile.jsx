@@ -31,15 +31,17 @@ const Profile = () => {
                     <div className="main-artists-list">
                         <Row>
                             <Col lg={4}>
-                                <div className="profile-upload-sec">
-                                    <div className="inner-profile-upload-sec">
-                                        {/* <img src={Profileupload} alt="" className="w-100"/> */}
-                                        <img src={file} className="w-100" alt={file}/>
-                                    </div>
-                                    <div class="upload-btn-sec">
-                                        {/* <input type="file" id="upload" hidden/> */}
-                                        <input type="file"  id="upload" hidden onChange={handleChange} />
-                                        <label for="upload"><AiOutlinePlus/></label>
+                                <div className="main-profile-upload-sec">
+                                    <div className="profile-upload-sec">
+                                        <div className="inner-profile-upload-sec">
+                                            {/* <img src={Profileupload} alt="" className="w-100"/> */}
+                                            <img src={file} className="w-100" alt={file}/>
+                                        </div>
+                                        <div className="upload-btn-sec">
+                                            {/* <input type="file" id="upload" hidden/> */}
+                                            <input type="file"  id="upload" hidden onChange={handleChange} />
+                                            <label for="upload"><AiOutlinePlus/></label>
+                                        </div>
                                     </div>
                                 </div>
                             </Col>

@@ -26,14 +26,14 @@ const Cart = () => {
             <Container fluid>
               <div className="main-artists-list">
                 <section className="steps-progressbar">
-                  <ol class="steps l-b">
-                    <li class="step is-active" data-step="1">
+                  <ol className="steps l-b">
+                    <li className="step is-active" data-step="1">
                         My cart
                     </li>
-                    <li class="step" data-step="2">
+                    <li className="step" data-step="2">
                         Details
                     </li>
-                    <li class="step" data-step="3">
+                    <li className="step" data-step="3">
                         Payment
                     </li>
                   </ol>
@@ -97,10 +97,10 @@ const Cart = () => {
                             <div className="cart-footer">
                                 <Stack direction="horizontal" gap={3}>
                                 <div className="">
-                                    <button type="button" class="l-b wbtnn btn btn-primary w-100">REMOVE</button>
+                                    <button type="button" className="l-b wbtnn btn btn-primary w-100">REMOVE</button>
                                 </div>
                                 <div className="ms-auto">
-                                    <button type="button" class="l-b wbtnn btn btn-primary w-100">MOVE TO WISHLIST</button>
+                                    <button type="button" className="l-b wbtnn btn btn-primary w-100">MOVE TO WISHLIST</button>
                                 </div>
                                 </Stack>
                             </div>

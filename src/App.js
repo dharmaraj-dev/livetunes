@@ -19,6 +19,8 @@ import Profile from './Profile/Profile';
 import Favourites from './Favourites/Favourites';
 import Bookings from './PastUpcomebookings/Bookings';
 import Settings from './Settings/Settings';
+import PersonalInfo from './Artist/PersonalInfo';
+import PerformanceDetails from './Artist/PerformanceDetails';
 
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
         <Route path="/favourites" element={<Favourites/>}/>
         <Route path="/bookings" element={<Bookings/>}/>
         <Route path="/settings" element={<Settings/>}/>
+        <Route path="/personalinfo" element={<PersonalInfo/>}/>
+        <Route path="/personalinfodetail" element={<PerformanceDetails/>}/>
      
 
       </Routes>

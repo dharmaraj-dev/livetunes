@@ -1,0 +1,4 @@
+.artist-profile-text-sec button{padding: 10px 50px;border-radius: 37px;}
+.artist-profile-upload-sec{padding: 0 22px 22px;}
+.conditions-sec ul{list-style: none;font-size: 14px;line-height: 25px;padding: 0;margin: 0 0 0 14px;}
+.conditions-sec ul li::before {content: "\2022";color: #fd3743;font-weight: bold;display: inline-block;width: 1em;margin-left: -1em;}

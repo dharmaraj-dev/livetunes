@@ -3,8 +3,8 @@ import MultiRangeSlider from "multi-range-slider-react";
 import Mrange from '../assets/images/mrange.png';
 
 const RangeSlider = () => {
-    const [minValue, set_minValue] = useState(15000);
-    const [maxValue, set_maxValue] = useState(200000);
+    const [minValue, set_minValue] = useState(5000);
+    const [maxValue, set_maxValue] = useState(250000);
     const handleInput = (e) => {
         set_minValue(e.minValue);
         set_maxValue(e.maxValue);

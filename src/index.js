@@ -11,6 +11,7 @@ import "./Notification/Notifications.css";
 import "./Profile/Profile.css";
 import "./Favourites/Favourites.css";
 import "./Settings/Settings.css";
+import "./Artist/Artist.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import App from './App';

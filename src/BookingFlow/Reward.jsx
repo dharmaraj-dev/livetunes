@@ -22,7 +22,7 @@ const Reward = () => {
   return (
     <>
         <div className="reward-sec">
-            <div class="d-flex justify-content-between align-items-center">
+            <div className="d-flex justify-content-between align-items-center">
                 <div className="lottie-gift"><Lottie animationData={Gift} loop={true} /></div>
                 <h2>Goodwill & Gratitude Reward</h2>
                 <div className="ico red-color"><BsExclamationCircleFill onClick={handleShow} /></div>

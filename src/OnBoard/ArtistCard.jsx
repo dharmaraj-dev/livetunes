@@ -53,7 +53,7 @@ const ArtistCard = () => {
                     </div>
                     <div className="book-now-btn">
                         <Link to="/singleartist">
-                        <button type="button" class="l-b wbtnn book-btn btn btn-primary">Book Now</button>
+                        <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
                         </Link>
                     </div>
                 </div>
@@ -63,7 +63,7 @@ const ArtistCard = () => {
                 <div className="inner-artist-card postion-r">
                     <div className="avtar-sec">
                         <div className="avtar-img">
-                            <img src={Avtar} alt="" className="w-100" />
+                            <img src={Avtar} alt="img" className="w-100" />
                         </div>
                         <StarRate/>    
                     </div>
@@ -96,7 +96,7 @@ const ArtistCard = () => {
                     </div>
                     <div className="book-now-btn">
                         <Link to="/singleartist">
-                        <button type="button" class="l-b wbtnn book-btn btn btn-primary">Book Now</button>
+                        <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
                         </Link>
                     </div>
                 </div>
@@ -139,7 +139,7 @@ const ArtistCard = () => {
                     </div>
                     <div className="book-now-btn">
                         <Link to="/singleartist">
-                        <button type="button" class="l-b wbtnn book-btn btn btn-primary">Book Now</button>
+                        <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
                         </Link>
                     </div>
                 </div>
@@ -182,7 +182,7 @@ const ArtistCard = () => {
                     </div>
                     <div className="book-now-btn">
                         <Link to="/singleartist">
-                        <button type="button" class="l-b wbtnn book-btn btn btn-primary">Book Now</button>
+                        <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
                         </Link>
                     </div>
                 </div>

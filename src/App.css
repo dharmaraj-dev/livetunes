@@ -356,6 +356,7 @@ body.modal-open .App{filter: blur(6px);}
     .main-inner-setting-sec .col-sec-1{padding: 0 12px 0 12px;}
     .main-inner-setting-sec .col-sec-2 {padding: 26px 12px 0 12px;border-left: none;border-top: 1px solid #000;margin: 26px 0 0;}
     .login-setting-cart .accordion {top: 10px;}
+    .profile-text-sec {padding: 30px 0 0 0;}
 
 
 

@@ -19,7 +19,7 @@ const Advertise = () => {
                     <div className="inner-adhead-sec">
                         <p className='l-m adhead'>Want to surprise your girlfriend ? We will make this possible</p>
                         <div className="adbutton">
-                            <button type="button" class="l-sb btnn  btn btn-primary" onClick={() => {audio.play();}}>Click here</button>
+                            <button type="button" className="l-sb btnn  btn btn-primary" onClick={() => {audio.play();}}>Click here</button>
                         </div>
                     </div>
                 </Col>

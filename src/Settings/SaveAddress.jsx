@@ -41,7 +41,7 @@ const SaveAddress = () => {
 
             })}
 
-<p className="text-center l-sb red-color mt-5 cursor-pointer fs-5" onClick={()=>handleAdd()}><IoIosAddCircleOutline size={30} className="red-color"/> Add a new card</p>
+<p className="text-center l-sb red-color mt-5 cursor-pointer fs-5" onClick={()=>handleAdd()}><IoIosAddCircleOutline size={30} className="red-color"/> Add new address</p>
         
     </>
   )

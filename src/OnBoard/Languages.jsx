@@ -24,23 +24,23 @@ const Languages = () => {
             <div className="main-content">
                 <Container fluid>
                     <section className="main-language-sec">
-                        <div class="heading-sec">
-                            <p class="l-bl head">Music has vivid languages</p>
-                            <p class="l-l sub-head">What’s Your Choice Of Language?</p>
+                        <div className="heading-sec">
+                            <p className="l-bl head">Music has vivid languages</p>
+                            <p className="l-l sub-head">What’s Your Choice Of Language?</p>
                         </div>
                         <div className="chosen-sec clearfix">
                             <Row>
                                 <Col md={6} lg={5}>
                                     <div className="chosen-left-sec">
                                         <img src={Lang} alt="" className="w-100" />
-                                    <p class="l-bl inner-head">Most Chosen <br/> Language</p>
+                                    <p className="l-bl inner-head">Most Chosen <br/> Language</p>
                                     </div>
                                 </Col>
                                 <Col md={6} lg={5} className="postion-r">
                                     <div className="chosen-right-sec select-multi">
-                                        <div class="inner-heading-sec">
-                                            <p class="l-bl head">Don’t see your language? No worries!</p>
-                                            <p class="l-l sub-head">Choose From Below Drop Down</p>
+                                        <div className="inner-heading-sec">
+                                            <p className="l-bl head">Don’t see your language? No worries!</p>
+                                            <p className="l-l sub-head">Choose From Below Drop Down</p>
                                         </div>    
                                         <SelectLanguages/>
                                     </div>

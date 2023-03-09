@@ -44,7 +44,7 @@ const FavouriteCard = () => {
                 </div>
             </div>
             <div className="book-now-btn">
-                <button type="button" class="l-b wbtnn book-btn btn btn-primary">Book Now</button>
+                <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
             </div>
         </div>
     </>

@@ -95,8 +95,8 @@ const NotificationSec = () => {
                                 <span className="l-r time-ago">2 min ago</span>
                             </div>
                             <div className="ms-auto">
-                                <button type="button" class="l-r wbtnn btn btn-primary red-bg">Accept</button>
-                                <button type="button" class="l-r wbtnn btn btn-primary">Reject</button>
+                                <button type="button" className="l-r wbtnn btn btn-primary red-bg">Accept</button>
+                                <button type="button" className="l-r wbtnn btn btn-primary">Reject</button>
                             </div>
                             </Stack>
                         </div>
@@ -111,8 +111,8 @@ const NotificationSec = () => {
                                 <span className="l-r time-ago">2 min ago</span>
                             </div>
                             <div className="ms-auto">
-                                <button type="button" class="l-r wbtnn btn btn-primary red-bg">Accept</button>
-                                <button type="button" class="l-r wbtnn btn btn-primary">Reject</button>
+                                <button type="button" className="l-r wbtnn btn btn-primary red-bg">Accept</button>
+                                <button type="button" className="l-r wbtnn btn btn-primary">Reject</button>
                             </div>
                             </Stack>
                         </div>
@@ -150,8 +150,8 @@ const NotificationSec = () => {
                                 <span className="l-r time-ago">2 min ago</span>
                             </div>
                             <div className="ms-auto">
-                                <button type="button" class="l-r wbtnn btn btn-primary red-bg">Accept</button>
-                                <button type="button" class="l-r wbtnn btn btn-primary">Reject</button>
+                                <button type="button" className="l-r wbtnn btn btn-primary red-bg">Accept</button>
+                                <button type="button" className="l-r wbtnn btn btn-primary">Reject</button>
                             </div>
                             </Stack>
                         </div>
