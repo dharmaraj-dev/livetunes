@@ -72,21 +72,26 @@ const Profile = () => {
                                         <Col lg={6} md="12" className="mb-4">
                                         <Form.Label className="l-sb">Gender</Form.Label>
                                             <div className="profile-gender">
-                                            <Form.Check 
-                                                type="radio"
-                                                id=""
-                                                label="Male"
-                                            />
-                                            <Form.Check 
-                                                type="radio"
-                                                id=""
-                                                label="Female"
-                                            />
-                                            <Form.Check 
-                                                type="radio"
-                                                id=""
-                                                label="Other"
-                                            />
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                                                    <label className="form-check-label" htmlFor="flexRadioDefault1">
+                                                    Male
+                                                    </label>
+                                                </div>
+
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                                                    <label className="form-check-label" htmlFor="flexRadioDefault2">
+                                                    Fmale
+                                                    </label>
+                                                </div>
+
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" />
+                                                    <label className="form-check-label" htmlFor="flexRadioDefault3">
+                                                    Other
+                                                    </label>
+                                                </div>
                                             </div>
                                         </Col>
                                         <Col lg={12} md="12" className="mb-4">

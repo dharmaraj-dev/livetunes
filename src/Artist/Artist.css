@@ -2,3 +2,13 @@
 .artist-profile-upload-sec{padding: 0 22px 22px;}
 .conditions-sec ul{list-style: none;font-size: 14px;line-height: 25px;padding: 0;margin: 0 0 0 14px;}
 .conditions-sec ul li::before {content: "\2022";color: #fd3743;font-weight: bold;display: inline-block;width: 1em;margin-left: -1em;}
+.artist-model-sec .modal-body{padding: 0;}
+.artist-model-sec .head-sec{background: #F13743; border-top-left-radius: 14px;border-top-right-radius: 14px;padding: 22px 0;}
+.artist-model-sec .closeButtonr svg{color: #f13743;background-color: #fff;}
+.expert-panel-sec{padding: 36px 44px 30px;}
+.inner-expert-panel-sec{border: 1px solid #040404;border-radius: 80px 20px 20px 20px;padding: 20px;}
+.inner-expert-panel-sec .img-sec{border: 2px solid #000000;border-radius: 100%;width: 130px;height: 130px;}
+.inner-expert-panel-sec ul{list-style-type: ' ★ ';font-size: 14px;line-height: 25px; padding: 0;margin: 0 0 0 14px;}
+.inner-expert-panel-sec ul li::marker {color: #f13743;}
+.inner-expert-panel-sec h2{border-bottom: 1px solid #000;padding: 8px 0 10px;}
+

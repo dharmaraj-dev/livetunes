@@ -48,7 +48,7 @@ input:focus, input.form-control:focus, .form-select:focus,.form-select, .form-ch
 
 .align-center{align-items: center;align-content: center;display: flex;flex-wrap: wrap;}
  input[type="time"]:before, input[type="date"]:before {content: attr(placeholder) !important; /*margin-right: 0.5em; */ display: block;font-weight: 600;color: #444444;}
-::placeholder{font-weight: 600;color: #444444;}
+::placeholder{font-weight: 400;color: #444444;font-size: 17px;}
 
 .bell:hover, .bell:focus {animation: bellshake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;backface-visibility: hidden;transform-origin: top bottom;}
   
@@ -87,9 +87,9 @@ input:focus, input.form-control:focus, .form-select:focus,.form-select, .form-ch
 .checkbox {margin-right: 10px;width: 18px;height: 18px;border: 1px solid #707070 !important;border-radius: 4px;}
 .select-multi .highlightOption {background: none;color: #000000;}
 .select-multi .multiSelectContainer li:hover {background: none;color: #000;cursor: pointer;}
-.select-multi .multiSelectContainer li {padding: 5px 15px;font-size: 18px;}
+.select-multi .multiSelectContainer li {padding: 5px 15px;font-size: 17px;}
 .select-multi .multiSelectContainer input{font-size: 18px;}
-.select-multi .multiSelectContainer .search-wrapper{border-radius: 12px;padding: 5px 15px;height: auto;min-height: 48px;}
+.select-multi .multiSelectContainer .search-wrapper{border-color: #707070;border-radius: 8px;padding: 5px 15px;height: auto;min-height: 48px;}
 .select-multi .multiSelectContainer ul{background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 0px 3px 19px #0000001a;border-radius: 12px;max-height: 400px;}
 .chip{background: #fd3743 !important;}
 input[type=checkbox] {accent-color: #fd3743;}

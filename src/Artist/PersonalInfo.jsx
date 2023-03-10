@@ -82,7 +82,7 @@ const PersonalInfo = () => {
                 <Col lg={12} md="12" className="mt-4">
                     <Stack direction="horizontal" gap={3}>
                         <div>
-                        <button type="button" className="l-b wbtnn back-btn btn btn-primary">Back</button>
+                        {/* <button type="button" className="l-b wbtnn back-btn btn btn-primary">Back</button> */}
                         </div>
                         <div className="ms-auto">
                         <Link to="/personalinfodetail">

@@ -23,7 +23,7 @@ const Upload = () => {
             </div>
             <div className="conditions-sec">
                 <ul>
-                    <li>file should be in .MP4 format</li>
+                    <li>File should be in .MP4 format</li>
                     <li>Minimum 2 & max 4 Files are required for verification</li>
                     <li>Make sure the videos are in good quality</li>
                     <li>Your application could be rejected due to bad audio quality</li>

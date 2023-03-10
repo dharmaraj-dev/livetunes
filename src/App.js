@@ -21,6 +21,7 @@ import Bookings from './PastUpcomebookings/Bookings';
 import Settings from './Settings/Settings';
 import PersonalInfo from './Artist/PersonalInfo';
 import PerformanceDetails from './Artist/PerformanceDetails';
+import SocialMedia from './Artist/SocialMedia';
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
         <Route path="/settings" element={<Settings/>}/>
         <Route path="/personalinfo" element={<PersonalInfo/>}/>
         <Route path="/personalinfodetail" element={<PerformanceDetails/>}/>
+        <Route path="/socialmedia" element={<SocialMedia/>}/>
      
 
       </Routes>
