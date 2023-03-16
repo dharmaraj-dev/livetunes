@@ -22,6 +22,8 @@ import Settings from './Settings/Settings';
 import PersonalInfo from './Artist/PersonalInfo';
 import PerformanceDetails from './Artist/PerformanceDetails';
 import SocialMedia from './Artist/SocialMedia';
+import BankDetails from './Artist/BankDetails';
+import PhotoId from './Artist/PhotoId';
 
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
         <Route path="/personalinfo" element={<PersonalInfo/>}/>
         <Route path="/personalinfodetail" element={<PerformanceDetails/>}/>
         <Route path="/socialmedia" element={<SocialMedia/>}/>
+        <Route path="/bankdetails" element={<BankDetails/>}/>
+        <Route path="/photoid" element={<PhotoId/>}/>
      
 
       </Routes>
