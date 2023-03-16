@@ -88,7 +88,7 @@ const PhotoId = () => {
                 <Col lg={12} md="12" className="mt-5">
                     <Stack direction="horizontal" gap={3}>
                         <div>
-                        <Link to="/BankDetails">
+                        <Link to="/bankdetails">
                         <button type="button" className="l-b wbtnn back-btn btn btn-primary">Back</button>
                         </Link>
                         </div>
