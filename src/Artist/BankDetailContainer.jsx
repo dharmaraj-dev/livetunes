@@ -19,17 +19,29 @@ const BankDetailContainer = (props) => {
             </div>
             <div className="main-content">
                 <Container fluid>
-                    <br/>
-                    <br/>
-                    <br/>
                     <div className="main-artists-list">
+                    <section className="steps-progressbar">
+                        <ol className="steps l-b">
+                            <li className="step is-active" data-step="1">
+                             Bank details
+                            </li>
+                            <li className="step active" data-step="2">
+                             Photo Id proof
+                            </li>
+                            <li className="step" data-step="3">
+                             Address proof
+                            </li>
+                            <li className="step" data-step="4">
+                             Add References
+                            </li>
+                        </ol>
+                    </section>
                         <Row>
-                            <Col lg={4}>
-                                
-                            </Col>
+                            <Col lg={2}></Col>
                             <Col lg={8}>
                                 { children }
                             </Col>
+                            <Col lg={2}></Col>
                         </Row>
                     </div>
                 </Container>

@@ -26,7 +26,7 @@ const ArtistProfile = (props) => {
                             <li className="step is-active" data-step="1">
                              Personal Info
                             </li>
-                            <li className="step" data-step="2">
+                            <li className="step active" data-step="2">
                               Performance details
                             </li>
                             <li className="step" data-step="3">

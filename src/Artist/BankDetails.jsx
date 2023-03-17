@@ -43,7 +43,7 @@ const BankDetails = () => {
 
                 <Col lg={6} md="12" className="mb-4">
                 <Form.Label className="l-sb">IFSC Code</Form.Label>
-                <Form.Control placeholder="Auto dectected" type="text"/>
+                <Form.Control placeholder="Auto detect" type="text"/>
                 </Col>
 
                 <Col lg={6} md="12" className="mb-4">
