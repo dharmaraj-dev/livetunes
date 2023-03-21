@@ -61,23 +61,29 @@ const PersonalInfo = () => {
                 </Col>
                 <Col lg={6} md="12" className="mb-4">
                 <Form.Label className="l-sb">Gender</Form.Label>
-                    <div className="profile-gender">
-                    <Form.Check 
-                        type="radio"
-                        id=""
-                        label="Male"
-                    />
-                    <Form.Check 
-                        type="radio"
-                        id=""
-                        label="Female"
-                    />
-                    <Form.Check 
-                        type="radio"
-                        id=""
-                        label="Other"
-                    />
+                <div className="profile-gender mb-3">
+                    <div className="form-check">
+                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault9" />
+                        <label className="form-check-label" htmlFor="flexRadioDefault9">
+                        Male
+                        </label>
                     </div>
+
+                    <div className="form-check">
+                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault10" />
+                        <label className="form-check-label" htmlFor="flexRadioDefault10">
+                        Female
+                        </label>
+                    </div>
+
+                    <div className="form-check">
+                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault11" />
+                        <label className="form-check-label" htmlFor="flexRadioDefault11">
+                        Other
+                        </label>
+                    </div>
+
+                </div>
                 </Col>
                 <Col lg={12} md="12" className="mt-4">
                     <Stack direction="horizontal" gap={3}>
