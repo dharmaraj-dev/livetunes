@@ -19,6 +19,7 @@ const SideNavBar = () => {
 		{
 			text: "Dashboard",
 			icon: <GoDashboard className="menu-item-icon"/>,
+			links: "/artistdashboard"
 		},
 		{
 			text: "Find Artist",

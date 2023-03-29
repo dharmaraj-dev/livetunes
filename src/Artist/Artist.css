@@ -20,3 +20,21 @@
 .id-img-upload label{background: #fff;display: flex;color: red;border-radius: 100%;cursor: pointer;box-shadow: 0px 3px 6px #00000029;width: 64px; height: 64px;align-items: center;align-content: center; justify-content: center;font-size: 30px;}
 .img-note{margin: 30px 0 0;text-align: center;}
 
+.artist-dashboard-artist-info-sec .inner-artist-info{background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 1px 3px 16px #FEEAEC;border: 0.5px solid #EDE6E7;border-radius: 12px;padding: 22px;}
+.main-artist-transacation{background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 1px 3px 16px #FEEAEC;border: 0.5px solid #EDE6E7;border-radius: 12px;margin: 25px 0 0;}
+.main-artist-transacation .header-sec .head {font-size: 22px;margin: 0;}
+.main-artist-transacation .see-all-text {display: block;}
+.main-artist-transacation .header-sec{padding: 30px 15px;border-bottom: 1px solid #9F9E9E;}
+.artist-dashboard-artist-info-sec .inner-artist-info .avtar-img{width: 128px;}
+.artist-dashboard-artist-info-sec .inner-artist-info .s-artist-detail {margin: 0 0 0 20px;}
+
+.inner-transactions-sec{padding: 15px;border-bottom: 1px solid #9F9E9E;}
+.inner-transactions-sec:last-child{border: none;}
+.inner-transactions-sec .img-sec {width: 60px;border-radius: 34px;}
+.inner-transactions-sec .name-head {font-size: 18px;}
+.inner-transactions-sec .sub-head {font-size: 14px;}
+.main-inner-transactions-sec{max-height: 400px;overflow-y: scroll;}
+
+.earned-sec{background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 1px 3px 16px #FEEAEC;border: 0.5px solid #EDE6E7;border-radius: 12px;padding: 12px;}
+.earned-sec .img-sec{background: #F13743 0% 0% no-repeat padding-box;border-radius: 12px;width: 70px;height: 70px;display: flex;justify-content: center;align-items: center;}
+.earned-sec .img-sec.faint-img-sec{background: #f1374326 0% 0% no-repeat padding-box;}

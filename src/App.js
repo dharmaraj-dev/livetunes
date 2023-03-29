@@ -25,6 +25,7 @@ import SocialMedia from './Artist/SocialMedia';
 import BankDetails from './Artist/BankDetails';
 import PhotoId from './Artist/PhotoId';
 import AddressProof from './Artist/AddressProof';
+import ArtistDashboard from './Artist/ArtistDashboard';
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
         <Route path="/bankdetails" element={<BankDetails/>}/>
         <Route path="/photoid" element={<PhotoId/>}/>
         <Route path="/addressproof" element={<AddressProof/>}/>
+        <Route path="/artistdashboard" element={<ArtistDashboard/>}/>
      
 
       </Routes>
