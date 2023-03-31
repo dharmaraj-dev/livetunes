@@ -38,3 +38,6 @@
 .earned-sec{background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 1px 3px 16px #FEEAEC;border: 0.5px solid #EDE6E7;border-radius: 12px;padding: 12px;}
 .earned-sec .img-sec{background: #F13743 0% 0% no-repeat padding-box;border-radius: 12px;width: 70px;height: 70px;display: flex;justify-content: center;align-items: center;}
 .earned-sec .img-sec.faint-img-sec{background: #f1374326 0% 0% no-repeat padding-box;}
+
+.artist-main-profile-tophead button{color: #fd3743; border-color: #fd3743;}
+.af-edit-sec{border: 1px solid #FD3743;padding: 4px 14px;border-radius: 20px;}

@@ -29,6 +29,17 @@ const ArtistMainProfile = () => {
             <div className="main-content">
                 <Container fluid>
                     <div className="main-artists-list">
+                    <div className="artist-main-profile-tophead mb-5">
+                        <Stack direction="horizontal" gap={3}>
+                        <p className="l-sb head fs-3 mb-0">General Settings</p>
+                        <div className="ms-auto">
+                            <button type="button" className="l-sb wbtnn back-btn btn btn-primary red-color">Cancel</button>
+                            <button type="button" className="l-sb wbtnn back-btn btn btn-primary red-color ms-3">Save changes</button>
+                        </div>
+                        </Stack>
+                        <hr className="mt-2 mb-2"/>
+                        <p className="l-r sub-head">Update your Photo and personal details here</p>
+                    </div>
                         <Row>
                             <Col lg={4}>
                                 <Upload/>
@@ -38,7 +49,7 @@ const ArtistMainProfile = () => {
                                 <div className="head">
                                     <Stack direction="horizontal" gap={3}>
                                     <h2>Personal Information</h2>
-                                    <h2 className="fs-6 ms-auto cursor-pointer red-color">Edit</h2>
+                                    <h2 className="fs-6 ms-auto cursor-pointer red-color af-edit-sec">Edit</h2>
                                     </Stack>
                                 </div>
 
@@ -83,7 +94,7 @@ const ArtistMainProfile = () => {
                                 <div className="head">
                                     <Stack direction="horizontal" gap={3}>
                                     <h2>Social Links</h2>
-                                    <h2 className="fs-6 ms-auto cursor-pointer red-color">Edit</h2>
+                                    <h2 className="fs-6 ms-auto cursor-pointer red-color af-edit-sec">Edit</h2>
                                     </Stack>
                                 </div>
 
@@ -112,7 +123,7 @@ const ArtistMainProfile = () => {
                                 <div className="head">
                                     <Stack direction="horizontal" gap={3}>
                                     <h2>Performance details</h2>
-                                    <h2 className="fs-6 ms-auto cursor-pointer red-color">Edit</h2>
+                                    <h2 className="fs-6 ms-auto cursor-pointer red-color af-edit-sec">Edit</h2>
                                     </Stack>
                                 </div>
 
