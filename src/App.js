@@ -26,7 +26,6 @@ import BankDetails from './Artist/BankDetails';
 import PhotoId from './Artist/PhotoId';
 import AddressProof from './Artist/AddressProof';
 import ArtistDashboard from './Artist/ArtistDashboard';
-import ArtistMainprofile from './Artist/ArtistMainprofile';
 
 
 function App() {
@@ -60,7 +59,6 @@ function App() {
         <Route path="/photoid" element={<PhotoId/>}/>
         <Route path="/addressproof" element={<AddressProof/>}/>
         <Route path="/artistdashboard" element={<ArtistDashboard/>}/>
-        <Route path="/artistmainprofile" element={<ArtistMainprofile/>}/>
      
 
       </Routes>
