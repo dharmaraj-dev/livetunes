@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import { Link } from "react-router-dom";
 import BankDetailContainer from "./BankDetailContainer";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { AiOutlinePlus } from "react-icons/ai";
 
 const AddressProof = () => {

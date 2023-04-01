@@ -43,7 +43,7 @@ const NavBar = () => {
                   </DropdownButton>
                   </li>
                   <li className="nav-item">
-                    <Link to="/profile">
+                    <Link to="/artistmainprofile">
                     <div className="profile-class">
                       <img src={Profile} alt="" />
                     </div>
