@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import Upload from "./Upload";
 import Stack from 'react-bootstrap/Stack';
 
-const ArtistMainProfile = () => {
+const ArtistProfiles = () => {
     const [options] =useState(['Singer','Guitarist','Tabla player','Drummer','Keyboard player']) ;
     const [options2] =useState(['Classical','Bollywood','Jazz','Bhajan','Rock']) ;
     const [options3] =useState(['English','Hindi','Panjabi','Gujrati','Tamil','Bangali','Malyalam','Nepali']) ;
@@ -340,4 +340,4 @@ const ArtistMainProfile = () => {
   )
 }
 
-export default ArtistMainProfile
+export default ArtistProfiles
