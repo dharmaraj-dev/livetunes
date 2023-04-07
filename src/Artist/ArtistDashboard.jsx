@@ -15,6 +15,7 @@ import Dcafe from '../assets/images/noun-cafe.png';
 import Dpray from '../assets/images/noun-pray.png';
 import Dfestival from '../assets/images/noun-festival.png';
 import Dbirthday from '../assets/images/noun-birthday.png';
+import { Link } from "react-router-dom";
 
 const ArtistDashboard = () => {
   return (
@@ -154,7 +155,9 @@ const ArtistDashboard = () => {
                                                 <h2 className="head">Your transactions</h2>
                                             </div>
                                             <div className="ms-auto see-all-text l-sb">
+                                                <Link to="/billinginvoice">
                                                 <span className="red-color">See all</span>
+                                                </Link>
                                             </div>
                                         </Stack>
                                     </div>

@@ -115,7 +115,7 @@ const BillingInvoice = () => {
                             ) : null}
 
                             <div className="table-scroll">
-                            <Table className="fixed_header main-table">
+                            <Table className="table-responsive">
                                 <thead>
                                 <tr>
                                     <th></th>

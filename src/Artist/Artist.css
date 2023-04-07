@@ -51,7 +51,7 @@
 .main-booking-history-sec .head-top-sec{box-shadow: 0px 3px 6px #EDE6E7;border: 1px solid #EDE6E7;border-radius: 12px 12px 0px 0px;padding: 10px 14px;}
 
 table tbody tr{box-shadow: 0px 0px 4px #00000029;border-radius: 8px;border: transparent;    vertical-align: middle;}
-table thead{border: transparent;}
+table thead{border: transparent;box-shadow: 1px 2px 4px #00000029;border: 0.5px solid #858585;}
 table thead tr th{padding: 1rem 0.5rem !important;}
 table {border-collapse: separate;border-spacing: 1px 15px;}
 
