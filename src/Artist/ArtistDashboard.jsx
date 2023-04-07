@@ -30,7 +30,7 @@ const ArtistDashboard = () => {
             <div className="main-content">
                 <Container fluid>
                    <div className="main-artists-list">
-                                    <h4 className="l-b mb-3">Your Earnings</h4>
+                        <h4 className="l-b mb-3">Your Earnings</h4>
                         <Row>
                             <Col xl={8} lg={6} md={12}>
                               <Row>
