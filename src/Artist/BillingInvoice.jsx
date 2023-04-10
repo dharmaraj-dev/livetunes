@@ -11,6 +11,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { HiOutlineFilter } from "react-icons/hi";
 import { FiDownload } from "react-icons/fi";
 import Table from 'react-bootstrap/Table';
+import Form from 'react-bootstrap/Form';
 
 const BillingInvoice = () => {
     const [show, setShow] = useState(false);
@@ -109,8 +110,25 @@ const BillingInvoice = () => {
                             </div>
 
                             {show ? (
-                                <div>
-                                        <p>You can see me!</p>
+                                <div className="main-filter">
+                                    <Row>
+                                        <Col xl={3} md={6} className="mb-4">
+                                        <Form.Label className="l-sb">Booking by</Form.Label>
+                                        <Form.Control placeholder="" type="text"/>
+                                        </Col>
+                                        <Col xl={3} md={6} className="mb-4">
+                                        <Form.Label className="l-sb">Event</Form.Label>
+                                        <Form.Control placeholder="" type="text"/>
+                                        </Col>
+                                        <Col xl={3} md={6} className="mb-4">
+                                        <Form.Label className="l-sb">Date</Form.Label>
+                                        <Form.Control placeholder="" type="text"/>
+                                        </Col>
+                                        <Col xl={3} md={6} className="mb-4">
+                                        <Form.Label className="l-sb">Place</Form.Label>
+                                        <Form.Control placeholder="" type="text"/>
+                                        </Col>
+                                    </Row>
                                 </div>
                             ) : null}
 
@@ -143,7 +161,8 @@ const BillingInvoice = () => {
                                     <td>10-08-22</td>
                                     <td>Nagpur</td>
                                     <td>Pending</td>
-                                    <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td>
+                                    {/* <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td> */}
+                                    <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -158,7 +177,7 @@ const BillingInvoice = () => {
                                     <td>10-08-22</td>
                                     <td>Nagpur</td>
                                     <td>Pending</td>
-                                    <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td>
+                                    <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -173,7 +192,7 @@ const BillingInvoice = () => {
                                     <td>10-08-22</td>
                                     <td>Nagpur</td>
                                     <td>Pending</td>
-                                    <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td>
+                                    <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -188,7 +207,7 @@ const BillingInvoice = () => {
                                     <td>10-08-22</td>
                                     <td>Nagpur</td>
                                     <td>Pending</td>
-                                    <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td>
+                                    <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -203,7 +222,7 @@ const BillingInvoice = () => {
                                     <td>10-08-22</td>
                                     <td>Nagpur</td>
                                     <td>Pending</td>
-                                    <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td>
+                                    <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -218,7 +237,7 @@ const BillingInvoice = () => {
                                     <td>10-08-22</td>
                                     <td>Nagpur</td>
                                     <td>Pending</td>
-                                    <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td>
+                                    <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -233,7 +252,7 @@ const BillingInvoice = () => {
                                     <td>10-08-22</td>
                                     <td>Nagpur</td>
                                     <td>Pending</td>
-                                    <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td>
+                                    <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -248,7 +267,7 @@ const BillingInvoice = () => {
                                     <td>10-08-22</td>
                                     <td>Nagpur</td>
                                     <td>Pending</td>
-                                    <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td>
+                                    <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -263,7 +282,7 @@ const BillingInvoice = () => {
                                     <td>10-08-22</td>
                                     <td>Nagpur</td>
                                     <td>Pending</td>
-                                    <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td>
+                                    <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -278,7 +297,7 @@ const BillingInvoice = () => {
                                     <td>10-08-22</td>
                                     <td>Nagpur</td>
                                     <td>Pending</td>
-                                    <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td>
+                                    <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td>
                                 </tr>
                                 </tbody>
                             </Table>
