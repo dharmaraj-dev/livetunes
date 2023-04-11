@@ -31,7 +31,7 @@ const BillingInvoice = () => {
                         <div className="main-bill-invoice-sec">
                             <Row>
                                 <Col xl={4} lg={4}>
-                                    <h4 className="l-b mb-3">Rewards</h4>
+                                    <h4 className="l-b mb-3">Account Details</h4>
                                     <div className="earned-sec mb-4 postion-r">
                                         <FaRegEdit className="red-color cursor-pointer edit-sec"/>
                                         <Stack direction="horizontal" gap={3} className="align-items-self">
@@ -128,6 +128,11 @@ const BillingInvoice = () => {
                                         <Form.Label className="l-sb">Place</Form.Label>
                                         <Form.Control placeholder="" type="text"/>
                                         </Col>
+                                    </Row>
+                                    <Row>
+                                      <Col md={{ span: 4, offset: 4 }} className="text-center">
+                                        <button type="button" className="l-m btnn back-btn btn btn-primary red-color cursor-pointer text-center">Apply</button>
+                                      </Col>
                                     </Row>
                                 </div>
                             ) : null}
