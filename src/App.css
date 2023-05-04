@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
 
 body{font-family: 'Lato', sans-serif;color: #000;}
-/* body{font-family: 'Khand', sans-serif;} */
+.khf{font-family: 'Khand', sans-serif;}
 
 p{font-weight: 400;}
 .l-bl{font-weight: 900;}

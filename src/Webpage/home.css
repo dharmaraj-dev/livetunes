@@ -1,0 +1,13 @@
+.home-main-sec{width: 100vw;height: 100vh;overflow: hidden;background-color: #fff;}
+.inner-home-main-sec{padding: 32px;}
+.enjoy-sec .heading{font-size: 62px;line-height: 72px;padding: 0 150px 0 0;}
+.musicico svg{width: 46% !important;margin: -18px 0 0 0;}
+
+.section1{background-repeat: no-repeat !important;background-position: bottom -110px right 0 !important;background-size: contain !important;}
+.eventmanager-img-sec{position: absolute;left: 180px;width: 24%;bottom: 54px;}
+.guitarist-img-sec{position: absolute;right: 73px;width: 17%;bottom: 49px;}
+
+
+.react-horizontal-scrolling-menu--scroll-container{overflow: hidden;}
+
+.maindg{width: 100vw;height: 100vh;}

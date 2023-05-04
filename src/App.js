@@ -28,6 +28,7 @@ import AddressProof from './Artist/AddressProof';
 import ArtistDashboard from './Artist/ArtistDashboard';
 import ArtistProfiles from './Artist/ArtistProfiles';
 import BillingInvoice from './Artist/BillingInvoice';
+import Home from './Webpage/Home';
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
         <Route path="/artistdashboard" element={<ArtistDashboard/>}/>
         <Route path="/artistprofiles" element={<ArtistProfiles/>}/>
         <Route path="/billinginvoice" element={<BillingInvoice/>}/>
+        <Route path="/home" element={<Home/>}/>
      
 
       </Routes>
