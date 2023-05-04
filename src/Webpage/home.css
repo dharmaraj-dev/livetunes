@@ -1,13 +1,20 @@
 .home-main-sec{width: 100vw;height: 100vh;overflow: hidden;background-color: #fff;}
 .inner-home-main-sec{padding: 32px;}
-.enjoy-sec .heading{font-size: 62px;line-height: 72px;padding: 0 150px 0 0;}
-.musicico svg{width: 46% !important;margin: -18px 0 0 0;}
+.enjoy-sec .heading{font-size: 70px;line-height: 72px;padding: 0 150px 0 0;}
+.enjoy-sec .sub-head{font-size: 32px;}
+.musicico svg{width: 58% !important;margin: -18px 0 0 -118px;}
 
 .section1{background-repeat: no-repeat !important;background-position: bottom -110px right 0 !important;background-size: contain !important;}
-.eventmanager-img-sec{position: absolute;left: 180px;width: 24%;bottom: 54px;}
+.eventmanager-img-sec{position: absolute;left: 224px;width: 27%;bottom: 56px;}
 .guitarist-img-sec{position: absolute;right: 73px;width: 17%;bottom: 49px;}
 
 
 .react-horizontal-scrolling-menu--scroll-container{overflow: hidden;}
 
 .maindg{width: 100vw;height: 100vh;}
+
+.eventmanager-btn-sec button{width: 150px;height: 150px;border-radius: 100%;position: absolute;bottom: 85px;left: 26px;border: 1px solid #000000;font-size: 19px;line-height: 24px;}
+.eventmanager-btn-sec button:hover,.eventmanager-btn-sec button:first-child:active,
+.guitarist-btn-sec button:hover,.guitarist-btn-sec button:first-child:active{border-radius: 100%;}
+
+.guitarist-btn-sec button{width: 150px;height: 150px;border-radius: 100%;position: absolute;bottom: 125px;right: 397px;border: 1px solid #000000;font-size: 19px;line-height: 24px;}
