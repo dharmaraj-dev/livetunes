@@ -238,46 +238,17 @@ body.modal-open .App{filter: blur(6px);}
 }
 
 
-
-@media (min-width:1440px){
-
-  /* Web pages */
-  .eventmanager-btn-sec button {bottom: 102px;left: 31px;}
-  .guitarist-btn-sec button {bottom: 142px;right: 421px;}
+@media (min-width:1400px){
+    /* .livetune-detail-box .inner-livetune-detail-box{min-width: 230px;} */
 }
 
 @media (min-width:1800px){
-
-    /* Web pages */
     .main-artists-list {padding: 0 10%;}
     .main-inner-setting-sec .col-sec-1 {padding: 0 60px 0 12px;}
     .main-inner-setting-sec .col-sec-2 {padding: 0 12px 0 60px;}
     .id-img-upload{bottom: 24px;}
 
-    /* Web pages */
-    .inner-home-main-sec {padding: 60px;}
-    .enjoy-sec .sub-head {font-size: 44px;line-height: 60px;}
-    .enjoy-sec .heading {font-size: 94px;line-height: 98px;padding: 0 150px 0 0;}
-    .musicico svg{width: 54% !important;margin: -39px 0 0 -20%;}
-    .eventmanager-img-sec {position: absolute;left: 280px;width: 30%;bottom: 123px;}
-    .eventmanager-btn-sec button {width: 200px;height: 200px;position: absolute;bottom: 167px;left: 40px;font-size: 22px;line-height: 29px;}
-    .guitarist-btn-sec button { width: 200px;height: 200px;position: absolute;bottom: 226px;right: 565px;font-size: 22px;line-height: 29px;}
-    .guitarist-img-sec {position: absolute;right: 100px;width: 19%;bottom: 108px;}
-
-
-
-
-
 }
-
-
-
-@media (max-width:1280px){
-  /* Web pages */
-  .eventmanager-btn-sec button{bottom: 67px;left: 19px;}
-  .guitarist-btn-sec button{bottom: 102px;right: 367px;}
-}
-
 
 @media (max-width:1024px){
     .main-content {margin: 94px 10px 26px 10px;}
@@ -396,8 +367,8 @@ body.modal-open .App{filter: blur(6px);}
 
 
 @media (max-width:440px){
-    .wrapper, .sign-login-form-sec{display: none !important;}
-    .mob-view-sec{display: block !important;padding: 0 24px;text-align: center;margin: 40px 0 0;}
+    /* .wrapper, .sign-login-form-sec{display: none !important;}
+    .mob-view-sec{display: block !important;padding: 0 24px;text-align: center;margin: 40px 0 0;} */
 }
     
 .side-nav-container{position: fixed;}

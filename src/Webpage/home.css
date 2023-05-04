@@ -1,4 +1,6 @@
+.react-horizontal-scrolling-menu--scroll-container{overflow: hidden;}
 .home-main-sec{width: 100vw;height: 100vh;overflow: hidden;background-color: #fff;}
+.maindg{width: 100vw;height: 100vh;}
 .inner-home-main-sec{padding: 32px;}
 .enjoy-sec .heading{font-size: 70px;line-height: 72px;padding: 0 150px 0 0;}
 .enjoy-sec .sub-head{font-size: 32px;}
@@ -7,14 +9,78 @@
 .section1{background-repeat: no-repeat !important;background-position: bottom -110px right 0 !important;background-size: contain !important;}
 .eventmanager-img-sec{position: absolute;left: 224px;width: 27%;bottom: 56px;}
 .guitarist-img-sec{position: absolute;right: 73px;width: 17%;bottom: 49px;}
-
-
-.react-horizontal-scrolling-menu--scroll-container{overflow: hidden;}
-
-.maindg{width: 100vw;height: 100vh;}
-
 .eventmanager-btn-sec button{width: 150px;height: 150px;border-radius: 100%;position: absolute;bottom: 85px;left: 26px;border: 1px solid #000000;font-size: 19px;line-height: 24px;}
 .eventmanager-btn-sec button:hover,.eventmanager-btn-sec button:first-child:active,
 .guitarist-btn-sec button:hover,.guitarist-btn-sec button:first-child:active{border-radius: 100%;}
-
 .guitarist-btn-sec button{width: 150px;height: 150px;border-radius: 100%;position: absolute;bottom: 125px;right: 397px;border: 1px solid #000000;font-size: 19px;line-height: 24px;}
+
+
+
+
+
+
+
+@media (min-width:1440px){
+
+    /* Web pages */
+    .eventmanager-btn-sec button {bottom: 102px;left: 31px;}
+    .guitarist-btn-sec button {bottom: 142px;right: 421px;}
+  }
+
+  @media (min-width:1800px){
+    /* Web pages */
+    .inner-home-main-sec {padding: 60px;}
+    .enjoy-sec .sub-head {font-size: 44px;line-height: 60px;}
+    .enjoy-sec .heading {font-size: 94px;line-height: 98px;padding: 0 150px 0 0;}
+    .musicico svg{width: 54% !important;margin: -39px 0 0 -20%;}
+    .eventmanager-img-sec {position: absolute;left: 280px;width: 30%;bottom: 123px;}
+    .eventmanager-btn-sec button {width: 200px;height: 200px;position: absolute;bottom: 167px;left: 40px;font-size: 22px;line-height: 29px;}
+    .guitarist-btn-sec button { width: 200px;height: 200px;position: absolute;bottom: 226px;right: 565px;font-size: 22px;line-height: 29px;}
+    .guitarist-img-sec {position: absolute;right: 100px;width: 19%;bottom: 108px;}
+  }
+
+
+  @media (max-width:1280px){
+    /* Web pages */
+    .eventmanager-btn-sec button{bottom: 67px;left: 19px;}
+    .guitarist-btn-sec button{bottom: 102px;right: 367px;}
+  }
+
+  @media (max-width:1024px){
+    /* Web pages */
+    .section1{background-position: bottom 0 right 0 !important;}
+    .eventmanager-btn-sec button,.guitarist-btn-sec button{width: 120px;height: 120px;}
+    .eventmanager-btn-sec button {bottom: 138px;left: 15px;}
+    .guitarist-btn-sec button {bottom: 172px;right: 293px;}
+    .eventmanager-img-sec {position: absolute;left: 149px;width: 31%;bottom: 125px;}
+    .guitarist-img-sec {position: absolute; right: 62px;width: 20%;bottom: 116px;}
+    .enjoy-sec .heading {font-size: 70px;line-height: 72px;padding: 20px 0 0 0;}
+    .musicico svg {width: 80% !important;margin: -18px 0 0 0;}
+  }
+
+  @media (max-width:768px){
+    /* Web pages */
+    .enjoy-sec .sub-head {font-size: 32px;padding: 20px 0 0;}
+    .enjoy-sec .heading {font-size: 54px;line-height: 63px;padding: 20px 0 0 0;}
+    .musicico svg {width: 53% !important;margin: -22px auto 0;display: block;}
+    .eventmanager-btn-sec button, .guitarist-btn-sec button {width: 100px;height: 100px;font-size: 16px;line-height: 15px;}
+    .eventmanager-btn-sec button {bottom: 101px;left: 7px;}
+    .guitarist-btn-sec button {bottom: 124px;right: 215px;}
+  }
+
+
+  @media (max-width:440px){
+    /* Web pages */
+    .inner-home-main-sec {padding: 15px;}
+    .enjoy-sec .sub-head {font-size: 30px;padding: 0;line-height: 40px;}
+    .enjoy-sec .heading {font-size: 40px;line-height: 46px;padding: 0;}
+    .musicico svg {width: 48% !important;}
+    .section1{background: none !important;}
+    .eventmanager-img-sec {position: initial;width: 40%;}
+    .eventmanager-btn-sec button {bottom: 220px;left: auto;right: 54px;}
+    .guitarist-img-sec {position: absolute;right: 62px;width: 24%;bottom: 46px;}
+    .guitarist-btn-sec button {bottom: 70px;right: auto;left: 40px;}
+
+
+
+}
