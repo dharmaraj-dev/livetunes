@@ -3,13 +3,16 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Lottie from "lottie-react";
 import Musicico from "../components/musicico.json";
+import Nextarrow from "../components/nextarrow.json";
 import Eventmanager from '../assets/images/event_manager.png';
 import Guitarist from '../assets/images/guitarist.png';
 import Joinbg from '../assets/images/join-bg.png';
+import Welcomebg from '../assets/images/welcome-bg.png';
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 import { useState } from "react";
 import usePreventBodyScroll from "./bodyscroll";
+import Welcome from '../assets/images/wlecome-img.png';
 
 
 const elemPrefix = "test";
@@ -82,6 +85,33 @@ const Home = () => {
                     <img src={Guitarist} alt="" className="guitarist-img-sec"/>
                     <div className="guitarist-btn-sec">
                       <button type="button" className="l-sb wbtnn back-btn btn btn-primary">Join as <br /> an Artist</button>
+                    </div>
+
+                  </div>
+                </div>
+            </div>
+            }
+
+            {items[1] && 
+            <div className="home-main-sec">
+                <div className="inner-home-main-sec">
+                  <div className="section2 maindg postion-r" style={{background: `url(${Welcomebg})`}}>
+                    <Row>
+                      <Col xl={5} lg={6} className="postion-r">
+                        <div className="welcome-img-sec">
+                          <img src={Welcome} alt="" className="" />
+                        </div>
+                      </Col>
+                      <Col xl={5} lg={5}>
+                        <div className="welcome-text-sec">
+                          <p className="sub-head khf red-color l-r">Welcome to</p>
+                          <p className="heading khf black-color l-sb">Livetunes</p>
+                        </div>
+                      </Col>
+                    </Row>
+
+                    <div className="welcome-btn-sec">
+                      <button type="button" className="l-sb web-next-btn"><span>Next</span> <Lottie animationData={Nextarrow} loop={true} className="nextarrow" /></button>
                     </div>
 
                   </div>
