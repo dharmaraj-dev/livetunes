@@ -2,7 +2,7 @@
 .home-main-sec{width: 100vw;height: 100vh;overflow: hidden;background-color: #fff;}
 .maindg{width: 100vw;height: 100vh;}
 /* .inner-home-main-sec{padding: 32px;} */
-.section1,.section2{padding: 32px;}
+.section1,.section2,.section3,.section4{padding: 32px;}
 .enjoy-sec .heading{font-size: 63px;line-height: 63px;padding: 0 150px 0 0;}
 .enjoy-sec .sub-head{font-size: 32px;}
 .musicico svg{width: 58% !important;margin: -18px 0 0 -118px;}
@@ -18,15 +18,25 @@
 
 .section2{background-repeat: no-repeat !important;background-position: bottom 34px right 0px !important;background-size: 80% !important;}
 .welcome-text-sec{ margin: 90px 0 0;}
-.welcome-img-sec img{width: 92%;position: absolute;}
+/* .welcome-img-sec img{width: 92%;position: absolute;} */
 .welcome-text-sec .sub-head{font-size: 54px;margin: 0;}
 .welcome-text-sec .heading{font-size: 84px;margin: -10px 0 0;}
 .welcome-btn-sec button{width: 200px;height: 200px;border-radius: 100%;position: absolute;bottom: 96px;right: 233px;border: 0px solid #000000;font-size: 28px;display: flex;vertical-align: middle;justify-content: center;align-items: center;background: none;}
 .welcome-btn-sec .nextarrow{width: 44%;}
 .welcome-btn-sec button .nextarrow svg{width: 100% !important;transform: rotate(271deg) !important;}
+.welcome-img-sec img {width: 39%;position: absolute;bottom: 0;}
 
-
-
+.section3{background-repeat: no-repeat !important;background-size: contain !important;background-position: bottom !important;}
+.about-heading{font-size: 90px;margin: 0 0 0 34px;}
+.main-text-box{position: relative;}
+.main-text-box .text-box{transition: 1s;background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 0px 3px 15px #00000029;border-radius: 0px 24px 24px 24px;padding: 15px;margin: -45px 0 0 50px;opacity: 0;}
+.main-text-box .ico-box{background-repeat: no-repeat !important;background-size: 100% !important;background-position: center !important;width: 190px;height: 144px;display: flex;align-items: center;justify-content: center;}
+.ico-box:hover + .text-box{opacity: 1; transition: 0.5s all;z-index: 9;position: relative;}
+.main-text-box .ico-box img{width: 50px;margin: 0 auto;display: block;}
+.about-secon-row{margin: -33px 0 0;position: relative;}
+/* .main-text-box .text-box.text-box-1{opacity: 1;} */
+.ico-box-2:hover + .text-box-1,.ico-box-3:hover + .text-box-1,.ico-box-4:hover + .text-box-1{opacity: 0 !important;}
+.about-secon-row .welcome-btn-sec button{right: 0;top: -102px;color: #fff;}
 
 
 
@@ -50,12 +60,17 @@
     .guitarist-btn-sec button { width: 200px;height: 200px;position: absolute;bottom: 226px;right: 532px;font-size: 22px;line-height: 29px;}
     .guitarist-img-sec {position: absolute;right: 100px;width: 19%;bottom: 108px;}
 
-    .welcome-img-sec img {width: 100%;}
+    .welcome-img-sec img {width: 40%;}
     .welcome-text-sec .sub-head {font-size: 80px;margin: 0;}
     .welcome-text-sec .heading {font-size: 114px;margin: -28px 0 0;}
-    .welcome-text-sec {margin: 150px 0 0 25px;}
+    .welcome-text-sec {margin: 172px 0 0 25px;}
     .section2 {background-repeat: no-repeat !important;background-position: bottom 49px right 0 !important;background-size: 80% !important;}
     .welcome-btn-sec button{bottom: 188px;right: 370px;font-size: 36px;}
+    
+    .about-heading{font-size: 110px;margin: 0 0 28px 34px;}
+    .main-text-box .ico-box{width: 233px;height: 180px;}
+    .about-secon-row {margin: 100px 0 0;}
+  
 
 
 
@@ -79,15 +94,20 @@
     .enjoy-sec .heading {font-size: 70px;line-height: 72px;padding: 20px 0 0 0;}
     .musicico svg {width: 80% !important;margin: -18px 0 0 0;}
 
-    .section2{vertical-align: middle; display: table-cell;background-position: bottom 80px right 0px !important;}
-    .welcome-img-sec img{position: initial;}
-    .welcome-btn-sec button{bottom: 104px;right: 150px;}
+    .section2{background-position: bottom 200px right 0px !important;}
+    /* .welcome-img-sec img{position: initial;} */
+    .welcome-img-sec img{bottom: auto;width: 45%;}
+    .welcome-btn-sec button{bottom: 228px;right: 150px;}
+
+    .section3{background-position: center !important;}
+    .about-secon-row .welcome-btn-sec button {right: -22px;top: -68px;color: #fff;}
 
 
   }
 
   @media (max-width:768px){
     /* Web pages */
+    .section1, .section2, .section3, .section4 {padding: 15px;}
     .enjoy-sec .sub-head {font-size: 32px;padding: 20px 0 0;}
     .enjoy-sec .heading {font-size: 54px;line-height: 63px;padding: 20px 0 0 0;}
     .musicico svg {width: 53% !important;margin: -22px auto 0;display: block;}
@@ -95,11 +115,16 @@
     .eventmanager-btn-sec button {bottom: 101px;left: 7px;}
     .guitarist-btn-sec button {bottom: 124px;right: 215px;}
 
-    .welcome-img-sec img {width: 55%;margin: 0 auto;display: block;}
+    .welcome-img-sec img {width: 55%;margin: 0 auto;display: block;position: initial;}
     .section2 {vertical-align: top;}
     .welcome-text-sec {text-align: center;margin: 50px 0 0;}
-    .welcome-btn-sec button {bottom: 126px;right: 0;left: 0;margin: 0 auto;}
+    .welcome-btn-sec button, .about-secon-row .welcome-btn-sec button {bottom: 126px;right: 0;left: 0;top: auto; margin: 0 auto;color: #000;}
     .section2{background: none !important;}
+
+    .section3{background: none !important;}
+    .about-secon-row{position: initial;}
+    .about-heading {font-size: 70px;margin: 0 0 40px 34px;}
+    .main-text-box .ico-box{margin: 0 auto;}
 
 
   }
@@ -107,7 +132,7 @@
 
   @media (max-width:440px){
     /* Web pages */
-    .inner-home-main-sec {padding: 15px;}
+    /* .inner-home-main-sec {padding: 15px;} */
     .enjoy-sec .sub-head {font-size: 30px;padding: 0;line-height: 40px;}
     .enjoy-sec .heading {font-size: 40px;line-height: 46px;padding: 0;}
     .musicico svg {width: 48% !important;}
@@ -116,7 +141,30 @@
     .eventmanager-btn-sec button {bottom: 220px;left: auto;right: 54px;}
     .guitarist-img-sec {position: absolute;right: 62px;width: 24%;bottom: 46px;}
     .guitarist-btn-sec button {bottom: 70px;right: auto;left: 40px;}
+    .welcome-img-sec img{width: 66%;}
+    .welcome-btn-sec button{bottom: 36px;}
 
+    .about-heading {font-size: 52px;margin: 0;}
+    .main-text-box .text-box, .ico-box:hover + .text-box{position: absolute;}
+    .main-text-box .text-box{border-radius: 14px;padding: 15px;margin: 0;}
+    .about-secon-row {margin: 34px 0 0;}
+    .main-text-box .ico-box{width: 150px;height: 150px;margin: 0 auto;}
+
+
+
+}
+
+
+
+@media (max-width:375px){
+  .guitarist-btn-sec button{bottom: 18px;}
+  .guitarist-img-sec{bottom: 20px;}
+  .eventmanager-btn-sec button{bottom: 170px;}
+
+  .welcome-text-sec .sub-head {font-size: 36px;}
+  .welcome-text-sec .heading {font-size: 56px;margin: -18px 0 0;}
+  .welcome-btn-sec button{font-size: 20px;}
+  .welcome-btn-sec .nextarrow {width: 32%;}
 
 
 }
