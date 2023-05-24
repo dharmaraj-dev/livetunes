@@ -21,12 +21,21 @@ import Dreamimg1 from '../assets/images/dreamimg1.png';
 import Dreamimg2 from '../assets/images/dreamimg2.png';
 import Dreamimg3 from '../assets/images/dreamimg3.png';
 import Faturebg from '../assets/images/fature-bg.png';
+import Featuredimg1 from '../assets/images/featuredimg1.png';
 import Featuredimg2 from '../assets/images/featuredimg2.png';
+import Featuredimg3 from '../assets/images/featuredimg3.png';
+import Featuredimg4 from '../assets/images/featuredimg4.png';
+import Clientbg from '../assets/images/clientbg.png';
+import Protobg from '../assets/images/protobg.png';
+import Mikeimg from '../assets/images/mikeimg.png';
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 import { useState } from "react";
 import usePreventBodyScroll from "./bodyscroll";
 import Welcome from '../assets/images/wlecome-img.png';
+import Client1 from '../assets/images/client1.png';
+import Client2 from '../assets/images/client2.png';
+import Client3 from '../assets/images/client3.png';
 import { BsFillStarFill } from "react-icons/bs";
 
 
@@ -76,32 +85,31 @@ const Home = () => {
 
 
 
-            {items[0] && 
-            <div className="home-main-sec">
-                <div className="inner-home-main-sec">
-                  <div className="section2 maindg postion-r" style={{background: `url(${Welcomebg})`}}>
-                    <div className="welcome-img-sec">
-                      <img src={Welcome} alt="" className="" />
-                    </div>
-                    <Row>
-                      <Col xl={5} lg={6} className="postion-r"></Col>
-                      <Col xl={5} lg={5}>
-                        <div className="welcome-text-sec">
-                          <p className="sub-head khf red-color l-r">Welcome to</p>
-                          <p className="heading khf black-color l-sb">Livetunes</p>
-                        </div>
-                      </Col>
-                    </Row>
-
-                    <div className="welcome-btn-sec">
-                      <button type="button" className="l-sb web-next-btn"><span>Next</span> <Lottie animationData={Nextarrow} loop={true} className="nextarrow" /></button>
-                    </div>
-
+          {items[0] && 
+          <div className="home-main-sec">
+              <div className="inner-home-main-sec">
+                <div className="section2 maindg postion-r" style={{background: `url(${Welcomebg})`}}>
+                  <div className="welcome-img-sec">
+                    <img src={Welcome} alt="" className="" />
                   </div>
-                </div>
-            </div>
-            }
+                  <Row>
+                    <Col xl={5} lg={6} className="postion-r"></Col>
+                    <Col xl={5} lg={5}>
+                      <div className="welcome-text-sec">
+                        <p className="sub-head khf red-color l-r">Welcome to</p>
+                        <p className="heading khf black-color l-sb">Livetunes</p>
+                      </div>
+                    </Col>
+                  </Row>
 
+                  <div className="welcome-btn-sec">
+                    <button type="button" className="l-sb web-next-btn"><span>Next</span> <Lottie animationData={Nextarrow} loop={true} className="nextarrow" /></button>
+                  </div>
+
+                </div>
+              </div>
+          </div>
+          }
 
           {items[1] && 
             <div className="home-main-sec">
@@ -170,7 +178,6 @@ const Home = () => {
                 </div>
             </div>
           }
-
 
           {items[2] && 
             <div className="home-main-sec">
@@ -287,7 +294,6 @@ const Home = () => {
                 </div>
             </div>
           }
-
 
           {items[3] && 
             <div className="home-main-sec">
@@ -672,7 +678,6 @@ const Home = () => {
             </div>
           }
 
-
           {items[4] && 
           <div className="home-main-sec">
               <div className="inner-home-main-sec">
@@ -725,7 +730,6 @@ const Home = () => {
           </div>
           }
 
-
           {items[5] && 
           <div className="home-main-sec">
               <div className="inner-home-main-sec">
@@ -736,8 +740,29 @@ const Home = () => {
                       </Col>
                     </Row>
                     <div className="main-featured-box">
-                      <Row>
-                        <Col lg={3}>
+                      <Row className="gx-1 row-featured-box">
+                        <Col lg={3} xl={3} md={4} xs={6}>
+                          <div className="inner-featured-box postion-r">
+                            <div className="featured-cat">
+                              <span className="star-text l-r">Weddings</span>
+                              <span className="star-text l-r">Gigs</span>
+                            </div>
+                            <img src={Featuredimg1} alt="" className="" />
+                            <div className="name-sec">
+                              <p className="m-name l-sb">Rahul Joshi</p>
+                              <p className="m-city l-r">Mumbai</p>
+                            </div>
+                            <div className="star-sec">
+                              <div className="inner-star-sec text-center">
+                                <div>
+                                <p className="m-0"><BsFillStarFill className="star-class"/></p>
+                                <p className="star-text l-b">4.5/5</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                        <Col lg={3} xl={3} md={4} xs={6}>
                           <div className="inner-featured-box postion-r">
                             <div className="featured-cat">
                               <span className="star-text l-r">Weddings</span>
@@ -747,6 +772,48 @@ const Home = () => {
                             <div className="name-sec">
                               <p className="m-name l-sb">Ria Roy</p>
                               <p className="m-city l-r">Delhi</p>
+                            </div>
+                            <div className="star-sec">
+                              <div className="inner-star-sec text-center">
+                                <div>
+                                <p className="m-0"><BsFillStarFill className="star-class"/></p>
+                                <p className="star-text l-b">4.5/5</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                        <Col lg={3} xl={3} md={4} xs={6}>
+                          <div className="inner-featured-box postion-r">
+                            <div className="featured-cat">
+                              <span className="star-text l-r">Weddings</span>
+                              <span className="star-text l-r">Gigs</span>
+                            </div>
+                            <img src={Featuredimg3} alt="" className="" />
+                            <div className="name-sec">
+                              <p className="m-name l-sb">Rohan Rathod</p>
+                              <p className="m-city l-r">Delhi</p>
+                            </div>
+                            <div className="star-sec">
+                              <div className="inner-star-sec text-center">
+                                <div>
+                                <p className="m-0"><BsFillStarFill className="star-class"/></p>
+                                <p className="star-text l-b">4.5/5</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                        <Col lg={3} xl={3} md={4} xs={6}>
+                          <div className="inner-featured-box postion-r">
+                            <div className="featured-cat">
+                              <span className="star-text l-r">Weddings</span>
+                              <span className="star-text l-r">Gigs</span>
+                            </div>
+                            <img src={Featuredimg4} alt="" className="" />
+                            <div className="name-sec">
+                              <p className="m-name l-sb">Joy Baro</p>
+                              <p className="m-city l-r">Guwahati</p>
                             </div>
                             <div className="star-sec">
                               <div className="inner-star-sec text-center">
@@ -770,9 +837,120 @@ const Home = () => {
           </div>
           }
 
-
-
           {items[6] && 
+          <div className="home-main-sec">
+              <div className="inner-home-main-sec">
+                <div className="section8 maindg postion-r"  style={{background: `url(${Protobg})`}}>
+
+                  <Row>
+                      <Col lg={4}>
+                        <div className="proto-img-text">
+                          <img src={Mikeimg} alt="" className="" />
+                          <div className="join-step-text-sec">
+                            <p className="sub-head khf black-color l-m">Livetunes</p>
+                            <p className="heading khf red-color l-m">Portfolio</p>
+                          </div>
+                        </div>   
+                      </Col>
+                      <Col lg={8}>
+                        <div className="video-sec">
+                          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/f1b6pHeMaRY" title="Yamaha teens rock 2019 - Don Bosco school, Kolkata- Winners. -Feeling Good new version -Live Prfmnce" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                      </Col>
+                  </Row>
+
+                  <div className="welcome-btn-sec">
+                    <button type="button" className="l-sb wbtnn back-btn btn btn-primary pointer-hover"><span>Next</span> <Lottie animationData={Nextarrow} loop={true} className="nextarrow" /></button>
+                  </div>
+
+                </div>
+              </div>
+          </div>
+          }
+
+
+          {items[7] && 
+          <div className="home-main-sec">
+              <div className="inner-home-main-sec">
+                <div className="section9 maindg postion-r"  style={{background: `url(${Clientbg})`}}>
+                  <div className="">
+                    <div className="join-step-text-sec">
+                      <p className="sub-head khf black-color l-m">What our <span className="red-color">Clients</span></p>
+                      <p className="heading khf black-color l-m">wrote about us</p>
+                    </div>
+                  </div>
+                  <Row>
+                    <Col lg={4}></Col>
+                    <Col lg={7}>
+                      <Row>
+                        <Col lg={4} md={4} xs={4}>
+                          <div className="inner-dream-box inner-client-box">
+                            <div className="d-box-img">
+                              <img src={Client1} alt="" />
+                            </div>
+                            <p className="dream-title l-sb">Rohit kumar</p>
+                            <div className="star-mark">
+                              <span><BsFillStarFill/></span>
+                              <span><BsFillStarFill/></span>
+                              <span><BsFillStarFill/></span>
+                              <span><BsFillStarFill/></span>
+                              <span className="gray-star"><BsFillStarFill/></span>
+                            </div>
+                            <p className="client-para l-m">
+                              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                            </p>
+                          </div>
+                        </Col>
+                        <Col lg={4} md={4} xs={4}>
+                          <div className="inner-dream-box inner-dream-box2 inner-client-box">
+                            <div className="d-box-img">
+                              <img src={Client2} alt="" />
+                            </div>
+                            <p className="dream-title l-sb">Shreeya K</p>
+                            <div className="star-mark">
+                              <span><BsFillStarFill/></span>
+                              <span><BsFillStarFill/></span>
+                              <span><BsFillStarFill/></span>
+                              <span><BsFillStarFill/></span>
+                              <span className="gray-star"><BsFillStarFill/></span>
+                            </div>
+                            <p className="client-para l-m">
+                              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                            </p>
+                          </div>
+                        </Col>
+                        <Col lg={4} md={4} xs={4}>
+                          <div className="inner-dream-box inner-client-box">
+                            <div className="d-box-img">
+                              <img src={Client3} alt="" />
+                            </div>
+                            <p className="dream-title l-sb">Rajesh Shah</p>
+                            <div className="star-mark">
+                              <span><BsFillStarFill/></span>
+                              <span><BsFillStarFill/></span>
+                              <span><BsFillStarFill/></span>
+                              <span><BsFillStarFill/></span>
+                              <span><BsFillStarFill/></span>
+                            </div>
+                            <p className="client-para l-m">
+                              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                            </p>
+                          </div>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>  
+
+                  <div className="welcome-btn-sec">
+                    <button type="button" className="l-sb wbtnn back-btn btn btn-primary pointer-hover"><span>Next</span> <Lottie animationData={Nextarrow} loop={true} className="nextarrow" /></button>
+                  </div>
+
+                </div>
+              </div>
+          </div>
+          }
+
+          {items[8] && 
           <div className="home-main-sec">
               <div className="inner-home-main-sec">
                 <div className="section1 maindg postion-r"  style={{background: `url(${Joinbg})`}}>
