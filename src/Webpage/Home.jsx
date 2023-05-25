@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import $ from 'jquery';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Lottie from "lottie-react";
@@ -63,8 +64,14 @@ function onWheel(apiObj, ev) {
 }
 
 const Home = () => {
+  
   const [items] = useState(getItems);
   const { disableScroll, enableScroll } = usePreventBodyScroll();
+  
+  
+
+
+
 
   return (
     <>
@@ -123,7 +130,7 @@ const Home = () => {
                     <Row>
                       <Col lg={4} xl={3} xs={6}>
                         <div className="main-text-box">
-                          <div className="ico-box" style={{background: `url(${Ring})`}}>
+                          <div className="ico-box ico-box-1">
                             <img src={Musicnotes} alt="" className=""/>
                           </div>
                           <div className="text-box text-box-1 l-r">
@@ -133,7 +140,7 @@ const Home = () => {
                       </Col>
                       <Col lg={4} xl={3} xs={6}>
                         <div className="main-text-box">
-                          <div className="ico-box ico-box-2" style={{background: `url(${Ring})`}}>
+                          <div className="ico-box ico-box-2">
                             <img src={Musicnotesvgrepo} alt="" className=""/>
                           </div>
                           <div className="text-box l-r">
@@ -147,7 +154,7 @@ const Home = () => {
                        <Col lg={2} xl={3}></Col>
                       <Col lg={4} xl={3} xs={6}>
                         <div className="main-text-box">
-                          <div className="ico-box ico-box-3" style={{background: `url(${Ring})`}}>
+                          <div className="ico-box ico-box-3">
                             <img src={Musicnotesvgrepoand} alt="" className=""/>
                           </div>
                           <div className="text-box l-r">
@@ -157,7 +164,7 @@ const Home = () => {
                       </Col>
                       <Col lg={4} xl={3} xs={6}>
                         <div className="main-text-box">
-                          <div className="ico-box ico-box-4" style={{background: `url(${Ring})`}}>
+                          <div className="ico-box ico-box-4">
                             <img src={Musicnotesvgrepobold} alt="" className=""/>
                           </div>
                           <div className="text-box l-r">

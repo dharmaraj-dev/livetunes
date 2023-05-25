@@ -31,13 +31,23 @@
 .about-heading{font-size: 90px;margin: 0 0 0 34px;}
 .main-text-box{position: relative;}
 .main-text-box .text-box{transition: 1s;background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 0px 3px 15px #00000029;border-radius: 0px 24px 24px 24px;padding: 15px;margin: -45px 0 0 50px;opacity: 0;}
-.main-text-box .ico-box{background-repeat: no-repeat !important;background-size: 100% !important;background-position: center !important;width: 190px;height: 144px;display: flex;align-items: center;justify-content: center;}
+.main-text-box .ico-box{border-radius: 100%;background-repeat: no-repeat !important;background-size: 100% !important;background-position: center !important;width: 120px;height: 120px;display: flex;align-items: center;justify-content: center;}
+/* .main-text-box .ico-box:hover{animation: pulse-animation 2s infinite;} */
+.main-text-box .ico-box.ico-box-1{animation: pulse-animation 2s infinite;}
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px #F13743;
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+  }
+}
 .ico-box:hover + .text-box{opacity: 1; transition: 0.5s all;z-index: 9;position: relative;}
 .main-text-box .ico-box img{width: 50px;margin: 0 auto;display: block;}
 .about-secon-row{margin: -33px 0 0;position: relative;}
 .about-secon-row .welcome-btn-sec button{right: 0;top: -102px;color: #fff;}
-/* .main-text-box .text-box.text-box-1{opacity: 1;}
-.ico-box.ico-box-2:hover + .text-box.text-box-1 + {opacity: 0 !important;} */
+.main-text-box .text-box.text-box-1{opacity: 1;}
+/* .ico-box.ico-box-2:hover + .text-box.text-box-1 + {opacity: 0 !important;} */
 
 .section4 {background-repeat: no-repeat !important;background-size: contain !important;background-position: bottom !important;}
 .join-step-text-sec .sub-head,.join-step-text-sec .heading {font-size: 84px;margin: 0;line-height: 90px;}
@@ -152,7 +162,8 @@
     .welcome-btn-sec button{bottom: 188px;right: 370px;font-size: 36px;}
     
     .about-heading{font-size: 110px;margin: 66px 0 28px 34px;}
-    .main-text-box .ico-box{width: 233px;height: 180px;}
+    /* .main-text-box .ico-box{width: 233px;height: 180px;} */
+    .main-text-box .ico-box{width: 120px;height: 120px;}
     .about-secon-row {margin: 100px 0 0;}
     .join-step-text-sec {position: absolute;bottom: 80px;left: 480px;}
     .steps-box-sec{margin: 30px 60px 0 0;}
