@@ -69,10 +69,6 @@ const Home = () => {
   const { disableScroll, enableScroll } = usePreventBodyScroll();
   
   
-
-
-
-
   return (
     <>
       <div className="example">
