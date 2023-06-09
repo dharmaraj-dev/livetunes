@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { VisibilityContext } from "react-horizontal-scrolling-menu";
-
+import { Link } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Lottie from "lottie-react";
@@ -160,7 +160,7 @@ export function SlideView({ title, itemId, children }) {
                     className="main-text-box"
                     onMouseEnter={() => setActiveStep(1)}
                   >
-                    <div className="ico-box ico-box-1">
+                    <div className="ico-box ico-box-1 animation-circle">
                       <img src={Musicnotes} alt="" className="" />
                     </div>
                     {activeStep === 1 && (
@@ -177,12 +177,11 @@ export function SlideView({ title, itemId, children }) {
                     className="main-text-box"
                     onMouseEnter={() => setActiveStep(2)}
                   >
-                    <div className="ico-box ico-box-2">
+                    <div className={activeStep === 1 ? "animation-circle ico-box ico-box-2":"ico-box ico-box-2"}>
                       <img
                         src={Musicnotesvgrepo}
                         alt=""
                         className=""
-                        style={activeStep === 1 ? { background: "green" } : {}}
                       />
                     </div>
                     {activeStep === 2 && (
@@ -203,14 +202,11 @@ export function SlideView({ title, itemId, children }) {
                       className="main-text-box"
                       onMouseEnter={() => setActiveStep(3)}
                     >
-                      <div className="ico-box ico-box-3">
+                      <div className={activeStep === 2 ? "animation-circle ico-box ico-box-3":"ico-box ico-box-3"}>
                         <img
                           src={Musicnotesvgrepoand}
                           alt=""
                           className=""
-                          style={
-                            activeStep === 2 ? { background: "yellow" } : {}
-                          }
                         />
                       </div>
                       {activeStep === 3 && (
@@ -226,9 +222,8 @@ export function SlideView({ title, itemId, children }) {
                     <div
                       className="main-text-box"
                       onMouseEnter={() => setActiveStep(4)}
-                      style={activeStep === 3 ? { background: "orange" } : {}}
                     >
-                      <div className="ico-box ico-box-4">
+                      <div className={activeStep === 3 ? "animation-circle ico-box ico-box-4":"ico-box ico-box-4"}>
                         <img src={Musicnotesvgrepobold} alt="" className="" />
                       </div>
                       {activeStep === 4 && (
@@ -1875,7 +1870,7 @@ export function SlideView({ title, itemId, children }) {
                         <p className="m-name l-sb">Rahul Joshi</p>
                         <p className="m-city l-r">Mumbai</p>
                       </div>
-                      <div className="star-sec">
+                      <div className="star-sec-home">
                         <div className="inner-star-sec text-center">
                           <div>
                             <p className="m-0">
@@ -1898,7 +1893,7 @@ export function SlideView({ title, itemId, children }) {
                         <p className="m-name l-sb">Ria Roy</p>
                         <p className="m-city l-r">Delhi</p>
                       </div>
-                      <div className="star-sec">
+                      <div className="star-sec-home">
                         <div className="inner-star-sec text-center">
                           <div>
                             <p className="m-0">
@@ -1921,7 +1916,7 @@ export function SlideView({ title, itemId, children }) {
                         <p className="m-name l-sb">Rohan Rathod</p>
                         <p className="m-city l-r">Delhi</p>
                       </div>
-                      <div className="star-sec">
+                      <div className="star-sec-home">
                         <div className="inner-star-sec text-center">
                           <div>
                             <p className="m-0">
@@ -1944,7 +1939,7 @@ export function SlideView({ title, itemId, children }) {
                         <p className="m-name l-sb">Joy Baro</p>
                         <p className="m-city l-r">Guwahati</p>
                       </div>
-                      <div className="star-sec">
+                      <div className="star-sec-home">
                         <div className="inner-star-sec text-center">
                           <div>
                             <p className="m-0">
@@ -2200,12 +2195,14 @@ export function SlideView({ title, itemId, children }) {
 
               <img src={Guitarist} alt="" className="guitarist-img-sec" />
               <div className="guitarist-btn-sec">
+              <Link to="/signup">
                 <button
                   type="button"
                   className="l-sb wbtnn back-btn btn btn-primary"
                 >
                   Join as <br /> an Artist
                 </button>
+              </Link>
               </div>
             </div>
           </div>

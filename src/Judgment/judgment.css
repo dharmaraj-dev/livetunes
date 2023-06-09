@@ -1,0 +1,13 @@
+.appro-reje-sec{display: inline-block;border-radius: 18px;padding: 2px 14px;min-width: 100px;}
+.approved-sec{background: #27B4061A 0% 0% no-repeat padding-box;border: 1px solid #2E7C06;}
+.reject-sec{background: #F1374342 0% 0% no-repeat padding-box;border: 1px solid #F13743;}
+
+.new-appli-list table tbody tr{box-shadow: none;}
+.new-appli-list table tbody tr:nth-child(odd){background: #F137431A;}
+.card-input-element {display: none;}
+.card-input:hover {cursor: pointer;}
+
+.card-input-element:checked + .card-input {box-shadow: 0 0 0 0 #F13743;background: #F13743;}
+.new-appli-box label{display: block;}
+.card-input{padding: 20px;border-color: #F13743;}
+.inner-overbox h2{margin: 16px 0 0;}

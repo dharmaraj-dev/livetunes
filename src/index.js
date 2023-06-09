@@ -15,6 +15,7 @@ import "./Artist/Artist.css";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import "./Webpage/home.css";
+import "./Judgment/judgment.css";
 import App from './App';
 import { BrowserRouter as Router } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';

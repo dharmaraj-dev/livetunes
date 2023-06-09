@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 import { useState } from "react";
 import usePreventBodyScroll from "./bodyscroll";
@@ -12,7 +12,7 @@ const elemPrefix = "test";
 const getId = (index) => `${index}`;
 
 const getItems = () =>
-  Array(8)
+  Array(9)
     .fill(0)
     .map((_, ind) => ({ id: getId(ind) }));
 
@@ -25,9 +25,9 @@ function onWheel(apiObj, ev) {
   }
 
   if (ev.deltaY < 0) {
-    apiObj.scrollNext();
-  } else if (ev.deltaY > 0) {
     apiObj.scrollPrev();
+  } else if (ev.deltaY > 0) {
+    apiObj.scrollNext();
   }
 }
 

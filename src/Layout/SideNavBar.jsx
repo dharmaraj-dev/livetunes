@@ -24,6 +24,7 @@ const SideNavBar = () => {
 		{
 			text: "Find Artist",
 			icon: <TfiMicrophoneAlt className="menu-item-icon"/>,
+			links: "/judgment"
 		},
 		{
 			text: "Favourites",
