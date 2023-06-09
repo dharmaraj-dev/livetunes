@@ -5,9 +5,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
-import Sbi from '../assets/images/sbi-img.png';
-import Mastercard from '../assets/images/mastercard.png';
-import { FaRegEdit } from "react-icons/fa";
 import { HiOutlineFilter } from "react-icons/hi";
 import { FiDownload } from "react-icons/fi";
 import Table from 'react-bootstrap/Table';
@@ -31,11 +28,11 @@ const Judgment = () => {
                           <div className="main-bill-invoice-sec new-appli-box">
                               <h4 className="l-b mb-3">Application overview</h4>
                               <Row>
-                                  <Col xl={3} lg={3}>
+                                  <Col xl={3} lg={3} sm={6}>
                                     <label>
                                     <input type="radio" name="product" class="card-input-element" />
                                       <div className="earned-sec mb-4 postion-r card-input">
-                                          <Stack direction="horizontal" gap={3} className="align-items-self">
+                                          <Stack direction="horizontal" gap={4} className="align-items-self">
                                               <div className="ico-sec-over">
                                               <svg xmlns="http://www.w3.org/2000/svg" width="34" height="40" viewBox="0 0 34 40">
                                                 <g id="noun-contract-4911469" transform="translate(-131.25 -17.5)">
@@ -61,11 +58,11 @@ const Judgment = () => {
                                       </div>
                                     </label>  
                                   </Col>
-                                  <Col xl={3} lg={3}>
+                                  <Col xl={3} lg={3} sm={6}>
                                     <label>
                                     <input type="radio" name="product" class="card-input-element" />
                                       <div className="earned-sec mb-4 postion-r card-input">
-                                          <Stack direction="horizontal" gap={3} className="align-items-self">
+                                          <Stack direction="horizontal" gap={4} className="align-items-self">
                                               <div className="ico-sec-over">
                                               <svg xmlns="http://www.w3.org/2000/svg" width="34" height="40" viewBox="0 0 34 40">
                                                 <g id="noun-contract-4911469" transform="translate(-131.25 -17.5)">
@@ -84,8 +81,58 @@ const Judgment = () => {
                                                 </svg>
                                               </div>
                                               <div className="inner-overbox">
-                                                  <p className="mb-0 sub-head fs-5">New application</p>
-                                                  <h2 className="fs-1">300</h2>
+                                                  <p className="mb-0 sub-head fs-5 l-sb">Approved</p>
+                                                  <h2 className="fs-1">100</h2>
+                                              </div>
+                                          </Stack>
+                                      </div>
+                                    </label>  
+                                  </Col>
+                                  <Col xl={3} lg={3} sm={6}>
+                                    <label>
+                                    <input type="radio" name="product" class="card-input-element" />
+                                      <div className="earned-sec mb-4 postion-r card-input">
+                                          <Stack direction="horizontal" gap={4} className="align-items-self">
+                                              <div className="ico-sec-over">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="40" viewBox="0 0 32 40">
+                                                <g id="noun-unrated-bond-4911465" transform="translate(-131.25 -17.5)">
+                                                    <path id="Path_6205" data-name="Path 6205" d="M226.737,17.5H203.211a1.963,1.963,0,0,0-1.961,1.96V37.1a.654.654,0,0,0,1.307,0V19.46a.654.654,0,0,1,.654-.653h23.527a.654.654,0,0,1,.653.653V49.515a.654.654,0,0,1-.653.653H215.618a.653.653,0,1,0,0,1.307h11.119a1.963,1.963,0,0,0,1.961-1.96V19.46A1.963,1.963,0,0,0,226.737,17.5Z" transform="translate(-65.448)"/>
+                                                    <path id="Path_6209" data-name="Path 6209" d="M288.75,219.422a.672.672,0,0,0,.672.672h16.134a.672.672,0,1,0,0-1.345H289.422A.672.672,0,0,0,288.75,219.422Z" transform="translate(-146.225 -185.921)"/>
+                                                    <path id="Path_6210" data-name="Path 6210" d="M253.75,254.422a.672.672,0,0,0,.672.672h18.823a.672.672,0,1,0,0-1.344H254.422A.672.672,0,0,0,253.75,254.422Z" transform="translate(-113.914 -218.255)"/>
+                                                    <path id="Path_6211" data-name="Path 6211" d="M362.1,288.75H350.672a.672.672,0,1,0,0,1.345H362.1a.672.672,0,1,0,0-1.345Z" transform="translate(-202.769 -250.589)"/>
+                                                    <path id="Path_6212" data-name="Path 6212" d="M386.334,325.094a.672.672,0,1,0,0-1.344h-9.411a.672.672,0,1,0,0,1.344Z" transform="translate(-227.003 -282.923)"/>
+                                                    <path id="Path_6213" data-name="Path 6213" d="M434.8,358.75h-5.378a.672.672,0,0,0,0,1.345H434.8a.672.672,0,0,0,0-1.345Z" transform="translate(-275.469 -315.257)"/>
+                                                    <path id="Path_6214" data-name="Path 6214" d="M255.094,219.422a.672.672,0,1,1-.672-.672.672.672,0,0,1,.672.672" transform="translate(-113.335 -185.921)"/>
+                                                    <path id="Path_6215" data-name="Path 6215" d="M237.594,53.172a.672.672,0,1,1-.672-.672.672.672,0,0,1,.672.672" transform="translate(-97.145 -32.311)"/>
+                                                    <path id="Path_6216" data-name="Path 6216" d="M517.594,53.172a.672.672,0,1,1-.672-.672.672.672,0,0,1,.672.672" transform="translate(-356.247 -32.311)"/>
+                                                    <path id="Path_6217" data-name="Path 6217" d="M517.594,420.672a.672.672,0,1,1-.672-.672.672.672,0,0,1,.672.672" transform="translate(-356.247 -371.842)"/>
+                                                    <path id="Path_6218" data-name="Path 6218" d="M209.123,367.7a.673.673,0,0,0-.951,0l-2.886,2.886L202.4,367.7a.672.672,0,1,0-.951.951l2.886,2.886-2.886,2.886a.672.672,0,0,0,.951.951l2.886-2.886,2.886,2.886a.672.672,0,0,0,.951-.951l-2.886-2.886,2.886-2.886A.672.672,0,0,0,209.123,367.7Z" transform="translate(-64.804 -323.444)"/>
+                                                    <path id="Path_6219" data-name="Path 6219" d="M140.661,297.5a9.411,9.411,0,1,0,9.411,9.411A9.422,9.422,0,0,0,140.661,297.5Zm0,17.479a8.067,8.067,0,1,1,8.067-8.067A8.076,8.076,0,0,1,140.661,314.979Z" transform="translate(0 -258.823)"/>
+                                                    <path id="Path_6251" data-name="Path 6251" d="M273.918,70.672a.672.672,0,0,0-.672-.672H254.422a.672.672,0,0,0-.672.672v4.034a.672.672,0,0,0,.672.672h18.823a.672.672,0,0,0,.672-.672Zm-1.345,3.361H255.094V71.344h17.479Z" transform="translate(-113.914 -46.776)"/>
+                                                </g>
+                                                </svg>
+                                              </div>
+                                              <div className="inner-overbox">
+                                                  <p className="mb-0 sub-head fs-5 l-sb">Rejected</p>
+                                                  <h2 className="fs-1">100</h2>
+                                              </div>
+                                          </Stack>
+                                      </div>
+                                    </label>  
+                                  </Col>
+                                  <Col xl={3} lg={3} sm={6}>
+                                    <label>
+                                    <input type="radio" name="product" class="card-input-element" />
+                                      <div className="earned-sec mb-4 postion-r card-input">
+                                          <Stack direction="horizontal" gap={4} className="align-items-self">
+                                              <div className="ico-sec-over">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+                                                <path id="noun-agreement-4200463" d="M131.152,26.25c-.023,0-.046,0-.069,0a.69.69,0,0,0-.546.341l-4.372,7.575V26.939h0a.69.69,0,0,0-.692-.687H105.337a.693.693,0,0,0-.221.062.569.569,0,0,0-.06.032c-.019.011-.037.022-.054.035l-.011.008c-.015.011-.03.024-.045.036l-.026.023-8.457,8.456h0a.691.691,0,0,0-.088.106.63.63,0,0,0-.035.059.692.692,0,0,0-.081.323V65.557a.69.69,0,0,0,.692.692h28.521a.69.69,0,0,0,.692-.692V47.174l10-17.328h0a.69.69,0,0,0-.255-.941l-4.434-2.561a.689.689,0,0,0-.327-.094ZM106.1,27.632h18.689v8.929l-7.046,12.208h0a.69.69,0,0,0-.092.316l-.2,5.462a.69.69,0,0,0,1.059.611l4.629-2.9h0a.687.687,0,0,0,.234-.239l1.414-2.45v15.3H97.64V36.084H105.4a.689.689,0,0,0,.692-.687Zm25.3.249,3.233,1.868-9.741,16.882-2.046,3.544L119.6,48.3l6.465-11.19,0-.008h0l.007-.013Zm-26.678.729V34.7h-6.1Zm.9,11.286h0a.69.69,0,1,0,0,1.379h11.2a.69.69,0,0,0,0-1.379Zm7.712,4.889h0a.616.616,0,0,0-.075,0h-11.7a.59.59,0,0,0-.066,0,.69.69,0,0,0,.066,1.374h11.7a.69.69,0,1,0,.075-1.377Zm5.683,4.772,3.04,1.752L118.874,53.3Zm-17.519.117h0a.691.691,0,0,0,.066,1.379h11.7a.69.69,0,0,0,0-1.379h-11.7a.59.59,0,0,0-.066,0Zm3.269,5.172a2.081,2.081,0,0,0-1.548,1.009,6.415,6.415,0,0,0-.764,1.649,14.142,14.142,0,0,0-.514,2.231h0a.69.69,0,1,0,1.365.192,13.362,13.362,0,0,1,.463-1.995,5.37,5.37,0,0,1,.59-1.293c.217-.316.385-.407.489-.413.173-.01.194,0,.357.255a5.681,5.681,0,0,1,.493,1.227,11.775,11.775,0,0,0,.555,1.594,2.143,2.143,0,0,0,1.273,1.247,1.473,1.473,0,0,0,1.41-.427,3.9,3.9,0,0,0,.632-.993c.113-.228.2-.377.28-.525,0,.008,0,0,0,.01.123.208.262.519.423.85a4.78,4.78,0,0,0,.606,1.009,1.823,1.823,0,0,0,1.187.682,1.849,1.849,0,0,0,1.222-.357,4.848,4.848,0,0,0,.87-.753,9.359,9.359,0,0,0,.855-1.059h0a.692.692,0,0,0-1.151-.769,7.593,7.593,0,0,1-.708.886,3.727,3.727,0,0,1-.621.54.856.856,0,0,1-.326.142c-.07-.008-.133-.035-.264-.193a3.916,3.916,0,0,1-.428-.729c-.146-.3-.292-.632-.478-.947a1.707,1.707,0,0,0-.881-.835,1.1,1.1,0,0,0-.845.062,1.4,1.4,0,0,0-.474.443,6.223,6.223,0,0,0-.509.931,3.375,3.375,0,0,1-.4.663c-.031.033-.022.034-.022.042-.1-.031-.24-.159-.407-.51A11.885,11.885,0,0,1,107,57.3a6.174,6.174,0,0,0-.647-1.562,1.842,1.842,0,0,0-1.6-.892Z" transform="translate(-96.26 -26.25)"/>
+                                                </svg>
+                                              </div>
+                                              <div className="inner-overbox">
+                                                  <p className="mb-0 sub-head fs-5 l-sb">In process</p>
+                                                  <h2 className="fs-1">100</h2>
                                               </div>
                                           </Stack>
                                       </div>
@@ -95,7 +142,7 @@ const Judgment = () => {
                           </div>
                           <div className="main-booking-history-sec mt-3 new-appli-list">
                               <div className="head-top-sec">
-                                  <Stack direction="horizontal" gap={3}>
+                                  <Stack direction="horizontal" gap={4}>
                                   <h2 className="fs-3 mb-0">New Applications</h2>
                                   <div className="l-m filter-denld-btn red-color cursor-pointer ms-auto"  onClick={() => setShow(!show)}>Filter <HiOutlineFilter/></div>
                                   <div className="l-m filter-denld-btn red-color cursor-pointer">Download <FiDownload/></div>
@@ -106,19 +153,19 @@ const Judgment = () => {
                                   <div className="main-filter">
                                       <Row>
                                           <Col xl={3} md={6} className="mb-4">
-                                          <Form.Label className="l-sb">Booking by</Form.Label>
+                                          <Form.Label className="l-sb">Name</Form.Label>
                                           <Form.Control placeholder="" type="text"/>
                                           </Col>
                                           <Col xl={3} md={6} className="mb-4">
-                                          <Form.Label className="l-sb">Event</Form.Label>
+                                          <Form.Label className="l-sb">Artists type</Form.Label>
+                                          <Form.Control placeholder="" type="text"/>
+                                          </Col>
+                                          <Col xl={3} md={6} className="mb-4">
+                                          <Form.Label className="l-sb">Application id</Form.Label>
                                           <Form.Control placeholder="" type="text"/>
                                           </Col>
                                           <Col xl={3} md={6} className="mb-4">
                                           <Form.Label className="l-sb">Date</Form.Label>
-                                          <Form.Control placeholder="" type="text"/>
-                                          </Col>
-                                          <Col xl={3} md={6} className="mb-4">
-                                          <Form.Label className="l-sb">Place</Form.Label>
                                           <Form.Control placeholder="" type="text"/>
                                           </Col>
                                       </Row>

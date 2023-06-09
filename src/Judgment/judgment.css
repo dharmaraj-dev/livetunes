@@ -11,3 +11,5 @@
 .new-appli-box label{display: block;}
 .card-input{padding: 20px;border-color: #F13743;}
 .inner-overbox h2{margin: 16px 0 0;}
+.card-input-element:checked + .card-input .inner-overbox .sub-head,.card-input-element:checked + .card-input .inner-overbox h2{color: #fff;}
+.card-input-element:checked + .card-input svg{fill: #fff;}
