@@ -13,3 +13,17 @@
 .inner-overbox h2{margin: 16px 0 0;}
 .card-input-element:checked + .card-input .inner-overbox .sub-head,.card-input-element:checked + .card-input .inner-overbox h2{color: #fff;}
 .card-input-element:checked + .card-input svg{fill: #fff;}
+
+.new-appli-list table{border-spacing: 1px 4px;}
+.single-client-app-sec .img-single{border-radius: 100%;width: 120px;height: 120px;}
+.download-review-btn-sec{margin: -32px 0 0;}
+
+.main-video-sub-list{max-height: 401px;overflow-y: scroll;}
+.video-list-sec {margin: 44px 0 0;}
+.video-sub-list{width: 50%;}
+.video-sub-list .head-title{font-size: 22px;line-height: 26px;}
+.video-sub-list .date-title{font-size: 16px;}
+.video-tile-date{margin: 10px 0 0;}
+.inner-video-sub-list {border-bottom: 1px solid #707070;margin: 0 0 10px;}
+.info-performance-details .heading-text{font-size: 18px;}
+.info-performance-details .sub-heading-text{font-size: 22px;}

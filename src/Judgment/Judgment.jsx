@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
+import { Link } from "react-router-dom";
 import { HiOutlineFilter } from "react-icons/hi";
 import { FiDownload } from "react-icons/fi";
 import Table from 'react-bootstrap/Table';
@@ -27,6 +28,7 @@ const Judgment = () => {
                      <div className="main-artists-list">
                           <div className="main-bill-invoice-sec new-appli-box">
                               <h4 className="l-b mb-3">Application overview</h4>
+                              <hr/>
                               <Row>
                                   <Col xl={3} lg={3} sm={6}>
                                     <label>
@@ -202,9 +204,7 @@ const Judgment = () => {
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
                                       <td>10-08-22</td>
-                                      <td>Unaudited</td>
-                                      {/* <td><div className="l-m filter-denld-btn red-color cursor-pointer text-center">Download <FiDownload/></div></td> */}
-                                      {/* <td><button type="button" className="l-m wbtnn back-btn btn btn-primary red-color cursor-pointer text-center">Download <FiDownload/></button></td> */}
+                                      <td><Link to="/singleapplication">Unaudited</Link></td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -217,7 +217,7 @@ const Judgment = () => {
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
                                       <td>10-08-22</td>
-                                      <td>Unaudited</td>
+                                      <td><Link to="/singleapplication">Unaudited</Link></td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -230,7 +230,7 @@ const Judgment = () => {
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
                                       <td>10-08-22</td>
-                                      <td>Unaudited</td>
+                                      <td><Link to="/singleapplication">Unaudited</Link></td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -243,7 +243,11 @@ const Judgment = () => {
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
                                       <td>10-08-22</td>
-                                      <td><div className="appro-reje-sec l-m text-center approved-sec">Approved</div></td>
+                                      <td>
+                                        <Link to="/singleapplication">
+                                        <div className="appro-reje-sec l-m text-center approved-sec">Approved</div>
+                                        </Link>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -256,7 +260,11 @@ const Judgment = () => {
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
                                       <td>10-08-22</td>
-                                      <td><div className="appro-reje-sec l-m text-center reject-sec">Rejected</div></td>
+                                      <td>
+                                        <Link to="/singleapplication">
+                                        <div className="appro-reje-sec l-m text-center reject-sec">Rejected</div>
+                                        </Link>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -269,7 +277,7 @@ const Judgment = () => {
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
                                       <td>10-08-22</td>
-                                      <td>Unaudited</td>
+                                      <td><Link to="/singleapplication">Unaudited</Link></td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -282,7 +290,7 @@ const Judgment = () => {
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
                                       <td>10-08-22</td>
-                                      <td>Unaudited</td>
+                                      <td><Link to="/singleapplication">Unaudited</Link></td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -295,7 +303,7 @@ const Judgment = () => {
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
                                       <td>10-08-22</td>
-                                      <td>Unaudited</td>
+                                      <td><Link to="/singleapplication">Unaudited</Link></td>
                                   </tr>
                                   </tbody>
                               </Table>

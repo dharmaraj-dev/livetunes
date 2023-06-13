@@ -30,6 +30,7 @@ import ArtistProfiles from './Artist/ArtistProfiles';
 import BillingInvoice from './Artist/BillingInvoice';
 import Home from './Webpage/Home';
 import Judgment from './Judgment/Judgment';
+import SingleApplication from './Judgment/SingleApplication';
 
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
         <Route path="/billinginvoice" element={<BillingInvoice/>}/>
         <Route path="/" element={<Home/>}/>
         <Route path="/judgment" element={<Judgment/>}/>
+        <Route path="/singleapplication" element={<SingleApplication/>}/>
      
 
       </Routes>
