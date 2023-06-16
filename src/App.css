@@ -233,6 +233,7 @@ body.modal-open .App{filter: blur(6px);}
     .top-right-menu .dropdown-menu {min-width: 30rem;max-height: 490px;overflow-y: scroll;}
     .profile-upload-sec{min-height: 400px;}
     .upload-btn-sec{bottom: 36px;}
+    .inner-average-category {font-size: 16px;}
 
     
 }

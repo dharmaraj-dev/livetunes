@@ -21,9 +21,25 @@
 .main-video-sub-list{max-height: 401px;overflow-y: scroll;}
 .video-list-sec {margin: 44px 0 0;}
 .video-sub-list{width: 50%;}
-.video-sub-list .head-title{font-size: 22px;line-height: 26px;}
+.video-sub-list .head-title{font-size: 20px;line-height: 26px;}
 .video-sub-list .date-title{font-size: 16px;}
 .video-tile-date{margin: 10px 0 0;}
 .inner-video-sub-list {border-bottom: 1px solid #707070;margin: 0 0 10px;}
+.info-performance-details {margin: 40px 0 0;}
 .info-performance-details .heading-text{font-size: 18px;}
 .info-performance-details .sub-heading-text{font-size: 22px;}
+.social-img-text img{width: 23px;margin: 0 7px 0 0;}
+.filter-denld-btn:active{box-shadow: 0px 3px 6px #EDE6E7;}
+
+.download-review-btn-sec .rj-btn{background: #F137431A 0% 0% no-repeat padding-box;border: 1px solid #F13743;border-radius: 12px;padding: 6px 23px;}
+.download-review-btn-sec .rj-btn:active{background: #F13743 0% 0% no-repeat padding-box;border: 1px solid #F13743;color: #fff;}
+.download-review-btn-sec .appro-btn{background: #27B4061A 0% 0% no-repeat padding-box;border: 1px solid #2E7C06;border-radius: 12px;padding: 6px 23px;}
+.download-review-btn-sec .appro-btn:active{background: #2E7C06 0% 0% no-repeat padding-box;border: 1px solid #2E7C06;color: #fff;}
+.cat-input {padding: 20px;box-shadow: 1px 3px 16px #FEEAEC;border: 0.5px solid #f1374354;}
+.card-input-element:checked + .cat-input {box-shadow: 0 0 0 0 #F13743;border-color: #F13743;border: 1px solid #F13743;}
+.inner-average-category{font-size: 18px;}
+.inner-average-category .head-sec{font-size: 26px;}
+.average-category .top-heading-text{font-size: 18px;margin: 32px 0 14px;}
+.star-outof-sec .outof-sec{font-size: 26px;}
+.star-outof-sec .outof-sec span{border: 1px solid #707070;border-radius: 12px;display: inline-block;padding: 4px 30px;}
+

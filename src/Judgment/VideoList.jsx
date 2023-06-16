@@ -24,7 +24,7 @@ const VideoList = () => {
                         <iframe width="100%" height="120" src="https://www.youtube.com/embed/5Eqb_-j3FDA" title="Coke Studio | Season 14 | Pasoori | Ali Sethi x Shae Gill" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                     <div className="video-sub-list">
-                        <p className="l-r head-title mb-2">Café gig at Two joes, Nagpur</p>
+                        <p className="l-sb head-title mb-2">Café gig at Two joes, Nagpur</p>
                         <p className="l-r date-title">Date: 17/08/2021</p>
                     </div>
                     </Stack>
@@ -35,7 +35,7 @@ const VideoList = () => {
                         <iframe width="100%" height="120" src="https://www.youtube.com/embed/5Eqb_-j3FDA" title="Coke Studio | Season 14 | Pasoori | Ali Sethi x Shae Gill" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                     <div className="video-sub-list">
-                        <p className="l-r head-title mb-2">Café gig at Two joes, Nagpur</p>
+                        <p className="l-sb head-title mb-2">Café gig at Two joes, Nagpur</p>
                         <p className="l-r date-title">Date: 17/08/2021</p>
                     </div>
                     </Stack>
@@ -46,7 +46,7 @@ const VideoList = () => {
                         <iframe width="100%" height="120" src="https://www.youtube.com/embed/5Eqb_-j3FDA" title="Coke Studio | Season 14 | Pasoori | Ali Sethi x Shae Gill" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                     <div className="video-sub-list">
-                        <p className="l-r head-title mb-2">Café gig at Two joes, Nagpur</p>
+                        <p className="l-sb head-title mb-2">Café gig at Two joes, Nagpur</p>
                         <p className="l-r date-title">Date: 17/08/2021</p>
                     </div>
                     </Stack>
@@ -57,7 +57,7 @@ const VideoList = () => {
                         <iframe width="100%" height="120" src="https://www.youtube.com/embed/5Eqb_-j3FDA" title="Coke Studio | Season 14 | Pasoori | Ali Sethi x Shae Gill" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                     <div className="video-sub-list">
-                        <p className="l-r head-title mb-2">Café gig at Two joes, Nagpur</p>
+                        <p className="l-sb head-title mb-2">Café gig at Two joes, Nagpur</p>
                         <p className="l-r date-title">Date: 17/08/2021</p>
                     </div>
                     </Stack>
