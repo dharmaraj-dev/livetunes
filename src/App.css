@@ -248,6 +248,7 @@ body.modal-open .App{filter: blur(6px);}
     .main-inner-setting-sec .col-sec-1 {padding: 0 60px 0 12px;}
     .main-inner-setting-sec .col-sec-2 {padding: 0 12px 0 60px;}
     .id-img-upload{bottom: 24px;}
+    .info-performance-details .sub-heading-text{font-size: 20px;}
 
 }
 
@@ -361,6 +362,7 @@ body.modal-open .App{filter: blur(6px);}
     .login-setting-cart .accordion {top: 10px;}
     .profile-text-sec {padding: 30px 0 0 0;}
     .id-img-upload {bottom: 27px;}
+    .download-review-btn-sec {margin: 0;}
 
 
 
@@ -374,6 +376,7 @@ body.modal-open .App{filter: blur(6px);}
     
 .side-nav-container{position: fixed;}
 .main{margin: 0 0 0 85px;}
+.modal-open .side-nav-container{top: 0;bottom: 0;height: 100%;}
 
 
 

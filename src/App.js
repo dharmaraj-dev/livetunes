@@ -32,6 +32,8 @@ import Home from './Webpage/Home';
 import Judgment from './Judgment/Judgment';
 import SingleApplication from './Judgment/SingleApplication';
 import Review from './Judgment/Review';
+import VerificationList from './DocVerification/VerificationList';
+import ApplicationView from './DocVerification/ApplicationView';
 
 
 function App() {
@@ -71,6 +73,8 @@ function App() {
         <Route path="/judgment" element={<Judgment/>}/>
         <Route path="/singleapplication" element={<SingleApplication/>}/>
         <Route path="/review" element={<Review/>}/>
+        <Route path="/verificationlist" element={<VerificationList/>}/>
+        <Route path="/applicationview" element={<ApplicationView/>}/>
      
 
       </Routes>

@@ -94,7 +94,7 @@
 .inner-dream-box:hover .dream-title{color: #F13743;}
 .inner-dream-box .dream-title{transition: all .3s ease-in-out;font-size: 20px;margin: 15px 0 0;padding: 0 40px;line-height: 26px;}
 .inner-dream-box.inner-dream-box2{margin: 90px 0 0;}
-.section6 .welcome-btn-sec button{width: 170px;height: 170px;bottom: 106px;right: 126px;border: 1px solid #000000;}
+.section6 .welcome-btn-sec button{width: 170px;height: 170px;bottom: 96px;right: 126px;border: 1px solid #000000;}
 
 .section7 {background-repeat: no-repeat !important;background-size: contain !important;background-position: top !important;}
 .section7 .welcome-btn-sec button{width: 170px;height: 170px;top: 30px;right: 212px;border: 1px solid #000000;}
@@ -129,7 +129,7 @@
 .inner-client-box .dream-title{color: #515151;padding: 0;}
 .inner-client-box .d-box-img {width: auto;height: auto;}
 .inner-client-box .client-para{line-height: 19px;background: #fff;}
-.section9 .welcome-btn-sec button{width: 160px;height: 160px;border: 1px solid #000000;bottom: 92px;right: 161px;}
+.section9 .welcome-btn-sec button{width: 160px;height: 160px;border: 1px solid #000000;bottom: 90px;right: 179px;}
 
 
 
@@ -202,7 +202,7 @@
     .inner-client-box .d-box-img {width: auto;height: 100%;}
     .inner-client-box .client-para{font-size: 18px;background: #fff;line-height: 27px;}
     .section9 .join-step-text-sec {bottom: 112px;}
-    .section9 .welcome-btn-sec button{width: 200px;height: 200px;bottom: 154px;right: 161px}
+    .section9 .welcome-btn-sec button{width: 200px;height: 200px;bottom: 154px;right: 181px}
     
 
 

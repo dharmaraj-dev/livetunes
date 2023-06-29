@@ -11,10 +11,10 @@ import { FiDownload } from "react-icons/fi";
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 
-const Judgment = () => {
+const VerificationList = () => {
     const [show, setShow] = useState(false);
-    return (
-      <>
+  return (
+    <>
           <div className="wrapper">
               <div className="sidebar">
               <SideNavBar />
@@ -179,7 +179,7 @@ const Judgment = () => {
                                   </div>
                               ) : null}
   
-                              <div className="table-scroll">
+                            <div className="table-scroll">
                               <Table className="table-responsive">
                                   <thead>
                                   <tr>
@@ -188,6 +188,8 @@ const Judgment = () => {
                                       <th>Place</th>
                                       <th>Artists type</th>
                                       <th>Application id</th>
+                                      <th>ID proof</th>
+                                      <th>Bank details</th>
                                       <th>Date</th>
                                       <th>Status</th>
                                   </tr>
@@ -203,48 +205,11 @@ const Judgment = () => {
                                       <td>Nagpur</td>
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
+                                      <td>Pan, passport</td>
+                                      <td>SBI</td>
                                       <td>10-08-22</td>
                                       <td>
-                                        <Link to="/singleapplication">
+                                        <Link to="/applicationview">
                                         <div className="appro-reje-sec l-m text-center approved-sec">Approved</div>
                                         </Link>
                                       </td>
@@ -259,9 +224,11 @@ const Judgment = () => {
                                       <td>Nagpur</td>
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
+                                      <td>Pan, passport</td>
+                                      <td>SBI</td>
                                       <td>10-08-22</td>
                                       <td>
-                                        <Link to="/singleapplication">
+                                        <Link to="/applicationview">
                                         <div className="appro-reje-sec l-m text-center reject-sec">Rejected</div>
                                         </Link>
                                       </td>
@@ -276,8 +243,14 @@ const Judgment = () => {
                                       <td>Nagpur</td>
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
+                                      <td>Pan, passport</td>
+                                      <td>SBI</td>
                                       <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
+                                      <td>
+                                        <Link to="/applicationview">
+                                        <div className="appro-reje-sec l-m text-center approved-sec">Approved</div>
+                                        </Link>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -289,8 +262,14 @@ const Judgment = () => {
                                       <td>Nagpur</td>
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
+                                      <td>Pan, passport</td>
+                                      <td>SBI</td>
                                       <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
+                                      <td>
+                                        <Link to="/applicationview">
+                                        <div className="appro-reje-sec l-m text-center approved-sec">Approved</div>
+                                        </Link>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <td>
@@ -302,8 +281,71 @@ const Judgment = () => {
                                       <td>Nagpur</td>
                                       <td>Singer, Guitarist</td>
                                       <td>A2241445</td>
+                                      <td>Pan, passport</td>
+                                      <td>SBI</td>
                                       <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
+                                      <td>
+                                        <Link to="/applicationview">
+                                        <div className="appro-reje-sec l-m text-center approved-sec">Approved</div>
+                                        </Link>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <div className="form-check">
+                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
+                                          </div>
+                                      </td>
+                                      <td>Rajesh Kumar</td>
+                                      <td>Nagpur</td>
+                                      <td>Singer, Guitarist</td>
+                                      <td>A2241445</td>
+                                      <td>Pan, passport</td>
+                                      <td>SBI</td>
+                                      <td>10-08-22</td>
+                                      <td>
+                                        <Link to="/applicationview">
+                                        <div className="appro-reje-sec l-m text-center reject-sec">Rejected</div>
+                                        </Link>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <div className="form-check">
+                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
+                                          </div>
+                                      </td>
+                                      <td>Rajesh Kumar</td>
+                                      <td>Nagpur</td>
+                                      <td>Singer, Guitarist</td>
+                                      <td>A2241445</td>
+                                      <td>Pan, passport</td>
+                                      <td>SBI</td>
+                                      <td>10-08-22</td>
+                                      <td>
+                                        <Link to="/applicationview">
+                                        <div className="appro-reje-sec l-m text-center reject-sec">Rejected</div>
+                                        </Link>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          <div className="form-check">
+                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
+                                          </div>
+                                      </td>
+                                      <td>Rajesh Kumar</td>
+                                      <td>Nagpur</td>
+                                      <td>Singer, Guitarist</td>
+                                      <td>A2241445</td>
+                                      <td>Pan, passport</td>
+                                      <td>SBI</td>
+                                      <td>10-08-22</td>
+                                      <td>
+                                        <Link to="/applicationview">
+                                        <div className="appro-reje-sec l-m text-center reject-sec">Rejected</div>
+                                        </Link>
+                                      </td>
                                   </tr>
                                   </tbody>
                               </Table>
@@ -316,7 +358,7 @@ const Judgment = () => {
           </div>
   
       </>
-    )
+  )
 }
 
-export default Judgment
+export default VerificationList

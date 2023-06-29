@@ -46,7 +46,7 @@
 .main-bill-invoice-sec .edit-sec{position: absolute; right: 10px;top: 10px;font-size: 20px;}
 .main-bill-invoice-sec .earned-sec{min-height: 151px;}
 .main-bill-invoice-sec .form-check{position: absolute;bottom: 12px;right: 15px;}
-.filter-denld-btn{background: #FFFFFF 0% 0% no-repeat padding-box;border: 1px solid #F13743;border-radius: 32px;padding: 6px 12px;}
+.filter-denld-btn{background: #FFFFFF 0% 0% no-repeat padding-box;border: 1px solid #F13743;border-radius: 32px;padding: 8px 12px;}
 .filter-denld-btn:hover{box-shadow: 0px 3px 6px #EDE6E7;}
 .main-booking-history-sec .head-top-sec{box-shadow: 0px 3px 6px #EDE6E7;border: 1px solid #EDE6E7;border-radius: 12px 12px 0px 0px;padding: 10px 14px;}
 

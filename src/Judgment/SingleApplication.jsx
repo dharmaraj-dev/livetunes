@@ -42,7 +42,7 @@ const SingleApplication = () => {
                         </Stack>
                         <div className="download-review-btn-sec">
                           <Stack direction="horizontal" gap={4}>
-                            <button className="l-m filter-denld-btn red-color cursor-pointer ms-auto">Download <FiDownload/></button>
+                            <button className="l-m filter-denld-btn red-color cursor-pointer ms-auto"><FiDownload/></button>
                             <Link to="/review">
                             <button className="l-m filter-denld-btn red-color cursor-pointer">Review</button>
                             </Link>

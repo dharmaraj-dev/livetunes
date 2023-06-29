@@ -11,6 +11,9 @@ import mplayerico from '../assets/images/music-player-ico.png';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import StarRate from "../OnBoard/StarRate";
+import Form from 'react-bootstrap/Form';
+import { AiFillLike } from "react-icons/ai";
+import { AiFillDislike } from "react-icons/ai";
 
 const Review = () => {
   return (
@@ -98,13 +101,21 @@ const Review = () => {
                           <Col lg={6} xl={5}>
                             <div className="mb-4">
                                 <p className="l-sb mb-3">ARTISTS VOCAL <span className="l-r">(50% weightage)</span></p>
-                                <Stack direction="horizontal" gap={2} className="align-items-self">
+                                <Stack direction="horizontal" gap={2} className="align-items-self mb-2">
                                   <div className=""><img src={mplayerico} alt="" className="" /></div>
                                   <div className="l-r"><span className="l-sb">Vocal Technique</span> – Tone Quality, Breath Support, Intonation, Diction and Articulation</div>
                                 </Stack>
-                                <Stack direction="horizontal" gap={2} className="align-items-self">
+                                <Stack direction="horizontal" gap={2} className="align-items-self mb-2">
                                   <div className=""><img src={mplayerico} alt="" className="" /></div>
                                   <div className="l-r"><span className="l-sb">Rhythm & Tempo</span> – Voice in relation to music</div>
+                                </Stack>
+                                <Stack direction="horizontal" gap={2} className="align-items-self mb-2">
+                                  <div className=""><img src={mplayerico} alt="" className="" /></div>
+                                  <div className="l-r"><span className="l-sb">Timing</span>  – How coordinated the singers are in their performance in regards to syncing of vocals and interaction on stage.</div>
+                                </Stack>
+                                <Stack direction="horizontal" gap={2} className="align-items-self mb-2">
+                                  <div className=""><img src={mplayerico} alt="" className="" /></div>
+                                  <div className="l-r"><span className="l-sb">Harmony</span>  – How the harmonies have been arranged and executed, Difficulty and Creative.</div>
                                 </Stack>
                             </div>
                           </Col>
@@ -112,7 +123,7 @@ const Review = () => {
                             <Stack direction="horizontal">
                               <div className="star-outof-sec ms-auto">
                                   <div className="outof-sec l-sb mb-3">
-                                  <span>7</span> /10
+                                  <span><Form.Control  type="text" className="l-sb"/> </span> /10
                                   </div>
                                   <StarRate/>
                               </div>
@@ -124,9 +135,13 @@ const Review = () => {
                           <Col lg={6} xl={5}>
                             <div className="mb-4">
                                 <p className="l-sb mb-3">EXPRESSION <span className="l-r"> (30% weightage)</span></p>
-                                <Stack direction="horizontal" gap={2} className="align-items-self">
+                                <Stack direction="horizontal" gap={2} className="align-items-self mb-2">
                                   <div className=""><img src={mplayerico} alt="" className="" /></div>
                                   <div className="l-r"><span className="l-sb">Performance</span> – How well the performer is able to express the meaning and mood of the song</div>
+                                </Stack>
+                                <Stack direction="horizontal" gap={2} className="align-items-self mb-2">
+                                  <div className=""><img src={mplayerico} alt="" className="" /></div>
+                                  <div className="l-r"><span className="l-sb">Chemistry</span>  – How credible the partners are in their performance, Interaction.</div>
                                 </Stack>
                             </div>
                           </Col>  
@@ -134,7 +149,7 @@ const Review = () => {
                             <Stack direction="horizontal">
                               <div className="star-outof-sec ms-auto">
                                   <div className="outof-sec l-sb mb-3">
-                                  <span>7</span> /10
+                                  <span><Form.Control  type="text" className="l-sb"/> </span> /10
                                   </div>
                                   <StarRate/>
                               </div>
@@ -146,11 +161,11 @@ const Review = () => {
                           <Col lg={6} xl={5}>
                             <div className="mb-3">
                                 <p className="l-sb mb-3">SHOWMANSHIP <span className="l-r"> (20% weightage)</span></p>
-                                <Stack direction="horizontal" gap={2} className="align-items-self">
+                                <Stack direction="horizontal" gap={2} className="align-items-self mb-2">
                                   <div className=""><img src={mplayerico} alt="" className="" /></div>
                                   <div className="l-r"><span className="l-sb">Show Design</span> – Music Selection, Effective use of Stage and Performance Area, Outfit and style</div>
                                 </Stack>
-                                <Stack direction="horizontal" gap={2} className="align-items-self">
+                                <Stack direction="horizontal" gap={2} className="align-items-self mb-2">
                                   <div className=""><img src={mplayerico} alt="" className="" /></div>
                                   <div className="l-r"><span className="l-sb">Versatality</span> –The ability to adapt various genres of Music</div>
                                 </Stack>
@@ -160,7 +175,7 @@ const Review = () => {
                             <Stack direction="horizontal">
                               <div className="star-outof-sec ms-auto">
                                   <div className="outof-sec l-sb mb-3">
-                                  <span>7</span> /10
+                                  <span><Form.Control  type="text" className="l-sb"/> </span> /10
                                   </div>
                                   <StarRate/>
                               </div>
@@ -168,10 +183,22 @@ const Review = () => {
                           </Col>
                         </Row>      
                       </div>
-                      <div className="likes-dislike-sec">
-                        <Row>
+                      <div className="likes-dislike-sec mt-3">
+                        <Row className="gx-5">
                           <Col lg={6}>
-
+                          <Form.Label className="l-sb align-items-self"><AiFillLike/>Likes</Form.Label>
+                          <Form.Control placeholder="Please mention what you liked about the artists" type="text"/>
+                          </Col>
+                          <Col lg={6}>
+                          <Form.Label className="l-sb align-items-self"><AiFillDislike/>Dislikes</Form.Label>
+                          <Form.Control placeholder="Please mention what you Disliked about the artists" type="text"/>
+                          </Col>
+                          <Col lg={12} className="mt-4">
+                          <Form.Label className="l-sb align-items-self">Tell us more</Form.Label>
+                          <Form.Control as="textarea" style={{ height: '100px' }} placeholder="Type any additional feedback" type="text"/>
+                          </Col>
+                          <Col lg={12} className="mt-4 text-center">
+                          <button type="button" className="l-b btnn btn btn-primary border-radius-36">SUBMIT</button>
                           </Col>
                         </Row>
                       </div>
