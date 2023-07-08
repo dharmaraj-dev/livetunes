@@ -34,11 +34,15 @@ import SingleApplication from './Judgment/SingleApplication';
 import Review from './Judgment/Review';
 import VerificationList from './DocVerification/VerificationList';
 import ApplicationView from './DocVerification/ApplicationView';
+import ArtistsProfile from './Artist/ArtistsProfile';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
   return (
     <div className="App">
+      <ToastContainer />
       <Routes>
         {/* <Route exact path="/" element={<SignUp />}/> */}
         <Route path="/signup" element={<SignUp />}/>
@@ -73,8 +77,8 @@ function App() {
         <Route path="/judgment" element={<Judgment/>}/>
         <Route path="/singleapplication" element={<SingleApplication/>}/>
         <Route path="/review" element={<Review/>}/>
-        <Route path="/verificationlist" element={<VerificationList/>}/>
-        <Route path="/applicationview" element={<ApplicationView/>}/>
+
+        <Route path="/artists-profile" element={<ArtistsProfile/>}/>
      
 
       </Routes>

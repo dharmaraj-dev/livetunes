@@ -378,7 +378,12 @@ body.modal-open .App{filter: blur(6px);}
 .main{margin: 0 0 0 85px;}
 .modal-open .side-nav-container{top: 0;bottom: 0;height: 100%;}
 
-
+.text_invalid {
+  color: #f13743 !important;
+}
+.text-small {
+  font-size: 12px;
+}
 
 
 

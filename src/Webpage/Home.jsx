@@ -6,9 +6,9 @@ import { useState } from "react";
 import usePreventBodyScroll from "./bodyscroll";
 
 import { SlideView } from "./Card";
+import { useSelector } from "react-redux";
+import { Navigate  } from 'react-router-dom';
 
-const elemPrefix = "test";
-// const getId = (index) => `${elemPrefix}${index}`;
 const getId = (index) => `${index}`;
 
 const getItems = () =>
@@ -32,8 +32,15 @@ function onWheel(apiObj, ev) {
 }
 
 const Home = () => {
-  const [items] = useState(getItems);
+
+  const { isLoggedIn, welcomeSeen, joiningType } = useSelector((state) => state.auth);
+
+  const [items] = useState(welcomeSeen ? [{id: 8}] : getItems);
   const { disableScroll, enableScroll } = usePreventBodyScroll();
+
+  if (isLoggedIn && joiningType === "artist") {
+    return <Navigate to="/artistdashboard" />;
+  }
 
   return (
     <>
