@@ -37,8 +37,11 @@ import Client1 from "../assets/images/client1.png";
 import Client2 from "../assets/images/client2.png";
 import Client3 from "../assets/images/client3.png";
 import { BsFillStarFill } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { welcomeSeen, joiningType } from "../actions/auth";
 
 export function SlideView({ title, itemId, children }) {
+  const dispatch = useDispatch();
   const {
     isFirstItemVisible,
     scrollPrev,
@@ -71,6 +74,11 @@ export function SlideView({ title, itemId, children }) {
   }, [isLastItemVisible, visibleElements]);
 
   const [activeStep, setActiveStep] = useState(1);
+
+  const joinAs = (joiningFor) => {
+    dispatch(welcomeSeen(true));
+    dispatch(joiningType(joiningFor));
+  }
 
   return (
     // <div
@@ -2188,6 +2196,7 @@ export function SlideView({ title, itemId, children }) {
                 <button
                   type="button"
                   className="l-sb wbtnn back-btn btn btn-primary"
+                  onClick={() => {joinAs('organiser')}}
                 >
                   Join as a <br /> Organiser
                 </button>
@@ -2199,6 +2208,7 @@ export function SlideView({ title, itemId, children }) {
                 <button
                   type="button"
                   className="l-sb wbtnn back-btn btn btn-primary"
+                  onClick={() => {joinAs('artist')}}
                 >
                   Join as <br /> an Artist
                 </button>

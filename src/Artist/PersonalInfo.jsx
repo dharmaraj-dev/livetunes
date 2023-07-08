@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import ArtistProfile from "./ArtistProfile";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCities } from "../actions/common";
+import { successToast, errorToast } from "../services/toast-service";
+
 
 const PersonalInfo = () => {
+    const dispatch = useDispatch();
+
+    const { cities } = useSelector(state => state.common);
+
+    useEffect(() => {
+        console.log('cities', cities);
+        dispatch(getCities())
+        .then((res) => {
+          console.log('res', res);
+        })
+        .catch((err) => {
+          console.log('err', err);
+        });
+    }, [])
    
   return (
     <>

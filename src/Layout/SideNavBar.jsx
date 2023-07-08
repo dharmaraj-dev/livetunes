@@ -11,8 +11,14 @@ import { BsChevronDoubleRight } from "react-icons/bs";
 import { BsChevronDoubleLeft } from "react-icons/bs";
 import Gaudio from '../assets/images/guitar.mp3';
 import { Link } from "react-router-dom";
+import { logout } from "../actions/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate  } from 'react-router-dom';
 
 const SideNavBar = () => {
+	const dispatch = useDispatch();
+	let navigate = useNavigate();
+
 	const audio = new Audio(Gaudio);
 	const [isExpanded, setExpendState] = useState(false);
 	const menuItems = [
@@ -46,6 +52,11 @@ const SideNavBar = () => {
 			icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
 		},
 	];
+
+	const handleLogout = () => {
+		dispatch(logout());
+		navigate("/");
+	}
 	return (
 		<div
 			className={
@@ -86,7 +97,7 @@ const SideNavBar = () => {
 				</div>
 			</div>
 			<div className="nav-footer">
-				<IoIosLogOut className="footer-logout mx-auto cursor-pointer"/>
+				<IoIosLogOut onClick={handleLogout} className="footer-logout mx-auto cursor-pointer"/>
 			</div>
 		</div>
 	);

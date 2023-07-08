@@ -32,11 +32,15 @@ import Home from './Webpage/Home';
 import Judgment from './Judgment/Judgment';
 import SingleApplication from './Judgment/SingleApplication';
 import Review from './Judgment/Review';
+import ArtistsProfile from './Artist/ArtistsProfile';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
   return (
     <div className="App">
+      <ToastContainer />
       <Routes>
         {/* <Route exact path="/" element={<SignUp />}/> */}
         <Route path="/signup" element={<SignUp />}/>
@@ -71,6 +75,8 @@ function App() {
         <Route path="/judgment" element={<Judgment/>}/>
         <Route path="/singleapplication" element={<SingleApplication/>}/>
         <Route path="/review" element={<Review/>}/>
+
+        <Route path="/artists-profile" element={<ArtistsProfile/>}/>
      
 
       </Routes>
