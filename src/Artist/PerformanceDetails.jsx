@@ -23,62 +23,7 @@ const PerformanceDetails = () => {
             </div>
 
             <Row className="align-items-center select-multi">
-                <Col lg={6} md="12" className="mb-4">
-                <Form.Label className="l-sb">Category*</Form.Label>
-                <Multiselect
-                isObject={false}
-                options= { options }
-                showCheckbox
-                showArrow
-                className='l-l'
-                placeholder="Select Categories"
-                
-                />
-                </Col>
-                <Col lg={6} md="12" className="mb-4">
-                <Form.Label className="l-sb">Gerne*</Form.Label>
-                <Multiselect
-                isObject={false}
-                options= { options2 }
-                showCheckbox
-                showArrow
-                className='l-l'
-                placeholder="Select performance gerne"
-                
-                />
-                </Col>
-                <Col lg={6} md="12" className="mb-4">
-                <Form.Label className="l-sb">Languages*</Form.Label>
-                <Multiselect
-                isObject={false}
-                options= { options3 }
-                showCheckbox
-                showArrow
-                className='l-l'
-                placeholder="Select Categories"
-                
-                />
-                </Col>
-
-                <Col lg={6} md="12" className="mb-4">
-                <Form.Label className="l-sb">Professional Experience (in years)</Form.Label>
-                <Form.Control placeholder="Years" type="text"/>
-                </Col>
-                
-                <Col lg={12} md="12" className="mb-4">
-                <Form.Label className="l-sb">Prefered events*</Form.Label>
-                <Multiselect
-                isObject={false}
-                options= { options4 }
-                showCheckbox
-                showArrow
-                className='l-l'
-                placeholder="Events"
-                
-                />
-                </Col>
-               
-                <Col lg={6} md="12" className="mb-4">
+            <Col lg={6} md="12" className="mb-4">
                 <Form.Label className="l-sb">Willing to travel to other states for live events*</Form.Label>
                 <div className="profile-gender mb-3">
                     <div className="form-check">
@@ -136,7 +81,7 @@ const PerformanceDetails = () => {
                 </div>
                 <Form.Control placeholder="Specify duration if more than 2 hrs" type="text"/>
                 </Col>
-
+        
                 <Col lg={6} md="12" className="mb-4">
                 <Form.Label className="l-sb">Performance charges (set you charges)*</Form.Label>
                 <div className="profile-gender mb-3">
@@ -179,11 +124,11 @@ const PerformanceDetails = () => {
                 </div>
                 <Multiselect
                 isObject={false}
-                options= { options6 }
+                options= { options5  }
                 showCheckbox
                 showArrow
                 className='l-l'
-                placeholder="Select prefered mode"
+                placeholder="Select event type"
                 
                 />
                 </Col>
@@ -207,11 +152,11 @@ const PerformanceDetails = () => {
                 </div>
                 <Multiselect
                 isObject={false}
-                options= { options5 }
+                options= { options4 }
                 showCheckbox
                 showArrow
                 className='l-l'
-                placeholder="Select event type"
+                placeholder="Select prefered mode"
                 
                 />
                 </Col>

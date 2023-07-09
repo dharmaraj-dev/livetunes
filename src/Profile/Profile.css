@@ -9,3 +9,9 @@
 .profile-text-sec .head h2{font-size: 24px;margin: 0;}
 .profile-text-sec{padding: 20px 0 0 20px;}
 .profile-gender{display: flex;gap: 18px;}
+
+.upload-more-sec {display: flex; justify-content: center; flex-direction: column; align-items: center; padding : 2em 1em; border: 2px dashed #b0b0b0; border-radius: 1em;}
+.upload-more-inner {display: flex; flex-direction: column; justify-content: center; align-items: center; padding : 2em 1em;}
+.grid-scroll { overflow: scroll; overflow-x: hidden; max-height: 18em;}
+
+

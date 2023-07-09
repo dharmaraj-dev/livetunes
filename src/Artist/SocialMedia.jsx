@@ -18,7 +18,7 @@ const SocialMedia = () => {
     <>
         <ArtistProfile>
         <div className="profile-text-sec artist-profile-text-sec">
-            <div className="head">
+            <div className="head">  
                 <Stack direction="horizontal" gap={3}>
                 <h2>Please, connect with your social media.</h2>
                 <h2 className="fs-6 ms-auto cursor-pointer">Skip</h2>

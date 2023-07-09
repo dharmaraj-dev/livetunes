@@ -69,7 +69,7 @@ function App() {
         <Route path="/photoid" element={<PhotoId/>}/>
         <Route path="/addressproof" element={<AddressProof/>}/>
         <Route path="/artistdashboard" element={<ArtistDashboard/>}/>
-        <Route path="/artistprofiles" element={<ArtistProfiles/>}/>
+        <Route path="/artistprofiles" element={<ArtistsProfile/>}/>
         <Route path="/billinginvoice" element={<BillingInvoice/>}/>
         <Route path="/" element={<Home/>}/>
         <Route path="/judgment" element={<Judgment/>}/>
