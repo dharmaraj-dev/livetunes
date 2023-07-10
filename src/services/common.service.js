@@ -11,6 +11,10 @@ const getStates = () => {
   return axios.get(API_URL + "State/GetAll", { headers: authHeader() });
 };
 
+const getCitiesOfState = (stateId) => {
+  return axios.get(API_URL + "City/ByCityId/"+stateId, { headers: authHeader() });
+};
+
 const getCategories = () => {
   return axios.get(API_URL + "Category/GetAll", { headers: authHeader() });
 };
@@ -59,6 +63,7 @@ const logout = () => {
 export default {
   getCities,
   getStates,
+  getCitiesOfState,
   getCategories,
   getGernes,
   getLanguages,

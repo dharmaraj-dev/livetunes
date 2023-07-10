@@ -14,6 +14,7 @@ export const OTP_VERIFIED = "OTP_VERIFIED";
 //common
 export const GET_CITIES = "GET_CITIES";
 export const GET_STATES = "GET_STATES";
+export const GET_CITIES_OF_STATES = "GET_CITIES_OF_STATES";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_GERNES = "GET_GERNES";
 export const GET_LANGUAGES = "GET_LANGUAGES";

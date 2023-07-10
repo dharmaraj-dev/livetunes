@@ -1,6 +1,7 @@
 import {
   GET_CITIES,
   GET_STATES,
+  GET_CITIES_OF_STATES,
   GET_CATEGORIES,
   GET_GERNES,
   GET_LANGUAGES,
@@ -25,7 +26,7 @@ const idProofs = localStorage.getItem("idProofs") != null ? JSON.parse(localStor
 const addressProofs = localStorage.getItem("addressProofs") != null ? JSON.parse(localStorage.getItem("addressProofs")) : [];
 
 
-const initialState = { cities, states, categories, gernes, languages, events, eventModes, banks, branches, idProofs, addressProofs};
+const initialState = { cities, states, categories, gernes, languages, events, eventModes, banks, branches, idProofs, addressProofs, citiesOfState: []};
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
@@ -40,6 +41,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         states: payload
+      };
+    case GET_CITIES_OF_STATES:
+      return {
+        ...state,
+        citiesOfState: payload
       };
     case GET_CATEGORIES:
       return {

@@ -1,6 +1,7 @@
 import {
   GET_CITIES,
   GET_STATES,
+  GET_CITIES_OF_STATES,
   GET_CATEGORIES,
   GET_GERNES,
   GET_LANGUAGES,
@@ -58,6 +59,35 @@ export const getStates = () => (dispatch) => {
       else {
         dispatch({
           type: GET_STATES,
+          payload: [],
+        });
+      }       
+      return Promise.resolve(response);
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return Promise.reject(error);
+    }
+  );
+};
+
+export const getCitiesOfState = (stateId) => (dispatch) => {
+  return CommonService.getCitiesOfState(stateId).then(
+    (response) => {
+      if(response.data.IsSuccess) {
+        dispatch({
+          type: GET_CITIES_OF_STATES,
+          payload: response.data.output_data,
+        });
+      }
+      else {
+        dispatch({
+          type: GET_CITIES_OF_STATES,
           payload: [],
         });
       }       
