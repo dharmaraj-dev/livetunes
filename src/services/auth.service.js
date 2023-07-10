@@ -53,11 +53,6 @@ const validateOtp = (MobileNo, Otp) => {
     });
 };
 
-const logout = () => {
-  localStorage.removeItem("user");
-  localStorage.removeItem("joiningFor");
-};
-
 const welcomeSeen = (data) => {
   localStorage.setItem("welcomeSeen", data);
 };
@@ -71,7 +66,6 @@ const joiningType = (data) => {
 export default {
   register,
   login,
-  logout,
   resendOtp,
   validateOtp,
   welcomeSeen,

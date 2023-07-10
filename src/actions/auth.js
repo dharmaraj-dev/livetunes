@@ -8,6 +8,7 @@ import {
 } from "./types";
 
 import AuthService from "../services/auth.service";
+import CommonService from "../services/common.service";
 
 export const register = (phone, email) => (dispatch) => {
   return AuthService.register(phone, email).then(
@@ -154,11 +155,25 @@ export const validateOtp = (phone, otp) => (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  AuthService.logout();
-
-  dispatch({
-    type: LOGOUT,
-  });
+   return CommonService.logout().then(
+      (response) => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("joiningFor");
+          dispatch({
+            type: LOGOUT,
+          });
+        return Promise.resolve();
+      },
+      (error) => {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        return Promise.reject(error);
+      }
+    );
 };
 
 export const welcomeSeen = (data) => (dispatch) => {
