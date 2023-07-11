@@ -1,36 +1,38 @@
 import {
-  LOGOUT,
-  SET_JOINING_TYPE,
-  WELCOME_SEEN,
-  OTP_SENT,
-  OTP_SENT_TO,
-  OTP_VERIFIED
+  GET_ARTIST_PROFILE_DATA,
+  GET_ARTIST_PROFILE_DATA_STATUS,
+  SET_ARTIST_PROFILE_DATA,
+  SET_ARTIST_PROFILE_DATA_STATUS,
+  SET_ARTIST_BANK_DETAILS,
+  SET_ARTIST_PHOTO_ID_PROOF,
+  SET_ARTIST_ADDRESS_PROOF,
+  SET_ARTIST_REFERENCES
 } from "./types";
 
-import AuthService from "../services/auth.service";
+import ArtistService from "../services/artist.service";
 
-export const register = (phone, email) => (dispatch) => {
-  return AuthService.register(phone, email).then(
+export const getProfileData = () => (dispatch) => {
+  return ArtistService.getProfileData().then(
     (response) => {
-       if(response.IsSuccess) {
-          localStorage.setItem('tmpUser', btoa(JSON.stringify(response)));
+       if(response.data.IsSuccess) {
+          localStorage.setItem('artistProfileData', JSON.stringify(response.data));
           dispatch({
-            type: OTP_SENT,
-            payload: true,
+            type: GET_ARTIST_PROFILE_DATA,
+            payload: response.data,
           });
           dispatch({
-            type: OTP_SENT_TO,
-            payload: phone,
+            type: GET_ARTIST_PROFILE_DATA_STATUS,
+            payload: response.Message,
           });
         }
         else {
           dispatch({
-            type: OTP_SENT,
-            payload: false,
+            type: GET_ARTIST_PROFILE_DATA,
+            payload: {},
           });
           dispatch({
-            type: OTP_SENT_TO,
-            payload: phone,
+            type: GET_ARTIST_PROFILE_DATA_STATUS,
+            payload: response.Message,
           });
         }
 
@@ -48,32 +50,31 @@ export const register = (phone, email) => (dispatch) => {
   );
 };
 
-export const login = (phone) => (dispatch) => {
-  return AuthService.login(phone).then(
-    (data) => {
-      console.log('data', data);
-      if(data.IsSuccess) {
-        localStorage.setItem('tmpUser', btoa(JSON.stringify(data)));
-        dispatch({
-          type: OTP_SENT,
-          payload: true,
-        });
-        dispatch({
-          type: OTP_SENT_TO,
-          payload: phone,
-        });
-      }
-      else {
-        dispatch({
-          type: OTP_SENT,
-          payload: false,
-        });
-        dispatch({
-          type: OTP_SENT_TO,
-          payload: phone,
-        });
-      }
-      return Promise.resolve(data);
+export const setProfileData = (data) => (dispatch) => {
+  return ArtistService.setProfileData(data).then(
+    (response) => {
+       if(response.IsSuccess) {
+          dispatch({
+            type: SET_ARTIST_PROFILE_DATA,
+            payload: response,
+          });
+          dispatch({
+            type: SET_ARTIST_PROFILE_DATA_STATUS,
+            payload: response.Message,
+          });
+        }
+        else {
+          dispatch({
+            type: SET_ARTIST_PROFILE_DATA,
+            payload: {},
+          });
+          dispatch({
+            type: SET_ARTIST_PROFILE_DATA_STATUS,
+            payload: response.Message,
+          });
+        }
+
+      return Promise.resolve(response);
     },
     (error) => {
       const message =
@@ -87,32 +88,23 @@ export const login = (phone) => (dispatch) => {
   );
 };
 
-export const resendOtp = (phone) => (dispatch) => {
-  return AuthService.resendOtp(phone).then(
-    (data) => {
-      console.log('data', data);
-      if(data.IsSuccess) {
-        localStorage.setItem('tmpUser', btoa(JSON.stringify(data)));
-        dispatch({
-          type: OTP_SENT,
-          payload: true,
-        });
-        dispatch({
-          type: OTP_SENT_TO,
-          payload: phone,
-        });
-      }
-      else {
-        dispatch({
-          type: OTP_SENT,
-          payload: false,
-        });
-        dispatch({
-          type: OTP_SENT_TO,
-          payload: phone,
-        });
-      }
-      return Promise.resolve(data);
+export const setBankDetails = (data) => (dispatch) => {
+  return ArtistService.setBankDetails(data).then(
+    (response) => {
+       if(response.IsSuccess) {
+          dispatch({
+            type: SET_ARTIST_BANK_DETAILS,
+            payload: response,
+          });
+        }
+        else {
+          dispatch({
+            type: SET_ARTIST_PROFILE_DATA,
+            payload: {},
+          });
+        }
+
+      return Promise.resolve(response);
     },
     (error) => {
       const message =
@@ -126,20 +118,23 @@ export const resendOtp = (phone) => (dispatch) => {
   );
 };
 
-export const validateOtp = (phone, otp) => (dispatch) => {
-  return AuthService.validateOtp(phone, otp).then(
-    (data) => {
-      console.log('data', data);
-      if(data.IsSuccess) {
-        const userData = JSON.parse(atob(localStorage.getItem('tmpUser')));
-        localStorage.removeItem('tmpUser')
-        localStorage.setItem('user', JSON.stringify(userData));
-        dispatch({
-          type: OTP_VERIFIED,
-          payload: userData,
-        });
-      }
-      return Promise.resolve(data);
+export const setPhotoIdProof = (data) => (dispatch) => {
+  return ArtistService.setPhotoIdProof(data).then(
+    (response) => {
+       if(response.IsSuccess) {
+          dispatch({
+            type: SET_ARTIST_PHOTO_ID_PROOF,
+            payload: response,
+          });
+        }
+        else {
+          dispatch({
+            type: SET_ARTIST_PHOTO_ID_PROOF,
+            payload: {},
+          });
+        }
+
+      return Promise.resolve(response);
     },
     (error) => {
       const message =
@@ -153,30 +148,62 @@ export const validateOtp = (phone, otp) => (dispatch) => {
   );
 };
 
-export const logout = () => (dispatch) => {
-  AuthService.logout();
+export const setAddressProof = (data) => (dispatch) => {
+  return ArtistService.setAddressProof(data).then(
+    (response) => {
+       if(response.IsSuccess) {
+          dispatch({
+            type: SET_ARTIST_ADDRESS_PROOF,
+            payload: response,
+          });
+        }
+        else {
+          dispatch({
+            type: SET_ARTIST_ADDRESS_PROOF,
+            payload: {},
+          });
+        }
 
-  dispatch({
-    type: LOGOUT,
-  });
+      return Promise.resolve(response);
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return Promise.reject(error);
+    }
+  );
 };
 
-export const welcomeSeen = (data) => (dispatch) => {
-  console.log('data', data);
-  AuthService.welcomeSeen(data);
+export const setReferences = (data) => (dispatch) => {
+  return ArtistService.setReferences(data).then(
+    (response) => {
+       if(response.IsSuccess) {
+          dispatch({
+            type: SET_ARTIST_REFERENCES,
+            payload: response,
+          });
+        }
+        else {
+          dispatch({
+            type: SET_ARTIST_REFERENCES,
+            payload: {},
+          });
+        }
 
-  dispatch({
-    type: WELCOME_SEEN,
-    payload: data,
-  });
-};
-
-export const joiningType = (data) => (dispatch) => {
-  console.log('data', data);
-  AuthService.joiningType(data);
-
-  dispatch({
-    type: SET_JOINING_TYPE,
-    payload: data,
-  });
+      return Promise.resolve(response);
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return Promise.reject(error);
+    }
+  );
 };

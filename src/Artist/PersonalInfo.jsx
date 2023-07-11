@@ -6,17 +6,18 @@ import Stack from 'react-bootstrap/Stack';
 import ArtistProfile from "./ArtistProfile";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getCities } from "../actions/common";
+import { getCities, getStates } from "../actions/common";
 import { successToast, errorToast } from "../services/toast-service";
 
 
 const PersonalInfo = () => {
     const dispatch = useDispatch();
 
-    const { cities } = useSelector(state => state.common);
+    const { cities, states } = useSelector(state => state.common);
 
     useEffect(() => {
         console.log('cities', cities);
+        dispatch(getStates());
         dispatch(getCities())
         .then((res) => {
           console.log('res', res);

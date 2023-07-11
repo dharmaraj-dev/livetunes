@@ -30,8 +30,8 @@ const Upload = () => {
                 </div>
                 <div className="upload-btn-sec">
                     {/* <input type="file" id="upload" hidden/> */}
-                    <input type="file" id="upload" hidden onChange={handleFileUpload} />
-                    <label for="upload"><AiOutlinePlus/></label>
+                    <input type="file"  id="upload" hidden onChange={handleChange} />
+                    <label htmlFor="upload"><AiOutlinePlus/></label>
                 </div>
             </div>
             <div className="upload-more-sec">

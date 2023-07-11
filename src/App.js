@@ -33,11 +33,33 @@ import Judgment from './Judgment/Judgment';
 import SingleApplication from './Judgment/SingleApplication';
 import Review from './Judgment/Review';
 import ArtistsProfile from './Artist/ArtistsProfile';
+import ArtistBankDetails from './Artist/ArtistBankDetails';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from "react-redux";
+import { getCities, getStates, getCategories, getGernes, getLanguages, getEvents, getEventModes, getBanks, getIDProofs, getAddressProofs } from "./actions/common";
+import { getProfileData } from "./actions/artist";
 
 
 function App() {
+  const dispatch = useDispatch();
+
+  const { isLoggedIn } = useSelector(state => state.auth);
+
+  if(isLoggedIn) {
+    dispatch(getCities());
+    dispatch(getStates());
+    dispatch(getCategories());
+    dispatch(getGernes());
+    dispatch(getLanguages());
+    dispatch(getEvents());
+    dispatch(getEventModes());
+    dispatch(getBanks());
+    dispatch(getIDProofs());
+    dispatch(getAddressProofs());
+    dispatch(getProfileData());
+  }
+
   return (
     <div className="App">
       <ToastContainer />
@@ -77,6 +99,7 @@ function App() {
         <Route path="/review" element={<Review/>}/>
 
         <Route path="/artists-profile" element={<ArtistsProfile/>}/>
+        <Route path="/artists-bank-details" element={<ArtistBankDetails/>}/>
      
 
       </Routes>

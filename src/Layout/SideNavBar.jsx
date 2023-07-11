@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { logout } from "../actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate  } from 'react-router-dom';
+import { LOGOUT } from "../actions/types";
 
 const SideNavBar = () => {
 	const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const SideNavBar = () => {
 		{
 			text: "Find Artist",
 			icon: <TfiMicrophoneAlt className="menu-item-icon"/>,
-			links: "/judgment"
+			links: "/artists-profile"
 		},
 		{
 			text: "Favourites",
@@ -50,12 +51,17 @@ const SideNavBar = () => {
 		{
 			text: "Support",
 			icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
+			links: "/artists-bank-details"
 		},
 	];
 
 	const handleLogout = () => {
-		dispatch(logout());
+		dispatch({
+            type: LOGOUT,
+          });
 		navigate("/");
+		dispatch(logout());
+		
 	}
 	return (
 		<div
@@ -86,6 +92,7 @@ const SideNavBar = () => {
 				<div className="nav-menu">
 					{menuItems.map(({ text, icon, links }) => (
 						<Link
+							key={text+'_'+links}
 							className={isExpanded ? "menu-item" : "menu-item menu-item-NX "}
 							to={links} 
 						>{/* Add active class */}

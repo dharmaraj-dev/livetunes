@@ -29,7 +29,7 @@ const OneTimepass = () => {
   const [otpVerifyLoading, setOtpVerifyLoading] = useState(false);
 
   if (isLoggedIn) {
-    return <Navigate to="/artistdashboard" />;
+    return <Navigate to="/artists-profile" />;
   }
 
 
