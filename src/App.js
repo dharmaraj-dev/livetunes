@@ -60,7 +60,6 @@ function App() {
     dispatch(getProfileData());
   }
 
-  console.log('isLoggedIn', isLoggedIn);
   return (
     <div className="App">
       <ToastContainer />

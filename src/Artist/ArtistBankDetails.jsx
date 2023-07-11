@@ -11,13 +11,14 @@ import PhoneInput from "react-phone-input-2";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { getCities, getStates } from "../actions/common";
+import { getBranchesByBank, getCitiesOfState } from "../actions/common";
+import { setBankDetails, setPhotoIdProof, setAddressProof, setReferences } from "../actions/artist";
 import { successToast, errorToast } from "../services/toast-service";
 
 const ArtistBankDetails = () => {
     const dispatch = useDispatch();
 
-    const { banks, branches } = useSelector(state => state.common);
+    const { banks, branches, cities, states, idProofs, addressProofs } = useSelector(state => state.common);
 
     const [currentStep, setCurrentStep] = useState(1);
 
@@ -27,6 +28,37 @@ const ArtistBankDetails = () => {
     const [branchId, setBranchId] = useState("");
     const [ifscCode, setIfscCode] = useState("");
     const [upiId, setUpiId] = useState("");
+    const [step1Loading, setStep1Loading] = useState(false);
+
+    //step 2
+    const [photoIdProofType, setPhotoIdProofType] = useState("");
+    const [photoIdProofId, setPhotoIdProofId] = useState("");
+    const [havePassport, setHavePassport] = useState(false);
+    const [filePhotoFront, setFilePhotoFront] = useState("");
+    const [filePhotoBack, setFilePhotoBack] = useState("");
+    const [agreeMembership, setAgreeMembership] = useState(true);
+    const [step2Loading, setStep2Loading] = useState(false);
+
+    //step 3
+    const [address, setAddress] = useState("");
+    const [cityId, setCityId] = useState("");
+    const [stateId, setStateId] = useState("");
+    const [addressProod, setAddressProod] = useState("");
+    const [pincode, setPincode] = useState("");
+    const [fileAddressFront, setFileAddressFront] = useState("");
+    const [fileAddressBack, setFileAddressBack] = useState("");
+    const [step3Loading, setStep3Loading] = useState(false);
+
+    //step 4
+    const [ref1FName, setRef1FName] = useState("");
+    const [ref1LName, setRef1LName] = useState("");
+    const [ref1ContNo, setRef1ContNo] = useState("");
+    const [ref1Email, setRef1Email] = useState("");
+    const [ref1StateId, setRef1StateId] = useState("");
+    const [ref1CityId, setRef1CityId] = useState("");
+    const [ref1Dob, setRef1Dob] = useState("");
+    const [ref1Relation, setRef1Relation] = useState("");
+    const [step4Loading, setStep4Loading] = useState(false);
 
 
 
@@ -38,24 +70,178 @@ const ArtistBankDetails = () => {
         setFile(URL.createObjectURL(e.target.files[0]));
     }
 
+    const bankChange = (bId) => {
+        setBankId(bId);
+        setBranchId("");
+        dispatch(getBranchesByBank(bId));
+    }
+
+    const selectStateAndGetItsCities = (sId) => {
+        if(sId !== "") {
+            dispatch(getCitiesOfState(sId));
+        }
+    }
+
     const nextStep = (step) => {
-        if (step === 2) {
-            //check step 1 validations and submit step 1 api 
-            setCurrentStep(step);
-        } else if (step === 3) {
-            //check step 2 validations and submit step 2 api 
-            setCurrentStep(step);
-        } else if (step === 4) {
-            //check step 3 validations and submit step 3 api 
-            setCurrentStep(step);
-        } else if (step === 5) {
-            //check step 5 validations and submit step 5 api 
-            setCurrentStep(step);
+        if (currentStep === 1) {
+            if(accountNo === "") {
+                errorToast("Account No is required.");
+                return false;
+            } else if(bankId === "") {
+                errorToast("Bank is required.");
+                return false;
+            } else if(branchId === "") {
+                errorToast("Branch is required.");
+                return false;
+            }
+            setStep1Loading(true);
+            const data = {
+                AccNo: accountNo,
+                BankId: bankId,
+                BranchId: branchId,
+                IFSCCode: ifscCode,
+                UPIId: upiId
+            };
+            setStep1Loading(true);
+            dispatch(setBankDetails(data)).then((response) => {
+                if(response.data.IsSuccess) {
+                    successToast(response.data.Message);
+                    setCurrentStep(step);
+                } else {
+                    errorToast(response.data.Message);
+                }
+                setStep1Loading(false);
+            }).catch((err) => {
+                setStep1Loading(false);
+                errorToast(err.message);
+            });
+        }
+        else if (currentStep === 2) {
+            if(photoIdProofType === "") {
+               errorToast("Photo ID type is required."); 
+               return false;
+           } else if(photoIdProofId === "") {
+               errorToast("ID No. is required."); 
+               return false;
+           } else if(havePassport === 1) {
+                if(!agreeMembership) {
+                    errorToast("I Agree for membership is required.");
+                    return false;
+                }
+            }
+            setStep2Loading(true);
+            const data = {
+                IdNo: photoIdProofType,
+                IdProofId: photoIdProofId,
+                IsPassportAvail: agreeMembership
+                
+            };
+            setStep2Loading(true);
+            dispatch(setPhotoIdProof(data)).then((response) => {
+                if(response.data.IsSuccess) {
+                    successToast(response.data.Message);
+                    setCurrentStep(step);
+                } else {
+                    errorToast(response.data.Message);
+                }
+                setStep2Loading(false);
+            }).catch((err) => {
+                setStep2Loading(false);
+                errorToast(err.message);
+            });
+        }
+        else if (currentStep === 3) {
+            if(address === "") {
+               errorToast("Address is required."); 
+               return false;
+           } else if(stateId === "") {
+               errorToast("State is required."); 
+               return false;
+           } else if(addressProod === "") {
+               errorToast("Address Prood Type is required."); 
+               return false;
+           } else if(cityId === "") {
+               errorToast("City is required."); 
+               return false;
+           } else if(pincode === "") {
+               errorToast("Pincode is required."); 
+               return false;
+           }
+            setStep3Loading(true);
+            const data = {
+                AddressProofId: addressProod,
+                Address1: address,
+                StateId: stateId,
+                CityId: cityId,
+                PinCode: pincode
+            };
+            setStep3Loading(true);
+            dispatch(setAddressProof(data)).then((response) => {
+                if(response.data.IsSuccess) {
+                    successToast(response.data.Message);
+                    setCurrentStep(step);
+                } else {
+                    errorToast(response.data.Message);
+                }
+                setStep3Loading(false);
+            }).catch((err) => {
+                setStep3Loading(false);
+                errorToast(err.message);
+            });
+        }
+        else if (currentStep === 4) {
+            if(ref1FName === "") {
+               errorToast("First Name is required."); 
+               return false;
+           } else if(ref1LName === "") {
+               errorToast("Last Name is required."); 
+               return false;
+           } else if(ref1ContNo === "") {
+               errorToast("Contact No is required."); 
+               return false;
+           } else if(ref1Email === "") {
+               errorToast("Email is required."); 
+               return false;
+           } else if(ref1StateId === "") {
+               errorToast("State is required."); 
+               return false;
+           } else if(ref1CityId === "") {
+               errorToast("City is required."); 
+               return false;
+           } else if(ref1Relation === "") {
+               errorToast("Relationship with referrence is required."); 
+               return false;
+           }
+            setStep4Loading(true);
+            const data = {
+                FirstName: ref1FName,
+                LastName: ref1LName,
+                ContactNo: ref1ContNo,
+                EmailId: ref1Email,
+                StateId: ref1StateId,
+                CityId: ref1CityId,
+                DOB: ref1Dob,
+                RWReference: ref1Relation
+            };
+            setStep4Loading(true);
+            dispatch(setReferences(data)).then((response) => {
+                if(response.data.IsSuccess) {
+                    successToast(response.data.Message);
+                    setCurrentStep(step);
+                } else {
+                    errorToast(response.data.Message);
+                }
+                setStep4Loading(false);
+            }).catch((err) => {
+                setStep4Loading(false);
+                errorToast(err.message);
+            });
         }
     }
 
     const prevStep = (step) => {
         setCurrentStep(step);
+
     }
 
   return (
@@ -103,33 +289,34 @@ const ArtistBankDetails = () => {
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Bank name*</Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control">
+                                            <Form.Label className="l-sb">Bank name<sup className="red-color">*</sup></Form.Label>
+                                            <Form.Select aria-label="Default select example" className="form-control"
+                                            value={bankId} onChange={(e) => {bankChange(e.target.value)}}>
                                                 <option>Select Bank</option>
-                                                <option value="1">Nagpur</option>
-                                                <option value="2">Mumbai</option>
-                                                <option value="3">Pune</option>
+                                                {banks?.filter((key) => !key.IsCancelled).map((bank, index) => {
+                                                    return (<option key={`${bank.BankId}'_'${bank.BankName}`} value={bank.BankId}>{bank.BankName}</option>)
+                                                })}
                                             </Form.Select>
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Branch name*</Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control">
+                                            <Form.Label className="l-sb">Branch name<sup className="red-color">*</sup></Form.Label>
+                                            <Form.Select aria-label="Default select example" className="form-control" value={branchId} onChange={(e) => {setBranchId(e.target.value)}}>
                                                 <option>Select branch</option>
-                                                <option value="1">Nagpur</option>
-                                                <option value="2">Mumbai</option>
-                                                <option value="3">Pune</option>
+                                                {branches?.filter((key) => !key.IsCancelled).map((branch, index) => {
+                                                    return (<option key={`${branch.BankBranchId}'_'${branch.BankBranchName}`} value={branch.BankBranchId}>{branch.BankBranchName}</option>)
+                                                })}
                                             </Form.Select>
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
                                             <Form.Label className="l-sb">IFSC Code</Form.Label>
-                                            <Form.Control placeholder="Auto detect" type="text"/>
+                                            <Form.Control placeholder="IFSC Code" type="text" value={ifscCode} onChange={(e) => {setIfscCode(e.target.value)}}/>
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
                                             <Form.Label className="l-sb">UPI ID</Form.Label>
-                                            <Form.Control placeholder="eg: namead@oksbi" type="text"/>
+                                            <Form.Control placeholder="eg: namead@oksbi" type="text" value={upiId} onChange={(e) => {setUpiId(e.target.value)}}/>
                                             </Col>
 
                                             <Col lg={12} md="12" className="mt-4">
@@ -138,7 +325,10 @@ const ArtistBankDetails = () => {
                                                     {/* <button type="button" className="l-b wbtnn back-btn btn btn-primary">Back</button> */}
                                                     </div>
                                                     <div className="ms-auto">
-                                                    <button type="button" className="l-b btnn btn btn-primary" onClick={() => nextStep(2)}>SUBMIT</button>
+                                                    <button type="button" className="l-b btnn btn btn-primary" onClick={() => nextStep(2)} disabled={step1Loading}>
+                                                        {step1Loading && (
+                                                          <span className="spinner-border spinner-border-sm"></span>
+                                                        )} SUBMIT</button>
                                                     </div>
                                                 </Stack>
                                             </Col>
@@ -153,18 +343,18 @@ const ArtistBankDetails = () => {
 
                                         <Row className="">
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Select id*</Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control">
+                                            <Form.Label className="l-sb">Select id<sup className="red-color">*</sup></Form.Label>
+                                            <Form.Select aria-label="Default select example" className="form-control" value={photoIdProofType} onChange={(e) => {setPhotoIdProofType(e.target.value)}}>
                                                 <option>Select id type</option>
-                                                <option value="1">Pan card</option>
-                                                <option value="2">Aadhar card</option>
-                                                <option value="3">Driving liscense</option>
+                                                {idProofs?.filter((key) => !key.IsCancelled).map((idproof, index) => {
+                                                    return (<option key={`${idproof.IdProofId}'_'${idproof.IdProofName}`} value={idproof.IdProofId}>{idproof.IdProofName}</option>)
+                                                })}
                                             </Form.Select>
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Id no.</Form.Label>
-                                            <Form.Control placeholder="Your Bank account no." type="text"/>
+                                                <Form.Label className="l-sb">Id No.<sup className="red-color">*</sup></Form.Label>
+                                                <Form.Control placeholder="Your Bank account no." type="text" value={photoIdProofId} onChange={(e) => {setPhotoIdProofId(e.target.value)}}/>
                                             </Col>
 
 
@@ -172,14 +362,14 @@ const ArtistBankDetails = () => {
                                             <Form.Label className="l-sb">Do you have a Passport</Form.Label>
                                             <div className="profile-gender mb-3">
                                                 <div className="form-check">
-                                                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault9" />
+                                                    <input className="form-check-input" type="radio" name="havePassport" id="flexRadioDefault9" value={havePassport} onChange={(e) => {setHavePassport(1)}} checked={havePassport === 1 ? true : false}/>
                                                     <label className="form-check-label" htmlFor="flexRadioDefault9">
                                                     Yes
                                                     </label>
                                                 </div>
 
                                                 <div className="form-check">
-                                                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault10" />
+                                                    <input className="form-check-input" type="radio" name="havePassport" id="flexRadioDefault10" value={havePassport} onChange={(e) => {setHavePassport(0)}} checked={havePassport === 0 ? true : false}/>
                                                     <label className="form-check-label" htmlFor="flexRadioDefault10">
                                                     No
                                                     </label>
@@ -199,28 +389,31 @@ const ArtistBankDetails = () => {
                                                     </div>
                                                     <div className="id-img-upload text-center">
                                                         <input type="file"  id="upload" hidden onChange={handleChange} />
-                                                        <label for="upload"><AiOutlinePlus/></label>
+                                                        <label htmlFor="upload"><AiOutlinePlus/></label>
                                                     </div>
                                                     <div className="img-note">(add the scanned copy of id proof in .pdf or .jpg format)</div>
                                                 </div>
                                             </Col>
-
-                                            <Col lg={12} md="12" className="mb2">
-                                            <div className="form-check">
-                                                <input className="form-check-input" type="checkbox" name="flexCheckboxDefault" id="flexCheckboxDefault11" />
-                                                <label className="form-check-label" htmlFor="flexCheckboxDefault11">
-                                                I agree to provide my passport id with 1 month of my membership
-                                                </label>
-                                            </div>
-                                            </Col>
-
+                                            {havePassport === 1 && (
+                                                <Col lg={12} md="12" className="mb2">
+                                                    <div className="form-check">
+                                                        <input className="form-check-input" type="checkbox" name="flexCheckboxDefault" id="flexCheckboxDefault11" value={agreeMembership} onChange={(e) => {setAgreeMembership(!agreeMembership)}} checked={agreeMembership} />
+                                                        <label className="form-check-label" htmlFor="flexCheckboxDefault11">
+                                                        I agree to provide my passport id with 1 month of my membership
+                                                        </label>
+                                                    </div>
+                                                </Col>
+                                            )}
                                             <Col lg={12} md="12" className="mt-5">
                                                 <Stack direction="horizontal" gap={3}>
                                                     <div>
                                                     <button type="button" className="l-b wbtnn back-btn btn btn-primary" onClick={() => prevStep(1)}>Back</button>
                                                     </div>
                                                     <div className="ms-auto">
-                                                    <button type="button" className="l-b btnn btn btn-primary" onClick={() => nextStep(3)}>SUBMIT</button>
+                                                    <button type="button" className="l-b btnn btn btn-primary" onClick={() => nextStep(3)} disabled={step2Loading}>
+                                                        {step2Loading && (
+                                                          <span className="spinner-border spinner-border-sm"></span>
+                                                        )}  SUBMIT</button>
                                                     </div>
                                                 </Stack>
                                             </Col>
@@ -235,28 +428,28 @@ const ArtistBankDetails = () => {
 
                                         <Row className="">
                                             <Col lg={12} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Address line*</Form.Label>
-                                            <Form.Control placeholder="Address" type="text"/>
+                                            <Form.Label className="l-sb">Address line<sup className="red-color">*</sup></Form.Label>
+                                            <Form.Control placeholder="Address" type="text" value={address} onChange={(e) => {setAddress(e.target.value)}}/>
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">City*</Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control">
-                                                <option>City name</option>
-                                                <option value="1">Navi mumbai</option>
-                                                <option value="2">Nagpur</option>
-                                                <option value="3">Nashik</option>
-                                            </Form.Select>
+                                                 <Form.Label className="l-sb">State<sup className="red-color">*</sup></Form.Label>
+                                                <Form.Select aria-label="Default select example" className="form-control" value={stateId} onChange={(e) => {selectStateAndGetItsCities(e.target.value);setStateId(e.target.value);setCityId("")}}>
+                                                    <option>Select State</option>
+                                                    {states?.filter((key) => !key.IsCancelled).map((state, index) => {
+                                                        return (<option key={`${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
+                                                    })}
+                                                </Form.Select>
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Address proof*</Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control">
-                                                <option>Address proof</option>
-                                                <option value="1">Pan card</option>
-                                                <option value="2">Aadhar card</option>
-                                                <option value="3">Driving liscense</option>
-                                            </Form.Select>
+                                                <Form.Label className="l-sb">Address proof<sup className="red-color">*</sup></Form.Label>
+                                                <Form.Select aria-label="Default select example" className="form-control" value={addressProod} onChange={(e) => {setAddressProod(e.target.value)}}>
+                                                    <option>Address proof</option>
+                                                    {addressProofs?.filter((key) => !key.IsCancelled).map((addProof, index) => {
+                                                        return (<option key={`${addProof.AddressProofId}'_'${addProof.AddressProofName}`} value={addProof.AddressProofId}>{addProof.AddressProofName}</option>)
+                                                    })}
+                                                </Form.Select>
                                             </Col>
                                         </Row>
 
@@ -264,17 +457,17 @@ const ArtistBankDetails = () => {
                                             <Col lg={6} md="12" className="mb-4">
 
                                             <Col lg={12} md="12" className="">
-                                            <Form.Label className="l-sb">State</Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control">
-                                                <option>State</option>
-                                                <option value="1">Maharashtra</option>
-                                                <option value="2">MP</option>
-                                                <option value="3">DL</option>
-                                            </Form.Select>
+                                               <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
+                                                <Form.Select aria-label="Default select example" className="form-control" value={cityId} onChange={(e) => {setCityId(e.target.value)}}>
+                                                    <option>City name</option>
+                                                    {cities?.filter((key) => !key.IsCancelled).map((city, index) => {
+                                                        return (<option key={`${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
+                                                    })}
+                                                </Form.Select>
                                             </Col>
                                             <Col lg={12} md="12" className="mt-4">
-                                            <Form.Label className="l-sb">Pincode*</Form.Label>
-                                            <Form.Control placeholder="Address" type="text"/>
+                                            <Form.Label className="l-sb">Pincode<sup className="red-color">*</sup></Form.Label>
+                                            <Form.Control placeholder="Address" type="text" value={pincode} onChange={(e) => {setPincode(e.target.value)}}/>
                                             </Col>
 
                                             </Col>
@@ -288,7 +481,7 @@ const ArtistBankDetails = () => {
                                                     </div>
                                                     <div className="id-img-upload text-center">
                                                         <input type="file"  id="upload" hidden onChange={handleChange} />
-                                                        <label for="upload"><AiOutlinePlus/></label>
+                                                        <label htmlFor="upload"><AiOutlinePlus/></label>
                                                     </div>
                                                     <div className="img-note">(add the scanned copy of id proof in .pdf or .jpg format)</div>
                                                 </div>
@@ -305,124 +498,74 @@ const ArtistBankDetails = () => {
                                                     <button type="button" className="l-b wbtnn back-btn btn btn-primary" onClick={() => prevStep(2)}>Back</button>
                                                     </div>
                                                     <div className="ms-auto">
-                                                    <button type="button" className="l-b btnn btn btn-primary" onClick={() => nextStep(4)}>SUBMIT</button>
+                                                    <button type="button" className="l-b btnn btn btn-primary" onClick={() => nextStep(4)} disabled={step3Loading}>
+                                                        {step3Loading && (
+                                                          <span className="spinner-border spinner-border-sm"></span>
+                                                        )}  SUBMIT</button>
                                                     </div>
                                                 </Stack>
                                             </Col>
                                         </Row>
                                     </div>
                                 )}
-                                {currentStep == 4 && (
+                                {currentStep >= 4 && (
                                     <div className="profile-text-sec artist-profile-text-sec">
                                         <div className="head">
-                                            <h2>Please provide reference information (2 references required)</h2>
+                                            <h2>Please provide reference information (1 references required)</h2>
                                         </div>
 
                                         <Row className="">
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">First Name*</Form.Label>
-                                                <Form.Control placeholder="First Name" type="text"/>
+                                                <Form.Label className="l-sb">First Name<sup className="red-color">*</sup></Form.Label>
+                                                <Form.Control placeholder="First Name" type="text" value={ref1FName} onChange={(e) => {setRef1FName(e.target.value)}}/>
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">Last Name*</Form.Label>
-                                                <Form.Control placeholder="Last Name" type="text"/>
+                                                <Form.Label className="l-sb">Last Name<sup className="red-color">*</sup></Form.Label>
+                                                <Form.Control placeholder="Last Name" type="text" value={ref1LName} onChange={(e) => {setRef1LName(e.target.value)}}/>
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">Contact No*</Form.Label>
+                                                <Form.Label className="l-sb">Contact No<sup className="red-color">*</sup></Form.Label>
                                                 <PhoneInput
                                                     className="l-r"
                                                     country={"in"}
                                                     enableSearch={true}
-                                                    value={phone}
                                                     placeholder={9999999999}
-                                                    onChange={(phone) => setPhone(phone)}
+                                                    onChange={(phone) => setRef1ContNo(phone)}
+                                                    value={ref1ContNo}
                                                   />
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">Email*</Form.Label>
-                                                <Form.Control placeholder="Email" type="email"/>
+                                                <Form.Label className="l-sb">Email<sup className="red-color">*</sup></Form.Label>
+                                                <Form.Control placeholder="Email" type="email" value={ref1Email} onChange={(e) => {setRef1Email(e.target.value)}}/>
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">City*</Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control">
-                                                    <option>City name</option>
-                                                    <option value="1">Navi mumbai</option>
-                                                    <option value="2">Nagpur</option>
-                                                    <option value="3">Nashik</option>
-                                                </Form.Select>
-                                            </Col>
-                                            <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">State</Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control">
+                                                <Form.Label className="l-sb">State<sup className="red-color">*</sup></Form.Label>
+                                                <Form.Select aria-label="Default select example" className="form-control" value={ref1StateId} onChange={(e) => {selectStateAndGetItsCities(e.target.value);setRef1StateId(e.target.value);setRef1CityId("")}}>
                                                     <option>State</option>
-                                                    <option value="1">Maharashtra</option>
-                                                    <option value="2">MP</option>
-                                                    <option value="3">DL</option>
+                                                    {states?.filter((key) => !key.IsCancelled).map((state, index) => {
+                                                        return (<option key={`${index}'_'${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
+                                                    })}
                                                 </Form.Select>
                                             </Col>
+                                            <Col lg={6} md="6" className="mb-4">
+                                                <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
+                                                <Form.Select aria-label="Default select example" className="form-control" value={ref1CityId} onChange={(e) => {setRef1CityId(e.target.value)}}>
+                                                    <option>City name</option>
+                                                    {cities?.filter((key) => !key.IsCancelled).map((city, index) => {
+                                                        return (<option key={`${index}'_'${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
+                                                    })}
+                                                </Form.Select>
+                                            </Col>
+                                            
                                             <Col lg={6} md="12" className="mb-4">
                                                 <Form.Label className="l-sb">Date of birth</Form.Label>
-                                                <Form.Control type="date"/>
+                                                <Form.Control type="date" value={ref1Dob} onChange={(e) => {setRef1Dob(e.target.value)}}/>
                                             </Col>
                                             <Col lg={6} md="12" className="mb-4">
-                                                <Form.Label className="l-sb">Relationship with the person*</Form.Label>
-                                                <Form.Control placeholder="Uncle" type="text"/>
+                                                <Form.Label className="l-sb">Relationship with the person<sup className="red-color">*</sup></Form.Label>
+                                                <Form.Control placeholder="Uncle" type="text" value={ref1Relation} onChange={(e) => {setRef1Relation(e.target.value)}}/>
                                             </Col>
                                         </Row>
-                                        <hr />
-                                        <Row className="">
-                                            <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">First Name*</Form.Label>
-                                                <Form.Control placeholder="First Name" type="text"/>
-                                            </Col>
-                                            <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">Last Name*</Form.Label>
-                                                <Form.Control placeholder="Last Name" type="text"/>
-                                            </Col>
-                                            <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">Contact No*</Form.Label>
-                                                <PhoneInput
-                                                    className="l-r"
-                                                    country={"in"}
-                                                    enableSearch={true}
-                                                    value={phone}
-                                                    placeholder={9999999999}
-                                                    onChange={(phone) => setPhone(phone)}
-                                                  />
-                                            </Col>
-                                            <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">Email*</Form.Label>
-                                                <Form.Control placeholder="Email" type="email"/>
-                                            </Col>
-                                            <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">City*</Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control">
-                                                    <option>City name</option>
-                                                    <option value="1">Navi mumbai</option>
-                                                    <option value="2">Nagpur</option>
-                                                    <option value="3">Nashik</option>
-                                                </Form.Select>
-                                            </Col>
-                                            <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">State</Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control">
-                                                    <option>State</option>
-                                                    <option value="1">Maharashtra</option>
-                                                    <option value="2">MP</option>
-                                                    <option value="3">DL</option>
-                                                </Form.Select>
-                                            </Col>
-                                            <Col lg={6} md="12" className="mb-4">
-                                                <Form.Label className="l-sb">Date of birth</Form.Label>
-                                                <Form.Control type="date"/>
-                                            </Col>
-                                            <Col lg={6} md="12" className="mb-4">
-                                                <Form.Label className="l-sb">Relationship with the person*</Form.Label>
-                                                <Form.Control placeholder="Uncle" type="text"/>
-                                            </Col>
-                                        </Row>
-
-
                                         <Row>
 
                                             <Col lg={12} md="12" className="mt-4">
@@ -431,7 +574,10 @@ const ArtistBankDetails = () => {
                                                     <button type="button" className="l-b wbtnn back-btn btn btn-primary" onClick={() => prevStep(3)}>Back</button>
                                                     </div>
                                                     <div className="ms-auto">
-                                                    <button type="button" className="l-b btnn btn btn-primary" onClick={() => nextStep(5)}>SUBMIT</button>
+                                                    <button type="button" className="l-b btnn btn btn-primary" onClick={() => nextStep(5)} disabled={step4Loading}>
+                                                        {step4Loading && (
+                                                          <span className="spinner-border spinner-border-sm"></span>
+                                                        )} SUBMIT</button>
                                                     </div>
                                                 </Stack>
                                             </Col>

@@ -60,7 +60,7 @@ const SignUp = () => {
     };
 
     if (isLoggedIn) {
-      return <Navigate to="/artistdashboard" />;
+      return <Navigate to="/artists-profile" />;
     }
 
   return (

@@ -285,11 +285,11 @@ export const getBanks = () => (dispatch) => {
   );
 };
 
-export const getBranches = () => (dispatch) => {
-  return CommonService.getBranches().then(
+export const getBranchesByBank = (BankId) => (dispatch) => {
+  return CommonService.getBranchesByBank(BankId).then(
     (response) => {
+      console.log('response', response);
       if(response.data.IsSuccess) {
-        localStorage.setItem('branches', JSON.stringify(response.data.output_data));
         dispatch({
           type: GET_BRANCHES,
           payload: response.data.output_data,

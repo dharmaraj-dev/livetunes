@@ -18,6 +18,7 @@ import { setProfileData } from "../actions/artist";
 import { getCitiesOfState } from "../actions/common";
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import moment from "moment";
+import { getProfileData } from "../actions/artist";
 
 const ArtistsProfile = (props) => {
     const dispatch = useDispatch();
@@ -112,6 +113,7 @@ const ArtistsProfile = (props) => {
                     if(response.data.IsSuccess) {
                         successToast(response.data.Message);
                         setCurrentStep(step);
+                        dispatch(getProfileData());
                     } else {
                         errorToast(response.data.Message);
                     }
@@ -177,12 +179,12 @@ const ArtistsProfile = (props) => {
                         ToCharge: selChargesTo,
                         YesPEvents: selPrivSurpEvent === 1 ? true : false,
                         NoPEvents: !selPrivSurpEvent === 0 ? true : false,
-                        ModeId: selPrivSurpEventMode.map(a => a.ModeId)?.join(","),
-                        ModeName: selPrivSurpEventMode.map(a => a.ModeName)?.join(","),
+                        ModeId: selPrivSurpEventMode.map(a => a.EventModeId)?.join(","),
+                        ModeName: selPrivSurpEventMode.map(a => a.EventModeName)?.join(","),
                         YesVEvents: selAvailVirtualEvent === 1 ? true : false,
                         NoVEvents: !selAvailVirtualEvent === 0 ? true : false,
-                        EventTypeId: selAvailVirtualEventType.map(a => a.EventTypeId)?.join(","),
-                        EventTypeName: selAvailVirtualEventType.map(a => a.EventTypeName)?.join(","),
+                        EventTypeId: selAvailVirtualEventType.map(a => a.EventsId)?.join(","),
+                        EventTypeName: selAvailVirtualEventType.map(a => a.EventsName)?.join(","),
                         BriefIntro: selAboutArtist
                     },
                 };
@@ -191,6 +193,7 @@ const ArtistsProfile = (props) => {
                     if(response.data.IsSuccess) {
                         successToast(response.data.Message);
                         setCurrentStep(step);
+                        dispatch(getProfileData());
                     } else {
                         errorToast(response.data.Message);
                     }
@@ -216,6 +219,7 @@ const ArtistsProfile = (props) => {
                     if(response.data.IsSuccess) {
                         successToast(response.data.Message);
                         setCurrentStep(step);
+                        dispatch(getProfileData());
                     } else {
                         errorToast(response.data.Message);
                     }
@@ -276,6 +280,7 @@ const ArtistsProfile = (props) => {
     }
 
     const selectEvent = (selectedList, selectedItem) => {
+        console.log(selectedList);
         setSelPrefEvents(selectedList);
     }
 
@@ -284,6 +289,7 @@ const ArtistsProfile = (props) => {
     }
 
     const selectEventMode = (selectedList, selectedItem) => {
+        console.log(selectedList);
         setSelPrivSurpEventMode(selectedList);
     }
 
@@ -292,6 +298,7 @@ const ArtistsProfile = (props) => {
     }
 
     const selectEventVirtual = (selectedList, selectedItem) => {
+        console.log(selectedList);
         setSelVirtualEventType(selectedList);
     }
 
@@ -301,7 +308,6 @@ const ArtistsProfile = (props) => {
 
     const selectWillingExceptionStates = (selectedList, selectedItem) => {
         setSelExpState(selectedList);
-        console.log(selectedList);
     }
 
     const removeWillingExceptionStates = (selectedList, removedItem) => {
@@ -320,12 +326,12 @@ const ArtistsProfile = (props) => {
             selectStateAndGetItsCities(artistProfileData?.selApInfo?.StateId);
             setCityId(artistProfileData?.selApInfo?.CityId);
             setDob(moment(artistProfileData?.selApInfo?.DateOfBirth).format("YYYY-MM-DD"));
-            setGender(artistProfileData?.selApInfo?.Gender);
+            setGender(artistProfileData?.selApInfo?.Gender === null ? "" : artistProfileData?.selApInfo?.Gender);
 
 
             //step 2
             //console.log(artistProfileData?.selAPDetails?.OtherStateId.split(","));
-            if(artistProfileData?.selAPDetails?.CategoryId.split(",")) {
+            if(artistProfileData?.selAPDetails?.CategoryId !== null && artistProfileData?.selAPDetails?.CategoryId.split(",")) {
                 const tmpSelCategories = [];
                 for (let i in artistProfileData?.selAPDetails?.CategoryId.split(",")) {
                     tmpSelCategories.push(
@@ -338,7 +344,7 @@ const ArtistsProfile = (props) => {
                 setSelCategories(tmpSelCategories);
             }
 
-            if(artistProfileData?.selAPDetails?.GenreId.split(",")) {
+            if(artistProfileData?.selAPDetails?.GenreId !== null && artistProfileData?.selAPDetails?.GenreId.split(",")) {
                 const tmpSelGernes = [];
                 for (let i in artistProfileData?.selAPDetails?.GenreId.split(",")) {
                     tmpSelGernes.push(
@@ -351,7 +357,7 @@ const ArtistsProfile = (props) => {
                 setSelGernes(tmpSelGernes);
             }
 
-            if(artistProfileData?.selAPDetails?.LanguageId.split(",")) {
+            if(artistProfileData?.selAPDetails?.LanguageId !== null && artistProfileData?.selAPDetails?.LanguageId.split(",")) {
                 const tmpSelLanguages = [];
                 for (let i in artistProfileData?.selAPDetails?.LanguageId.split(",")) {
                     tmpSelLanguages.push(
@@ -366,7 +372,7 @@ const ArtistsProfile = (props) => {
             
             setSelExpInYears(artistProfileData?.selAPDetails?.PExperience);
 
-            if(artistProfileData?.selAPDetails?.EventsId.split(",")) {
+            if(artistProfileData?.selAPDetails?.EventsId !== null && artistProfileData?.selAPDetails?.EventsId.split(",")) {
                 const tmpSelPrefEvents = [];
                 for (let i in artistProfileData?.selAPDetails?.EventsId.split(",")) {
                     tmpSelPrefEvents.push(
@@ -387,13 +393,13 @@ const ArtistsProfile = (props) => {
                 setSelWillingToTravel(2);
             }
 
-            if(artistProfileData?.selAPDetails?.OtherStateId !== 0 && artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
+            if(artistProfileData?.selAPDetails?.OtherStateId !== null && artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
                 const tmpSelExpStates = [];
                 for (let i in artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
                     tmpSelExpStates.push(
                         {
-                            OtherStateId: artistProfileData?.selAPDetails?.OtherStateId.split(",")[i],
-                            OtherStateName: artistProfileData?.selAPDetails?.OtherStateName.split(",")[i]
+                            StateId: artistProfileData?.selAPDetails?.OtherStateId.split(",")[i],
+                            StateName: artistProfileData?.selAPDetails?.OtherStateName.split(",")[i]
                         }
                     )
                 }
@@ -412,13 +418,13 @@ const ArtistsProfile = (props) => {
             setSelChargesTo(artistProfileData?.selAPDetails?.ToCharge);
             setSelPrivSurpEvent(artistProfileData?.selAPDetails?.YesPEvents ? 1 : 0);
 
-            if(artistProfileData?.selAPDetails?.ModeId.split(",")) {
+            if(artistProfileData?.selAPDetails?.ModeId !== null && artistProfileData?.selAPDetails?.ModeId.split(",")) {
                 const tmpSelSurpMode = [];
                 for (let i in artistProfileData?.selAPDetails?.ModeId.split(",")) {
                     tmpSelSurpMode.push(
                         {
-                            ModeId: artistProfileData?.selAPDetails?.ModeId.split(",")[i],
-                            ModeName: artistProfileData?.selAPDetails?.ModeName.split(",")[i]
+                            EventModeId: artistProfileData?.selAPDetails?.ModeId.split(",")[i],
+                            EventModeName: artistProfileData?.selAPDetails?.ModeName.split(",")[i]
                         }
                     )
                 }
@@ -427,13 +433,13 @@ const ArtistsProfile = (props) => {
 
             setSelVirtualEvent(artistProfileData?.selAPDetails?.YesVEvents ? 1 : 0);
 
-            if(artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
+            if(artistProfileData?.selAPDetails?.EventTypeId !== null && artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
                 const tmpSelVirtualEventTypes = [];
                 for (let i in artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
                     tmpSelVirtualEventTypes.push(
                         {
-                            EventTypeId: artistProfileData?.selAPDetails?.EventTypeId.split(",")[i],
-                            EventTypeName: artistProfileData?.selAPDetails?.EventTypeName.split(",")[i]
+                            EventsId: artistProfileData?.selAPDetails?.EventTypeId.split(",")[i],
+                            EventsName: artistProfileData?.selAPDetails?.EventTypeName.split(",")[i]
                         }
                     )
                 }
@@ -443,10 +449,10 @@ const ArtistsProfile = (props) => {
             setSelAboutArtist(artistProfileData?.selAPDetails?.BriefIntro);
 
             //step 3
-            setFbUrl(artistProfileData?.selASDetails?.selAPDetails?.FacebookLink);
-            setInstaUrl(artistProfileData?.selASDetails?.selAPDetails?.InstagramLink);
-            setYoutubeUrl(artistProfileData?.selASDetails?.selAPDetails?.YouTubeLink);
-            setWebsiteUrl(artistProfileData?.selASDetails?.selAPDetails?.OtherLink);
+            setFbUrl(artistProfileData?.selASDetails?.FacebookLink);
+            setInstaUrl(artistProfileData?.selASDetails?.InstagramLink);
+            setYoutubeUrl(artistProfileData?.selASDetails?.YouTubeLink);
+            setWebsiteUrl(artistProfileData?.selASDetails?.OtherLink);
         }
     }, [])
 
@@ -516,10 +522,7 @@ const ArtistsProfile = (props) => {
                                             <Form.Select aria-label="Default select example" className="form-control" value={stateId} onChange={(e) => {selectStateAndGetItsCities(e.target.value);setStateId(e.target.value);setCityId("");}}>
                                                 <option value="">Select state</option>
                                                 {states?.filter((key) => !key.IsCancelled).map((state, index) => {
-                                                    return !state.IsCancelled ?
-                                                        <option key={`${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>
-                                                    :
-                                                       <option value="">No state availablbe</option>
+                                                    return (<option key={`${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
                                                 })}
                                             </Form.Select>
                                         </Col>

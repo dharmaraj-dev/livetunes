@@ -51,6 +51,7 @@ const SideNavBar = () => {
 		{
 			text: "Support",
 			icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
+			links: "/artists-bank-details"
 		},
 	];
 

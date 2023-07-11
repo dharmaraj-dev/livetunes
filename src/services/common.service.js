@@ -39,8 +39,8 @@ const getBanks = () => {
   return axios.get(API_URL + "Bank/GetAll", { headers: authHeader() });
 };
 
-const getBranches = () => {
-  return axios.get(API_URL + "BankBranch/GetAll", { headers: authHeader() });
+const getBranchesByBank = (BankId) => {
+  return axios.get(API_URL + "BankBranch/ByBankId/"+BankId, { headers: authHeader() });
 };
 
 const getIDProofs = () => {
@@ -70,7 +70,7 @@ export default {
   getEvents,
   getEventModes,
   getBanks,
-  getBranches,
+  getBranchesByBank,
   getIDProofs,
   getAddressProofs,
   logout

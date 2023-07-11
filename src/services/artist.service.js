@@ -19,8 +19,20 @@ const setArtistEventsAttachments = (data) => {
   return axios.post(API_URL + "LTMedia/upload-files", data, { headers: authHeader() });
 };
 
-const setArtistBank = (data) => {
+const setBankDetails = (data) => {
   return axios.post(API_URL + "ArtistBank/SaveABank", data, { headers: authHeader() });
+};
+
+const setPhotoIdProof = (data) => {
+  return axios.post(API_URL + "ArtistIdProof/SaveAIdProof", data, { headers: authHeader() });
+};
+
+const setAddressProof = (data) => {
+  return axios.post(API_URL + "ArtistAddProof/SaveAAddProof", data, { headers: authHeader() });
+};
+
+const setReferences = (data) => {
+  return axios.post(API_URL + "ArtistReference/SaveAReference", data, { headers: authHeader() });
 };
 
 
@@ -31,5 +43,8 @@ export default {
   setProfileData,
   setArtistProfilePicture,
   setArtistEventsAttachments,
-  setArtistBank
+  setBankDetails,
+  setPhotoIdProof,
+  setAddressProof,
+  setReferences
 };
