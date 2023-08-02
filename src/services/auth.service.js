@@ -11,26 +11,18 @@ const register = (MobileNo, EmailId) => {
     "IsArtist": true,
     "IsUser":false,
     "IsJudge":false,
-    "IsAdmin":false
+    "IsAdmin":false,
+    IsDummy:true
   }).then((response) => {
       return response.data;
     });
 };
 
 const login = (MobileNo) => {
-  // let data = {
-  //     "IsSuccess": true,
-  //     "OTP": "06999",
-  //     "Message": "",
-  //     "AuthToken": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMGZiMDdiZS00Njc4LTQ3Y2MtYmIwMi1jODBiODYyYjcyYWIiLCJtdXNlcl9pZCI6IjE0Iiwicm93Y29kZSI6IjYxOTY3NTMwLWUyZGMtNDc3OS1hNDNhLTE0NWFlZjA5YTk0YiIsImV4cCI6MTcyMDE3NjM2NiwiaXNzIjoiZmxhc2hfcmV0YWlsIiwiYXVkIjoiZmxhc2hfcmV0YWlsIn0.Sj5gm0YwzelyJjnQJWtpv1kIdrbJP1lhAQDoK1789VU"
-  // };
-  // return new Promise((resolve, reject) => {
-  //      resolve(data)
-  //   })
-
   return axios
     .post(API_URL + "LogMethods/LoginAuth", {
-      MobileNo
+      MobileNo,
+      IsDummy:true
     })
     .then((response) => {
       return response.data;

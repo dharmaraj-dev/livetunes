@@ -15,9 +15,16 @@
 .main-note-text{margin: 14px 0 0;}
 .note-text{font-size: 14px;color: #707070;}
 .main-id-img-sec{position: relative;align-items: center;align-content: center;justify-content: center;}
-.id-img-sec{border: 2px dashed #707070;border-radius: 16px;width: 100%;height: 200px;overflow: hidden;display: flex;justify-content: center;align-items: center;}
+.id-img-sec{border: 2px dashed #707070;border-radius: 16px;width: 100%;min-height: 200px;display: flex;justify-content: center;align-items: center;}
+.id-img-sec .filepond--root {
+     margin-bottom: 0; 
+     cursor: pointer;
+}
+.id-img-sec .filepond--wrapper {
+	width: 100%;
+}
 .id-img-upload{position: absolute;bottom: 49px;left: 0;right: 0;margin: 0 auto;display: inline-table;}
-.id-img-upload label{background: #fff;display: flex;color: red;border-radius: 100%;cursor: pointer;box-shadow: 0px 3px 6px #00000029;width: 64px; height: 64px;align-items: center;align-content: center; justify-content: center;font-size: 30px;}
+/*.id-img-upload label{background: #fff;display: flex;color: red;border-radius: 100%;cursor: pointer;box-shadow: 0px 3px 6px #00000029;width: 64px; height: 64px;align-items: center;align-content: center; justify-content: center;font-size: 30px;}*/
 .img-note{margin: 30px 0 0;text-align: center;}
 
 .artist-dashboard-artist-info-sec .inner-artist-info{background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 1px 3px 16px #FEEAEC;border: 0.5px solid #EDE6E7;border-radius: 12px;padding: 22px;}
@@ -74,3 +81,23 @@ table {border-collapse: separate;border-spacing: 1px 15px;}
 		opacity: 1;
 	}
 } */
+
+
+.uploadedProofs {
+	list-style: none;
+	padding: 0;
+}
+
+.uploadedProofs li {
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border: 0.5px solid #707070;
+	padding: 10px;
+	border-radius: 5px;
+	color: #707070;
+}
+
+.uploadedProofs li span {
+	margin-right: 10px;
+}

@@ -35,6 +35,17 @@ const setReferences = (data) => {
   return axios.post(API_URL + "ArtistReference/SaveAReference", data, { headers: authHeader() });
 };
 
+const getArtistProofData = () => {
+  return axios.post(API_URL + "ArtistProfile/GetArtistProof", {}, { headers: authHeader() });
+};
+
+const removeArtistAttachment = (mediaId) => {
+  return axios.post(API_URL + "LTMedia/deletem-log", {"LTMediaLogId":mediaId}, { headers: authHeader() });
+};
+
+const submitArtistApplicationTJudge = () => {
+  return axios.post(API_URL + "ArtistProfile/ArtistPayStatus", {}, { headers: authHeader() });
+};
 
 
 
@@ -46,5 +57,8 @@ export default {
   setBankDetails,
   setPhotoIdProof,
   setAddressProof,
-  setReferences
+  setReferences,
+  getArtistProofData,
+  removeArtistAttachment,
+  submitArtistApplicationTJudge
 };

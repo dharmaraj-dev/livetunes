@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -7,12 +7,24 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { IoSearchOutline } from "react-icons/io5";
 import { TfiBell } from "react-icons/tfi";
-import Profile from '../assets/images/profile-img.png';
 import NotificationSec from "../Notification/NotificationSec";
 import { SlSettings } from "react-icons/sl";
 import { Link } from "react-router-dom";
+import DefaultProfile from "../assets/images/default_profile.jpeg";
+import { useDispatch, useSelector } from "react-redux";
 
 const NavBar = () => {
+  
+  const { artistProfileData } = useSelector(state => state.artist);
+
+  const [profilePic, setProfilePic] = useState(DefaultProfile);
+
+  useEffect(() => {
+    if(artistProfileData?.selProfileImage?.length > 0) {
+        setProfilePic(artistProfileData?.selProfileImage[0].LTMediaURL);
+    }
+  }, [artistProfileData])
+
   return (
     <>
       <Navbar>
@@ -43,9 +55,9 @@ const NavBar = () => {
                   </DropdownButton>
                   </li>
                   <li className="nav-item">
-                    <Link to="/artistprofiles">
+                    <Link to="/my-profile">
                     <div className="profile-class">
-                      <img src={Profile} alt="" />
+                      <img src={profilePic} alt="" />
                     </div>
                     </Link>
                   </li>

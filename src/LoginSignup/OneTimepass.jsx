@@ -32,6 +32,10 @@ const OneTimepass = () => {
     return <Navigate to="/artists-profile" />;
   }
 
+  if(otpSentTo == undefined) {
+    return <Navigate to="/login" />;
+  }
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -131,6 +135,8 @@ const OneTimepass = () => {
       }
   };
 
+
+
   return (
     <>
       <SignUpContainer>
@@ -152,7 +158,7 @@ const OneTimepass = () => {
                     <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-2" value={input2} onChange = { (event) => { setInput2(event.target.value) ; handleChange(event)} } />
                     <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-3" value={input3} onChange = { (event) => { setInput3(event.target.value); handleChange(event) } } />
                     <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-4" value={input4} onChange = { (event) => { setInput4(event.target.value); handleChange(event)  } } />
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-5" value={input5} onChange = { (event) => {setInput5(event.target.value); handleChange(event)  } }  onKeyUp={verifyOtp}/>
+                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-5" value={input5} onChange = { (event) => {setInput5(event.target.value); handleChange(event)  } } />
                   </div>
                   <div className="invalid-expire-text clearfix">
                     {isOtpValid !== "" && (

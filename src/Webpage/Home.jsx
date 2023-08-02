@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import "react-horizontal-scrolling-menu/dist/styles.css";
@@ -35,8 +35,12 @@ const Home = () => {
 
   const { isLoggedIn, welcomeSeen, joiningType } = useSelector((state) => state.auth);
 
-  const [items] = useState(welcomeSeen ? [{id: 8}] : getItems);
+  const [items, setItems] = useState(welcomeSeen ? [{id: 8}] : getItems);
   const { disableScroll, enableScroll } = usePreventBodyScroll();
+
+  useEffect(() => {
+    setItems(welcomeSeen ? [{id: 8}] : getItems)
+  }, [welcomeSeen])
 
   if (isLoggedIn && joiningType === "artist") {
     return <Navigate to="/artistdashboard" />;

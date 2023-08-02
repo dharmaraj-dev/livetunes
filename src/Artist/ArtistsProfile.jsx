@@ -15,18 +15,40 @@ import Expert from '../assets/images/like-img.png';
 import PhoneInput from "react-phone-input-2";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfileData } from "../actions/artist";
-import { getCitiesOfState } from "../actions/common";
+import { getCities, getStates, getCategories, getGernes, getLanguages, getEvents, getEventModes, getCitiesOfState } from "../actions/common";
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import moment from "moment";
-import { getProfileData } from "../actions/artist";
+import { getProfileData, submitArtistApplicationTJudge } from "../actions/artist";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import {
+  IS_ARTIST_PROFILE_SEND,
+  ARTIST_IS_PENDING,
+  ARTIST_IS_REJECTED,
+  ARTIST_IS_APPROVED
+} from "../actions/types";
+import { Navigate, useNavigate  } from 'react-router-dom';
+
+import Loader from './Loader';
+import ThreeDotLoader from './ThreeDotLoader';
+import DhanTeNan from '../assets/music/dhan_te_nan.mp3';
 
 const ArtistsProfile = (props) => {
     const dispatch = useDispatch();
+    const MySwal = withReactContent(Swal);
+    let navigate = useNavigate();
+    const audio = new Audio(DhanTeNan);
 
     const { cities, states, categories, gernes, languages, events, eventModes, citiesOfState } = useSelector(state => state.common);
     const { artistProfileData } = useSelector(state => state.artist);
+    const { IsProfileSend, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
+    // if(ArtistIsApproved) {
+    //     navigate("/my-profile");
+    // }
 
+    const [pageLoading, setPageLoading] = useState(true);
     const [currentStep, setCurrentStep] = useState(1);
+    const [checkStatus, setCheckStatus] = useState(false);
 
     //step 1 form
     const [firstName, setFirstName] = useState("");
@@ -66,35 +88,64 @@ const ArtistsProfile = (props) => {
     const [loadingStep3, setStep3Loading] = useState(false);
 
     const [show, setShow] = useState(false);
+    const [applicationStatus, setApplicationStatus] = useState(0); 
+    // 0 - not applied
+    // 1  - pending
+    // 2  - rejected
+    // 3 - approved
+    const [profileSentToJusgeForVerification, setProfileSentToJusgeForVerification] = useState(false);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        navigate("/my-profile");
+    };
     const handleShow = () => setShow(true);
 
     const nextStep = (step) => {
+        if(applicationStatus != 0) {
+            errorToast('Application is in review, not allowed to edit/update.');
+            return false;
+        }
         if(currentStep == 1) {
             //step 2 api 
-            if(firstName === "") {
+            if(firstName == ("" || undefined)) {
                 errorToast('First Name is required.');
                 return false;
-            } else if(lastName === "") {
+            } else if(lastName == ("" || undefined)) {
                 errorToast('Last Name is required.');
                 return false;
-            } else if(contactNo === "") {
+            } else if(contactNo == ("" || undefined)) {
                 errorToast('Contact No is required.');
                 return false;
-            } else if(email === "") {
+            } else if(email == ("" || undefined)) {
                 errorToast('Email is required.');
                 return false;
-            } else if(stateId === "") {
+            } else if(stateId == ("" || undefined)) {
                 errorToast('State is required.');
                 return false;
-            } else if(cityId === "") {
+            } else if(cityId == ("" || undefined)) {
                 errorToast('City is required.');
                 return false;
-            } else if(gender === "") {
+            } else if(gender == ("" || undefined)) {
                 errorToast('Gender is required.');
                 return false;
             } else {
+
+                if(
+                    firstName === artistProfileData?.selApInfo?.FirstName &&
+                    lastName === artistProfileData?.selApInfo?.LastName &&
+                    contactNo === artistProfileData?.selApInfo?.ContactNo &&
+                    email === artistProfileData?.selApInfo?.EmailId &&
+                    stateId === artistProfileData?.selApInfo?.StateId && 
+                    cityId === artistProfileData?.selApInfo?.CityId &&
+                    dob === moment(artistProfileData?.selApInfo?.DateOfBirth).format("YYYY-MM-DD") &&
+                    gender === artistProfileData?.selApInfo?.Gender
+                ) {
+                    infoToast('Nothing new to save...');
+                    setCurrentStep(step);
+                    return false;
+                }
+
                 //call api
                 const data = {
                     "selApInfo": {
@@ -124,34 +175,84 @@ const ArtistsProfile = (props) => {
                 });
             }
         } else if(currentStep === 2) {
-            if(selCategories.length === 0) {
+            if(selCategories.length == 0) {
                 errorToast('Category is required.');
                 return false;
-            } else if(selGernes.length === 0) {
+            } else if(selGernes.length == 0) {
                 errorToast('Gerne is required.');
                 return false;
-            } else if(selLanguages.length === 0) {
+            } else if(selLanguages.length == 0) {
                 errorToast('Language is required.');
                 return false;
-            } else if(selPrefEvents.length === 0) {
+            } else if(selPrefEvents.length == 0) {
                 errorToast('Preferred events is required.');
                 return false;
-            } else if(selWillingToTravel === "") {
+            } else if(selWillingToTravel == ("" || undefined)) {
                 errorToast('Willing to travel to other states for live events is required.');
                 return false;
-            } else if(selPerfDuration === "") {
+            } else if(selPerfDuration == ("" || undefined)) {
                 errorToast('Preferred performance duration is required.');
                 return false;
-            } else if(selChargesType === "") {
+            } else if(selChargesType == ("" || undefined)) {
                 errorToast('Performance charges is required.');
                 return false;
-            } else if(selChargesFrom === "") {
+            } else if(selChargesFrom == ("" || undefined)) {
                 errorToast('From amount is required.');
                 return false;
-            } else if(selChargesTo === "") {
+            } else if(selChargesTo == ("" || undefined)) {
                 errorToast('To amount is required.');
                 return false;
             } else {
+                if(
+                    selCategories.map(a => a.CategoryId)?.join(",") === artistProfileData?.selAPDetails?.CategoryId &&
+                    selCategories.map(a => a.CategoryName)?.join(",") === artistProfileData?.selAPDetails?.CategoryName &&
+                    selGernes.map(a => a.GenreId)?.join(",") === artistProfileData?.selAPDetails?.GenreId &&
+                    selGernes.map(a => a.GenreName)?.join(",") === artistProfileData?.selAPDetails?.GenreName &&
+                    selLanguages.map(a => a.LanguageId)?.join(",") === artistProfileData?.selAPDetails?.LanguageId && 
+                    selLanguages.map(a => a.LanguageName)?.join(",")=== artistProfileData?.selAPDetails?.LanguageName && 
+                    selPrefEvents.map(a => a.EventsId)?.join(",") === artistProfileData?.selAPDetails?.EventsId &&
+                    selPrefEvents.map(a => a.EventsName)?.join(",") === artistProfileData?.selAPDetails?.EventsName &&
+
+                    expInYears === artistProfileData?.selAPDetails?.PExperience &&
+
+                    (selWillingToTravel === 1 ? true : false) === artistProfileData?.selAPDetails?.YesOtherState &&
+                    (selWillingToTravel === 0 ? true : false) === artistProfileData?.selAPDetails?.NoOtherState &&
+                    (selWillingToTravel === 2 ? true : false) === artistProfileData?.selAPDetails?.IsOtherState &&
+
+
+                    selExpState.map(a => a.StateId)?.join(",") === artistProfileData?.selAPDetails?.OtherStateId &&
+                    selExpState.map(a => a.StateName)?.join(",") === artistProfileData?.selAPDetails?.OtherStateName &&
+
+                    (selPerfDuration === 1 ? true : false) === artistProfileData?.selAPDetails?.PDuration1Hr &&
+                    (selPerfDuration === 2 ? true : false) === artistProfileData?.selAPDetails?.PDuration2Hr &&
+                    (selPerfDuration > 2 ? true : false) === artistProfileData?.selAPDetails?.PDurationM2Hr &&
+                    (selPerfDuration > 2 ? selPerfDuration : null) === artistProfileData?.selAPDetails?.DurationRemark &&
+                    (selChargesType === 1 ? true : false) === artistProfileData?.selAPDetails?.IsPerShow &&
+
+                    (selChargesType === 0 ? true : false) === artistProfileData?.selAPDetails?.IsPerHr &&
+
+
+                    selChargesFrom === artistProfileData?.selAPDetails?.FromCharge &&
+                    selChargesTo === artistProfileData?.selAPDetails?.ToCharge &&
+
+                    (selPrivSurpEvent === 1 ? true : false) === artistProfileData?.selAPDetails?.YesPEvents &&
+                    (!selPrivSurpEvent === 0 ? true : false) === artistProfileData?.selAPDetails?.NoPEvents &&
+
+                    selPrivSurpEventMode.map(a => a.EventModeId)?.join(",") === artistProfileData?.selAPDetails?.ModeId &&
+                    selPrivSurpEventMode.map(a => a.EventModeName)?.join(",") === artistProfileData?.selAPDetails?.ModeName &&
+
+                    (selAvailVirtualEvent === 1 ? true : false) === artistProfileData?.selAPDetails?.YesVEvents &&
+                    (!selAvailVirtualEvent === 0 ? true : false) === artistProfileData?.selAPDetails?.NoVEvents &&
+
+                    selAvailVirtualEventType.map(a => a.EventsId)?.join(",") === artistProfileData?.selAPDetails?.EventTypeId  &&
+                    selAvailVirtualEventType.map(a => a.EventsName)?.join(",") === artistProfileData?.selAPDetails?.EventTypeName  &&
+                    selAboutArtist === artistProfileData?.selAPDetails?.BriefIntro
+                ) {
+                    infoToast('Nothing new to save...');
+                    setCurrentStep(step);
+                    return false;
+                }
+
                 //call api
                 const data = {
                     "selAPDetails": {
@@ -205,7 +306,19 @@ const ArtistsProfile = (props) => {
             }
         } else if(currentStep === 3) {
             //step 3 api 
-            if(fbUrl !==  undefined || instaUrl !==  undefined || youtubeUrl !== undefined || websiteUrl !== undefined) {
+            if(fbUrl !=  ("" || undefined) || instaUrl !=  ("" || undefined) || youtubeUrl != ("" || undefined) || websiteUrl != ("" || undefined)) {
+
+                if(
+                    fbUrl === artistProfileData?.selASDetails?.FacebookLink &&
+                    instaUrl === artistProfileData?.selASDetails?.InstagramLink &&
+                    youtubeUrl === artistProfileData?.selASDetails?.YouTubeLink &&
+                    websiteUrl === artistProfileData?.selASDetails?.OtherLink 
+                ) {
+                    infoToast('Nothing new to save...');
+                    setCurrentStep(step);
+                    return false;
+                }
+
                 const data = {
                     "selASDetails": {
                         FacebookLink: fbUrl,
@@ -245,12 +358,63 @@ const ArtistsProfile = (props) => {
     }
 
     const submbitForReview = () => {
-        infoToast("Generating payment link.....");
-        console.log('submit');
+        let atLeastOneVideo = false;
+        artistProfileData?.selLtMedia?.filter((key) => key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
+            atLeastOneVideo = true;
+        });
+        if(artistProfileData?.selProfileImage.length == 0) {
+            errorToast("Profile picture is required.");
+            return false;
+        }else if(artistProfileData?.selLtMedia?.length < 2) {
+            errorToast("Min 2 attachments are required.");
+            return false;
+        }else if(!atLeastOneVideo) {
+            errorToast("Atlease one video is required for review.");
+            return false;
+        }else {            
+
+            MySwal.fire({
+              title: '<strong>Are you sure!!</strong>',
+              icon: 'warning',
+              html:
+                'Do you want to submit this application?',
+              showDenyButton: true,
+              confirmButtonText: 'Yes',
+              denyButtonText: `No`,
+              showLoaderOnConfirm: true,
+              preConfirm: () => {
+                return dispatch(submitArtistApplicationTJudge()).then((response) => {
+                    if(response.data.IsSuccess) {
+                        localStorage.setItem('IsProfileSend', true);
+                        localStorage.setItem('is_pending', response.data.IsSuccess);
+                        setApplicationStatus(1);
+                        dispatch({
+                            type: IS_ARTIST_PROFILE_SEND,
+                            payload: response.data.IsSuccess,
+                        });
+                        dispatch({
+                            type: ARTIST_IS_PENDING,
+                            payload: response.data.IsSuccess,
+                        });
+                        return response;
+                    } else {
+                        throw new Error(response.data.Message)
+                    }
+                });
+              },
+              allowOutsideClick: () => false
+            }).then((result) => {
+              if (result.isConfirmed && result.value) {
+                    setShow(true);
+              } else {
+                Swal.fire('Application submission cancelled.', '', 'info')
+              }
+            })
+        }
     }
 
     const selectStateAndGetItsCities = (stateId) => {
-        if(stateId !== "") {
+        if(stateId !== "" && stateId !== null && stateId !== undefined) {
             dispatch(getCitiesOfState(stateId));
         }
     }
@@ -280,7 +444,6 @@ const ArtistsProfile = (props) => {
     }
 
     const selectEvent = (selectedList, selectedItem) => {
-        console.log(selectedList);
         setSelPrefEvents(selectedList);
     }
 
@@ -289,7 +452,6 @@ const ArtistsProfile = (props) => {
     }
 
     const selectEventMode = (selectedList, selectedItem) => {
-        console.log(selectedList);
         setSelPrivSurpEventMode(selectedList);
     }
 
@@ -298,7 +460,6 @@ const ArtistsProfile = (props) => {
     }
 
     const selectEventVirtual = (selectedList, selectedItem) => {
-        console.log(selectedList);
         setSelVirtualEventType(selectedList);
     }
 
@@ -314,139 +475,243 @@ const ArtistsProfile = (props) => {
         setSelExpState(selectedList);
     }
 
+    const refreshStatus = () => {
+        setCheckStatus(true);
+        dispatch(getProfileData()).then((res) => {
+            console.log('res', res)
+            successToast(res.data.ProfileStatus);
+            setCheckStatus(false);
+            if(res.data.is_approved) {
+                setApplicationStatus(3);
+                localStorage.setItem('is_approved', res.data.is_approved);
+                localStorage.setItem('is_pending', false);
+                localStorage.setItem('is_rejection', false);
+                audio.play();
+                dispatch({
+                    type: ARTIST_IS_APPROVED,
+                    payload: res.data.is_approved,
+                  });
+                dispatch({
+                    type: ARTIST_IS_PENDING,
+                    payload: false,
+                  });
+                dispatch({
+                    type: ARTIST_IS_REJECTED,
+                    payload: false,
+                  });
+            } else if(res.data.is_pending) {
+                localStorage.setItem('is_pending', res.data.is_pending);
+                localStorage.setItem('is_approved', false);
+                localStorage.setItem('is_rejection', false);
+                dispatch({
+                    type: ARTIST_IS_PENDING,
+                    payload: res.data.is_pending,
+                  });
+                dispatch({
+                    type: ARTIST_IS_APPROVED,
+                    payload: false,
+                  });
+                dispatch({
+                    type: ARTIST_IS_REJECTED,
+                    payload: false,
+                  });
+                setApplicationStatus(1);
+            } else if(res.data.is_rejection) {
+                localStorage.setItem('is_rejection', res.data.is_rejection);
+                localStorage.setItem('is_pending', false);
+                localStorage.setItem('is_approved', false);
+                dispatch({
+                    type: ARTIST_IS_REJECTED,
+                    payload: res.data.is_rejection,
+                  });
+                dispatch({
+                    type: ARTIST_IS_PENDING,
+                    payload: false,
+                  });
+                dispatch({
+                    type: ARTIST_IS_APPROVED,
+                    payload: false,
+                  });
+                setApplicationStatus(2);
+            }
+        }).catch((err) => {
+            navigate('/')
+        })
+    }
+
+    const applicationRejected = () => {
+        navigate('/');
+    }
 
     useEffect(() => {
-        console.log('artistProfileData', artistProfileData);
+        dispatch(getStates());
+        dispatch(getCategories());
+        dispatch(getGernes());
+        dispatch(getLanguages());
+        dispatch(getEvents());
+        dispatch(getEventModes());
+        if(IsProfileSend) {
+            if(artistProfileData.IsSuccess) {
+                setPageLoading(false);
+            } else {
+                dispatch(getProfileData()).then((res) => {
+                    setPageLoading(false);
+                }).catch((err) => {
+                    navigate('/')
+                })
+            }
+        } else {
+            setPageLoading(false);
+        }
+        
+        if(IsProfileSend && ArtistIsPending) {
+            setProfileSentToJusgeForVerification(true);
+            setApplicationStatus(1);
+            setShow(true);
+        } else if(IsProfileSend && ArtistIsRejected) {
+            setProfileSentToJusgeForVerification(true);
+            setApplicationStatus(2);
+            setShow(true);
+        } else if(IsProfileSend && ArtistIsApproved) {
+            setProfileSentToJusgeForVerification(true);
+            setApplicationStatus(3);
+            setShow(true);
+        }
         if(artistProfileData) {
-            setFirstName(artistProfileData?.selApInfo?.FirstName);
-            setLastName(artistProfileData?.selApInfo?.LastName);
-            setContactNo(artistProfileData?.selApInfo?.ContactNo);
-            setEmail(artistProfileData?.selApInfo?.EmailId);
-            setStateId(artistProfileData?.selApInfo?.StateId);
-            selectStateAndGetItsCities(artistProfileData?.selApInfo?.StateId);
-            setCityId(artistProfileData?.selApInfo?.CityId);
-            setDob(moment(artistProfileData?.selApInfo?.DateOfBirth).format("YYYY-MM-DD"));
-            setGender(artistProfileData?.selApInfo?.Gender === null ? "" : artistProfileData?.selApInfo?.Gender);
-
-
-            //step 2
-            //console.log(artistProfileData?.selAPDetails?.OtherStateId.split(","));
-            if(artistProfileData?.selAPDetails?.CategoryId !== null && artistProfileData?.selAPDetails?.CategoryId.split(",")) {
-                const tmpSelCategories = [];
-                for (let i in artistProfileData?.selAPDetails?.CategoryId.split(",")) {
-                    tmpSelCategories.push(
-                        {
-                            CategoryId: artistProfileData?.selAPDetails?.CategoryId.split(",")[i],
-                            CategoryName: artistProfileData?.selAPDetails?.CategoryName.split(",")[i]
-                        }
-                    )
-                }
-                setSelCategories(tmpSelCategories);
-            }
-
-            if(artistProfileData?.selAPDetails?.GenreId !== null && artistProfileData?.selAPDetails?.GenreId.split(",")) {
-                const tmpSelGernes = [];
-                for (let i in artistProfileData?.selAPDetails?.GenreId.split(",")) {
-                    tmpSelGernes.push(
-                        {
-                            GenreId: artistProfileData?.selAPDetails?.GenreId.split(",")[i],
-                            GenreName: artistProfileData?.selAPDetails?.GenreName.split(",")[i]
-                        }
-                    )
-                }
-                setSelGernes(tmpSelGernes);
-            }
-
-            if(artistProfileData?.selAPDetails?.LanguageId !== null && artistProfileData?.selAPDetails?.LanguageId.split(",")) {
-                const tmpSelLanguages = [];
-                for (let i in artistProfileData?.selAPDetails?.LanguageId.split(",")) {
-                    tmpSelLanguages.push(
-                        {
-                            LanguageId: artistProfileData?.selAPDetails?.LanguageId.split(",")[i],
-                            LanguageName: artistProfileData?.selAPDetails?.LanguageName.split(",")[i]
-                        }
-                    )
-                }
-                setSelLanguages(tmpSelLanguages);
+            if(artistProfileData?.selApInfo?.FirstName !== null) {
+                setFirstName(artistProfileData?.selApInfo?.FirstName);
+                setLastName(artistProfileData?.selApInfo?.LastName);
+                setContactNo(artistProfileData?.selApInfo?.ContactNo);
+                setEmail(artistProfileData?.selApInfo?.EmailId);
+                setStateId(artistProfileData?.selApInfo?.StateId);
+                selectStateAndGetItsCities(artistProfileData?.selApInfo?.StateId);
+                setCityId(artistProfileData?.selApInfo?.CityId);
+                setDob(moment(artistProfileData?.selApInfo?.DateOfBirth).format("YYYY-MM-DD"));
+                setGender(artistProfileData?.selApInfo?.Gender === null ? "" : artistProfileData?.selApInfo?.Gender);
             }
             
-            setSelExpInYears(artistProfileData?.selAPDetails?.PExperience);
+            
 
-            if(artistProfileData?.selAPDetails?.EventsId !== null && artistProfileData?.selAPDetails?.EventsId.split(",")) {
-                const tmpSelPrefEvents = [];
-                for (let i in artistProfileData?.selAPDetails?.EventsId.split(",")) {
-                    tmpSelPrefEvents.push(
-                        {
-                            EventsId: artistProfileData?.selAPDetails?.EventsId.split(",")[i],
-                            EventsName: artistProfileData?.selAPDetails?.EventsName.split(",")[i]
-                        }
-                    )
+            if(artistProfileData?.selAPDetails?.CategoryId !== null){
+
+                //step 2
+                if(artistProfileData?.selAPDetails?.CategoryId !== null && artistProfileData?.selAPDetails?.CategoryId.split(",")) {
+                    const tmpSelCategories = [];
+                    for (let i in artistProfileData?.selAPDetails?.CategoryId.split(",")) {
+                        tmpSelCategories.push(
+                            {
+                                CategoryId: artistProfileData?.selAPDetails?.CategoryId.split(",")[i],
+                                CategoryName: artistProfileData?.selAPDetails?.CategoryName.split(",")[i]
+                            }
+                        )
+                    }
+                    setSelCategories(tmpSelCategories);
                 }
-                setSelPrefEvents(tmpSelPrefEvents);
-            }
 
-            if(artistProfileData?.selAPDetails?.YesOtherState) {
-                setSelWillingToTravel(1);
-            } else if(artistProfileData?.selAPDetails?.NoOtherState) {
-                setSelWillingToTravel(0);
-            }  else if(artistProfileData?.selAPDetails?.IsOtherState) {
-                setSelWillingToTravel(2);
-            }
-
-            if(artistProfileData?.selAPDetails?.OtherStateId !== null && artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
-                const tmpSelExpStates = [];
-                for (let i in artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
-                    tmpSelExpStates.push(
-                        {
-                            StateId: artistProfileData?.selAPDetails?.OtherStateId.split(",")[i],
-                            StateName: artistProfileData?.selAPDetails?.OtherStateName.split(",")[i]
-                        }
-                    )
+                if(artistProfileData?.selAPDetails?.GenreId !== null && artistProfileData?.selAPDetails?.GenreId.split(",")) {
+                    const tmpSelGernes = [];
+                    for (let i in artistProfileData?.selAPDetails?.GenreId.split(",")) {
+                        tmpSelGernes.push(
+                            {
+                                GenreId: artistProfileData?.selAPDetails?.GenreId.split(",")[i],
+                                GenreName: artistProfileData?.selAPDetails?.GenreName.split(",")[i]
+                            }
+                        )
+                    }
+                    setSelGernes(tmpSelGernes);
                 }
-                setSelExpState(tmpSelExpStates);
-            }
 
-            if (artistProfileData?.selAPDetails?.PDuration1Hr) {
-                setSelPerfDuration(1);
-            } else if (artistProfileData?.selAPDetails?.PDuration2Hr) {
-                setSelPerfDuration(2);
-            } else if (artistProfileData?.selAPDetails?.DurationRemark != null) {
-                setSelPerfDuration(artistProfileData?.selAPDetails?.DurationRemark);
-            }
-            setSelChargesType(artistProfileData?.selAPDetails?.IsPerShow ? 1 : 2);
-            setSelChargesFrom(artistProfileData?.selAPDetails?.FromCharge);
-            setSelChargesTo(artistProfileData?.selAPDetails?.ToCharge);
-            setSelPrivSurpEvent(artistProfileData?.selAPDetails?.YesPEvents ? 1 : 0);
-
-            if(artistProfileData?.selAPDetails?.ModeId !== null && artistProfileData?.selAPDetails?.ModeId.split(",")) {
-                const tmpSelSurpMode = [];
-                for (let i in artistProfileData?.selAPDetails?.ModeId.split(",")) {
-                    tmpSelSurpMode.push(
-                        {
-                            EventModeId: artistProfileData?.selAPDetails?.ModeId.split(",")[i],
-                            EventModeName: artistProfileData?.selAPDetails?.ModeName.split(",")[i]
-                        }
-                    )
+                if(artistProfileData?.selAPDetails?.LanguageId !== null && artistProfileData?.selAPDetails?.LanguageId.split(",")) {
+                    const tmpSelLanguages = [];
+                    for (let i in artistProfileData?.selAPDetails?.LanguageId.split(",")) {
+                        tmpSelLanguages.push(
+                            {
+                                LanguageId: artistProfileData?.selAPDetails?.LanguageId.split(",")[i],
+                                LanguageName: artistProfileData?.selAPDetails?.LanguageName.split(",")[i]
+                            }
+                        )
+                    }
+                    setSelLanguages(tmpSelLanguages);
                 }
-                setSelPrivSurpEventMode(tmpSelSurpMode);
-            }
+                
+                setSelExpInYears(artistProfileData?.selAPDetails?.PExperience);
 
-            setSelVirtualEvent(artistProfileData?.selAPDetails?.YesVEvents ? 1 : 0);
-
-            if(artistProfileData?.selAPDetails?.EventTypeId !== null && artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
-                const tmpSelVirtualEventTypes = [];
-                for (let i in artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
-                    tmpSelVirtualEventTypes.push(
-                        {
-                            EventsId: artistProfileData?.selAPDetails?.EventTypeId.split(",")[i],
-                            EventsName: artistProfileData?.selAPDetails?.EventTypeName.split(",")[i]
-                        }
-                    )
+                if(artistProfileData?.selAPDetails?.EventsId !== null && artistProfileData?.selAPDetails?.EventsId.split(",")) {
+                    const tmpSelPrefEvents = [];
+                    for (let i in artistProfileData?.selAPDetails?.EventsId.split(",")) {
+                        tmpSelPrefEvents.push(
+                            {
+                                EventsId: artistProfileData?.selAPDetails?.EventsId.split(",")[i],
+                                EventsName: artistProfileData?.selAPDetails?.EventsName.split(",")[i]
+                            }
+                        )
+                    }
+                    setSelPrefEvents(tmpSelPrefEvents);
                 }
-                setSelVirtualEventType(tmpSelVirtualEventTypes);
-            }
 
-            setSelAboutArtist(artistProfileData?.selAPDetails?.BriefIntro);
+                if(artistProfileData?.selAPDetails?.YesOtherState) {
+                    setSelWillingToTravel(1);
+                } else if(artistProfileData?.selAPDetails?.NoOtherState) {
+                    setSelWillingToTravel(0);
+                }  else if(artistProfileData?.selAPDetails?.IsOtherState) {
+                    setSelWillingToTravel(2);
+                }
+
+                if(artistProfileData?.selAPDetails?.OtherStateId !== null && artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
+                    const tmpSelExpStates = [];
+                    for (let i in artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
+                        tmpSelExpStates.push(
+                            {
+                                StateId: artistProfileData?.selAPDetails?.OtherStateId.split(",")[i],
+                                StateName: artistProfileData?.selAPDetails?.OtherStateName.split(",")[i]
+                            }
+                        )
+                    }
+                    setSelExpState(tmpSelExpStates);
+                }
+
+                if (artistProfileData?.selAPDetails?.PDuration1Hr) {
+                    setSelPerfDuration(1);
+                } else if (artistProfileData?.selAPDetails?.PDuration2Hr) {
+                    setSelPerfDuration(2);
+                } else if (artistProfileData?.selAPDetails?.DurationRemark != null) {
+                    setSelPerfDuration(artistProfileData?.selAPDetails?.DurationRemark);
+                }
+                setSelChargesType(artistProfileData?.selAPDetails?.IsPerShow ? 1 : 2);
+                setSelChargesFrom(artistProfileData?.selAPDetails?.FromCharge);
+                setSelChargesTo(artistProfileData?.selAPDetails?.ToCharge);
+                setSelPrivSurpEvent(artistProfileData?.selAPDetails?.YesPEvents ? 1 : 0);
+
+                if(artistProfileData?.selAPDetails?.ModeId !== null && artistProfileData?.selAPDetails?.ModeId.split(",")) {
+                    const tmpSelSurpMode = [];
+                    for (let i in artistProfileData?.selAPDetails?.ModeId.split(",")) {
+                        tmpSelSurpMode.push(
+                            {
+                                EventModeId: artistProfileData?.selAPDetails?.ModeId.split(",")[i],
+                                EventModeName: artistProfileData?.selAPDetails?.ModeName.split(",")[i]
+                            }
+                        )
+                    }
+                    setSelPrivSurpEventMode(tmpSelSurpMode);
+                }
+
+                setSelVirtualEvent(artistProfileData?.selAPDetails?.YesVEvents ? 1 : 0);
+
+                if(artistProfileData?.selAPDetails?.EventTypeId !== null && artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
+                    const tmpSelVirtualEventTypes = [];
+                    for (let i in artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
+                        tmpSelVirtualEventTypes.push(
+                            {
+                                EventsId: artistProfileData?.selAPDetails?.EventTypeId.split(",")[i],
+                                EventsName: artistProfileData?.selAPDetails?.EventTypeName.split(",")[i]
+                            }
+                        )
+                    }
+                    setSelVirtualEventType(tmpSelVirtualEventTypes);
+                }
+
+                setSelAboutArtist(artistProfileData?.selAPDetails?.BriefIntro);
+            }
 
             //step 3
             setFbUrl(artistProfileData?.selASDetails?.FacebookLink);
@@ -454,7 +719,7 @@ const ArtistsProfile = (props) => {
             setYoutubeUrl(artistProfileData?.selASDetails?.YouTubeLink);
             setWebsiteUrl(artistProfileData?.selASDetails?.OtherLink);
         }
-    }, [])
+    }, [artistProfileData])
 
   return (
     <>
@@ -467,6 +732,11 @@ const ArtistsProfile = (props) => {
                 <NavBar />
             </div>
             <div className="main-content">
+                {pageLoading ? (
+                <div className="artist_loader">
+                    <Loader />
+                </div>
+                ):(
                 <Container fluid>
                     <div className="main-artists-list">
                     <section className="steps-progressbar">
@@ -842,7 +1112,9 @@ const ArtistsProfile = (props) => {
                                         <div className="head">
                                             <Stack direction="horizontal" gap={3}>
                                                 <h2>Please, connect with your social media.</h2>
-                                                <h2 className="fs-6 ms-auto cursor-pointer" onClick={skipStep3}>Skip</h2>
+                                                {currentStep < 4 && (
+                                                    <h2 className="fs-6 ms-auto cursor-pointer" onClick={skipStep3}>Skip</h2>
+                                                )}
                                             </Stack>
                                         </div>
 
@@ -894,76 +1166,86 @@ const ArtistsProfile = (props) => {
                                             </Col>
 
                                         </Row>
-
-                                        <Modal
-                                        show={show}
-                                        onHide={handleClose}
-                                        backdrop="static"
-                                        keyboard={false}
-                                        centered
-                                        size="lg"
-                                        className="artist-model-sec"
-                                        >
-                                            
-                                            <div className="closeButtonr" onClick={handleClose}>
-                                                <RxCross2/>
-                                            </div>
-                                            <Modal.Body>
-                                                <div className="head-sec text-center white-color">
-                                                    <h2>Hi <span>Rahul Roy</span>,</h2>
-                                                    <p className="l-r fs-4 mb-1">Profile Application form Submitted Successfully</p>
-                                                    <p className="l-r fs-4 mb-1">Your profile will be shared with our Music expert panel</p>
-                                                </div>
-                                                <div className="expert-panel-sec">
-                                                    <p className="text-center l-r black-color fs-5">Our expert panel consists of</p>
-                                                    <Row>
-                                                        <Col lg={4} sm={6} className="mb-3">
-                                                            <div className="inner-expert-panel-sec">
-                                                                <div className="img-sec">
-                                                                    <img src={Expert} alt="img" className="w-100" />
-                                                                </div>
-                                                                <h2 className="fs-5">Sonu Nigam</h2>
-                                                                <ul>
-                                                                    <li>Bollywood Playback singer</li>
-                                                                    <li>Judge Indian Idol</li>
-                                                                </ul>
-                                                            </div>
-                                                        </Col>
-                                                        <Col lg={4} sm={6} className="mb-3">
-                                                            <div className="inner-expert-panel-sec">
-                                                                <div className="img-sec">
-                                                                    <img src={Expert} alt="img" className="w-100" />
-                                                                </div>
-                                                                <h2 className="fs-5">Sonu Nigam</h2>
-                                                                <ul>
-                                                                    <li>Bollywood Playback singer</li>
-                                                                    <li>Judge Indian Idol</li>
-                                                                </ul>
-                                                            </div>
-                                                        </Col>
-                                                        <Col lg={4} sm={6} className="mb-3">
-                                                            <div className="inner-expert-panel-sec">
-                                                                <div className="img-sec">
-                                                                    <img src={Expert} alt="img" className="w-100" />
-                                                                </div>
-                                                                <h2 className="fs-5">Sonu Nigam</h2>
-                                                                <ul>
-                                                                    <li>Bollywood Playback singer</li>
-                                                                    <li>Judge Indian Idol</li>
-                                                                </ul>
-                                                            </div>
-                                                        </Col>
-                                                    </Row>
-                                                    <p className="text-center l-r red-color fs-5 mt-2">You can expect to hear form our team within 2 weeks via email provided</p>
-                                                </div>
-                                            </Modal.Body>
-                                        </Modal>
                                     </div>
                                 )}
+                                <Modal
+                                    show={show}
+                                    onHide={handleClose}
+                                    backdrop="static"
+                                    keyboard={false}
+                                    centered
+                                    size="lg"
+                                    className="artist-model-sec"
+                                >
+                                    {applicationStatus == 0 || applicationStatus == 3 && (
+                                        <div className="closeButtonr" onClick={handleClose}>
+                                            <RxCross2/>
+                                        </div>
+                                    )}
+                                    <Modal.Body>
+                                        <div className="firework-1"></div>
+                                        <div className="firework-2"></div>
+                                        <div className="firework-3"></div>
+                                        <div className="firework-4"></div>
+                                        <div className="firework-5"></div>
+                                        <div className="firework-6"></div>
+                                        <div className="firework-7"></div>
+                                        <div className="firework-8"></div>
+                                        <div className="firework-9"></div>
+                                        <div className="firework-10"></div>
+                                        <div className="firework-11"></div>
+                                        <div className="firework-12"></div>
+                                        <div className="firework-13"></div>
+                                        <div className="firework-14"></div>
+                                        <div className="firework-15"></div>
+                                        <div className="head-sec text-center white-color">
+                                            <h2>Hi <span>{firstName} {lastName}</span>,</h2>
+                                            {applicationStatus == 0 && (
+                                                <>
+                                                    <p className="l-r fs-4 mb-1">Profile Application form Submitted Successfully.</p>
+                                                    <p className="l-r fs-4 mb-1">Your profile will be shared with our Music expert panel.</p>
+                                                </>
+                                            )}
+                                            {applicationStatus != 0 && (
+                                                <>
+                                                    <p className="l-r fs-4 mb-1">Profile Application is Submitted.</p>
+                                                    <p className="l-r fs-4 mb-1">Your profile is shared with our Music expert panel.</p>
+                                                </>
+                                            )}
+                                            
+                                        </div>
+                                        <div className="expert-panel-sec">
+                                            {applicationStatus == 1 && (
+                                                <>
+                                                    <p className="text-center l-r red-color fs-5 mt-2">Your application is in review, you can expect to hear form our team soon via email provided.</p>
+                                                    <div className="text-center">
+                                                        <button
+                                                        variant="primary"
+                                                        type="button"
+                                                        className="btn w-auto l-sb btnn"
+                                                        onClick={refreshStatus}
+                                                        >
+                                                        {checkStatus && (
+                                                            <ThreeDotLoader />
+                                                        )}
+                                                        Check Status</button>
+                                                    </div>
+                                                </>
+                                            )}
+                                            {applicationStatus == 2 && (
+                                                    <p className="text-center l-r red-color fs-5 mt-2">Your application has been rejected, please click <span onClick={applicationRejected} className="green-color cursor-pointer underline">here</span> for more details.</p>
+                                            )}
+                                            {applicationStatus == 3 && (
+                                                    <p className="text-center l-r red-color fs-5 mt-2">Your application has been approved, click <span onClick={() => {navigate('/my-profile')}} className="green-color cursor-pointer underline">here</span> to update your profile.</p>
+                                            )}
+                                        </div>
+                                    </Modal.Body>
+                                </Modal>
                             </Col>
                         </Row>
                     </div>
                 </Container>
+                )}
             </div>
             </div>
         </div>

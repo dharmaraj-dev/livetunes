@@ -6,14 +6,23 @@ import {
   SET_ARTIST_BANK_DETAILS,
   SET_ARTIST_PHOTO_ID_PROOF,
   SET_ARTIST_ADDRESS_PROOF,
-  SET_ARTIST_REFERENCES
+  SET_ARTIST_REFERENCES,
+  GET_ARTIST_PROOF_DATA,
+  REMOVE_ARTIST_MEDIA,
+  ARTIST_APPLICATION_SUBMIT,
+  ARTIST_RESET
 } from "../actions/types";
 
 const artistProfileData = localStorage.getItem("artistProfileData") != null ? JSON.parse(localStorage.getItem("artistProfileData")) : {};
+const artistProofData = localStorage.getItem("artistProofData") != null ? JSON.parse(localStorage.getItem("artistProofData")) : {};
 
+const initialState = { artistProfileData, artistProfileDataStatus: artistProfileData != {} ? true : false, artistProofData};
 
-const initialState = { artistProfileData, artistProfileDataStatus: artistProfileData != {} ? true : false};
-
+const resetState = {
+  artistProfileDataStatus: false,
+  artistProfileData: {},
+  artistProfileData: {}
+}
 export default function (state = initialState, action) {
   const { type, payload } = action;
 
@@ -48,6 +57,25 @@ export default function (state = initialState, action) {
         ...state,
         artistReferences: payload
       };
+    case GET_ARTIST_PROOF_DATA:
+      return {
+        ...state,
+        artistProofData: payload
+      };
+    case ARTIST_APPLICATION_SUBMIT:
+      return {
+        ...state,
+        artistApplicationStatus: payload
+      };
+    case REMOVE_ARTIST_MEDIA:
+      return {
+        ...state,
+        removeArtistMedia: payload
+      };
+    // case ARTIST_RESET:
+    //   return {
+    //     ...resetState,
+    //   };
     default:
       return state;
   }

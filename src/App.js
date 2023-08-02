@@ -1,3 +1,4 @@
+import React, {useEffect} from 'react';
 import './App.css';
 import {Routes, Route} from 'react-router-dom';
 import SideNavBar from './Layout/SideNavBar';
@@ -38,27 +39,46 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux";
 import { getCities, getStates, getCategories, getGernes, getLanguages, getEvents, getEventModes, getBanks, getIDProofs, getAddressProofs } from "./actions/common";
-import { getProfileData } from "./actions/artist";
-
+import { getProfileData, getArtistProofData } from "./actions/artist";
+import 'filepond/dist/filepond.min.css'
+import { Navigate, useNavigate  } from 'react-router-dom';
+import {
+  ARTIST_PROFILE_STATUS,
+  IS_ARTIST_PROFILE_SEND
+} from "./actions/types";
 
 function App() {
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
-  const { isLoggedIn } = useSelector(state => state.auth);
+  const { isLoggedIn, IsProfileSend, joiningType, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
 
-  if(isLoggedIn) {
-    dispatch(getCities());
-    dispatch(getStates());
-    dispatch(getCategories());
-    dispatch(getGernes());
-    dispatch(getLanguages());
-    dispatch(getEvents());
-    dispatch(getEventModes());
-    dispatch(getBanks());
-    dispatch(getIDProofs());
-    dispatch(getAddressProofs());
-    dispatch(getProfileData());
-  }
+  useEffect(() => {
+     if(joiningType === 'artist' && IsProfileSend && isLoggedIn) {
+        if(ArtistIsApproved) {
+          navigate("/artistdashboard");
+        } else if(ArtistIsPending || ArtistIsNotSubmitted || ArtistIsRejected) {
+          navigate("/artists-profile");
+        }
+      } else if(joiningType == 'artist' && !IsProfileSend && isLoggedIn) {
+        navigate("/artists-profile");
+      }
+
+      if(isLoggedIn && joiningType == 'artist') {
+        dispatch(getCities());
+        dispatch(getStates());
+        dispatch(getCategories());
+        dispatch(getGernes());
+        dispatch(getLanguages());
+        dispatch(getEvents());
+        dispatch(getEventModes());
+        dispatch(getBanks());
+        dispatch(getIDProofs());
+        dispatch(getAddressProofs());
+        dispatch(getProfileData());
+        dispatch(getArtistProofData());
+      }
+  }, [isLoggedIn])
 
   return (
     <div className="App">
@@ -91,7 +111,7 @@ function App() {
         <Route path="/photoid" element={<PhotoId/>}/>
         <Route path="/addressproof" element={<AddressProof/>}/>
         <Route path="/artistdashboard" element={<ArtistDashboard/>}/>
-        <Route path="/artistprofiles" element={<ArtistProfiles/>}/>
+        <Route path="/my-profile" element={<ArtistProfiles/>}/>
         <Route path="/billinginvoice" element={<BillingInvoice/>}/>
         <Route path="/" element={<Home/>}/>
         <Route path="/judgment" element={<Judgment/>}/>

@@ -16,12 +16,20 @@ import { getCitiesOfState } from "../actions/common";
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import moment from "moment";
 import { getProfileData } from "../actions/artist";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { Navigate, useNavigate  } from 'react-router-dom';
+import Loader from './Loader';
 
 const ArtistProfiles = () => {
     const dispatch = useDispatch();
+    const MySwal = withReactContent(Swal);
+    let navigate = useNavigate();
 
+    const [pageLoading, setPageLoading] = useState(true);
     const { cities, states, categories, gernes, languages, events, eventModes, citiesOfState } = useSelector(state => state.common);
     const { artistProfileData } = useSelector(state => state.artist);
+    const { IsProfileSend, ArtistIsApproved } = useSelector(state => state.auth);
 
 
     const [firstName, setFirstName] = useState("");
@@ -54,7 +62,6 @@ const ArtistProfiles = () => {
     const [selAvailVirtualEventType, setSelVirtualEventType] = useState([]);
     const [selAboutArtist, setSelAboutArtist] = useState("");
 
-    const [enableStep1, setEnableStep1] = useState(false);
     const [enableStep2, setEnableStep2] = useState(false);
     const [enableStep3, setEnableStep3] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -68,7 +75,7 @@ const ArtistProfiles = () => {
     const [options6] =useState(['Google meets','zoom','discord']) ;
 
     const selectStateAndGetItsCities = (stateId) => {
-        if(stateId !== "") {
+        if(stateId !== "" && stateId !== null && stateId !== undefined) {
             dispatch(getCitiesOfState(stateId));
         }
     }
@@ -134,29 +141,17 @@ const ArtistProfiles = () => {
     }
 
     const saveChanges = () => {
-        if(!enableStep1 && !enableStep2 && !enableStep3) {
+        if(!ArtistIsApproved) {
+            Swal.fire('Please approve your profile first!', '', 'info').then((res) => {
+                navigate('/artists-profile')
+            })
+            return false;
+        }
+        if(!enableStep2 && !enableStep3) {
             infoToast('Nothing to save....');
             return false;
         }
-        if(firstName === "") {
-            errorToast('First Name is required.');
-            return false;
-        } else if(lastName === "") {
-            errorToast('Last Name is required.');
-            return false;
-        } else if(contactNo === "") {
-            errorToast('Contact No is required.');
-            return false;
-        } else if(email === "") {
-            errorToast('Email is required.');
-            return false;
-        } else if(stateId === "") {
-            errorToast('State is required.');
-            return false;
-        } else if(cityId === "") {
-            errorToast('City is required.');
-            return false;
-        } else if(selCategories.length === 0) {
+        if(selCategories.length === 0) {
             errorToast('Category is required.');
             return false;
         } else if(selGernes.length === 0) {
@@ -185,16 +180,6 @@ const ArtistProfiles = () => {
             return false;
         }
         const data = {
-            "selApInfo": {
-                firstName,
-                lastName,
-                ContactNo: contactNo,
-                EmailId: email,
-                StateId: stateId,
-                CityId: cityId,
-                DateOfBirth: moment(artistProfileData?.selApInfo?.DateOfBirth).format("YYYY-MM-DD"),
-                Gender: artistProfileData?.selApInfo?.Gender
-            },
             "selAPDetails": {
                 CategoryId: selCategories.map(a => a.CategoryId)?.join(","),
                 CategoryName: selCategories.map(a => a.CategoryName)?.join(","),
@@ -242,7 +227,6 @@ const ArtistProfiles = () => {
             } else {
                 errorToast(response.data.Message);
             }
-            setEnableStep1(false);
             setEnableStep2(false);
             setEnableStep3(false);
             setLoading(false);
@@ -253,12 +237,11 @@ const ArtistProfiles = () => {
     }
 
     const cancelChanges = () => {
-        if(!enableStep1 && !enableStep2 && !enableStep3) {
+        if(!enableStep2 && !enableStep3) {
             infoToast('Nothing to do....');
             return false;
         }
         setLoading(false);
-        setEnableStep1(false);
         setEnableStep2(false);
         setEnableStep3(false);
         infoToast("Changes discarded...");
@@ -401,6 +384,19 @@ const ArtistProfiles = () => {
     }
 
     useEffect(() => {
+        if(IsProfileSend) {
+            if(artistProfileData.IsSuccess) {
+                setPageLoading(false);
+            } else {
+                dispatch(getProfileData()).then((res) => {
+                    setPageLoading(false);
+                }).catch((err) => {
+                    navigate('/')
+                })
+            }
+        } else {
+            setPageLoading(false);
+        }
         if(artistProfileData) {
             setFirstName(artistProfileData?.selApInfo?.FirstName);
             setLastName(artistProfileData?.selApInfo?.LastName);
@@ -545,6 +541,11 @@ const ArtistProfiles = () => {
                 <NavBar />
             </div>
             <div className="main-content">
+                {pageLoading ? (
+                <div className="artist_loader">
+                    <Loader />
+                </div>
+                ):(
                 <Container fluid>
                     <div className="main-artists-list">
                     <div className="artist-main-profile-tophead mb-5">
@@ -554,7 +555,7 @@ const ArtistProfiles = () => {
                             <button type="button" className="l-sb wbtnn back-btn btn btn-primary red-color" onClick={cancelChanges}>Cancel</button>
                             <button
                                 type="button"
-                                className={`l-sb wbtnn back-btn btn btn-primary red-color ms-3 ${enableStep1 || enableStep2 || enableStep3 ? '' : 'bg-disabled'}`}
+                                className={`l-sb wbtnn back-btn btn btn-primary red-color ms-3 ${enableStep2 || enableStep3 ? '' : 'bg-disabled'}`}
                                 onClick={saveChanges}
                                 disabled={loading}
                             >
@@ -575,58 +576,53 @@ const ArtistProfiles = () => {
                                 <div className="head">
                                     <Stack direction="horizontal" gap={3}>
                                     <h2>Personal Information</h2>
-                                    <h2 className={`fs-6 ms-auto cursor-pointer red-color af-edit-sec ${!enableStep1 ? 'bg-disabled' : ''} `} onClick={() => {setEnableStep1(!enableStep1)}}>Edit</h2>
                                     </Stack>
                                 </div>
 
                                 <Row className="align-items-center">
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">First Name<sup className="red-color">*</sup></Form.Label>
-                                        <Form.Control placeholder="First Name" type="text" value={firstName} onChange={(e) => {setFirstName(e.target.value)}} disabled={!enableStep1}/>
+                                        <Form.Label className="l-sb">First Name:
+                                            <p className="l-r sub-head">{firstName}</p>
+                                        </Form.Label>
                                     </Col>
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">Last Name<sup className="red-color">*</sup></Form.Label>
-                                        <Form.Control placeholder="Last Name" type="text" value={lastName} onChange={(e) => {setLastName(e.target.value)}} disabled={!enableStep1}/>
+                                        <Form.Label className="l-sb">Last Name: 
+                                            <p className="l-r sub-head">{lastName}</p>
+                                        </Form.Label>
                                     </Col>
 
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">Contact no.<sup className="red-color">*</sup></Form.Label>
-                                        <PhoneInput
-                                            className="l-r"
-                                            country={"in"}
-                                            enableSearch={true}
-                                            placeholder={9999999999}
-                                            value={contactNo} 
-                                            onChange={(phone) => {setContactNo(phone)}}
-                                            disabled={!enableStep1}
-                                          />
+                                        <Form.Label className="l-sb">Contact no.:
+                                            <p className="l-r sub-head">{contactNo}</p>
+                                        </Form.Label>
                                     </Col>
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">Email<sup className="red-color">*</sup></Form.Label>
-                                        <Form.Control placeholder="Email" type="email" value={email} onChange={(e) => {setEmail(e.target.value)}} disabled={!enableStep1}/>
+                                        <Form.Label className="l-sb">Email:
+                                            <p className="l-r sub-head">{email}</p>
+                                        </Form.Label>
                                     </Col>
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">State<sup className="red-color">*</sup></Form.Label>
-                                        <Form.Select aria-label="Default select example" className="form-control" value={stateId} onChange={(e) => {selectStateAndGetItsCities(e.target.value);setStateId(e.target.value);setCityId("");}} disabled={!enableStep1}>
-                                            <option value="">Select state</option>
-                                            {states?.filter((key) => !key.IsCancelled).map((state, index) => {
-                                                return (<option key={`${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
-                                            })}
-                                        </Form.Select>
+                                        <Form.Label className="l-sb">State:
+                                            <p className="l-r sub-head">
+                                                {states?.filter((key) => !key.IsCancelled && key.StateId === stateId).map((state, index) => {
+                                                    return (state.StateName)
+                                                })}
+                                            </p>
+                                        </Form.Label>
                                     </Col>
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
-                                        <Form.Select aria-label="Default select example" className="form-control" value={cityId} onChange={(e) => {setCityId(e.target.value)}} disabled={!enableStep1}>
-                                            <option>Select city</option>
-                                            {citiesOfState?.filter((key) => !key.IsCancelled).map((city, index) => {
-                                                return (<option key={`${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
-                                            })}
-                                        </Form.Select>
+                                        <Form.Label className="l-sb">City:
+                                            <p className="l-r sub-head">
+                                                {citiesOfState?.filter((key) => !key.IsCancelled && key.CityId === cityId).map((city, index) => {
+                                                    return (city.CityName)
+                                                })}
+                                            </p>
+                                        </Form.Label>
                                     </Col>
-
+                                    
                                     <Col lg={12} md="12" className="mb-4">
-                                    <Form.Label className="l-sb">About me</Form.Label>
-                                    <Form.Control as="textarea" placeholder="" type="text" style={{ height: '100px' }} value={aboutMe} onChange={(e) => {setAboutMe(e.target.value)}} disabled={!enableStep1}/>
+                                        <Form.Label className="l-sb">About me: <p className="l-r sub-head">{aboutMe}</p>
+                                        </Form.Label>
                                     </Col>
                                     
                                 </Row>
@@ -907,6 +903,7 @@ const ArtistProfiles = () => {
                         </Row>
                     </div>
                 </Container>
+                )}
             </div>
             </div>
         </div>

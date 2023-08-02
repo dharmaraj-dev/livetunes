@@ -4,7 +4,14 @@ import {
   WELCOME_SEEN,
   OTP_SENT,
   OTP_SENT_TO,
-  OTP_VERIFIED
+  OTP_VERIFIED,
+  IS_ARTIST_PROFILE_SEND,
+  ARTIST_ID,
+  ARTIST_IS_APPROVED,
+  ARTIST_IS_REJECTED,
+  ARTIST_IS_PENDING,
+  ARTIST_IS_NOT_SUBMITTED,
+  ARTIST_RESET
 } from "./types";
 
 import AuthService from "../services/auth.service";
@@ -15,6 +22,13 @@ export const register = (phone, email) => (dispatch) => {
     (response) => {
        if(response.IsSuccess) {
           localStorage.setItem('tmpUser', btoa(JSON.stringify(response)));
+          localStorage.setItem('ArtistId', response.RegId);
+          localStorage.setItem('is_approved', response.is_approved);
+          localStorage.setItem('is_pending', response.is_pending);
+          localStorage.setItem('is_not_submitted', response.is_not_submitted);
+          localStorage.setItem('is_rejection', response.is_rejection);
+          localStorage.setItem('IsProfileSend', response.IsProfileSend);
+
           dispatch({
             type: OTP_SENT,
             payload: true,
@@ -22,6 +36,30 @@ export const register = (phone, email) => (dispatch) => {
           dispatch({
             type: OTP_SENT_TO,
             payload: phone,
+          });
+          dispatch({
+            type: ARTIST_ID,
+            payload: response.RegId,
+          });
+          dispatch({
+            type: ARTIST_IS_APPROVED,
+            payload: response.is_approved,
+          });
+          dispatch({
+            type: ARTIST_IS_REJECTED,
+            payload: response.is_rejection,
+          });
+          dispatch({
+            type: ARTIST_IS_PENDING,
+            payload: response.is_pending,
+          });
+          dispatch({
+            type: ARTIST_IS_NOT_SUBMITTED,
+            payload: response.is_not_submitted,
+          });
+          dispatch({
+            type: IS_ARTIST_PROFILE_SEND,
+            payload: response.IsProfileSend,
           });
         }
         else {
@@ -52,9 +90,16 @@ export const register = (phone, email) => (dispatch) => {
 export const login = (phone) => (dispatch) => {
   return AuthService.login(phone).then(
     (data) => {
-      console.log('data', data);
       if(data.IsSuccess) {
+        
         localStorage.setItem('tmpUser', btoa(JSON.stringify(data)));
+        localStorage.setItem('ArtistId', data.RegId);
+        localStorage.setItem('is_approved', data.is_approved);
+        localStorage.setItem('is_pending', data.is_pending);
+        localStorage.setItem('is_not_submitted', data.is_not_submitted);
+        localStorage.setItem('is_rejection', data.is_rejection);
+        localStorage.setItem('IsProfileSend', data.IsProfileSend);
+
         dispatch({
           type: OTP_SENT,
           payload: true,
@@ -62,6 +107,30 @@ export const login = (phone) => (dispatch) => {
         dispatch({
           type: OTP_SENT_TO,
           payload: phone,
+        });
+        dispatch({
+          type: ARTIST_ID,
+          payload: data.RegId,
+        });
+        dispatch({
+          type: ARTIST_IS_APPROVED,
+          payload: data.is_approved,
+        });
+        dispatch({
+          type: ARTIST_IS_REJECTED,
+          payload: data.is_rejection,
+        });
+        dispatch({
+          type: ARTIST_IS_PENDING,
+          payload: data.is_pending,
+        });
+        dispatch({
+          type: ARTIST_IS_NOT_SUBMITTED,
+          payload: data.is_not_submitted,
+        });
+        dispatch({
+          type: IS_ARTIST_PROFILE_SEND,
+          payload: data.IsProfileSend,
         });
       }
       else {
@@ -91,7 +160,6 @@ export const login = (phone) => (dispatch) => {
 export const resendOtp = (phone) => (dispatch) => {
   return AuthService.resendOtp(phone).then(
     (data) => {
-      console.log('data', data);
       if(data.IsSuccess) {
         localStorage.setItem('tmpUser', btoa(JSON.stringify(data)));
         dispatch({
@@ -130,14 +198,18 @@ export const resendOtp = (phone) => (dispatch) => {
 export const validateOtp = (phone, otp) => (dispatch) => {
   return AuthService.validateOtp(phone, otp).then(
     (data) => {
-      console.log('data', data);
       if(data.IsSuccess) {
         const userData = JSON.parse(atob(localStorage.getItem('tmpUser')));
         localStorage.removeItem('tmpUser')
         localStorage.setItem('user', JSON.stringify(userData));
+        
         dispatch({
           type: OTP_VERIFIED,
           payload: userData,
+        });
+        dispatch({
+          type: IS_ARTIST_PROFILE_SEND,
+          payload: userData.IsProfileSend,
         });
       }
       return Promise.resolve(data);
@@ -154,13 +226,17 @@ export const validateOtp = (phone, otp) => (dispatch) => {
   );
 };
 
-export const logout = () => (dispatch) => {
-   return CommonService.logout().then(
+export const logout = (authToken) => (dispatch) => {
+   return CommonService.logout(authToken).then(
       (response) => {
-        localStorage.removeItem("user");
-        localStorage.removeItem("joiningFor");
+          localStorage.clear();
+          localStorage.setItem("welcomeSeen", true);
           dispatch({
             type: LOGOUT,
+          });
+          dispatch({
+            type: ARTIST_RESET,
+            payload: true,
           });
         return Promise.resolve();
       },
@@ -177,7 +253,6 @@ export const logout = () => (dispatch) => {
 };
 
 export const welcomeSeen = (data) => (dispatch) => {
-  console.log('data', data);
   AuthService.welcomeSeen(data);
 
   dispatch({
@@ -187,7 +262,6 @@ export const welcomeSeen = (data) => (dispatch) => {
 };
 
 export const joiningType = (data) => (dispatch) => {
-  console.log('data', data);
   AuthService.joiningType(data);
 
   dispatch({

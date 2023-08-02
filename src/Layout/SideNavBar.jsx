@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
 import {GoDashboard } from "react-icons/go";
-import {TfiMicrophoneAlt, TfiHeart } from "react-icons/tfi";
+import {TfiMicrophoneAlt, TfiHeart, TfiUser } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
 import { SlSettings } from "react-icons/sl";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
@@ -15,10 +15,13 @@ import { logout } from "../actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate  } from 'react-router-dom';
 import { LOGOUT } from "../actions/types";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const SideNavBar = () => {
 	const dispatch = useDispatch();
 	let navigate = useNavigate();
+	const MySwal = withReactContent(Swal);
 
 	const audio = new Audio(Gaudio);
 	const [isExpanded, setExpendState] = useState(false);
@@ -30,37 +33,65 @@ const SideNavBar = () => {
 		},
 		{
 			text: "Find Artist",
-			icon: <TfiMicrophoneAlt className="menu-item-icon"/>,
+			icon: <TfiUser className="menu-item-icon"/>,
 			links: "/artists-profile"
 		},
-		{
-			text: "Favourites",
-			icon: <TfiHeart className="menu-item-icon"/>,
-			links: "/favourites"
-		},
-		{
-			text: "Bookings",
-			icon: <IoTicketOutline className="menu-item-icon"/>,
-			links: "/bookings"
-		},
+		// {
+		// 	text: "Favourites",
+		// 	icon: <TfiHeart className="menu-item-icon"/>,
+		// 	links: "/favourites"
+		// },
+		// {
+		// 	text: "Bookings",
+		// 	icon: <IoTicketOutline className="menu-item-icon"/>,
+		// 	links: "/bookings"
+		// },
 		{
 			text: "Settings ",
 			icon: <SlSettings className="menu-item-icon"/>,
-			links: "/settings"
-		},
-		{
-			text: "Support",
-			icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
 			links: "/artists-bank-details"
 		},
+		// {
+		// 	text: "Support",
+		// 	icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
+		// 	links: "/artists-bank-details"
+		// },
 	];
 
 	const handleLogout = () => {
-		dispatch({
-            type: LOGOUT,
-          });
-		navigate("/");
-		dispatch(logout());
+		MySwal.fire({
+          title: '<strong>Are you sure!!</strong>',
+          icon: 'warning',
+          html:
+            'Do you want to logout?',
+          showDenyButton: true,
+          confirmButtonText: 'Yes',
+          denyButtonText: `No`,
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            return dispatch(logout()).then((response) => {
+                if(response.data.IsSuccess) {
+                    dispatch({
+			            type: LOGOUT,
+			          });
+					navigate("/");
+                    return response;
+                } else {
+                    throw new Error(response.data.Message);
+                    Swal.fire(response.data.Message, '', 'error');
+                    navigate("/");
+                }
+            }).catch((err) => {
+            	navigate("/");
+            })
+          },
+          allowOutsideClick: () => false
+        }).then((result) => {
+            console.log('result', result);  
+          if (result.isConfirmed && result.value) {
+                Swal.fire('Successfully logout.', '', 'success')
+          }
+        })
 		
 	}
 	return (
