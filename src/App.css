@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
 
@@ -889,4 +890,5 @@ body.modal-open .App{filter: blur(6px);}
     background-color: #F2B900;
   }
 }
+
 
