@@ -42,6 +42,8 @@ import InactiveArtists from './ManagePartner/InactiveArtists';
 import RecentOrders from './ManageUsers/RecentOrders';
 import ManageUserDashboard from './ManageUsers/ManageUserDashboard';
 import TotalUsers from './ManageUsers/TotalUsers';
+import LineChart from './Charts/LineChart';
+import BarChart from './Charts/BarChart';
 
 
 function App() {
@@ -91,6 +93,8 @@ function App() {
         <Route path="/recentorders" element={<RecentOrders/>}/>
         <Route path="/manageuserdashboard" element={<ManageUserDashboard/>}/>
         <Route path="/totalusers" element={<TotalUsers/>}/>
+        <Route path="/linechart" element={<LineChart/>}/>
+        <Route path="/barchart" element={<BarChart/>}/>
      
 
       </Routes>

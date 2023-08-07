@@ -10,6 +10,8 @@ import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { MdEventNote } from "react-icons/md";
 import { FiUserPlus } from "react-icons/fi";
+import LineChart from "../Charts/LineChart";
+import BarChart from "../Charts/BarChart";
 
 const newevent = 90;
 const newpartner = 70;
@@ -123,7 +125,12 @@ const ManageDashboard = () => {
                                 </div>
                             </Col>
                             <Col xxl={6} xl={5} lg={8} sm={12}>
-                                
+                                <div className="earned-sec mb-4 card-input-mange-partner postion-r">
+                                    <div className="inner-overbox">
+                                        <p className="mb-0 sub-head fs-6 l-sb">Revenue Report</p>
+                                    </div>
+                                    <LineChart/>
+                                </div>
                             </Col>
                             <Col xxl={3} xl={4} lg={5} sm={7}>
                                 <div className="earned-sec mb-4 card-input-mange-partner postion-r">
@@ -161,6 +168,14 @@ const ManageDashboard = () => {
                                                 <div className="l-b inner-show-artist-text">Inactive</div>
                                             </Stack>
                                         </div>
+                                </div>
+                            </Col>
+                            <Col xxl={12} xl={12} lg={12} sm={12}>
+                                <div className="earned-sec mb-4 card-input-mange-partner postion-r">
+                                    <div className="inner-overbox">
+                                        <p className="mb-0 sub-head fs-6 l-sb">Event Report</p>
+                                    </div>
+                                    <BarChart/>
                                 </div>
                             </Col>
                         </Row>

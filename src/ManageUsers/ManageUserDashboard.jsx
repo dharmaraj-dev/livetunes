@@ -8,6 +8,7 @@ import Stack from 'react-bootstrap/Stack';
 import RecentOrderList from './RecentOrderList';
 import Dwedding from '../assets/images/noun-wedding.png';
 import { Link } from "react-router-dom";
+import LineChart from '../Charts/LineChart';
 
 const ManageUserDashboard = () => {
   return (
@@ -83,6 +84,16 @@ const ManageUserDashboard = () => {
                                                     </Stack>
                                                 </div>
                                             </Stack>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xxl={12} xl={12} lg={12} sm={12}>
+                                        <div className="earned-sec mb-2 postion-r card-input-mange-partner usermange-mange-partner">
+                                            <div className="inner-overbox">
+                                                <p className="mb-0 sub-head fs-6 l-sb">Users</p>
+                                            </div>
+                                            <LineChart/>
                                         </div>
                                     </Col>
                                 </Row>
