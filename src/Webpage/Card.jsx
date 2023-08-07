@@ -7,7 +7,6 @@ import Col from "react-bootstrap/Col";
 import Lottie from "lottie-react";
 import Musicico from "../components/musicico.json";
 import Nextarrow from "../components/nextarrow.json";
-import Ring from "../assets/images/ring.gif";
 import Eventmanager from "../assets/images/event_manager.png";
 import Guitarist from "../assets/images/guitarist.png";
 import Musicnotes from "../assets/images/music-notes.png";
@@ -41,7 +40,6 @@ import { BsFillStarFill } from "react-icons/bs";
 export function SlideView({ title, itemId, children }) {
   const {
     isFirstItemVisible,
-    scrollPrev,
     visibleElements,
     initComplete,
     isLastItemVisible,

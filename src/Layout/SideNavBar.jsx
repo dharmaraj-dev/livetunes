@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
-import {GoDashboard } from "react-icons/go";
+import {AiOutlineDashboard } from "react-icons/ai";
 import {TfiMicrophoneAlt, TfiHeart } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
 import { SlSettings } from "react-icons/sl";
@@ -18,7 +18,7 @@ const SideNavBar = () => {
 	const menuItems = [
 		{
 			text: "Dashboard",
-			icon: <GoDashboard className="menu-item-icon"/>,
+			icon: <AiOutlineDashboard className="menu-item-icon"/>,
 			links: "/artistdashboard"
 		},
 		{

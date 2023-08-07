@@ -7,7 +7,7 @@ import usePreventBodyScroll from "./bodyscroll";
 
 import { SlideView } from "./Card";
 
-const elemPrefix = "test";
+// const elemPrefix = "test";
 // const getId = (index) => `${elemPrefix}${index}`;
 const getId = (index) => `${index}`;
 

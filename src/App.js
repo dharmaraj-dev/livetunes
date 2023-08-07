@@ -34,6 +34,14 @@ import SingleApplication from './Judgment/SingleApplication';
 import Review from './Judgment/Review';
 import VerificationList from './DocVerification/VerificationList';
 import ApplicationView from './DocVerification/ApplicationView';
+import ManageDashboard from './ManagePartner/ManageDashboard';
+import ActiveArtists from './ManagePartner/ActiveArtists';
+import PartnerDetails from './ManagePartner/PartnerDetails';
+import DeactiveArtists from './ManagePartner/DeactiveArtists';
+import InactiveArtists from './ManagePartner/InactiveArtists';
+import RecentOrders from './ManageUsers/RecentOrders';
+import ManageUserDashboard from './ManageUsers/ManageUserDashboard';
+import TotalUsers from './ManageUsers/TotalUsers';
 
 
 function App() {
@@ -75,6 +83,14 @@ function App() {
         <Route path="/review" element={<Review/>}/>
         <Route path="/verificationlist" element={<VerificationList/>}/>
         <Route path="/applicationview" element={<ApplicationView/>}/>
+        <Route path="/managedashboard" element={<ManageDashboard/>}/>
+        <Route path="/activeartists" element={<ActiveArtists/>}/>
+        <Route path="/partnerdetails" element={<PartnerDetails/>}/>
+        <Route path="/deactiveartists" element={<DeactiveArtists/>}/>
+        <Route path="/inactiveartists" element={<InactiveArtists/>}/>
+        <Route path="/recentorders" element={<RecentOrders/>}/>
+        <Route path="/manageuserdashboard" element={<ManageUserDashboard/>}/>
+        <Route path="/totalusers" element={<TotalUsers/>}/>
      
 
       </Routes>

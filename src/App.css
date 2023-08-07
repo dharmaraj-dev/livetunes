@@ -234,13 +234,15 @@ body.modal-open .App{filter: blur(6px);}
     .profile-upload-sec{min-height: 400px;}
     .upload-btn-sec{bottom: 36px;}
     .inner-average-category {font-size: 16px;}
-
+  
     
 }
 
 
 @media (min-width:1400px){
     /* .livetune-detail-box .inner-livetune-detail-box{min-width: 230px;} */
+    .dactive-artist-circle{right: 0px;}
+    .inactive-artist-circle{right: 23px;}
 }
 
 @media (min-width:1800px){
@@ -249,6 +251,10 @@ body.modal-open .App{filter: blur(6px);}
     .main-inner-setting-sec .col-sec-2 {padding: 0 12px 0 60px;}
     .id-img-upload{bottom: 24px;}
     .info-performance-details .sub-heading-text{font-size: 20px;}
+    .main-artists-adi-cirlce {padding: 20px 6px 0;}
+    .dactive-artist-circle{right: 60px;}
+    .inactive-artist-circle{right: 86px;}
+    .table-scroll{height: 500px;}
 
 }
 
