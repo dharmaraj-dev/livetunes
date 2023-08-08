@@ -6,7 +6,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 import RecentOrderList from './RecentOrderList';
-import Dwedding from '../assets/images/noun-wedding.png';
+import Dusers from '../assets/images/active-users.png';
+import Tusers from '../assets/images/total-users.png';
+import Ausers from '../assets/images/active-users.png';
 import { Link } from "react-router-dom";
 import LineChart from '../Charts/LineChart';
 
@@ -38,7 +40,7 @@ const ManageUserDashboard = () => {
                                                     <p className="mb-0 sub-head fs-6 l-sb">Total Users</p>
                                                     <Stack direction="horizontal" gap={3} className="mt-2">
                                                         <div className="img-sec faint-img-sec">
-                                                            <img src={Dwedding} alt="img" />
+                                                            <img src={Tusers} alt="img" />
                                                         </div>
                                                         <div className="">
                                                             <p className="l-bl fs-4 m-0 head">100k</p>
@@ -57,7 +59,7 @@ const ManageUserDashboard = () => {
                                                     <p className="mb-0 sub-head fs-6 l-sb">Active Users</p>
                                                     <Stack direction="horizontal" gap={3} className="mt-2">
                                                         <div className="img-sec faint-img-sec">
-                                                            <img src={Dwedding} alt="img" />
+                                                            <img src={Ausers} alt="img" />
                                                         </div>
                                                         <div className="">
                                                             <p className="l-bl fs-4 m-0 head">57k</p>
@@ -75,7 +77,7 @@ const ManageUserDashboard = () => {
                                                     <p className="mb-0 sub-head fs-6 l-sb">Deactivating Users</p>
                                                     <Stack direction="horizontal" gap={3} className="mt-2">
                                                         <div className="img-sec faint-img-sec">
-                                                            <img src={Dwedding} alt="img" />
+                                                            <img src={Dusers} alt="img" />
                                                         </div>
                                                         <div className="">
                                                             <p className="l-bl fs-4 m-0 head">1k</p>

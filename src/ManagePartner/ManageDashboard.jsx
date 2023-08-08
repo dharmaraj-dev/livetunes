@@ -12,6 +12,7 @@ import { MdEventNote } from "react-icons/md";
 import { FiUserPlus } from "react-icons/fi";
 import LineChart from "../Charts/LineChart";
 import BarChart from "../Charts/BarChart";
+import Avtar from '../assets/images/avtar.png';
 
 const newevent = 90;
 const newpartner = 70;
@@ -40,6 +41,10 @@ const ManageDashboard = () => {
                                             <Stack direction="horizontal" gap={4} className="align-items-self">
                                                 <div className="inner-overbox">
                                                     <p className="mb-0 sub-head fs-6 l-sb red-color">Say Congrats to</p>
+                                                    <div className="small-text-date black-color">Most events by</div>
+                                                    <div className="congrats-imgs">
+                                                      <img src={Avtar} alt="" className="w-100" />
+                                                    </div>
                                                 </div>
                                             </Stack>
                                         </div>
