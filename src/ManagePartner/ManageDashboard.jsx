@@ -129,7 +129,9 @@ const ManageDashboard = () => {
                                     <div className="inner-overbox">
                                         <p className="mb-0 sub-head fs-6 l-sb">Revenue Report</p>
                                     </div>
+                                    <div className="main-chart">
                                     <LineChart/>
+                                    </div>
                                 </div>
                             </Col>
                             <Col xxl={3} xl={4} lg={5} sm={7}>
@@ -175,7 +177,9 @@ const ManageDashboard = () => {
                                     <div className="inner-overbox">
                                         <p className="mb-0 sub-head fs-6 l-sb">Event Report</p>
                                     </div>
+                                    <div className="main-chart">
                                     <BarChart/>
+                                    </div>
                                 </div>
                             </Col>
                         </Row>

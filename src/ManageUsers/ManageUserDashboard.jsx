@@ -93,7 +93,9 @@ const ManageUserDashboard = () => {
                                             <div className="inner-overbox">
                                                 <p className="mb-0 sub-head fs-6 l-sb">Users</p>
                                             </div>
+                                            <div className="main-chart">
                                             <LineChart/>
+                                            </div>
                                         </div>
                                     </Col>
                                 </Row>

@@ -47,7 +47,10 @@ const BarChart = () => {
     <>
         <Bar
          data = { data }
-         options = { options }
+         options = {{
+          responsive: true,
+          maintainAspectRatio: false,
+        }}
         /> 
     </>
   )
