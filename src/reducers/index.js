@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 import auth from "./auth";
-import message from "./message";
 import common from "./common";
 import artist from "./artist";
 import judge from "./judge";
@@ -14,7 +13,6 @@ import judge from "./judge";
 
 const rootReducer = combineReducers({
     auth,
-    message,
     common,
     artist,
     judge

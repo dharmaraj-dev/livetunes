@@ -1,7 +1,5 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
 
 const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 
