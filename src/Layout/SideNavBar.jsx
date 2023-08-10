@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
-import {GoDashboard } from "react-icons/go";
+import {TfiDashboard } from "react-icons/tfi";
 import {TfiMicrophoneAlt, TfiHeart, TfiUser } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
 import { SlSettings } from "react-icons/sl";
@@ -31,7 +31,7 @@ const SideNavBar = () => {
 	const [menuItemsDynamic, setMenuItemsDynamic] = useState([
 				{
 					text: "Dashboard",
-					icon: <GoDashboard className="menu-item-icon"/>,
+					icon: <TfiDashboard className="menu-item-icon"/>,
 					links: "/"
 				}
 			]);
@@ -41,7 +41,7 @@ const SideNavBar = () => {
 			setMenuItemsDynamic([
 				{
 					text: "Dashboard",
-					icon: <GoDashboard className="menu-item-icon"/>,
+					icon: <TfiDashboard className="menu-item-icon"/>,
 					links: "/artistdashboard"
 				},
 				{
@@ -59,7 +59,7 @@ const SideNavBar = () => {
 			setMenuItemsDynamic([
 				{
 					text: "Dashboard",
-					icon: <GoDashboard className="menu-item-icon"/>,
+					icon: <TfiDashboard className="menu-item-icon"/>,
 					links: "/judgment-panel"
 				}
 			]);

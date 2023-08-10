@@ -5,7 +5,7 @@ import Stack from 'react-bootstrap/Stack';
 import { SlSettings } from "react-icons/sl";
 import { Tabs, Tab, Badge } from "react-bootstrap";
 import Avtar from '../assets/images/like-img.png';
-import { GoPrimitiveDot } from "react-icons/go";
+import { GoDotFill } from "react-icons/go";
 import { Link } from "react-router-dom";
 
 const NotificationSec = () => {
@@ -65,7 +65,7 @@ const NotificationSec = () => {
                                 </br>
                                 <span className="l-r time-ago">2 min ago</span>
                                 </div>
-                            <div className=" ms-auto"><GoPrimitiveDot className="red-color" size={30}/></div>
+                            <div className=" ms-auto"><GoDotFill className="red-color" size={30}/></div>
                             </Stack>
                         </div>
                         <div className="inner-msg-sec">
@@ -78,7 +78,7 @@ const NotificationSec = () => {
                                 </br>
                                 <span className="l-r time-ago">2 min ago</span>
                                 </div>
-                            <div className=" ms-auto"><GoPrimitiveDot className="red-color" size={30}/></div>
+                            <div className=" ms-auto"><GoDotFill className="red-color" size={30}/></div>
                             </Stack>
                         </div>
                     </div>
@@ -133,7 +133,7 @@ const NotificationSec = () => {
                                 </br>
                                 <span className="l-r time-ago">2 min ago</span>
                                 </div>
-                            <div className=" ms-auto"><GoPrimitiveDot className="red-color" size={30}/></div>
+                            <div className=" ms-auto"><GoDotFill className="red-color" size={30}/></div>
                             </Stack>
                         </div>
                     </div>
