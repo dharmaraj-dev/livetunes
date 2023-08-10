@@ -47,6 +47,10 @@ const submitArtistApplicationTJudge = () => {
   return axios.post(API_URL + "ArtistProfile/ArtistPayStatus", {}, { headers: authHeader() });
 };
 
+const updateMediaDescription = (data) => {
+  return axios.post(API_URL + "LTMedia/updatem-log", data, { headers: authHeader() });
+};
+
 
 
 export default {
@@ -60,5 +64,6 @@ export default {
   setReferences,
   getArtistProofData,
   removeArtistAttachment,
-  submitArtistApplicationTJudge
+  submitArtistApplicationTJudge,
+  updateMediaDescription
 };

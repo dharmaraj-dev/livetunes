@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
 import {GoDashboard } from "react-icons/go";
@@ -14,49 +14,58 @@ import { Link } from "react-router-dom";
 import { logout } from "../actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate  } from 'react-router-dom';
-import { LOGOUT } from "../actions/types";
+import { LOGOUT, STATE_RESET } from "../actions/types";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { authToken } from "../services/auth-header";
 
 const SideNavBar = () => {
 	const dispatch = useDispatch();
 	let navigate = useNavigate();
 	const MySwal = withReactContent(Swal);
+	const { joiningType } = useSelector((state) => state.auth);
 
 	const audio = new Audio(Gaudio);
 	const [isExpanded, setExpendState] = useState(false);
-	const menuItems = [
-		{
-			text: "Dashboard",
-			icon: <GoDashboard className="menu-item-icon"/>,
-			links: "/artistdashboard"
-		},
-		{
-			text: "Find Artist",
-			icon: <TfiUser className="menu-item-icon"/>,
-			links: "/artists-profile"
-		},
-		// {
-		// 	text: "Favourites",
-		// 	icon: <TfiHeart className="menu-item-icon"/>,
-		// 	links: "/favourites"
-		// },
-		// {
-		// 	text: "Bookings",
-		// 	icon: <IoTicketOutline className="menu-item-icon"/>,
-		// 	links: "/bookings"
-		// },
-		{
-			text: "Settings ",
-			icon: <SlSettings className="menu-item-icon"/>,
-			links: "/artists-bank-details"
-		},
-		// {
-		// 	text: "Support",
-		// 	icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
-		// 	links: "/artists-bank-details"
-		// },
-	];
+
+	const [menuItemsDynamic, setMenuItemsDynamic] = useState([
+				{
+					text: "Dashboard",
+					icon: <GoDashboard className="menu-item-icon"/>,
+					links: "/"
+				}
+			]);
+
+	useEffect(() => {
+		if(joiningType ===  "Artist") {
+			setMenuItemsDynamic([
+				{
+					text: "Dashboard",
+					icon: <GoDashboard className="menu-item-icon"/>,
+					links: "/artistdashboard"
+				},
+				{
+					text: "Find Artist",
+					icon: <TfiUser className="menu-item-icon"/>,
+					links: "/artists-profile"
+				},
+				{
+					text: "Settings ",
+					icon: <SlSettings className="menu-item-icon"/>,
+					links: "/artists-bank-details"
+				}
+			]);
+		} else if(joiningType ===  "Judge") {
+			setMenuItemsDynamic([
+				{
+					text: "Dashboard",
+					icon: <GoDashboard className="menu-item-icon"/>,
+					links: "/judgment-panel"
+				}
+			]);
+		}
+	}, [])
+
 
 	const handleLogout = () => {
 		MySwal.fire({
@@ -68,28 +77,36 @@ const SideNavBar = () => {
           confirmButtonText: 'Yes',
           denyButtonText: `No`,
           showLoaderOnConfirm: true,
-          preConfirm: () => {
-            return dispatch(logout()).then((response) => {
-                if(response.data.IsSuccess) {
-                    dispatch({
-			            type: LOGOUT,
-			          });
-					navigate("/");
-                    return response;
-                } else {
-                    throw new Error(response.data.Message);
-                    Swal.fire(response.data.Message, '', 'error');
-                    navigate("/");
-                }
-            }).catch((err) => {
-            	navigate("/");
-            })
-          },
+          // preConfirm: () => {
+          //   // return dispatch(logout(authToken)).then((response) => {
+          //   //     if(response.data.IsSuccess) {
+          //   //         dispatch({
+		// 	//             type: LOGOUT,
+		// 	//           });
+		// 	// 		navigate("/login");
+          //   //         return response;
+          //   //     } else {
+          //   //         throw new Error(response.data.Message);
+          //   //         Swal.fire(response.data.Message, '', 'error');
+          //   //         navigate("/login");
+          //   //     }
+          //   // }).catch((err) => {
+          //   // 	navigate("/");
+          //   // })
+          // },
           allowOutsideClick: () => false
         }).then((result) => {
             console.log('result', result);  
           if (result.isConfirmed && result.value) {
-                Swal.fire('Successfully logout.', '', 'success')
+          		dispatch(logout(authToken()));
+          		dispatch({
+		            type: LOGOUT,
+	          	});
+	          	// dispatch({
+		          //   type: STATE_RESET,
+	          	// });
+                Swal.fire('Successfully logout.', '', 'success');
+                navigate("/login");
           }
         })
 		
@@ -121,7 +138,7 @@ const SideNavBar = () => {
 						</span>
 				</div>
 				<div className="nav-menu">
-					{menuItems.map(({ text, icon, links }) => (
+					{menuItemsDynamic.map(({ text, icon, links }) => (
 						<Link
 							key={text+'_'+links}
 							className={isExpanded ? "menu-item" : "menu-item menu-item-NX "}

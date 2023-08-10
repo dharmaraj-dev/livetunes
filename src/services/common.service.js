@@ -1,5 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 
@@ -51,12 +53,16 @@ const getAddressProofs = () => {
   return axios.get(API_URL + "AddressProof/GetAll", { headers: authHeader() });
 };
 
-const logout = () => {
-  return axios
-    .post(API_URL + "LogMethods/Logout", {}, { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });  
+const getAllMasters = () => {
+  return axios.post(API_URL + "MasterC/GetArtistMasters",{}, { headers: authHeader() }).then((response) => {
+      return response;
+    });
+  // .catch((err) => {
+  //     if(err.response.status === 401) {
+  //       Swal.fire('Unauthorised', '', 'error');
+  //       //window.location.href="/login";
+  //     }
+  //   })
 };
 
 
@@ -73,5 +79,5 @@ export default {
   getBranchesByBank,
   getIDProofs,
   getAddressProofs,
-  logout
+  getAllMasters
 };

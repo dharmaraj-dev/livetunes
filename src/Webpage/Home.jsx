@@ -42,7 +42,7 @@ const Home = () => {
     setItems(welcomeSeen ? [{id: 8}] : getItems)
   }, [welcomeSeen])
 
-  if (isLoggedIn && joiningType === "artist") {
+  if (isLoggedIn && joiningType === "Artist") {
     return <Navigate to="/artistdashboard" />;
   }
 

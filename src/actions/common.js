@@ -374,3 +374,105 @@ export const getAddressProofs = () => (dispatch) => {
     }
   );
 };
+
+export const getAllMasters = () => (dispatch) => {
+  return CommonService.getAllMasters().then(
+    (response) => {
+      if(response.data.IsSuccess) {
+        localStorage.setItem('banks', JSON.stringify(response.data.BankList));
+        localStorage.setItem('categories', JSON.stringify(response.data.CatList));
+        localStorage.setItem('events', JSON.stringify(response.data.EventList));
+        localStorage.setItem('eventModes', JSON.stringify(response.data.EvntModeList));
+        localStorage.setItem('gernes', JSON.stringify(response.data.GenList));
+        localStorage.setItem('languages', JSON.stringify(response.data.LangList));
+        localStorage.setItem('states', JSON.stringify(response.data.StateList));
+        localStorage.setItem('idProofs', JSON.stringify(response.data.IdProofList));
+        localStorage.setItem('addressProofs', JSON.stringify(response.data.AddProofList));
+        dispatch({
+          type: GET_BANKS,
+          payload: response.data.BankList,
+        });
+        dispatch({
+          type: GET_EVENT_MODES,
+          payload: response.data.EvntModeList,
+        });
+        dispatch({
+          type: GET_EVENTS,
+          payload: response.data.EventList,
+        });
+        dispatch({
+          type: GET_LANGUAGES,
+          payload: response.data.LangList,
+        });
+        dispatch({
+          type: GET_GERNES,
+          payload: response.data.GenList,
+        });
+        dispatch({
+          type: GET_CATEGORIES,
+          payload: response.data.CatList,
+        });
+        dispatch({
+          type: GET_STATES,
+          payload: response.data.StateList,
+        });
+        dispatch({
+          type: GET_ADDRESS_PROOFS,
+          payload: response.data.AddProofList,
+        });
+        dispatch({
+          type: GET_ID_PROOFS,
+          payload: response.data.IdProofList,
+        });
+      }
+      else {
+        dispatch({
+          type: GET_BANKS,
+          payload: [],
+        });
+        dispatch({
+          type: GET_EVENT_MODES,
+          payload: [],
+        });
+        dispatch({
+          type: GET_EVENTS,
+          payload: [],
+        });
+        dispatch({
+          type: GET_LANGUAGES,
+          payload: [],
+        });
+        dispatch({
+          type: GET_GERNES,
+          payload: [],
+        });
+        dispatch({
+          type: GET_CATEGORIES,
+          payload: [],
+        });
+        dispatch({
+          type: GET_STATES,
+          payload: [],
+        });
+        dispatch({
+          type: GET_ADDRESS_PROOFS,
+          payload: [],
+        });
+        dispatch({
+          type: GET_ID_PROOFS,
+          payload: [],
+        });
+      }       
+      return Promise.resolve(response);
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return Promise.reject(error);
+    }
+  );
+};

@@ -15,7 +15,7 @@ import Expert from '../assets/images/like-img.png';
 import PhoneInput from "react-phone-input-2";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfileData } from "../actions/artist";
-import { getCities, getStates, getCategories, getGernes, getLanguages, getEvents, getEventModes, getCitiesOfState } from "../actions/common";
+import { getCitiesOfState } from "../actions/common";
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import moment from "moment";
 import { getProfileData, submitArtistApplicationTJudge } from "../actions/artist";
@@ -56,7 +56,9 @@ const ArtistsProfile = (props) => {
     const [contactNo, setContactNo] = useState("");
     const [email, setEmail] = useState("");
     const [stateId, setStateId] = useState("");
+    const [stateName, setStateName] = useState("");
     const [cityId, setCityId] = useState("");
+    const [cityName, setCityName] = useState("");
     const [dob, setDob] = useState("");
     const [gender, setGender] = useState("male");
     const [loadingStep1, setStep1Loading] = useState(false);
@@ -151,10 +153,13 @@ const ArtistsProfile = (props) => {
                     "selApInfo": {
                         firstName,
                         lastName,
+                        FullName: firstName+' '+ lastName,
                         ContactNo: contactNo,
                         EmailId: email,
                         StateId: stateId,
+                        StateName: stateName,
                         CityId: cityId,
+                        CityName: cityName,
                         DateOfBirth: dob,
                         Gender: gender
                     },
@@ -366,7 +371,7 @@ const ArtistsProfile = (props) => {
             errorToast("Profile picture is required.");
             return false;
         }else if(artistProfileData?.selLtMedia?.length < 2) {
-            errorToast("Min 2 attachments are required.");
+            errorToast("Min 2 attachments are required with atleast 1 video file.");
             return false;
         }else if(!atLeastOneVideo) {
             errorToast("Atlease one video is required for review.");
@@ -540,16 +545,10 @@ const ArtistsProfile = (props) => {
     }
 
     const applicationRejected = () => {
-        navigate('/');
+        navigate('/my-profile');
     }
 
     useEffect(() => {
-        dispatch(getStates());
-        dispatch(getCategories());
-        dispatch(getGernes());
-        dispatch(getLanguages());
-        dispatch(getEvents());
-        dispatch(getEventModes());
         if(IsProfileSend) {
             if(artistProfileData.IsSuccess) {
                 setPageLoading(false);
@@ -584,8 +583,10 @@ const ArtistsProfile = (props) => {
                 setContactNo(artistProfileData?.selApInfo?.ContactNo);
                 setEmail(artistProfileData?.selApInfo?.EmailId);
                 setStateId(artistProfileData?.selApInfo?.StateId);
+                setStateName(artistProfileData?.selApInfo?.StateName);
                 selectStateAndGetItsCities(artistProfileData?.selApInfo?.StateId);
                 setCityId(artistProfileData?.selApInfo?.CityId);
+                setCityName(artistProfileData?.selApInfo?.CityName);
                 setDob(moment(artistProfileData?.selApInfo?.DateOfBirth).format("YYYY-MM-DD"));
                 setGender(artistProfileData?.selApInfo?.Gender === null ? "" : artistProfileData?.selApInfo?.Gender);
             }
@@ -734,7 +735,7 @@ const ArtistsProfile = (props) => {
             <div className="main-content">
                 {pageLoading ? (
                 <div className="artist_loader">
-                    <Loader />
+                    <ThreeDotLoader />
                 </div>
                 ):(
                 <Container fluid>
@@ -789,19 +790,19 @@ const ArtistsProfile = (props) => {
                                         </Col>
                                         <Col lg={6} md="12" className="mb-4">
                                             <Form.Label className="l-sb">State<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control" value={stateId} onChange={(e) => {selectStateAndGetItsCities(e.target.value);setStateId(e.target.value);setCityId("");}}>
+                                            <Form.Select aria-label="Default select example" className="form-control" value={`${stateId}_${stateName}`} onChange={(e) => {selectStateAndGetItsCities(e.target.value.split('_')[0]);setStateId(e.target.value.split('_')[0]);setStateName(e.target.value.split('_')[1]);setCityId("");setCityName("")}}>
                                                 <option value="">Select state</option>
                                                 {states?.filter((key) => !key.IsCancelled).map((state, index) => {
-                                                    return (<option key={`${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
+                                                    return (<option key={`${state.StateId}'_'${state.StateName}`} value={`${state.StateId}_${state.StateName}`}>{state.StateName}</option>)
                                                 })}
                                             </Form.Select>
                                         </Col>
                                         <Col lg={6} md="12" className="mb-4">
                                             <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control" value={cityId} onChange={(e) => {setCityId(e.target.value)}}>
+                                            <Form.Select aria-label="Default select example" className="form-control" value={`${cityId}_${cityName}`} onChange={(e) => {setCityId(e.target.value.split('_')[0]); setCityName(e.target.value.split('_')[1])}}>
                                                 <option>Select city</option>
                                                 {citiesOfState?.filter((key) => !key.IsCancelled).map((city, index) => {
-                                                    return (<option key={`${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
+                                                    return (<option key={`${city.CityId}_${city.CityName}`} value={`${city.CityId}_${city.CityName}`}>{city.CityName}</option>)
                                                 })}
                                             </Form.Select>
                                         </Col>
@@ -1219,15 +1220,15 @@ const ArtistsProfile = (props) => {
                                                 <>
                                                     <p className="text-center l-r red-color fs-5 mt-2">Your application is in review, you can expect to hear form our team soon via email provided.</p>
                                                     <div className="text-center">
+                                                        {checkStatus && (
+                                                            <ThreeDotLoader />
+                                                        )}
                                                         <button
                                                         variant="primary"
                                                         type="button"
                                                         className="btn w-auto l-sb btnn"
                                                         onClick={refreshStatus}
                                                         >
-                                                        {checkStatus && (
-                                                            <ThreeDotLoader />
-                                                        )}
                                                         Check Status</button>
                                                     </div>
                                                 </>

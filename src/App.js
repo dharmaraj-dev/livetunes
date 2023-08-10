@@ -38,7 +38,7 @@ import ArtistBankDetails from './Artist/ArtistBankDetails';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux";
-import { getCities, getStates, getCategories, getGernes, getLanguages, getEvents, getEventModes, getBanks, getIDProofs, getAddressProofs } from "./actions/common";
+import { getAllMasters } from "./actions/common";
 import { getProfileData, getArtistProofData } from "./actions/artist";
 import 'filepond/dist/filepond.min.css'
 import { Navigate, useNavigate  } from 'react-router-dom';
@@ -54,30 +54,29 @@ function App() {
   const { isLoggedIn, IsProfileSend, joiningType, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
 
   useEffect(() => {
-     if(joiningType === 'artist' && IsProfileSend && isLoggedIn) {
-        if(ArtistIsApproved) {
-          navigate("/artistdashboard");
-        } else if(ArtistIsPending || ArtistIsNotSubmitted || ArtistIsRejected) {
+    if(isLoggedIn) {
+      if(joiningType === 'Artist') {
+        dispatch(getAllMasters());
+
+        if(IsProfileSend) {
+          dispatch(getProfileData());
+          dispatch(getArtistProofData());
+          navigate("/artists-profile");
+          // if(ArtistIsApproved || ArtistIsPending || ArtistIsNotSubmitted || ArtistIsRejected) {
+          //   navigate("/artists-profile");
+          // } else if(ArtistIsPending || ArtistIsNotSubmitted || ArtistIsRejected) {
+          //   navigate("/artists-profile");
+          // }
+        } else {
           navigate("/artists-profile");
         }
-      } else if(joiningType == 'artist' && !IsProfileSend && isLoggedIn) {
-        navigate("/artists-profile");
+      } else if(joiningType === 'Judge') {
+        navigate("/judgment-panel");
       }
+    } else {
+      navigate("/");
+    }
 
-      if(isLoggedIn && joiningType == 'artist') {
-        dispatch(getCities());
-        dispatch(getStates());
-        dispatch(getCategories());
-        dispatch(getGernes());
-        dispatch(getLanguages());
-        dispatch(getEvents());
-        dispatch(getEventModes());
-        dispatch(getBanks());
-        dispatch(getIDProofs());
-        dispatch(getAddressProofs());
-        dispatch(getProfileData());
-        dispatch(getArtistProofData());
-      }
   }, [isLoggedIn])
 
   return (
@@ -114,12 +113,13 @@ function App() {
         <Route path="/my-profile" element={<ArtistProfiles/>}/>
         <Route path="/billinginvoice" element={<BillingInvoice/>}/>
         <Route path="/" element={<Home/>}/>
-        <Route path="/judgment" element={<Judgment/>}/>
-        <Route path="/singleapplication" element={<SingleApplication/>}/>
-        <Route path="/review" element={<Review/>}/>
+        <Route path="/judgment-panel" element={<Judgment/>}/>
+        <Route path="/artist-application/:id" element={<SingleApplication/>}/>
+        <Route path="/application-review/:id/:name/:city/:state/:profile" element={<Review/>}/>
 
         <Route path="/artists-profile" element={<ArtistsProfile/>}/>
         <Route path="/artists-bank-details" element={<ArtistBankDetails/>}/>
+        <Route path="/judge-login" element={<LogIn/>}/>
      
 
       </Routes>

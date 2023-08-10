@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import { Button, Form } from "react-bootstrap";
 import Facebookicon from "../assets/images/Facebookicon.png";
@@ -6,16 +6,20 @@ import Googleicon from "../assets/images/Google-icon.png";
 import SignUpContainer from "./SignUpContainer";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate  } from 'react-router-dom';
+import { Navigate, useNavigate, useLocation  } from 'react-router-dom';
 import { login } from "../actions/auth";
 import { successToast, errorToast } from "../services/toast-service";
+import { setJoiningType } from "../actions/auth";
 
 const LogIn = () => {
     let navigate = useNavigate();
+    let loc = useLocation();
     const dispatch = useDispatch();
 
-    const { isLoggedIn } = useSelector(state => state.auth);
+    
 
+    const { isLoggedIn, joiningType } = useSelector(state => state.auth);
+    console.log(joiningType);
     const [phone, setPhone] = useState("");
     const [loading, setLoading] = useState(false);
     const [displayMessage, setDisplayMessage] = useState("");
@@ -50,19 +54,33 @@ const LogIn = () => {
       });
     };
 
-    if (isLoggedIn) {
+  useEffect(() => {
+    
+      if(loc.pathname === '/judge-login') {
+        dispatch(setJoiningType('Judge'));
+      }
+    }, []);
+
+    if (isLoggedIn && joiningType == "Artist") {
       return <Navigate to="/artists-profile" />;
+    } else if (isLoggedIn && joiningType == "Judge") {
+      return <Navigate to="/judgment-panel" />;
     }
+
+    
 
     return (
         <>
           <SignUpContainer>
-              <p className="top-login-link l-r fnt-18">
-                Creat an account?{" "}
-                <Link to="/signup" className="l-b red-color text-decoration-none">
-                  Sign up
-                </Link>
-              </p>
+          {loc.pathname !== "/judge-login" && (
+            <p className="top-login-link l-r fnt-18">
+              Creat an account?{" "}
+              <Link to="/signup" className="l-b red-color text-decoration-none">
+                Sign up
+              </Link>
+            </p>
+          )}
+              
             <div className="d-flex align-items-center justify-content-center main-inner-sign-white-sec">
               <div className="col-lg-9 col-xxl-8">
                 <div className="inner-sign-white-sec shadow">

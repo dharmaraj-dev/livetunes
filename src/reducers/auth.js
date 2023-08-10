@@ -11,7 +11,7 @@ import {
   ARTIST_IS_REJECTED,
   ARTIST_IS_PENDING,
   ARTIST_IS_NOT_SUBMITTED,
-  ARTIST_RESET
+  STATE_RESET
 } from "../actions/types";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -98,11 +98,12 @@ export default function (state = initialState, action) {
       };
     case LOGOUT:
       return {
-        ...state,
+        // ...state,
+        welcomeSeen: true,
         isLoggedIn: false,
         user: null,
       };
-    // case ARTIST_RESET:
+    // case STATE_RESET:
     //   return {
     //     ...logoutState,
     //   };

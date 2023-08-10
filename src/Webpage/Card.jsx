@@ -38,7 +38,7 @@ import Client2 from "../assets/images/client2.png";
 import Client3 from "../assets/images/client3.png";
 import { BsFillStarFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { welcomeSeen, joiningType } from "../actions/auth";
+import { welcomeSeen, setJoiningType } from "../actions/auth";
 
 export function SlideView({ title, itemId, children }) {
   const dispatch = useDispatch();
@@ -77,7 +77,7 @@ export function SlideView({ title, itemId, children }) {
 
   const joinAs = (joiningFor) => {
     dispatch(welcomeSeen(true));
-    dispatch(joiningType(joiningFor));
+    dispatch(setJoiningType(joiningFor));
   }
 
   return (
@@ -2196,7 +2196,7 @@ export function SlideView({ title, itemId, children }) {
                 <button
                   type="button"
                   className="l-sb wbtnn back-btn btn btn-primary"
-                  onClick={() => {joinAs('organiser')}}
+                  onClick={() => {joinAs('Organiser')}}
                 >
                   Join as a <br /> Organiser
                 </button>
@@ -2208,7 +2208,7 @@ export function SlideView({ title, itemId, children }) {
                 <button
                   type="button"
                   className="l-sb wbtnn back-btn btn btn-primary"
-                  onClick={() => {joinAs('artist')}}
+                  onClick={() => {joinAs('Artist')}}
                 >
                   Join as <br /> an Artist
                 </button>

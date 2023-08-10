@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlinePlus, AiOutlineEye, AiOutlineDelete } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineEye, AiOutlineDelete, AiOutlineCheck, AiOutlineClose, AiFillPushpin } from "react-icons/ai";
 import DefaultProfile from "../assets/images/default_profile.jpeg";
 import { FilePond, File, registerPlugin } from 'react-filepond'
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
@@ -13,11 +13,11 @@ import { successToast, errorToast, infoToast } from "../services/toast-service";
 import { useDispatch, useSelector } from "react-redux";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { getProfileData, removeArtistAttachment } from "../actions/artist";
+import { getProfileData, removeArtistAttachment, updateMediaDescription } from "../actions/artist";
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-
+import EasyEdit, {Types} from 'react-easy-edit';
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginImageCrop, FilePondPluginImageTransform, FilePondPluginFileValidateType)
 
@@ -36,6 +36,7 @@ const Upload = () => {
 
     const [alreadyAddedEventsFile, setAlreadyAddedEventsFiles] = useState([])
     const [alreadyAddedProfilePic, setAlreadyAddedProfilePic] = useState("")
+    const [message, setMessage] = useState('ReactInline demo')
 
 
     const [file, setFile] = useState();
@@ -87,9 +88,30 @@ const Upload = () => {
         })
     }
 
+    const saveDescription = (value, mId) => {
+        const data =  {
+                "LTMediaLogId": mId,
+                "MediaDesc": value
+            };
+        dispatch(updateMediaDescription(data)).then((response) => {
+            if(response.data.IsSuccess) {
+                successToast("Location text added.");
+            } else {
+                errorToast("Location text not added.")
+            }
+        })
+    }
+    const cancel = () => {
+        //
+    }
+
+
+
     useEffect(() => {
         if(artistProfileData) {
-            setAlreadyAddedEventsFiles(artistProfileData?.selLtMedia);
+             if(artistProfileData?.selLtMedia?.length > 0){
+                setAlreadyAddedEventsFiles(artistProfileData?.selLtMedia);
+             }
             if(artistProfileData?.selProfileImage?.length > 0) {
                 setProfilePicPrev(artistProfileData?.selProfileImage[0].LTMediaURL);
             }
@@ -191,24 +213,6 @@ const Upload = () => {
                     </label>
                 </div>
             </div>
-            <Row className="artistEventsFiles mb-4">
-                {alreadyAddedEventsFile?.filter((key) => !key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
-                    return (
-                        <Col lg={6} md={6} key={`eventImgFiles_${index}`} className="mb-4 position-relative">
-                            <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
-                            <img src={eveFile.LTMediaURL}/>
-                        </Col>
-                    )
-                })}
-                {alreadyAddedEventsFile?.filter((key) => key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
-                    return (
-                        <Col lg={6} md={6} key={`eventVidFiles_${index}`} className="mb-4 position-relative">
-                            <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
-                            <video controls={true} src={eveFile.LTMediaURL}></video>
-                        </Col>
-                    )
-                })}
-            </Row>
             {alreadyAddedEventsFile?.length <= 5 && (
             <FilePond
                 files={eventFiles}
@@ -285,6 +289,56 @@ const Upload = () => {
                     <li>Your application could be rejected due to bad audio quality</li>
                 </ul>
             </div>
+            <Row className="artistEventsFiles mt-4 mb-4">
+                <Col lg={12}>
+                    <label className="l-sb mb-2">Uploaded Media: </label>
+                </Col>
+                {alreadyAddedEventsFile?.filter((key) => !key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
+                    return (
+                        <Col lg={12} md={4} sm={6} key={`eventImgFiles_${index}`} className=" position-relative">
+                            <img src={eveFile.LTMediaURL}/>
+                            <Row>
+                                <Col>
+                                    <EasyEdit
+                                      type={Types.TEXTAREA}
+                                      onSave={(e) => {saveDescription(e,eveFile.LTMediaLogId)}}
+                                      onCancel={cancel}
+                                      value={eveFile.MediaDesc}
+                                      saveButtonLabel={<AiOutlineCheck />}
+                                      cancelButtonLabel={<AiOutlineClose />}
+                                      placeholder={`Add caption/location`}
+                                    />
+                                    <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
+                                </Col>
+                            </Row>
+                        </Col>
+                    )
+                })}
+                {alreadyAddedEventsFile?.filter((key) => key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
+                    return (
+                        <Col lg={12} md={4} sm={6} key={`eventVidFiles_${index}`} className=" position-relative">
+                            <video controls={true} src={eveFile.LTMediaURL}></video>
+                            <Row>
+                                <Col>
+                                    <EasyEdit
+                                      type={Types.TEXTAREA}
+                                      onSave={(e) => {saveDescription(e,eveFile.LTMediaLogId)}}
+                                      onCancel={cancel}
+                                      value={eveFile.MediaDesc}
+                                      saveButtonLabel={<AiOutlineCheck />}
+                                      cancelButtonLabel={<AiOutlineClose />}
+                                      placeholder={`Add caption/location`}
+                                    />
+                                    <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
+                                </Col>
+                            </Row>
+                            
+                        </Col>
+                    )
+                })}
+            </Row>
+            
+            
         </div>
     </>
   )

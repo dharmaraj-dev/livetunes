@@ -11,11 +11,10 @@ import {
   ARTIST_IS_REJECTED,
   ARTIST_IS_PENDING,
   ARTIST_IS_NOT_SUBMITTED,
-  ARTIST_RESET
+  STATE_RESET
 } from "./types";
 
 import AuthService from "../services/auth.service";
-import CommonService from "../services/common.service";
 
 export const register = (phone, email) => (dispatch) => {
   return AuthService.register(phone, email).then(
@@ -200,6 +199,8 @@ export const validateOtp = (phone, otp) => (dispatch) => {
     (data) => {
       if(data.IsSuccess) {
         const userData = JSON.parse(atob(localStorage.getItem('tmpUser')));
+        dispatch(setJoiningType(data.ProfileType));
+        
         localStorage.removeItem('tmpUser')
         localStorage.setItem('user', JSON.stringify(userData));
         
@@ -227,7 +228,7 @@ export const validateOtp = (phone, otp) => (dispatch) => {
 };
 
 export const logout = (authToken) => (dispatch) => {
-   return CommonService.logout(authToken).then(
+   return AuthService.logout(authToken).then(
       (response) => {
           localStorage.clear();
           localStorage.setItem("welcomeSeen", true);
@@ -235,7 +236,7 @@ export const logout = (authToken) => (dispatch) => {
             type: LOGOUT,
           });
           dispatch({
-            type: ARTIST_RESET,
+            type: STATE_RESET,
             payload: true,
           });
         return Promise.resolve();
@@ -261,7 +262,7 @@ export const welcomeSeen = (data) => (dispatch) => {
   });
 };
 
-export const joiningType = (data) => (dispatch) => {
+export const setJoiningType = (data) => (dispatch) => {
   AuthService.joiningType(data);
 
   dispatch({

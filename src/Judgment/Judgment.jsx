@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import NavBar from "../Layout/NavBar";
 import SideNavBar from "../Layout/SideNavBar";
 import Container from 'react-bootstrap/Container';
@@ -11,8 +11,43 @@ import { FiDownload } from "react-icons/fi";
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 
+import { useDispatch, useSelector } from "react-redux";
+import { getApplications } from "../actions/judge";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import Loader from '../Artist/Loader';
+import { Navigate, useNavigate  } from 'react-router-dom';
+import moment from "moment";
+import ThreeDotLoader from '../Artist/ThreeDotLoader';
+
 const Judgment = () => {
-    const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+  const MySwal = withReactContent(Swal);
+  let navigate = useNavigate();
+  const { applications } = useSelector(state => state.judge);
+  const [pageLoading, setPageLoading] = useState(true);
+  
+  const [show, setShow] = useState(false);
+
+  
+    useEffect(() => {
+        if(applications) {
+            if(applications.length <= 0) {
+              dispatch(getApplications()).then((res) => {
+                  setPageLoading(false);
+              })
+            } else {
+              setPageLoading(false);
+              dispatch(getApplications()).then((res) => {
+                  setPageLoading(false);
+              })
+            }
+        } else {
+            dispatch(getApplications()).then((res) => {
+                setPageLoading(false);
+            })
+        }
+      }, [])
     return (
       <>
           <div className="wrapper">
@@ -24,6 +59,12 @@ const Judgment = () => {
                   <NavBar />
               </div>
               <div className="main-content">
+                {pageLoading ? (
+                <div className="artist_loader">
+                    <ThreeDotLoader />
+                </div>
+                ):(
+
                   <Container fluid>
                      <div className="main-artists-list">
                           <div className="main-bill-invoice-sec new-appli-box">
@@ -32,7 +73,7 @@ const Judgment = () => {
                               <Row>
                                   <Col xl={3} lg={3} sm={6}>
                                     <label>
-                                    <input type="radio" name="product" class="card-input-element" />
+                                    <input type="radio" name="product" className="card-input-element" />
                                       <div className="earned-sec mb-4 postion-r card-input">
                                           <Stack direction="horizontal" gap={4} className="align-items-self">
                                               <div className="ico-sec-over">
@@ -54,7 +95,7 @@ const Judgment = () => {
                                               </div>
                                               <div className="inner-overbox">
                                                   <p className="mb-0 sub-head fs-5 l-sb">New application</p>
-                                                  <h2 className="fs-1">300</h2>
+                                                  <h2 className="fs-1">{applications.length}</h2>
                                               </div>
                                           </Stack>
                                       </div>
@@ -62,7 +103,7 @@ const Judgment = () => {
                                   </Col>
                                   <Col xl={3} lg={3} sm={6}>
                                     <label>
-                                    <input type="radio" name="product" class="card-input-element" />
+                                    <input type="radio" name="product" className="card-input-element" />
                                       <div className="earned-sec mb-4 postion-r card-input">
                                           <Stack direction="horizontal" gap={4} className="align-items-self">
                                               <div className="ico-sec-over">
@@ -84,7 +125,7 @@ const Judgment = () => {
                                               </div>
                                               <div className="inner-overbox">
                                                   <p className="mb-0 sub-head fs-5 l-sb">Approved</p>
-                                                  <h2 className="fs-1">100</h2>
+                                                  <h2 className="fs-1">{applications.filter((key) => {return key.IsApprove})?.length}</h2>
                                               </div>
                                           </Stack>
                                       </div>
@@ -92,7 +133,7 @@ const Judgment = () => {
                                   </Col>
                                   <Col xl={3} lg={3} sm={6}>
                                     <label>
-                                    <input type="radio" name="product" class="card-input-element" />
+                                    <input type="radio" name="product" className="card-input-element" />
                                       <div className="earned-sec mb-4 postion-r card-input">
                                           <Stack direction="horizontal" gap={4} className="align-items-self">
                                               <div className="ico-sec-over">
@@ -116,7 +157,7 @@ const Judgment = () => {
                                               </div>
                                               <div className="inner-overbox">
                                                   <p className="mb-0 sub-head fs-5 l-sb">Rejected</p>
-                                                  <h2 className="fs-1">100</h2>
+                                                  <h2 className="fs-1">{applications.filter((key) => {return key.IsReject})?.length}</h2>
                                               </div>
                                           </Stack>
                                       </div>
@@ -124,7 +165,7 @@ const Judgment = () => {
                                   </Col>
                                   <Col xl={3} lg={3} sm={6}>
                                     <label>
-                                    <input type="radio" name="product" class="card-input-element" />
+                                    <input type="radio" name="product" className="card-input-element" />
                                       <div className="earned-sec mb-4 postion-r card-input">
                                           <Stack direction="horizontal" gap={4} className="align-items-self">
                                               <div className="ico-sec-over">
@@ -134,7 +175,7 @@ const Judgment = () => {
                                               </div>
                                               <div className="inner-overbox">
                                                   <p className="mb-0 sub-head fs-5 l-sb">In process</p>
-                                                  <h2 className="fs-1">100</h2>
+                                                  <h2 className="fs-1">{applications.filter((key) => {return !key.IsReject && !key.IsApprove})?.length}</h2>
                                               </div>
                                           </Stack>
                                       </div>
@@ -193,124 +234,50 @@ const Judgment = () => {
                                   </tr>
                                   </thead>
                                   <tbody>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td>
-                                        <Link to="/singleapplication">
-                                        <div className="appro-reje-sec l-m text-center approved-sec">Approved</div>
-                                        </Link>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td>
-                                        <Link to="/singleapplication">
-                                        <div className="appro-reje-sec l-m text-center reject-sec">Rejected</div>
-                                        </Link>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div className="form-check">
-                                              <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
-                                          </div>
-                                      </td>
-                                      <td>Rajesh Kumar</td>
-                                      <td>Nagpur</td>
-                                      <td>Singer, Guitarist</td>
-                                      <td>A2241445</td>
-                                      <td>10-08-22</td>
-                                      <td><Link to="/singleapplication">Unaudited</Link></td>
-                                  </tr>
+                                  {applications.map((appl, index) => {
+                                    return (
+                                      <tr key={`appl_${index}`}>
+                                        <td>
+                                            <div className="form-check">
+                                                <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault11" />
+                                            </div>
+                                        </td>
+                                        <td>{appl.AName}</td>
+                                        <td>{appl.APlace}</td>
+                                        <td>{appl.AType}</td>
+                                        <td>{appl.AppId}</td>
+                                        <td>{moment(appl.AddDate).format("DD-MM-yyyy")}</td>
+                                        <td>
+                                          {appl.IsReject && (
+                                              <div className="appro-reje-sec l-m text-center reject-sec">Rejected</div>
+                                          )}
+                                          {appl.IsApprove && (
+                                              <div className="appro-reje-sec l-m text-center approved-sec">Approved</div>
+                                          )}
+                                          {appl.IsCancelled && (
+                                              <div className="appro-reje-sec l-m text-center reject-sec">Cancelled</div>
+                                          )}
+                                          {!appl.IsReject && !appl.IsApprove && !appl.IsCancelled && (
+                                            <Link to={`/artist-application/${btoa(appl.JPanelId)}`}>Unaudited</Link>
+                                          )}
+                                        </td>
+                                    </tr>
+                                    )
+                                  })}
+                                  {applications.length == 0 && (
+                                    <tr>
+                                        <td className="text-center" colSpan="7">
+                                            No applications available
+                                        </td>
+                                    </tr>
+                                  )}
                                   </tbody>
                               </Table>
                               </div>
                           </div>
                       </div>
                   </Container>
+                )}
               </div>
               </div>
           </div>

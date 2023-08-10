@@ -21,8 +21,9 @@ const register = (MobileNo, EmailId) => {
 const login = (MobileNo) => {
   return axios
     .post(API_URL + "LogMethods/LoginAuth", {
-      MobileNo,
-      IsDummy:true
+      MobileNo
+      // ,
+      // IsDummy:true
     })
     .then((response) => {
       return response.data;
@@ -53,6 +54,14 @@ const joiningType = (data) => {
   localStorage.setItem("joiningFor", data);
 };
 
+const logout = (authToken) => {
+  return axios
+    .post(API_URL + "LogMethods/Logout", {}, { headers: {"Authorization":authToken} })
+    .then((response) => {
+      return response.data;
+    });  
+};
+
 
 
 export default {
@@ -61,5 +70,6 @@ export default {
   resendOtp,
   validateOtp,
   welcomeSeen,
-  joiningType
+  joiningType,
+  logout
 };

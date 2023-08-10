@@ -335,3 +335,21 @@ export const submitArtistApplicationTJudge = () => (dispatch) => {
     }
   );
 };
+
+export const updateMediaDescription = (data) => (dispatch) => {
+  return ArtistService.updateMediaDescription(data).then(
+    (response) => {
+      console.log(response);
+      return Promise.resolve(response);
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return Promise.reject(error);
+    }
+  );
+};

@@ -28,6 +28,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
 import { Navigate, useNavigate  } from 'react-router-dom';
 import Loader from './Loader';
+import ThreeDotLoader from './ThreeDotLoader';
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginImageCrop, FilePondPluginImageTransform, FilePondPluginFileValidateType)
 
@@ -545,7 +546,7 @@ const ArtistBankDetails = () => {
             <div className="main-content">
                 {pageLoading ? (
                 <div className="artist_loader">
-                    <Loader />
+                    <ThreeDotLoader />
                 </div>
                 ):(
                 <Container fluid>
