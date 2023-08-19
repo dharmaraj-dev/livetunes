@@ -10,9 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { successToast, errorToast } from "../services/toast-service";
 import { validateOtp, resendOtp } from "../actions/auth";
 import { Navigate  } from 'react-router-dom';
+import { useRef } from 'react';
+import { useEffect } from 'react';
 
 const OneTimepass = () => {
   const dispatch = useDispatch();
+  const continueButton = useRef();
 
   const { isLoggedIn, otpSentTo } = useSelector(state => state.auth);
 
@@ -27,6 +30,13 @@ const OneTimepass = () => {
   const [otpTimer, setOtpTimer] = useState(30);
   const [loading, setLoading] = useState(false);
   const [otpVerifyLoading, setOtpVerifyLoading] = useState(false);
+
+  useEffect(()=>{
+    const inputfield = document.querySelector(
+      `input[name=field-1]`
+    );
+    inputfield.focus();
+  },[]);
 
   if (isLoggedIn) {
     return <Navigate to="/artists-profile" />;
@@ -111,6 +121,19 @@ const OneTimepass = () => {
     },1000)
   }
 
+  const handleClick = (e) => {
+    const {value,name} = e.target
+    if(name !== 'field-1' && e.keyCode === 8 && value === '') {
+      e.target.classList.remove('active');
+      const prevField = document.querySelector(
+        `input[name=field-${parseInt(name.split("-")[1], 10) - 1}]`
+      );
+      if (prevField !== null) {
+        prevField.focus();
+      }
+    }
+  }
+
   const handleChange = (e) => {
       const { maxLength, value, name } = e.target;
       const [fieldName, fieldIndex] = name.split("-");
@@ -118,23 +141,23 @@ const OneTimepass = () => {
       let fieldIntIndex = parseInt(fieldIndex, 10);
       // Check if no of char in field == maxlength
       if (value.length >= maxLength) {
-        console.log(fieldIntIndex);
           // It should not be last input field
           if (fieldIntIndex <= 5) {
-
+              e.target.classList.add('active');
               // Get the next input field using it's name
               const nextfield = document.querySelector(
                   `input[name=field-${fieldIntIndex + 1}]`
               );
-              console.log(nextfield);
               // If found, focus the next field
               if (nextfield !== null) {
                   nextfield.focus();
               }
+              else{
+                continueButton.current.focus();
+              }
           }
       }
   };
-
 
 
   return (
@@ -143,7 +166,7 @@ const OneTimepass = () => {
         <div className="d-flex align-items-center justify-content-center main-inner-sign-white-sec">
           <div className="col-lg-9 col-xxl-8">
             <p className="top-back-link">
-            <Link to="/login" className=" l-r black-color fnt-18 text-decoration-none"> <img src={Backarrow} alt="" /> Back</Link>
+            <Link to="/login" className=" l-r black-color fnt-18 text-decoration-none" tabIndex={"-1"}> <img src={Backarrow} alt="" /> Back</Link>
             </p>
             <div className="inner-sign-white-sec shadow">
               <h3 className="l-b form-head">
@@ -154,11 +177,11 @@ const OneTimepass = () => {
               <div>
                  <Form className="otp-field"> {/*otp-invalid class */}
                   <div className="otp-box d-flex">   
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b active" name="field-1" value={input1} onChange = { (event) => { setInput1(event.target.value); handleChange(event) } } /> 
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-2" value={input2} onChange = { (event) => { setInput2(event.target.value) ; handleChange(event)} } />
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-3" value={input3} onChange = { (event) => { setInput3(event.target.value); handleChange(event) } } />
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-4" value={input4} onChange = { (event) => { setInput4(event.target.value); handleChange(event)  } } />
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-5" value={input5} onChange = { (event) => {setInput5(event.target.value); handleChange(event)  } } />
+                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b active" name="field-1" value={input1} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => { setInput1(event.target.value); handleChange(event) } } /> 
+                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-2" value={input2} onKeyDown={(e)=>handleClick(e)}  onChange = { (event) => { setInput2(event.target.value) ; handleChange(event)} } />
+                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-3" value={input3} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => { setInput3(event.target.value); handleChange(event) } } />
+                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-4" value={input4} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => { setInput4(event.target.value); handleChange(event)  } } />
+                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-5" value={input5} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => {setInput5(event.target.value); handleChange(event)  } } />
                   </div>
                   <div className="invalid-expire-text clearfix">
                     {isOtpValid !== "" && (
@@ -191,17 +214,18 @@ const OneTimepass = () => {
                   <div className="terms-use-text">
                     <p className="l-r">By clicking Continue I agree that I have read and<br/>accepted the Terms of Use.</p>
                   </div>
-                    <Button
-                      variant="primary"
-                      className="btn w-100 sign-btn white-color l-sb btnn"
-                      onClick={verifyOtp}
-                      disabled={otpVerifyLoading}
-                    >
-                      {otpVerifyLoading && (
-                        <span className="spinner-border spinner-border-sm"></span>
-                      )}
-                      Continue
-                    </Button>
+                      <Button
+                        variant="primary"
+                        className="btn w-100 sign-btn white-color l-sb btnn"
+                        onClick={verifyOtp}
+                        disabled={otpVerifyLoading}
+                        ref={continueButton}
+                        >
+                        {otpVerifyLoading && (
+                          <span className="spinner-border spinner-border-sm"></span>
+                          )}
+                        Continue
+                      </Button>
 
                     <Modal
                       show={show}

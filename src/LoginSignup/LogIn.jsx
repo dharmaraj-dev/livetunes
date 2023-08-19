@@ -49,6 +49,16 @@ const LogIn = () => {
         setLoading(false);
       });
     };
+    
+    function handleKeyDown(e){
+      if(e.key=="Tab" || e.key=="Enter"){
+        e.preventDefault();
+        const nextfield = document.querySelector(
+          `button[name=button]`
+        );
+        nextfield.focus();
+      }
+    }
 
     if (isLoggedIn) {
       return <Navigate to="/artists-profile" />;
@@ -84,6 +94,7 @@ const LogIn = () => {
                         placeholder={9999999999}
                         onChange={(phone) => setPhone(phone)}
                         disabled={loading}
+                        onKeyDown={e => handleKeyDown(e)}
                       />
                       {displayMessage !== "" && (
                         <Form.Text className="text-muted text_invalid">
@@ -108,6 +119,7 @@ const LogIn = () => {
                         type="submit"
                         className="btn w-100 sign-btn white-color l-sb btnn"
                         disabled={loading}
+                        name="button"
                       >
                         {loading && (
                           <span className="spinner-border spinner-border-sm"></span>

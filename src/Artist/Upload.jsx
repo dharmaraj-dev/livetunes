@@ -209,7 +209,7 @@ const Upload = () => {
                     )
                 })}
             </Row>
-            {alreadyAddedEventsFile?.length <= 5 && (
+            {alreadyAddedEventsFile?.length < 5 && (
             <FilePond
                 files={eventFiles}
                 onupdatefiles={setEventFiles}
@@ -220,6 +220,11 @@ const Upload = () => {
                 allowRemove={false}
                 server={ {
                     process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+                        if(eventFiles.length+alreadyAddedEventsFile?.length > 5){
+                            errorToast("Max 5 files allowed.");
+                            return false;
+                        }
+
                         const formData = new FormData();
                         formData.append(fieldName, file, file.name);
 
@@ -237,6 +242,7 @@ const Upload = () => {
                                 if(JSON.parse(request.response)?.IsSuccess) {
                                     successToast('Event file uploaded successfully.');
                                     dispatch(getProfileData());
+                                    setEventFiles([]);
                                 }
                                 else {
                                     successToast(JSON.parse(request.response)?.Message);

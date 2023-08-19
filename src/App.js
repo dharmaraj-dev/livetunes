@@ -46,6 +46,7 @@ import {
   ARTIST_PROFILE_STATUS,
   IS_ARTIST_PROFILE_SEND
 } from "./actions/types";
+import { welcomeSeen } from './actions/auth';
 
 function App() {
   const dispatch = useDispatch();
@@ -54,13 +55,16 @@ function App() {
   const { isLoggedIn, IsProfileSend, joiningType, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
 
   useEffect(() => {
+     if(!isLoggedIn && welcomeSeen){
+        navigate("/login")
+     } else
      if(joiningType === 'artist' && IsProfileSend && isLoggedIn) {
         if(ArtistIsApproved) {
           navigate("/artistdashboard");
         } else if(ArtistIsPending || ArtistIsNotSubmitted || ArtistIsRejected) {
           navigate("/artists-profile");
         }
-      } else if(joiningType == 'artist' && !IsProfileSend && isLoggedIn) {
+      } else if(joiningType === 'artist' && !IsProfileSend && isLoggedIn) {
         navigate("/artists-profile");
       }
 

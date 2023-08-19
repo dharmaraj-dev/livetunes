@@ -29,7 +29,7 @@ const SignUp = () => {
         return false;
       } else if (email !== "" && email.match(/^\S+@\S+\.\S+$/) === null) {
         setIsEmailValid(false);
-        console.log('invalid emaol')
+        console.log('invalid email')
         return false;
       }
       else {
@@ -59,6 +59,16 @@ const SignUp = () => {
         });
     };
 
+    function handleKeyDown(e){
+      if(e.key=="Tab"){
+        e.preventDefault();
+        const nextfield = document.querySelector(
+          `input[name=email]`
+        );
+        nextfield.select();
+      }
+    }
+
     if (isLoggedIn) {
       return <Navigate to="/artists-profile" />;
     }
@@ -78,7 +88,7 @@ const SignUp = () => {
               <h3 className="l-b form-head">
                 Create Your <samp className="red-color">Free Account</samp>
               </h3>
-              <p className="form-sub-head l-r">A place to find live envets</p>
+              <p className="form-sub-head l-r">A place to find live events</p>
               <Form onSubmit={handleSignup}>
                 <Form.Group className="mb-3" controlId="">
                   <Form.Label className="l-sb main-label">
@@ -92,6 +102,7 @@ const SignUp = () => {
                     placeholder={9999999999}
                     onChange={(phone) => setPhone(phone)}
                     disabled={loading}
+                    onKeyDown={e => handleKeyDown(e)}
                   />
                   {!isPhoneValid && (
                     <Form.Text className="text-muted text_invalid">
@@ -103,7 +114,7 @@ const SignUp = () => {
                   <Form.Label className="l-sb main-label">
                     Your Email <span className="l-r">(Secondary)</span>
                   </Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={loading}/>
+                  <Form.Control name="email" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={loading}/>
                   {!isEmailValid && (
                     <Form.Text className="text-muted text_invalid">
                       Invalid Email Address.

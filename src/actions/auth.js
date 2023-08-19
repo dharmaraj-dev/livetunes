@@ -16,6 +16,7 @@ import {
 
 import AuthService from "../services/auth.service";
 import CommonService from "../services/common.service";
+import authToken from "../services/auth-header";
 
 export const register = (phone, email) => (dispatch) => {
   return AuthService.register(phone, email).then(
@@ -226,8 +227,10 @@ export const validateOtp = (phone, otp) => (dispatch) => {
   );
 };
 
-export const logout = (authToken) => (dispatch) => {
-   return CommonService.logout(authToken).then(
+export const logout = () => (dispatch) => {
+   const user = JSON.parse(localStorage.getItem('user'));
+   if (user && user.AuthToken) {
+    return CommonService.logout(user.AuthToken).then(
       (response) => {
           localStorage.clear();
           localStorage.setItem("welcomeSeen", true);
@@ -238,7 +241,7 @@ export const logout = (authToken) => (dispatch) => {
             type: ARTIST_RESET,
             payload: true,
           });
-        return Promise.resolve();
+        return Promise.resolve(response);
       },
       (error) => {
         const message =
@@ -250,6 +253,9 @@ export const logout = (authToken) => (dispatch) => {
         return Promise.reject(error);
       }
     );
+  } else {
+    return {};
+  }
 };
 
 export const welcomeSeen = (data) => (dispatch) => {

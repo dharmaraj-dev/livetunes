@@ -51,9 +51,10 @@ const getAddressProofs = () => {
   return axios.get(API_URL + "AddressProof/GetAll", { headers: authHeader() });
 };
 
-const logout = () => {
+const logout = (token) => {
+  console.log(token)
   return axios
-    .post(API_URL + "LogMethods/Logout", {}, { headers: authHeader() })
+    .post(API_URL + "LogMethods/Logout", {}, { headers: { "Authorization": token } })
     .then((response) => {
       return response.data;
     });  

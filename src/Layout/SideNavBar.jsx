@@ -22,6 +22,7 @@ const SideNavBar = () => {
 	const dispatch = useDispatch();
 	let navigate = useNavigate();
 	const MySwal = withReactContent(Swal);
+	
 
 	const audio = new Audio(Gaudio);
 	const [isExpanded, setExpendState] = useState(false);
@@ -70,11 +71,11 @@ const SideNavBar = () => {
           showLoaderOnConfirm: true,
           preConfirm: () => {
             return dispatch(logout()).then((response) => {
-                if(response.data.IsSuccess) {
+                if(response.IsSuccess) {
                     dispatch({
 			            type: LOGOUT,
 			          });
-					navigate("/");
+					navigate("/login");
                     return response;
                 } else {
                     throw new Error(response.data.Message);
@@ -87,7 +88,6 @@ const SideNavBar = () => {
           },
           allowOutsideClick: () => false
         }).then((result) => {
-            console.log('result', result);  
           if (result.isConfirmed && result.value) {
                 Swal.fire('Successfully logout.', '', 'success')
           }
