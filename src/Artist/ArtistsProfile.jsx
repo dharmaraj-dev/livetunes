@@ -607,7 +607,151 @@ const ArtistsProfile = (props) => {
             //     })
             // }
             dispatch(getProfileData()).then((res) => {
+                console.log(res.data)
                 setPageLoading(false);
+                if(res.data?.selApInfo?.FirstName !== null) {
+                    setFirstName(res.data?.selApInfo?.FirstName);
+                    setLastName(res.data?.selApInfo?.LastName);
+                    setContactNo(res.data?.selApInfo?.ContactNo);
+                    setEmail(res.data?.selApInfo?.EmailId);
+                    setStateId(res.data?.selApInfo?.StateId);
+                    setStateName(res.data?.selApInfo?.StateName);
+                    selectStateAndGetItsCities(res.data?.selApInfo?.StateId);
+                    assignCityStateName(res.data?.selApInfo?.StateId);
+                    setCityId(res.data?.selApInfo?.CityId);
+                    setCityName(res.data?.selApInfo?.CityName);
+                    setDob(moment(res.data?.selApInfo?.DateOfBirth).format("YYYY-MM-DD"));
+                    setGender(res.data?.selApInfo?.Gender === null ? "" : res.data?.selApInfo?.Gender);
+                }
+                
+                
+    
+                if(res.data?.selAPDetails?.CategoryId !== null){
+    
+                    //step 2
+                    if(res.data?.selAPDetails?.CategoryId !== null && res.data?.selAPDetails?.CategoryId.split(",")) {
+                        const tmpSelCategories = [];
+                        for (let i in res.data?.selAPDetails?.CategoryId.split(",")) {
+                            tmpSelCategories.push(
+                                {
+                                    CategoryId: res.data?.selAPDetails?.CategoryId.split(",")[i],
+                                    CategoryName: res.data?.selAPDetails?.CategoryName.split(",")[i]
+                                }
+                            )
+                        }
+                        setSelCategories(tmpSelCategories);
+                    }
+    
+                    if(res.data?.selAPDetails?.GenreId !== null && res.data?.selAPDetails?.GenreId.split(",")) {
+                        const tmpSelGernes = [];
+                        for (let i in res.data?.selAPDetails?.GenreId.split(",")) {
+                            tmpSelGernes.push(
+                                {
+                                    GenreId: res.data?.selAPDetails?.GenreId.split(",")[i],
+                                    GenreName: res.data?.selAPDetails?.GenreName.split(",")[i]
+                                }
+                            )
+                        }
+                        setSelGernes(tmpSelGernes);
+                    }
+    
+                    if(res.data?.selAPDetails?.LanguageId !== null && res.data?.selAPDetails?.LanguageId.split(",")) {
+                        const tmpSelLanguages = [];
+                        for (let i in res.data?.selAPDetails?.LanguageId.split(",")) {
+                            tmpSelLanguages.push(
+                                {
+                                    LanguageId: res.data?.selAPDetails?.LanguageId.split(",")[i],
+                                    LanguageName: res.data?.selAPDetails?.LanguageName.split(",")[i]
+                                }
+                            )
+                        }
+                        setSelLanguages(tmpSelLanguages);
+                    }
+                    
+                    setSelExpInYears(res.data?.selAPDetails?.PExperience);
+    
+                    if(res.data?.selAPDetails?.EventsId !== null && res.data?.selAPDetails?.EventsId.split(",")) {
+                        const tmpSelPrefEvents = [];
+                        for (let i in res.data?.selAPDetails?.EventsId.split(",")) {
+                            tmpSelPrefEvents.push(
+                                {
+                                    EventsId: res.data?.selAPDetails?.EventsId.split(",")[i],
+                                    EventsName: res.data?.selAPDetails?.EventsName.split(",")[i]
+                                }
+                            )
+                        }
+                        setSelPrefEvents(tmpSelPrefEvents);
+                    }
+    
+                    if(res.data?.selAPDetails?.YesOtherState) {
+                        setSelWillingToTravel(1);
+                    } else if(res.data?.selAPDetails?.NoOtherState) {
+                        setSelWillingToTravel(0);
+                    }  else if(res.data?.selAPDetails?.IsOtherState) {
+                        setSelWillingToTravel(2);
+                    }
+    
+                    if(res.data?.selAPDetails?.OtherStateId !== null && res.data?.selAPDetails?.OtherStateId.split(",")) {
+                        const tmpSelExpStates = [];
+                        for (let i in res.data?.selAPDetails?.OtherStateId.split(",")) {
+                            tmpSelExpStates.push(
+                                {
+                                    StateId: res.data?.selAPDetails?.OtherStateId.split(",")[i],
+                                    StateName: res.data?.selAPDetails?.OtherStateName.split(",")[i]
+                                }
+                            )
+                        }
+                        setSelExpState(tmpSelExpStates);
+                    }
+    
+                    if (res.data?.selAPDetails?.PDuration1Hr) {
+                        setSelPerfDuration(1);
+                    } else if (res.data?.selAPDetails?.PDuration2Hr) {
+                        setSelPerfDuration(2);
+                    } else if (res.data?.selAPDetails?.DurationRemark != null) {
+                        setSelPerfDuration(res.data?.selAPDetails?.DurationRemark);
+                    }
+                    setSelChargesType(res.data?.selAPDetails?.IsPerShow ? 1 : 2);
+                    setSelChargesFrom(res.data?.selAPDetails?.FromCharge);
+                    setSelChargesTo(res.data?.selAPDetails?.ToCharge);
+                    setSelPrivSurpEvent(res.data?.selAPDetails?.YesPEvents ? 1 : 0);
+    
+                    if(res.data?.selAPDetails?.ModeId !== null && res.data?.selAPDetails?.ModeId.split(",")) {
+                        const tmpSelSurpMode = [];
+                        for (let i in res.data?.selAPDetails?.ModeId.split(",")) {
+                            tmpSelSurpMode.push(
+                                {
+                                    EventModeId: res.data?.selAPDetails?.ModeId.split(",")[i],
+                                    EventModeName: res.data?.selAPDetails?.ModeName.split(",")[i]
+                                }
+                            )
+                        }
+                        setSelPrivSurpEventMode(tmpSelSurpMode);
+                    }
+    
+                    setSelVirtualEvent(res.data?.selAPDetails?.YesVEvents ? 1 : 0);
+    
+                    if(res.data?.selAPDetails?.EventTypeId !== null && res.data?.selAPDetails?.EventTypeId.split(",")) {
+                        const tmpSelVirtualEventTypes = [];
+                        for (let i in res.data?.selAPDetails?.EventTypeId.split(",")) {
+                            tmpSelVirtualEventTypes.push(
+                                {
+                                    EventsId: res.data?.selAPDetails?.EventTypeId.split(",")[i],
+                                    EventsName: res.data?.selAPDetails?.EventTypeName.split(",")[i]
+                                }
+                            )
+                        }
+                        setSelVirtualEventType(tmpSelVirtualEventTypes);
+                    }
+    
+                    setSelAboutArtist(res.data?.selAPDetails?.BriefIntro);
+                }
+    
+                //step 3
+                setFbUrl(res.data?.selASDetails?.FacebookLink);
+                setInstaUrl(res.data?.selASDetails?.InstagramLink);
+                setYoutubeUrl(res.data?.selASDetails?.YouTubeLink);
+                setWebsiteUrl(res.data?.selASDetails?.OtherLink);
             }).catch((err) => {
                 navigate('/')
             })
