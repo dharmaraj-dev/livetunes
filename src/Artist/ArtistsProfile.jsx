@@ -15,7 +15,7 @@ import Expert from '../assets/images/like-img.png';
 import PhoneInput from "react-phone-input-2";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfileData } from "../actions/artist";
-import { getCitiesOfState } from "../actions/common";
+import { getCities, getStates, getCategories, getGernes, getLanguages, getEvents, getEventModes } from "../actions/common";
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import moment from "moment";
 import { getProfileData, submitArtistApplicationTJudge } from "../actions/artist";
@@ -32,6 +32,7 @@ import { Navigate, useNavigate  } from 'react-router-dom';
 import Loader from './Loader';
 import ThreeDotLoader from './ThreeDotLoader';
 import DhanTeNan from '../assets/music/dhan_te_nan.mp3';
+import './Artist.css'
 
 const ArtistsProfile = (props) => {
     const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const ArtistsProfile = (props) => {
     let navigate = useNavigate();
     const audio = new Audio(DhanTeNan);
 
-    const { cities, states, categories, gernes, languages, events, eventModes, citiesOfState } = useSelector(state => state.common);
+    const { cities, states, categories, gernes, languages, events, eventModes } = useSelector(state => state.common);
     const { artistProfileData } = useSelector(state => state.artist);
     const { IsProfileSend, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
     // if(ArtistIsApproved) {
@@ -62,6 +63,8 @@ const ArtistsProfile = (props) => {
     const [dob, setDob] = useState("");
     const [gender, setGender] = useState("male");
     const [loadingStep1, setStep1Loading] = useState(false);
+
+    const [filteredCities,setFilteredCities] = useState([]);
 
     //step 2 form
     const [selCategories, setSelCategories] = useState([]);
@@ -99,7 +102,11 @@ const ArtistsProfile = (props) => {
 
     const handleClose = () => {
         setShow(false);
-        navigate("/my-profile");
+        if(applicationStatus == 3) {
+            navigate("/my-profile");
+        } else {
+            navigate("/");
+        }
     };
     const handleShow = () => setShow(true);
 
@@ -110,25 +117,25 @@ const ArtistsProfile = (props) => {
         }
         if(currentStep == 1) {
             //step 2 api 
-            if(firstName == ("" || undefined)) {
+            if(firstName === "" || firstName === undefined) {
                 errorToast('First Name is required.');
                 return false;
-            } else if(lastName == ("" || undefined)) {
+            } else if(lastName === "" || lastName === undefined) {
                 errorToast('Last Name is required.');
                 return false;
-            } else if(contactNo == ("" || undefined)) {
+            } else if(contactNo === "" || contactNo === undefined) {
                 errorToast('Contact No is required.');
                 return false;
-            } else if(email == ("" || undefined)) {
+            } else if(email === "" || email === undefined) {
                 errorToast('Email is required.');
                 return false;
-            } else if(stateId == ("" || undefined)) {
+            } else if(stateId === 0 || stateId === undefined || stateId === "") {
                 errorToast('State is required.');
                 return false;
-            } else if(cityId == ("" || undefined)) {
+            } else if(cityId === 0 || cityId === undefined || cityId === "") {
                 errorToast('City is required.');
                 return false;
-            } else if(gender == ("" || undefined)) {
+            } else if(gender === "" || gender === undefined) {
                 errorToast('Gender is required.');
                 return false;
             } else {
@@ -180,34 +187,49 @@ const ArtistsProfile = (props) => {
                 });
             }
         } else if(currentStep === 2) {
-            if(selCategories.length == 0) {
+            if(selCategories.length === 0) {
                 errorToast('Category is required.');
                 return false;
-            } else if(selGernes.length == 0) {
+            } else if(selGernes.length === 0) {
                 errorToast('Gerne is required.');
                 return false;
-            } else if(selLanguages.length == 0) {
+            } else if(selLanguages.length === 0) {
                 errorToast('Language is required.');
                 return false;
-            } else if(selPrefEvents.length == 0) {
+            } else if(selPrefEvents.length === 0) {
                 errorToast('Preferred events is required.');
                 return false;
-            } else if(selWillingToTravel == ("" || undefined)) {
+            } else if(selWillingToTravel === "" || selWillingToTravel === undefined) {
                 errorToast('Willing to travel to other states for live events is required.');
                 return false;
-            } else if(selPerfDuration == ("" || undefined)) {
+            } else if(selPerfDuration === "" || selPerfDuration === undefined) {
                 errorToast('Preferred performance duration is required.');
                 return false;
-            } else if(selChargesType == ("" || undefined)) {
+            } else if(selChargesType === "" || selChargesType === undefined) {
                 errorToast('Performance charges is required.');
                 return false;
-            } else if(selChargesFrom == ("" || undefined)) {
+            } else if(selChargesFrom === "" || selChargesFrom === undefined) {
                 errorToast('From amount is required.');
                 return false;
-            } else if(selChargesTo == ("" || undefined)) {
+            } else if(Number(selChargesFrom)<0){
+                errorToast('Amount can not be negative.');
+                return false;
+            }
+            else if(selChargesTo === "" || selChargesTo === undefined){
                 errorToast('To amount is required.');
                 return false;
-            } else {
+            }else if(Number(selChargesTo)<0){
+                errorToast('Amount can not be negative.');
+                return false;
+            }else if(Number(selChargesTo)<Number(selChargesFrom)){
+                errorToast('To amount can not be less than from.')
+                return false;
+            }
+            else if(Number(expInYears)<0){
+                errorToast('Experience can not be negative');
+                return false;
+            }
+            else {
                 if(
                     selCategories.map(a => a.CategoryId)?.join(",") === artistProfileData?.selAPDetails?.CategoryId &&
                     selCategories.map(a => a.CategoryName)?.join(",") === artistProfileData?.selAPDetails?.CategoryName &&
@@ -280,15 +302,15 @@ const ArtistsProfile = (props) => {
                         PDurationM2Hr: selPerfDuration > 2 ? true : false,
                         DurationRemark: selPerfDuration > 2 ? selPerfDuration : null,
                         IsPerShow: selChargesType === 1 ? true : false,
-                        IsPerHr: selChargesType === 0 ? true : false,
+                        IsPerHr: selChargesType === 2 ? true : false,
                         FromCharge: selChargesFrom,
                         ToCharge: selChargesTo,
                         YesPEvents: selPrivSurpEvent === 1 ? true : false,
-                        NoPEvents: !selPrivSurpEvent === 0 ? true : false,
+                        NoPEvents: selPrivSurpEvent === 0 ? true : false,
                         ModeId: selPrivSurpEventMode.map(a => a.EventModeId)?.join(","),
                         ModeName: selPrivSurpEventMode.map(a => a.EventModeName)?.join(","),
                         YesVEvents: selAvailVirtualEvent === 1 ? true : false,
-                        NoVEvents: !selAvailVirtualEvent === 0 ? true : false,
+                        NoVEvents: selAvailVirtualEvent === 0 ? true : false,
                         EventTypeId: selAvailVirtualEventType.map(a => a.EventsId)?.join(","),
                         EventTypeName: selAvailVirtualEventType.map(a => a.EventsName)?.join(","),
                         BriefIntro: selAboutArtist
@@ -420,8 +442,26 @@ const ArtistsProfile = (props) => {
 
     const selectStateAndGetItsCities = (stateId) => {
         if(stateId !== "" && stateId !== null && stateId !== undefined) {
-            dispatch(getCitiesOfState(stateId));
+            const data = cities.filter((cts)=>cts.StateId == stateId);
+            setFilteredCities(data)
         }
+        else{
+            setFilteredCities([])
+        }
+    }
+
+    const assignCityStateName = (id) => {
+        const data = cities.filter((cts)=>cts.StateId == id);
+        console.log('data', data)
+        if(data.length > 0) {
+            setStateName(data[0].StateName);
+            setCityName(data[0].CityName);
+        } else {
+            setStateName("");
+            setCityName("");
+        }
+
+        console.log(stateName, cityName);
     }
 
     const selectCategory = (selectedList, selectedItem) => {
@@ -549,19 +589,28 @@ const ArtistsProfile = (props) => {
     }
 
     useEffect(() => {
-        if(IsProfileSend) {
-            if(artistProfileData.IsSuccess) {
+
+        dispatch(getCities());
+        dispatch(getStates());
+        dispatch(getCategories());
+        dispatch(getGernes());
+        dispatch(getLanguages());
+        dispatch(getEvents());
+        dispatch(getEventModes());
+            // if(artistProfileData.IsSuccess) {
+            //     setPageLoading(false);
+            // } else {
+            //     dispatch(getProfileData()).then((res) => {
+            //         setPageLoading(false);
+            //     }).catch((err) => {
+            //         navigate('/')
+            //     })
+            // }
+            dispatch(getProfileData()).then((res) => {
                 setPageLoading(false);
-            } else {
-                dispatch(getProfileData()).then((res) => {
-                    setPageLoading(false);
-                }).catch((err) => {
-                    navigate('/')
-                })
-            }
-        } else {
-            setPageLoading(false);
-        }
+            }).catch((err) => {
+                navigate('/')
+            })
         
         if(IsProfileSend && ArtistIsPending) {
             setProfileSentToJusgeForVerification(true);
@@ -585,6 +634,7 @@ const ArtistsProfile = (props) => {
                 setStateId(artistProfileData?.selApInfo?.StateId);
                 setStateName(artistProfileData?.selApInfo?.StateName);
                 selectStateAndGetItsCities(artistProfileData?.selApInfo?.StateId);
+                assignCityStateName(artistProfileData?.selApInfo?.StateId);
                 setCityId(artistProfileData?.selApInfo?.CityId);
                 setCityName(artistProfileData?.selApInfo?.CityName);
                 setDob(moment(artistProfileData?.selApInfo?.DateOfBirth).format("YYYY-MM-DD"));
@@ -720,7 +770,41 @@ const ArtistsProfile = (props) => {
             setYoutubeUrl(artistProfileData?.selASDetails?.YouTubeLink);
             setWebsiteUrl(artistProfileData?.selASDetails?.OtherLink);
         }
-    }, [artistProfileData])
+    }, [])
+
+    function handleKeyDownPhone(e){
+        if(e.key=="Tab"){
+            e.preventDefault();
+            const nextfield = document.querySelector(
+              `input[name=email]`
+            );
+            nextfield.select();
+          }
+    }
+
+    function handleKeyDownEmail(e){
+        if(e.key=="Tab"){
+            e.preventDefault();
+            const nextfield = document.querySelector(`select[name=state]`);
+            console.log(nextfield);
+            nextfield.focus();
+          }
+    }
+
+    function handleStateCityFocus(e){
+        e.target.classList.add('focus-state-city');
+    }
+    
+    function handleStateCityBlur(e){
+        e.target.classList.remove('focus-state-city');
+    }
+
+    function checkDate(e){
+        if(e.target.value === '0001-01-01'){
+            const date = new Date().toJSON().slice(0, 10);
+            setDob(date);
+        }
+    }
 
   return (
     <>
@@ -782,34 +866,38 @@ const ArtistsProfile = (props) => {
                                                 placeholder={9999999999}
                                                 value={contactNo} 
                                                 onChange={(phone) => {setContactNo(phone)}}
+                                                onKeyDown={(e)=>handleKeyDownPhone(e)}
                                               />
                                         </Col>
                                         <Col lg={6} md="12" className="mb-4">
                                             <Form.Label className="l-sb">Email<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Control placeholder="Email" type="email" value={email} onChange={(e) => {setEmail(e.target.value)}}/>
+                                            <Form.Control onKeyDown={(e) => handleKeyDownEmail(e)} name="email" placeholder="Email" type="email" value={email} onChange={(e) => {setEmail(e.target.value)}}/>
                                         </Col>
                                         <Col lg={6} md="12" className="mb-4">
                                             <Form.Label className="l-sb">State<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control" value={`${stateId}_${stateName}`} onChange={(e) => {selectStateAndGetItsCities(e.target.value.split('_')[0]);setStateId(e.target.value.split('_')[0]);setStateName(e.target.value.split('_')[1]);setCityId("");setCityName("")}}>
-                                                <option value="">Select state</option>
+                                            <Form.Select name="state" aria-label="Default select example" className="form-control" value={stateId} onChange={(e) => {setCityId("");selectStateAndGetItsCities(e.target.value);setStateId(e.target.value); assignCityStateName(e.target.value)}}
+                                            onFocus={(e)=> handleStateCityFocus(e)} onBlur={(e)=> handleStateCityBlur(e)}>
+                                                <option value="" selected="selected">Select state</option>
                                                 {states?.filter((key) => !key.IsCancelled).map((state, index) => {
-                                                    return (<option key={`${state.StateId}'_'${state.StateName}`} value={`${state.StateId}_${state.StateName}`}>{state.StateName}</option>)
+                                                    return (<option key={`${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
                                                 })}
                                             </Form.Select>
                                         </Col>
                                         <Col lg={6} md="12" className="mb-4">
                                             <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control" value={`${cityId}_${cityName}`} onChange={(e) => {setCityId(e.target.value.split('_')[0]); setCityName(e.target.value.split('_')[1])}}>
+
+                                            <Form.Select aria-label="Default select example" className="form-control" value={cityId} onChange={(e) => {setCityId(e.target.value); assignCityStateName(stateId)}}
+                                            onFocus={(e)=> handleStateCityFocus(e)} onBlur={(e)=> handleStateCityBlur(e)}>
                                                 <option>Select city</option>
-                                                {citiesOfState?.filter((key) => !key.IsCancelled).map((city, index) => {
-                                                    return (<option key={`${city.CityId}_${city.CityName}`} value={`${city.CityId}_${city.CityName}`}>{city.CityName}</option>)
+                                                {filteredCities?.filter((key) => !key.IsCancelled).map((city, index) => {
+                                                    return (<option key={`${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
                                                 })}
                                             </Form.Select>
                                         </Col>
                                         
                                         <Col lg={6} md="12" className="mb-4">
                                             <Form.Label className="l-sb">Date of birth</Form.Label>
-                                            <Form.Control placeholder="" type="date" value={dob} onChange={(e) => {setDob(e.target.value)}}/>
+                                            <Form.Control placeholder="" type="date" value={dob} onBlur={(e)=> checkDate(e)} onChange={(e) => {setDob(e.target.value);}}/>
                                         </Col>
                                         <Col lg={6} md="12" className="mb-4">
                                         <Form.Label className="l-sb">Gender<sup className="red-color">*</sup></Form.Label>
@@ -875,7 +963,7 @@ const ArtistsProfile = (props) => {
                                             />
                                             </Col>
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Gerne<sup className="red-color">*</sup></Form.Label>
+                                            <Form.Label className="l-sb">Genre<sup className="red-color">*</sup></Form.Label>
                                             <Multiselect
                                                 isObject={true}
                                                 options= { gernes?.filter((key) => !key.IsCancelled) }
@@ -1178,11 +1266,9 @@ const ArtistsProfile = (props) => {
                                     size="lg"
                                     className="artist-model-sec"
                                 >
-                                    {applicationStatus == 0 || applicationStatus == 3 && (
-                                        <div className="closeButtonr" onClick={handleClose}>
-                                            <RxCross2/>
-                                        </div>
-                                    )}
+                                    <div className="closeButtonr" onClick={handleClose}>
+                                        <RxCross2/>
+                                    </div>
                                     <Modal.Body>
                                         <div className="firework-1"></div>
                                         <div className="firework-2"></div>

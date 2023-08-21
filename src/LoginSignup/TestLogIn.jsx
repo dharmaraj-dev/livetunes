@@ -7,11 +7,11 @@ import SignUpContainer from "./SignUpContainer";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, useLocation  } from 'react-router-dom';
-import { login } from "../actions/auth";
+import { dummyLogin } from "../actions/auth";
 import { successToast, errorToast } from "../services/toast-service";
 import { setJoiningType } from "../actions/auth";
 
-const LogIn = () => {
+const TestLogIn = () => {
     let navigate = useNavigate();
     let loc = useLocation();
     const dispatch = useDispatch();
@@ -34,10 +34,10 @@ const LogIn = () => {
 
       setLoading(true);
 
-      dispatch(login(phone))
+      dispatch(dummyLogin(phone))
       .then((res) => {
         if(res.IsSuccess) {
-          successToast("OTP sent successfully.");
+          successToast(`OTP sent successfully. Your OTP is ${res.OTP}`);
           navigate("/otp");
           setDisplayMessage(res.Message)
         } else {
@@ -153,4 +153,4 @@ const LogIn = () => {
       );
 }
 
-export default LogIn
+export default TestLogIn

@@ -24,6 +24,7 @@ const SideNavBar = () => {
 	let navigate = useNavigate();
 	const MySwal = withReactContent(Swal);
 	const { joiningType } = useSelector((state) => state.auth);
+	
 
 	const audio = new Audio(Gaudio);
 	const [isExpanded, setExpendState] = useState(false);
@@ -77,26 +78,25 @@ const SideNavBar = () => {
           confirmButtonText: 'Yes',
           denyButtonText: `No`,
           showLoaderOnConfirm: true,
-          // preConfirm: () => {
-          //   // return dispatch(logout(authToken)).then((response) => {
-          //   //     if(response.data.IsSuccess) {
-          //   //         dispatch({
-		// 	//             type: LOGOUT,
-		// 	//           });
-		// 	// 		navigate("/login");
-          //   //         return response;
-          //   //     } else {
-          //   //         throw new Error(response.data.Message);
-          //   //         Swal.fire(response.data.Message, '', 'error');
-          //   //         navigate("/login");
-          //   //     }
-          //   // }).catch((err) => {
-          //   // 	navigate("/");
-          //   // })
-          // },
+          preConfirm: () => {
+            return dispatch(logout()).then((response) => {
+                if(response.IsSuccess) {
+                    dispatch({
+			            type: LOGOUT,
+			          });
+									navigate("/login");
+                    return response;
+                } else {
+                    throw new Error(response.data.Message);
+                    Swal.fire(response.data.Message, '', 'error');
+                    navigate("/");
+                }
+            }).catch((err) => {
+            	navigate("/");
+            })
+          },
           allowOutsideClick: () => false
         }).then((result) => {
-            console.log('result', result);  
           if (result.isConfirmed && result.value) {
           		dispatch(logout(authToken()));
           		dispatch({

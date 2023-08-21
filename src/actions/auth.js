@@ -15,6 +15,8 @@ import {
 } from "./types";
 
 import AuthService from "../services/auth.service";
+import CommonService from "../services/common.service";
+import authToken from "../services/auth-header";
 
 export const register = (phone, email) => (dispatch) => {
   return AuthService.register(phone, email).then(
@@ -156,6 +158,76 @@ export const login = (phone) => (dispatch) => {
   );
 };
 
+export const dummyLogin = (phone) => (dispatch) => {
+  return AuthService.dummyLogin(phone).then(
+    (data) => {
+      if(data.IsSuccess) {
+        
+        localStorage.setItem('tmpUser', btoa(JSON.stringify(data)));
+        localStorage.setItem('ArtistId', data.RegId);
+        localStorage.setItem('is_approved', data.is_approved);
+        localStorage.setItem('is_pending', data.is_pending);
+        localStorage.setItem('is_not_submitted', data.is_not_submitted);
+        localStorage.setItem('is_rejection', data.is_rejection);
+        localStorage.setItem('IsProfileSend', data.IsProfileSend);
+
+        dispatch({
+          type: OTP_SENT,
+          payload: true,
+        });
+        dispatch({
+          type: OTP_SENT_TO,
+          payload: phone,
+        });
+        dispatch({
+          type: ARTIST_ID,
+          payload: data.RegId,
+        });
+        dispatch({
+          type: ARTIST_IS_APPROVED,
+          payload: data.is_approved,
+        });
+        dispatch({
+          type: ARTIST_IS_REJECTED,
+          payload: data.is_rejection,
+        });
+        dispatch({
+          type: ARTIST_IS_PENDING,
+          payload: data.is_pending,
+        });
+        dispatch({
+          type: ARTIST_IS_NOT_SUBMITTED,
+          payload: data.is_not_submitted,
+        });
+        dispatch({
+          type: IS_ARTIST_PROFILE_SEND,
+          payload: data.IsProfileSend,
+        });
+      }
+      else {
+        dispatch({
+          type: OTP_SENT,
+          payload: false,
+        });
+        dispatch({
+          type: OTP_SENT_TO,
+          payload: phone,
+        });
+      }
+      return Promise.resolve(data);
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return Promise.reject(error);
+    }
+  );
+};
+
 export const resendOtp = (phone) => (dispatch) => {
   return AuthService.resendOtp(phone).then(
     (data) => {
@@ -227,8 +299,10 @@ export const validateOtp = (phone, otp) => (dispatch) => {
   );
 };
 
-export const logout = (authToken) => (dispatch) => {
-   return AuthService.logout(authToken).then(
+export const logout = () => (dispatch) => {
+   const user = JSON.parse(localStorage.getItem('user'));
+   if (user && user.AuthToken) {
+    return CommonService.logout(user.AuthToken).then(
       (response) => {
           localStorage.clear();
           localStorage.setItem("welcomeSeen", true);
@@ -239,7 +313,7 @@ export const logout = (authToken) => (dispatch) => {
             type: STATE_RESET,
             payload: true,
           });
-        return Promise.resolve();
+        return Promise.resolve(response);
       },
       (error) => {
         const message =
@@ -251,6 +325,9 @@ export const logout = (authToken) => (dispatch) => {
         return Promise.reject(error);
       }
     );
+  } else {
+    return {};
+  }
 };
 
 export const welcomeSeen = (data) => (dispatch) => {

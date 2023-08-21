@@ -399,7 +399,7 @@ export function SlideView({ title, itemId, children }) {
                       </div>
                       <p className="head khf l-m">Find Artists easily</p>
                       <p className="sub-head l-r">
-                        Find the Livetunes artists on the protal
+                        Find the LiveTunes artists on the portal
                       </p>
                     </div>
                   </Col>

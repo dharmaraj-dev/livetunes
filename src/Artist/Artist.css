@@ -101,3 +101,8 @@ table {border-collapse: separate;border-spacing: 1px 15px;}
 .uploadedProofs li span {
 	margin-right: 10px;
 }
+
+/* style when focus applied to state and city */
+.focus-state-city{
+	border: solid black 2px !important;
+}

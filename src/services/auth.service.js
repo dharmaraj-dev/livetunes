@@ -22,8 +22,17 @@ const login = (MobileNo) => {
   return axios
     .post(API_URL + "LogMethods/LoginAuth", {
       MobileNo
-      // ,
-      // IsDummy:true
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const dummyLogin = (MobileNo) => {
+  return axios
+    .post(API_URL + "LogMethods/LoginAuth", {
+      MobileNo,
+      IsDummy:true
     })
     .then((response) => {
       return response.data;
@@ -67,6 +76,7 @@ const logout = (authToken) => {
 export default {
   register,
   login,
+  dummyLogin,
   resendOtp,
   validateOtp,
   welcomeSeen,

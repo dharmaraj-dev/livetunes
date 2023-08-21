@@ -55,12 +55,15 @@ const getAllMasters = () => {
   return axios.post(API_URL + "MasterC/GetArtistMasters",{}, { headers: authHeader() }).then((response) => {
       return response;
     });
-  // .catch((err) => {
-  //     if(err.response.status === 401) {
-  //       Swal.fire('Unauthorised', '', 'error');
-  //       //window.location.href="/login";
-  //     }
-  //   })
+};
+
+const logout = (token) => {
+  console.log(token)
+  return axios
+    .post(API_URL + "LogMethods/Logout", {}, { headers: { "Authorization": token } })
+    .then((response) => {
+      return response.data;
+    });  
 };
 
 
@@ -77,5 +80,6 @@ export default {
   getBranchesByBank,
   getIDProofs,
   getAddressProofs,
-  getAllMasters
+  getAllMasters,
+  logout
 };

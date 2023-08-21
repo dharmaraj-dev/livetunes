@@ -245,7 +245,7 @@ const Review = () => {
                       </div>
                       <div className="info-performance-details">
                         <p className="heading-text mb-3 l-sb">Feedback and review</p>
-                        {feedLogs.map((feed, index) => {
+                        {feedLogs?.map((feed, index) => {
                           return (
                             <Row key={`feed_${index}`}>
                               <Col lg={12} xl={12}>

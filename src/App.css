@@ -988,3 +988,20 @@ numberInput.input[type=number] {
 .easy-edit-component-wrapper textarea{
     font-size: 14px;
 }
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #f13743;
+  --bs-btn-border-color: #f13743;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #f13743;
+  --bs-btn-hover-border-color: #f13743;
+  --bs-btn-focus-shadow-rgb: #f13743;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #f13743;
+  --bs-btn-active-border-color: #f13743;
+  --bs-btn-active-shadow: inset 0 3px 5px #f13743;
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #f13743;
+  --bs-btn-disabled-border-color: #f13743;
+}

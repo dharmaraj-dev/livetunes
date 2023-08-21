@@ -33,6 +33,7 @@ const Upload = () => {
     const [profilePic, setProfilePic] = useState([])
     const [profilePicPrev, setProfilePicPrev] = useState(DefaultProfile)
     const [eventFiles, setEventFiles] = useState([])
+    const [maxAllowedFiles, setMaxAllowedFiles] = useState(5)
 
     const [alreadyAddedEventsFile, setAlreadyAddedEventsFiles] = useState([])
     const [alreadyAddedProfilePic, setAlreadyAddedProfilePic] = useState("")
@@ -70,6 +71,7 @@ const Upload = () => {
                 if(response.data.IsSuccess) {
                     return dispatch(getProfileData()).then((res) => {
                         setAlreadyAddedEventsFiles(res.data.selLtMedia);
+                        setMaxAllowedFiles( 5 - res.data.selLtMedia.length);
                         return res;
                     });
                 } else {
@@ -111,10 +113,14 @@ const Upload = () => {
         if(artistProfileData) {
              if(artistProfileData?.selLtMedia?.length > 0){
                 setAlreadyAddedEventsFiles(artistProfileData?.selLtMedia);
+                setMaxAllowedFiles( 5 - artistProfileData?.selLtMedia?.length);
+             } else {
+                setMaxAllowedFiles(5);
              }
             if(artistProfileData?.selProfileImage?.length > 0) {
                 setProfilePicPrev(artistProfileData?.selProfileImage[0].LTMediaURL);
             }
+
         }
     }, [artistProfileData])
 
@@ -213,16 +219,44 @@ const Upload = () => {
                     </label>
                 </div>
             </div>
-            {alreadyAddedEventsFile?.length <= 5 && (
+            <Row className="artistEventsFiles mb-4">
+                {alreadyAddedEventsFile?.filter((key) => !key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
+                    return (
+                        <Col lg={6} md={6} key={`eventImgFiles_${index}`} className="mb-4 position-relative">
+                            <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
+                            <img src={eveFile.LTMediaURL}/>
+                        </Col>
+                    )
+                })}
+                {alreadyAddedEventsFile?.filter((key) => key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
+                    return (
+                        <Col lg={6} md={6} key={`eventVidFiles_${index}`} className="mb-4 position-relative">
+                            <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
+                            <video controls={true} src={eveFile.LTMediaURL}></video>
+                        </Col>
+                    )
+                })}
+            </Row>
+            {alreadyAddedEventsFile?.length < 5 && (
             <FilePond
                 files={eventFiles}
                 onupdatefiles={setEventFiles}
                 allowMultiple={true}
-                maxFiles={5}
+                maxFiles={maxAllowedFiles}
                 acceptedFileTypes={["video/mp4", "image/png", "image/jpeg"]}
                 allowRevert={false}
                 allowRemove={false}
-                server={ {
+                oninit={(e) => {
+                    setMaxAllowedFiles(5 - alreadyAddedEventsFile?.length);
+                }}
+                onwarning={(e) => {
+                    if(e.type === "warning" && e.body === "Max files") {
+                        infoToast(`Maximum upload limit exceeds, available limit is ${maxAllowedFiles}`)
+                    }
+                }}
+                server={
+                    
+                    {
                     process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                         const formData = new FormData();
                         formData.append(fieldName, file, file.name);
@@ -241,6 +275,7 @@ const Upload = () => {
                                 if(JSON.parse(request.response)?.IsSuccess) {
                                     successToast('Event file uploaded successfully.');
                                     dispatch(getProfileData());
+                                    setEventFiles([]);
                                 }
                                 else {
                                     successToast(JSON.parse(request.response)?.Message);
@@ -267,6 +302,8 @@ const Upload = () => {
                         };
                     }                 
                 }
+
+                       
                 }
                 revert=
                 {
@@ -289,56 +326,6 @@ const Upload = () => {
                     <li>Your application could be rejected due to bad audio quality</li>
                 </ul>
             </div>
-            <Row className="artistEventsFiles mt-4 mb-4">
-                <Col lg={12}>
-                    <label className="l-sb mb-2">Uploaded Media: </label>
-                </Col>
-                {alreadyAddedEventsFile?.filter((key) => !key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
-                    return (
-                        <Col lg={12} md={4} sm={6} key={`eventImgFiles_${index}`} className=" position-relative">
-                            <img src={eveFile.LTMediaURL}/>
-                            <Row>
-                                <Col>
-                                    <EasyEdit
-                                      type={Types.TEXTAREA}
-                                      onSave={(e) => {saveDescription(e,eveFile.LTMediaLogId)}}
-                                      onCancel={cancel}
-                                      value={eveFile.MediaDesc}
-                                      saveButtonLabel={<AiOutlineCheck />}
-                                      cancelButtonLabel={<AiOutlineClose />}
-                                      placeholder={`Add caption/location`}
-                                    />
-                                    <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
-                                </Col>
-                            </Row>
-                        </Col>
-                    )
-                })}
-                {alreadyAddedEventsFile?.filter((key) => key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
-                    return (
-                        <Col lg={12} md={4} sm={6} key={`eventVidFiles_${index}`} className=" position-relative">
-                            <video controls={true} src={eveFile.LTMediaURL}></video>
-                            <Row>
-                                <Col>
-                                    <EasyEdit
-                                      type={Types.TEXTAREA}
-                                      onSave={(e) => {saveDescription(e,eveFile.LTMediaLogId)}}
-                                      onCancel={cancel}
-                                      value={eveFile.MediaDesc}
-                                      saveButtonLabel={<AiOutlineCheck />}
-                                      cancelButtonLabel={<AiOutlineClose />}
-                                      placeholder={`Add caption/location`}
-                                    />
-                                    <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
-                                </Col>
-                            </Row>
-                            
-                        </Col>
-                    )
-                })}
-            </Row>
-            
-            
         </div>
     </>
   )
