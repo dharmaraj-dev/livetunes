@@ -225,6 +225,20 @@ const Upload = () => {
                         <Col lg={6} md={6} key={`eventImgFiles_${index}`} className="mb-4 position-relative">
                             <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
                             <img src={eveFile.LTMediaURL}/>
+                            <Row>
+                                <Col>
+                                    <EasyEdit
+                                      type={Types.TEXTAREA}
+                                      onSave={(e) => {saveDescription(e,eveFile.LTMediaLogId)}}
+                                      onCancel={cancel}
+                                      value={eveFile.MediaDesc}
+                                      saveButtonLabel={<AiOutlineCheck />}
+                                      cancelButtonLabel={<AiOutlineClose />}
+                                      placeholder={`Add caption/location`}
+                                    />
+                                    <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
+                                </Col>
+                            </Row>
                         </Col>
                     )
                 })}
@@ -233,6 +247,20 @@ const Upload = () => {
                         <Col lg={6} md={6} key={`eventVidFiles_${index}`} className="mb-4 position-relative">
                             <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
                             <video controls={true} src={eveFile.LTMediaURL}></video>
+                            <Row>
+                                <Col>
+                                    <EasyEdit
+                                      type={Types.TEXTAREA}
+                                      onSave={(e) => {saveDescription(e,eveFile.LTMediaLogId)}}
+                                      onCancel={cancel}
+                                      value={eveFile.MediaDesc}
+                                      saveButtonLabel={<AiOutlineCheck />}
+                                      cancelButtonLabel={<AiOutlineClose />}
+                                      placeholder={`Add caption/location`}
+                                    />
+                                    <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
+                                </Col>
+                            </Row>
                         </Col>
                     )
                 })}
