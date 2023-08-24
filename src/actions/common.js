@@ -388,6 +388,16 @@ export const getAllMasters = () => (dispatch) => {
         localStorage.setItem('states', JSON.stringify(response.data.StateList));
         localStorage.setItem('idProofs', JSON.stringify(response.data.IdProofList));
         localStorage.setItem('addressProofs', JSON.stringify(response.data.AddProofList));
+        localStorage.setItem('cities', JSON.stringify(response.data.CityList));
+        localStorage.setItem('branches',JSON.stringify(response.data.BankBranchList));
+        dispatch({
+          type: GET_BRANCHES,
+          payload: response.data.BankBranchList,
+        });
+        dispatch({
+          type: GET_CITIES,
+          payload: response.data.CityList,
+        });
         dispatch({
           type: GET_BANKS,
           payload: response.data.BankList,

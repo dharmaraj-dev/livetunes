@@ -1,27 +1,32 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:8080/api/test/";
+const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 
-const getPublicContent = () => {
-  return axios.get(API_URL + "all");
+const setSelectedLanguages = (lang) => {
+  localStorage.setItem("selectedLanguages",JSON.stringify(lang));
 };
 
-const getUserBoard = () => {
-  return axios.get(API_URL + "user", { headers: authHeader() });
+const setSelectedCities = (cities) => {
+    localStorage.setItem("selectedCities",JSON.stringify(cities));
 };
 
-const getModeratorBoard = () => {
-  return axios.get(API_URL + "mod", { headers: authHeader() });
+const setBudgetMin = (minBudget) => {
+    localStorage.setItem("minimumBudget",JSON.stringify(minBudget));
 };
 
-const getAdminBoard = () => {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
+const setBudgetMax = (maxBudget) => {
+    localStorage.setItem("maximumBudget",JSON.stringify(maxBudget));
 };
 
-export default {
-  getPublicContent,
-  getUserBoard,
-  getModeratorBoard,
-  getAdminBoard,
+const setMusicalityTypes = (musicalityTypes) => {
+    localStorage.setItem("musicalityTypes",JSON.stringify(musicalityTypes));
+}
+
+export default{
+    setSelectedLanguages,
+    setSelectedCities,
+    setBudgetMin,
+    setBudgetMax,
+    setMusicalityTypes,
 };

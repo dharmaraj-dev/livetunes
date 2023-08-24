@@ -101,7 +101,7 @@ export default function (state = initialState, action) {
         // ...state,
         welcomeSeen: true,
         isLoggedIn: false,
-        user: null,
+        user: joiningType,
       };
     // case STATE_RESET:
     //   return {

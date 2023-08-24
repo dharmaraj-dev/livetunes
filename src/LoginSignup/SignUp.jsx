@@ -12,7 +12,7 @@ const SignUp = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isLoggedIn } = useSelector(state => state.auth);
+  const { isLoggedIn,joiningType } = useSelector(state => state.auth);
 
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -39,7 +39,7 @@ const SignUp = () => {
 
       setLoading(true);
 
-      dispatch(register(phone, email))
+      dispatch(register(phone, email,joiningType))
         .then((res) => {
           if(res.IsSuccess) {
             successToast("OTP sent successfully.");

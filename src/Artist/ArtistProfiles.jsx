@@ -20,6 +20,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { Navigate, useNavigate  } from 'react-router-dom';
 import Loader from './Loader';
+import Skeleton from 'react-loading-skeleton'
 
 const ArtistProfiles = () => {
     const dispatch = useDispatch();
@@ -545,9 +546,76 @@ const ArtistProfiles = () => {
             </div>
             <div className="main-content">
                 {pageLoading ? (
-                <div className="artist_loader">
-                    <Loader />
-                </div>
+                <Container fluid>
+                    <div className="main-artists-list">
+                        <section className="mt-4">
+                            <Row>
+                                <Col lg={8}>
+                                    <Skeleton height={40} className="mb-3" />
+                                </Col>
+                                <Col lg={4}>
+                                    <Skeleton style={{marginRight:"2%"}} width="48%" height={40} className="mb-3" inline={true} />
+                                    <Skeleton width="48%" height={40} className="mb-3" inline={true} />
+                                </Col>
+                                <Col lg={12}>
+                                   <Skeleton height={20} className="mb-4"/>
+                                </Col>
+                            </Row>
+                            
+                            
+                        </section>
+                        <Row className="mt-4">
+                            <Col lg={4} md={4} sm={4}>
+                                <Skeleton className="" count={1} height="100%" />
+                            </Col>
+                            <Col lg={8} md={8} sm={8}>
+                                <Skeleton className="mb-3" count={1} height={40} />
+                                <Row>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={12}>
+                                        <Skeleton className="mb-3" count={1} height={80} />
+                                    </Col>
+                                    <Col lg={12}>
+                                        <Skeleton className="mb-3" count={1} height={30} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                </Row>
+                                
+                                <div className="text-right" >
+                                    <Skeleton count={0.3} height={25} />
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
+                </Container>
                 ):(
                 <Container fluid>
                     <div className="main-artists-list">

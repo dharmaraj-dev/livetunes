@@ -799,7 +799,7 @@ body.modal-open .App{filter: blur(6px);}
 
 
 .artist_loader {
-  height: 100vh;
+  height: calc(100vh - 125px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1004,4 +1004,8 @@ numberInput.input[type=number] {
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #f13743;
   --bs-btn-disabled-border-color: #f13743;
+}
+
+.text-right {
+  text-align: right;
 }

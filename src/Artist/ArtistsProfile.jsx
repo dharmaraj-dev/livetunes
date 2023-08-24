@@ -33,6 +33,7 @@ import Loader from './Loader';
 import ThreeDotLoader from './ThreeDotLoader';
 import DhanTeNan from '../assets/music/dhan_te_nan.mp3';
 import './Artist.css'
+import Skeleton from 'react-loading-skeleton'
 
 const ArtistsProfile = (props) => {
     const dispatch = useDispatch();
@@ -589,25 +590,7 @@ const ArtistsProfile = (props) => {
     }
 
     useEffect(() => {
-
-        dispatch(getCities());
-        dispatch(getStates());
-        dispatch(getCategories());
-        dispatch(getGernes());
-        dispatch(getLanguages());
-        dispatch(getEvents());
-        dispatch(getEventModes());
-            // if(artistProfileData.IsSuccess) {
-            //     setPageLoading(false);
-            // } else {
-            //     dispatch(getProfileData()).then((res) => {
-            //         setPageLoading(false);
-            //     }).catch((err) => {
-            //         navigate('/')
-            //     })
-            // }
             dispatch(getProfileData()).then((res) => {
-                console.log(res.data)
                 setPageLoading(false);
                 if(res.data?.selApInfo?.FirstName !== null) {
                     setFirstName(res.data?.selApInfo?.FirstName);
@@ -623,8 +606,6 @@ const ArtistsProfile = (props) => {
                     setDob(moment(res.data?.selApInfo?.DateOfBirth).format("YYYY-MM-DD"));
                     setGender(res.data?.selApInfo?.Gender === null ? "" : res.data?.selApInfo?.Gender);
                 }
-                
-                
     
                 if(res.data?.selAPDetails?.CategoryId !== null){
     
@@ -752,168 +733,24 @@ const ArtistsProfile = (props) => {
                 setInstaUrl(res.data?.selASDetails?.InstagramLink);
                 setYoutubeUrl(res.data?.selASDetails?.YouTubeLink);
                 setWebsiteUrl(res.data?.selASDetails?.OtherLink);
+
+                if(res.data.IsProfileSend && res.data.is_pending) {
+                    setProfileSentToJusgeForVerification(true);
+                    setApplicationStatus(1);
+                    setShow(true);
+                } else if(res.data.IsProfileSend && res.data.is_rejection) {
+                    setProfileSentToJusgeForVerification(true);
+                    setApplicationStatus(2);
+                    setShow(true);
+                } else if(res.data.IsProfileSend && res.data.is_approved) {
+                    setProfileSentToJusgeForVerification(true);
+                    setApplicationStatus(3);
+                    setShow(true);
+                }
             }).catch((err) => {
+                console.log(err)
                 navigate('/')
             })
-        
-        if(IsProfileSend && ArtistIsPending) {
-            setProfileSentToJusgeForVerification(true);
-            setApplicationStatus(1);
-            setShow(true);
-        } else if(IsProfileSend && ArtistIsRejected) {
-            setProfileSentToJusgeForVerification(true);
-            setApplicationStatus(2);
-            setShow(true);
-        } else if(IsProfileSend && ArtistIsApproved) {
-            setProfileSentToJusgeForVerification(true);
-            setApplicationStatus(3);
-            setShow(true);
-        }
-        if(artistProfileData) {
-            if(artistProfileData?.selApInfo?.FirstName !== null) {
-                setFirstName(artistProfileData?.selApInfo?.FirstName);
-                setLastName(artistProfileData?.selApInfo?.LastName);
-                setContactNo(artistProfileData?.selApInfo?.ContactNo);
-                setEmail(artistProfileData?.selApInfo?.EmailId);
-                setStateId(artistProfileData?.selApInfo?.StateId);
-                setStateName(artistProfileData?.selApInfo?.StateName);
-                selectStateAndGetItsCities(artistProfileData?.selApInfo?.StateId);
-                assignCityStateName(artistProfileData?.selApInfo?.StateId);
-                setCityId(artistProfileData?.selApInfo?.CityId);
-                setCityName(artistProfileData?.selApInfo?.CityName);
-                setDob(moment(artistProfileData?.selApInfo?.DateOfBirth).format("YYYY-MM-DD"));
-                setGender(artistProfileData?.selApInfo?.Gender === null ? "" : artistProfileData?.selApInfo?.Gender);
-            }
-            
-            
-
-            if(artistProfileData?.selAPDetails?.CategoryId !== null){
-
-                //step 2
-                if(artistProfileData?.selAPDetails?.CategoryId !== null && artistProfileData?.selAPDetails?.CategoryId.split(",")) {
-                    const tmpSelCategories = [];
-                    for (let i in artistProfileData?.selAPDetails?.CategoryId.split(",")) {
-                        tmpSelCategories.push(
-                            {
-                                CategoryId: artistProfileData?.selAPDetails?.CategoryId.split(",")[i],
-                                CategoryName: artistProfileData?.selAPDetails?.CategoryName.split(",")[i]
-                            }
-                        )
-                    }
-                    setSelCategories(tmpSelCategories);
-                }
-
-                if(artistProfileData?.selAPDetails?.GenreId !== null && artistProfileData?.selAPDetails?.GenreId.split(",")) {
-                    const tmpSelGernes = [];
-                    for (let i in artistProfileData?.selAPDetails?.GenreId.split(",")) {
-                        tmpSelGernes.push(
-                            {
-                                GenreId: artistProfileData?.selAPDetails?.GenreId.split(",")[i],
-                                GenreName: artistProfileData?.selAPDetails?.GenreName.split(",")[i]
-                            }
-                        )
-                    }
-                    setSelGernes(tmpSelGernes);
-                }
-
-                if(artistProfileData?.selAPDetails?.LanguageId !== null && artistProfileData?.selAPDetails?.LanguageId.split(",")) {
-                    const tmpSelLanguages = [];
-                    for (let i in artistProfileData?.selAPDetails?.LanguageId.split(",")) {
-                        tmpSelLanguages.push(
-                            {
-                                LanguageId: artistProfileData?.selAPDetails?.LanguageId.split(",")[i],
-                                LanguageName: artistProfileData?.selAPDetails?.LanguageName.split(",")[i]
-                            }
-                        )
-                    }
-                    setSelLanguages(tmpSelLanguages);
-                }
-                
-                setSelExpInYears(artistProfileData?.selAPDetails?.PExperience);
-
-                if(artistProfileData?.selAPDetails?.EventsId !== null && artistProfileData?.selAPDetails?.EventsId.split(",")) {
-                    const tmpSelPrefEvents = [];
-                    for (let i in artistProfileData?.selAPDetails?.EventsId.split(",")) {
-                        tmpSelPrefEvents.push(
-                            {
-                                EventsId: artistProfileData?.selAPDetails?.EventsId.split(",")[i],
-                                EventsName: artistProfileData?.selAPDetails?.EventsName.split(",")[i]
-                            }
-                        )
-                    }
-                    setSelPrefEvents(tmpSelPrefEvents);
-                }
-
-                if(artistProfileData?.selAPDetails?.YesOtherState) {
-                    setSelWillingToTravel(1);
-                } else if(artistProfileData?.selAPDetails?.NoOtherState) {
-                    setSelWillingToTravel(0);
-                }  else if(artistProfileData?.selAPDetails?.IsOtherState) {
-                    setSelWillingToTravel(2);
-                }
-
-                if(artistProfileData?.selAPDetails?.OtherStateId !== null && artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
-                    const tmpSelExpStates = [];
-                    for (let i in artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
-                        tmpSelExpStates.push(
-                            {
-                                StateId: artistProfileData?.selAPDetails?.OtherStateId.split(",")[i],
-                                StateName: artistProfileData?.selAPDetails?.OtherStateName.split(",")[i]
-                            }
-                        )
-                    }
-                    setSelExpState(tmpSelExpStates);
-                }
-
-                if (artistProfileData?.selAPDetails?.PDuration1Hr) {
-                    setSelPerfDuration(1);
-                } else if (artistProfileData?.selAPDetails?.PDuration2Hr) {
-                    setSelPerfDuration(2);
-                } else if (artistProfileData?.selAPDetails?.DurationRemark != null) {
-                    setSelPerfDuration(artistProfileData?.selAPDetails?.DurationRemark);
-                }
-                setSelChargesType(artistProfileData?.selAPDetails?.IsPerShow ? 1 : 2);
-                setSelChargesFrom(artistProfileData?.selAPDetails?.FromCharge);
-                setSelChargesTo(artistProfileData?.selAPDetails?.ToCharge);
-                setSelPrivSurpEvent(artistProfileData?.selAPDetails?.YesPEvents ? 1 : 0);
-
-                if(artistProfileData?.selAPDetails?.ModeId !== null && artistProfileData?.selAPDetails?.ModeId.split(",")) {
-                    const tmpSelSurpMode = [];
-                    for (let i in artistProfileData?.selAPDetails?.ModeId.split(",")) {
-                        tmpSelSurpMode.push(
-                            {
-                                EventModeId: artistProfileData?.selAPDetails?.ModeId.split(",")[i],
-                                EventModeName: artistProfileData?.selAPDetails?.ModeName.split(",")[i]
-                            }
-                        )
-                    }
-                    setSelPrivSurpEventMode(tmpSelSurpMode);
-                }
-
-                setSelVirtualEvent(artistProfileData?.selAPDetails?.YesVEvents ? 1 : 0);
-
-                if(artistProfileData?.selAPDetails?.EventTypeId !== null && artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
-                    const tmpSelVirtualEventTypes = [];
-                    for (let i in artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
-                        tmpSelVirtualEventTypes.push(
-                            {
-                                EventsId: artistProfileData?.selAPDetails?.EventTypeId.split(",")[i],
-                                EventsName: artistProfileData?.selAPDetails?.EventTypeName.split(",")[i]
-                            }
-                        )
-                    }
-                    setSelVirtualEventType(tmpSelVirtualEventTypes);
-                }
-
-                setSelAboutArtist(artistProfileData?.selAPDetails?.BriefIntro);
-            }
-
-            //step 3
-            setFbUrl(artistProfileData?.selASDetails?.FacebookLink);
-            setInstaUrl(artistProfileData?.selASDetails?.InstagramLink);
-            setYoutubeUrl(artistProfileData?.selASDetails?.YouTubeLink);
-            setWebsiteUrl(artistProfileData?.selASDetails?.OtherLink);
-        }
     }, [])
 
     function handleKeyDownPhone(e){
@@ -962,9 +799,65 @@ const ArtistsProfile = (props) => {
             </div>
             <div className="main-content">
                 {pageLoading ? (
-                <div className="artist_loader">
-                    <ThreeDotLoader />
-                </div>
+                <Container fluid>
+                    <div className="main-artists-list">
+                        <section className="steps-progressbar mt-3">
+                            <Skeleton style={{marginRight: "30px"}} className="step mr-4" count={1} width={60} height={60} circle={true} inline={true}/>
+                            <Skeleton style={{marginRight: "30px"}}  className="step mr-4" count={1} width={60} height={60} circle={true} inline={true}/>
+                            <Skeleton className="step mr-4" count={1} width={60} height={60} circle={true} inline={true}/>
+                        </section>
+                        <Row>
+                            <Col lg={4} md={4} sm={4}>
+                                <Skeleton className="" count={1} height="100%" />
+                            </Col>
+                            <Col lg={8} md={8} sm={8}>
+                                <Skeleton className="mb-3" count={1} height={40} />
+                                <Row>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Skeleton className="mb-3" count={1} height={25} />
+                                    </Col>
+                                </Row>
+                                
+                                <div className="text-right" >
+                                    <Skeleton count={0.3} height={25} />
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
+                </Container>
                 ):(
                 <Container fluid>
                     <div className="main-artists-list">

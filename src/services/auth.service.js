@@ -1,15 +1,17 @@
 import axios from "axios";
+import {useSelector } from "react-redux";
+
 
 const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 
-const register = (MobileNo, EmailId) => {
+const register = (MobileNo, EmailId,joiningType) => {
   return axios.post(API_URL + "LogMethods/SignUpAuth", {
     MobileNo,
     EmailId,
     "IsSignFacebook": false,
     "IsSignGmail": false,
-    "IsArtist": true,
-    "IsUser":false,
+    "IsArtist": joiningType === 'Artist' ? true : false,
+    "IsUser":joiningType === 'User' ? true : false,
     "IsJudge":false,
     "IsAdmin":false,
     IsDummy:true

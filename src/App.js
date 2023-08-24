@@ -39,7 +39,7 @@ import ArtistBankDetails from './Artist/ArtistBankDetails';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux";
-import { getAllMasters, getCities } from "./actions/common";
+import { getAllMasters } from "./actions/common";
 import { getProfileData, getArtistProofData } from "./actions/artist";
 import 'filepond/dist/filepond.min.css'
 import { Navigate, useNavigate  } from 'react-router-dom';
@@ -48,6 +48,8 @@ import {
   IS_ARTIST_PROFILE_SEND
 } from "./actions/types";
 import { welcomeSeen } from './actions/auth';
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 function App() {
   const dispatch = useDispatch();
@@ -61,7 +63,6 @@ function App() {
       navigate("/");
     } else {
       dispatch(getAllMasters());
-      dispatch(getCities());
       if(joiningType === 'Artist') {
         dispatch(getProfileData());
         dispatch(getArtistProofData());
@@ -72,6 +73,8 @@ function App() {
         }
       } else if(joiningType === 'Judge') {
         navigate("/judgment-panel");
+      } else if(joiningType === 'User'){
+        navigate("/dashboard");
       }
     }
   }, [isLoggedIn])
@@ -88,7 +91,7 @@ function App() {
         <Route path="/artist-test-login" element={<TestLogIn/>}/>
         <Route path="/otp" element={<OneTimepass />}/>
         <Route path="/navbar" element={<NavBar/>}/>
-        <Route path="/helloscreen" element={<HelloScreen/>}/>
+        <Route path="/dashboard" element={<HelloScreen/>}/>
         <Route path="/languages" element={<Languages/>}/>
         <Route path="/locationcheck" element={<LocationCheck/>}/>
         <Route path="/budgetmusictype" element={<BudgetMusictype/>}/>
@@ -114,7 +117,7 @@ function App() {
         <Route path="/judgment-panel" element={<Judgment/>}/>
         <Route path="/artist-application/:id" element={<SingleApplication/>}/>
         <Route path="/application-review/:id/:name/:city/:state/:profile" element={<Review/>}/>
-
+        <Route path="/user-test-login" element={<TestLogIn/>}/>
         <Route path="/artists-profile" element={<ArtistsProfile/>}/>
         <Route path="/artists-bank-details" element={<ArtistBankDetails/>}/>
         <Route path="/judge-login" element={<LogIn/>}/>

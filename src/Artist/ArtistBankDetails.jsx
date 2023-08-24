@@ -11,7 +11,6 @@ import PhoneInput from "react-phone-input-2";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { AiOutlinePlus, AiOutlineEye, AiOutlineDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { getBranchesByBank, getCitiesOfState } from "../actions/common";
 import { setBankDetails, setPhotoIdProof, setAddressProof, setReferences, getArtistProofData, removeArtistAttachment } from "../actions/artist";
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import moment from "moment";
@@ -29,6 +28,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { Navigate, useNavigate  } from 'react-router-dom';
 import Loader from './Loader';
 import ThreeDotLoader from './ThreeDotLoader';
+import Skeleton from 'react-loading-skeleton'
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginImageCrop, FilePondPluginImageTransform, FilePondPluginFileValidateType)
 
@@ -44,6 +44,8 @@ const ArtistBankDetails = () => {
 
     const [pageLoading, setPageLoading] = useState(true);
     const [currentStep, setCurrentStep] = useState(1);
+    const [branchesForBank, setBranchesForBank] = useState([]);
+    const [filteredCities,setFilteredCities] = useState([]);
 
     //steo 1
     const [accountNo, setAccountNo] = useState("");
@@ -100,13 +102,19 @@ const ArtistBankDetails = () => {
         setBankId(bId);
         setBranchId("");
         if(bId != null && bId != 0) {
-            dispatch(getBranchesByBank(bId));
+            const data = branches.filter((bnk)=>bnk.BankId == bId);
+            setBranchesForBank(data)
+        } else {
+            setBranchesForBank([])
         }
     }
 
     const selectStateAndGetItsCities = (sId) => {
         if(sId != null) {
-            dispatch(getCitiesOfState(sId));
+            const data = cities.filter((cts)=>cts.StateId == sId);
+            setFilteredCities(data)
+        } else {
+            setFilteredCities([]);
         }
     }
 
@@ -370,168 +378,166 @@ const ArtistBankDetails = () => {
     }
 
     useEffect(() => {
-        if(artistProofData?.IsSuccess) {
-            setPageLoading(false);
-        } else {
-            dispatch(getArtistProofData()).then((res) => {
-                if(res.data.IsSuccess) {
-                    if(res.data?.selABDetails?.AccNo !== null) {
-                    setAccountNo(res.data?.selABDetails?.AccNo);
-                    }
-                    if(res.data?.selABDetails?.BankId != 0) {
-                        setBankId(res.data?.selABDetails?.BankId);
-                        dispatch(getBranchesByBank(res.data?.selABDetails?.BankId));
-                    }
-                    if(res.data?.selABDetails?.BranchId != 0) {
-                        setBranchId(res.data?.selABDetails?.BranchId);
-                    }
-                    if(res.data?.selABDetails?.IFSCCode !== null) {
-                        setIfscCode(res.data?.selABDetails?.IFSCCode);
-                    }
-                    if(res.data?.selABDetails?.UPIId !== null) {
-                        setUpiId(res.data?.selABDetails?.UPIId);
-                    }
-                    if(res.data?.selAProof?.IdProofId != 0) {
-                        setPhotoIdProofType(res.data?.selAProof?.IdProofId);
-                    }
-                    if(res.data?.selAProof?.IdNo !== null) {
-                        setPhotoIdProofId(res.data?.selAProof?.IdNo);
-                    }
-                    if(res.data?.selAProof?.IsPassportAvail !== null) {
-                        setHavePassport(res.data?.selAProof?.IsPassportAvail);
-                    }
-                    if(res.data?.selIDPMedia !== null) {
-                        setUploadedPhotoIdProofs(res.data?.selIDPMedia);
-                    }
-                    if(res.data?.selAProofMedia !== null) {
-                        setUploadedAddressProofs(res.data?.selAProofMedia);
-                    }
-                    //setAgreeMembership(artistProofData?.selAProof?.UPIId);
-                    if(res.data?.selAddDetails?.Address1 !== null) {
-                        setAddress(res.data?.selAddDetails?.Address1);
-                    }
-                    if(res.data?.selAddDetails?.StateId != 0) {
-                        setStateId(res.data?.selAddDetails?.StateId);
-                        selectStateAndGetItsCities(res.data?.selAddDetails?.StateId);
-                    }
-                    if(res.data?.selAddDetails?.CityId != 0) {
-                        setCityId(res.data?.selAddDetails?.CityId);
-                    }
-                    if(res.data?.selAddDetails?.AddressProofId != 0) {
-                        setAddressProofData(res.data?.selAddDetails?.AddressProofId);
-                    }
-                    if(res.data?.selAddDetails?.PinCode !== null) {
-                        setPincode(res.data?.selAddDetails?.PinCode);
-                    }
-
-                    if(res.data?.selARefDetails?.FirstName !== null) {
-                        setRef1FName(res.data?.selARefDetails?.FirstName);
-                    }
-                    if(res.data?.selARefDetails?.LastName !== null) {
-                        setRef1LName(res.data?.selARefDetails?.LastName);
-                    }
-                    if(res.data?.selARefDetails?.ContactNo !== null) {
-                        setRef1ContNo(res.data?.selARefDetails?.ContactNo);
-                    }
-                    if(res.data?.selARefDetails?.EmailId !== null) {
-                        setRef1Email(res.data?.selARefDetails?.EmailId);
-                    }
-                    if(res.data?.selARefDetails?.StateId != 0) {
-                        setRef1StateId(res.data?.selARefDetails?.StateId);
-                    }
-                    if(res.data?.selARefDetails?.CityId != 0) {
-                        setRef1CityId(res.data?.selARefDetails?.CityId);
-                    }
-                    if(res.data?.selARefDetails?.DOB != "0001-01-01T00:00:00") {
-                        setRef1Dob(moment(res.data?.selARefDetails?.DOB).format("YYYY-MM-DD"));
-                    }
-                    if(res.data?.selARefDetails?.RWReference !== null) {
-                        setRef1Relation(res.data?.selARefDetails?.RWReference);
-                    } 
+        dispatch(getArtistProofData()).then((res) => {
+            if(res.data.IsSuccess) {
+                if(res.data?.selABDetails?.AccNo !== null) {
+                setAccountNo(res.data?.selABDetails?.AccNo);
                 }
-                setPageLoading(false);
-            }).catch((err) => {
-                navigate('/')
-            })
-        }
-        if(artistProofData?.IsSuccess) {
-            if(artistProofData?.selABDetails?.AccNo !== null) {
-                setAccountNo(artistProofData?.selABDetails?.AccNo);
+                if(res.data?.selABDetails?.BankId != 0) {
+                    setBankId(res.data?.selABDetails?.BankId);
+                    const data = branches.filter((bnk)=>bnk.BankId == res.data?.selABDetails?.BankId);
+                    setBranchesForBank(data)
+                }
+                if(res.data?.selABDetails?.BranchId != 0) {
+                    setBranchId(res.data?.selABDetails?.BranchId);
+                }
+                if(res.data?.selABDetails?.IFSCCode !== null) {
+                    setIfscCode(res.data?.selABDetails?.IFSCCode);
+                }
+                if(res.data?.selABDetails?.UPIId !== null) {
+                    setUpiId(res.data?.selABDetails?.UPIId);
+                }
+                if(res.data?.selAProof?.IdProofId != 0) {
+                    setPhotoIdProofType(res.data?.selAProof?.IdProofId);
+                }
+                if(res.data?.selAProof?.IdNo !== null) {
+                    setPhotoIdProofId(res.data?.selAProof?.IdNo);
+                }
+                if(res.data?.selAProof?.IsPassportAvail !== null) {
+                    setHavePassport(res.data?.selAProof?.IsPassportAvail);
+                }
+                if(res.data?.selIDPMedia !== null) {
+                    setUploadedPhotoIdProofs(res.data?.selIDPMedia);
+                }
+                if(res.data?.selAProofMedia !== null) {
+                    setUploadedAddressProofs(res.data?.selAProofMedia);
+                }
+                //setAgreeMembership(artistProofData?.selAProof?.UPIId);
+                if(res.data?.selAddDetails?.Address1 !== null) {
+                    setAddress(res.data?.selAddDetails?.Address1);
+                }
+                if(res.data?.selAddDetails?.StateId != 0) {
+                    setStateId(res.data?.selAddDetails?.StateId);
+                    selectStateAndGetItsCities(res.data?.selAddDetails?.StateId);
+                }
+                if(res.data?.selAddDetails?.CityId != 0) {
+                    setCityId(res.data?.selAddDetails?.CityId);
+                }
+                if(res.data?.selAddDetails?.AddressProofId != 0) {
+                    setAddressProofData(res.data?.selAddDetails?.AddressProofId);
+                }
+                if(res.data?.selAddDetails?.PinCode !== null) {
+                    setPincode(res.data?.selAddDetails?.PinCode);
+                }
+
+                if(res.data?.selARefDetails?.FirstName !== null) {
+                    setRef1FName(res.data?.selARefDetails?.FirstName);
+                }
+                if(res.data?.selARefDetails?.LastName !== null) {
+                    setRef1LName(res.data?.selARefDetails?.LastName);
+                }
+                if(res.data?.selARefDetails?.ContactNo !== null) {
+                    setRef1ContNo(res.data?.selARefDetails?.ContactNo);
+                }
+                if(res.data?.selARefDetails?.EmailId !== null) {
+                    setRef1Email(res.data?.selARefDetails?.EmailId);
+                }
+                if(res.data?.selARefDetails?.StateId != 0) {
+                    setRef1StateId(res.data?.selARefDetails?.StateId);
+                }
+                if(res.data?.selARefDetails?.CityId != 0) {
+                    setRef1CityId(res.data?.selARefDetails?.CityId);
+                }
+                if(res.data?.selARefDetails?.DOB != "0001-01-01T00:00:00") {
+                    setRef1Dob(moment(res.data?.selARefDetails?.DOB).format("YYYY-MM-DD"));
+                }
+                if(res.data?.selARefDetails?.RWReference !== null) {
+                    setRef1Relation(res.data?.selARefDetails?.RWReference);
+                } 
             }
-            if(artistProofData?.selABDetails?.BankId != 0) {
-                setBankId(artistProofData?.selABDetails?.BankId);
-                dispatch(getBranchesByBank(artistProofData?.selABDetails?.BankId));
-            }
-            if(artistProofData?.selABDetails?.BranchId != 0) {
-                setBranchId(artistProofData?.selABDetails?.BranchId);
-            }
-            if(artistProofData?.selABDetails?.IFSCCode !== null) {
-                setIfscCode(artistProofData?.selABDetails?.IFSCCode);
-            }
-            if(artistProofData?.selABDetails?.UPIId !== null) {
-                setUpiId(artistProofData?.selABDetails?.UPIId);
-            }
-            if(artistProofData?.selAProof?.IdProofId != 0) {
-                setPhotoIdProofType(artistProofData?.selAProof?.IdProofId);
-            }
-            if(artistProofData?.selAProof?.IdNo !== null) {
-                setPhotoIdProofId(artistProofData?.selAProof?.IdNo);
-            }
-            if(artistProofData?.selAProof?.IsPassportAvail !== null) {
-                setHavePassport(artistProofData?.selAProof?.IsPassportAvail);
-            }
-            if(artistProofData?.selIDPMedia !== null) {
-                setUploadedPhotoIdProofs(artistProofData?.selIDPMedia);
-            }
-            if(artistProofData?.selAProofMedia !== null) {
-                setUploadedAddressProofs(artistProofData?.selAProofMedia);
-            }
+            setPageLoading(false);
+        }).catch((err) => {
+            navigate('/')
+        })
+        // if(artistProofData?.IsSuccess) {
+        //     if(artistProofData?.selABDetails?.AccNo !== null) {
+        //         setAccountNo(artistProofData?.selABDetails?.AccNo);
+        //     }
+        //     if(artistProofData?.selABDetails?.BankId != 0) {
+        //         setBankId(artistProofData?.selABDetails?.BankId);
+        //         const data = branches.filter((bnk)=>bnk.BankId == artistProofData?.selABDetails?.BankId);
+        //         setBranchesForBank(data)
+        //     }
+        //     if(artistProofData?.selABDetails?.BranchId != 0) {
+        //         setBranchId(artistProofData?.selABDetails?.BranchId);
+        //     }
+        //     if(artistProofData?.selABDetails?.IFSCCode !== null) {
+        //         setIfscCode(artistProofData?.selABDetails?.IFSCCode);
+        //     }
+        //     if(artistProofData?.selABDetails?.UPIId !== null) {
+        //         setUpiId(artistProofData?.selABDetails?.UPIId);
+        //     }
+        //     if(artistProofData?.selAProof?.IdProofId != 0) {
+        //         setPhotoIdProofType(artistProofData?.selAProof?.IdProofId);
+        //     }
+        //     if(artistProofData?.selAProof?.IdNo !== null) {
+        //         setPhotoIdProofId(artistProofData?.selAProof?.IdNo);
+        //     }
+        //     if(artistProofData?.selAProof?.IsPassportAvail !== null) {
+        //         setHavePassport(artistProofData?.selAProof?.IsPassportAvail);
+        //     }
+        //     if(artistProofData?.selIDPMedia !== null) {
+        //         setUploadedPhotoIdProofs(artistProofData?.selIDPMedia);
+        //     }
+        //     if(artistProofData?.selAProofMedia !== null) {
+        //         setUploadedAddressProofs(artistProofData?.selAProofMedia);
+        //     }
 
             
-            //setAgreeMembership(artistProofData?.selAProof?.UPIId);
-            if(artistProofData?.selAddDetails?.Address1 !== null) {
-                setAddress(artistProofData?.selAddDetails?.Address1);
-            }
-            if(artistProofData?.selAddDetails?.StateId != 0) {
-                setStateId(artistProofData?.selAddDetails?.StateId);
-                selectStateAndGetItsCities(artistProofData?.selAddDetails?.StateId);
-            }
-            if(artistProofData?.selAddDetails?.CityId != 0) {
-                setCityId(artistProofData?.selAddDetails?.CityId);
-            }
-            if(artistProofData?.selAddDetails?.AddressProofId != 0) {
-                setAddressProofData(artistProofData?.selAddDetails?.AddressProofId);
-            }
-            if(artistProofData?.selAddDetails?.PinCode !== null) {
-                setPincode(artistProofData?.selAddDetails?.PinCode);
-            }
+        //     //setAgreeMembership(artistProofData?.selAProof?.UPIId);
+        //     if(artistProofData?.selAddDetails?.Address1 !== null) {
+        //         setAddress(artistProofData?.selAddDetails?.Address1);
+        //     }
+        //     if(artistProofData?.selAddDetails?.StateId != 0) {
+        //         setStateId(artistProofData?.selAddDetails?.StateId);
+        //         selectStateAndGetItsCities(artistProofData?.selAddDetails?.StateId);
+        //     }
+        //     if(artistProofData?.selAddDetails?.CityId != 0) {
+        //         setCityId(artistProofData?.selAddDetails?.CityId);
+        //     }
+        //     if(artistProofData?.selAddDetails?.AddressProofId != 0) {
+        //         setAddressProofData(artistProofData?.selAddDetails?.AddressProofId);
+        //     }
+        //     if(artistProofData?.selAddDetails?.PinCode !== null) {
+        //         setPincode(artistProofData?.selAddDetails?.PinCode);
+        //     }
 
-            if(artistProofData?.selARefDetails?.FirstName !== null) {
-                setRef1FName(artistProofData?.selARefDetails?.FirstName);
-            }
-            if(artistProofData?.selARefDetails?.LastName !== null) {
-                setRef1LName(artistProofData?.selARefDetails?.LastName);
-            }
-            if(artistProofData?.selARefDetails?.ContactNo !== null) {
-                setRef1ContNo(artistProofData?.selARefDetails?.ContactNo);
-            }
-            if(artistProofData?.selARefDetails?.EmailId !== null) {
-                setRef1Email(artistProofData?.selARefDetails?.EmailId);
-            }
-            if(artistProofData?.selARefDetails?.StateId != 0) {
-                setRef1StateId(artistProofData?.selARefDetails?.StateId);
-            }
-            if(artistProofData?.selARefDetails?.CityId != 0) {
-                setRef1CityId(artistProofData?.selARefDetails?.CityId);
-            }
-            if(artistProofData?.selARefDetails?.DOB != "0001-01-01T00:00:00") {
-                setRef1Dob(moment(artistProofData?.selARefDetails?.DOB).format("YYYY-MM-DD"));
-            }
-            if(artistProofData?.selARefDetails?.RWReference !== null) {
-                setRef1Relation(artistProofData?.selARefDetails?.RWReference);
-            }          
-        }
-    }, [artistProofData])
+        //     if(artistProofData?.selARefDetails?.FirstName !== null) {
+        //         setRef1FName(artistProofData?.selARefDetails?.FirstName);
+        //     }
+        //     if(artistProofData?.selARefDetails?.LastName !== null) {
+        //         setRef1LName(artistProofData?.selARefDetails?.LastName);
+        //     }
+        //     if(artistProofData?.selARefDetails?.ContactNo !== null) {
+        //         setRef1ContNo(artistProofData?.selARefDetails?.ContactNo);
+        //     }
+        //     if(artistProofData?.selARefDetails?.EmailId !== null) {
+        //         setRef1Email(artistProofData?.selARefDetails?.EmailId);
+        //     }
+        //     if(artistProofData?.selARefDetails?.StateId != 0) {
+        //         setRef1StateId(artistProofData?.selARefDetails?.StateId);
+        //     }
+        //     if(artistProofData?.selARefDetails?.CityId != 0) {
+        //         setRef1CityId(artistProofData?.selARefDetails?.CityId);
+        //     }
+        //     if(artistProofData?.selARefDetails?.DOB != "0001-01-01T00:00:00") {
+        //         setRef1Dob(moment(artistProofData?.selARefDetails?.DOB).format("YYYY-MM-DD"));
+        //     }
+        //     if(artistProofData?.selARefDetails?.RWReference !== null) {
+        //         setRef1Relation(artistProofData?.selARefDetails?.RWReference);
+        //     }          
+        // }
+    }, [])
 
   return (
     <>
@@ -546,7 +552,17 @@ const ArtistBankDetails = () => {
             <div className="main-content">
                 {pageLoading ? (
                 <div className="artist_loader">
-                    <ThreeDotLoader />
+                    <div className="steps text-center">
+                         <div className="text-center mb-4">
+                             <Skeleton count={0.5} height={50} /> 
+                         </div>
+                         <div className="text-center">
+                             <Skeleton count={5} height={30} className="mb-2" /> 
+                         </div>
+                         <div className="text-right mb-4 mt-2">
+                             <Skeleton count={0.3} height={25} /> 
+                         </div>
+                     </div>
                 </div>
                 ):(
                 <Container fluid>
@@ -596,10 +612,17 @@ const ArtistBankDetails = () => {
                                             <Col lg={6} md="12" className="mb-4">
                                             <Form.Label className="l-sb">Branch name<sup className="red-color">*</sup></Form.Label>
                                             <Form.Select aria-label="Default select example" className="form-control" value={branchId} onChange={(e) => {setBranchId(e.target.value)}}>
-                                                <option>Select branch</option>
-                                                {branches?.filter((key) => !key.IsCancelled).map((branch, index) => {
-                                                    return (<option key={`${branch.BankBranchId}'_'${branch.BankBranchName}`} value={branch.BankBranchId}>{branch.BankBranchName}</option>)
-                                                })}
+                                                
+                                                {branchesForBank.length == 0 ? (
+                                                    <option selected disabled value="">No Branch Available</option>
+                                                ):(
+                                                    <>
+                                                    <option>Select branch</option>
+                                                    {branchesForBank?.filter((key) => !key.IsCancelled).map((branch, index) => {
+                                                        return (<option key={`${branch.BankBranchId}'_'${branch.BankBranchName}`} value={branch.BankBranchId}>{branch.BankBranchName}</option>)
+                                                    })}
+                                                    </>
+                                                )}
                                             </Form.Select>
                                             </Col>
 
@@ -835,7 +858,7 @@ const ArtistBankDetails = () => {
                                                <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
                                                 <Form.Select aria-label="Default select example" className="form-control" value={cityId} onChange={(e) => {setCityId(e.target.value)}}>
                                                     <option>City name</option>
-                                                    {cities?.filter((key) => !key.IsCancelled).map((city, index) => {
+                                                    {filteredCities?.filter((key) => !key.IsCancelled).map((city, index) => {
                                                         return (<option key={`${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
                                                     })}
                                                 </Form.Select>
