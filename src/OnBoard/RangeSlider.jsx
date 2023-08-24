@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import MultiRangeSlider from "multi-range-slider-react";
 import Mrange from '../assets/images/mrange.png';
+import { useDispatch, useSelector } from "react-redux";
+import {setBudgetMin,setBudgetMax} from "../actions/user";
 
 const RangeSlider = () => {
-    const [minValue, set_minValue] = useState(5000);
-    const [maxValue, set_maxValue] = useState(250000);
-    const handleInput = (e) => {
-        set_minValue(e.minValue);
-        set_maxValue(e.maxValue);
+    const dispatch = useDispatch();
+    const { userMinimumBudget,userMaximumBudget } = useSelector(state => state.user);
+
+    const handleChange = (e) => {
+        dispatch(setBudgetMin(e.minValue));
+        dispatch(setBudgetMax(e.maxValue));
     };
 
   return (
@@ -18,8 +21,8 @@ const RangeSlider = () => {
                 max={250000}
                 step={10000}
                 stepOnly= 'true'
-                minValue={minValue}
-                maxValue={maxValue}
+                minValue={userMinimumBudget}
+                maxValue={userMaximumBudget}
                 // label='false'
                 ruler='false'
                 barLeftColor='#F13743'
@@ -27,8 +30,8 @@ const RangeSlider = () => {
                 barRightColor='#F13743'
                 thumbLeftColor='#fff'
                 thumbRightColor='#fff'
-                onInput={(e) => {
-                    handleInput(e);
+                onChange={(e)=>{
+                    handleChange(e);
                 }}
             />
             <img className="m-range" src={Mrange} alt="" />
@@ -37,11 +40,11 @@ const RangeSlider = () => {
                 <div className="range-from-to">
                     <div>
                         <span className="l-r inner-text">From</span>
-                        <h2 className="range-value"><span className="rupee-sign">&#8377;</span> {minValue} </h2>
+                        <h2 className="range-value"><span className="rupee-sign">&#8377;</span> {userMinimumBudget} </h2>
                     </div>
                     <div>
                         <span className="l-r inner-text">To</span>
-                        <h2 className="range-value"><span className="rupee-sign">&#8377;</span> {maxValue} </h2>
+                        <h2 className="range-value"><span className="rupee-sign">&#8377;</span> {userMaximumBudget} </h2>
                     </div>
                 </div>
             </div>

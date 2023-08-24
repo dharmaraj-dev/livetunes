@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
 import {TfiDashboard } from "react-icons/tfi";
-import {TfiMicrophoneAlt, TfiHeart, TfiUser } from "react-icons/tfi";
+import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
 import { SlSettings } from "react-icons/sl";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
@@ -62,6 +62,39 @@ const SideNavBar = () => {
 					text: "Dashboard",
 					icon: <TfiDashboard className="menu-item-icon"/>,
 					links: "/judgment-panel"
+				}
+			]);
+		}else{
+			setMenuItemsDynamic([
+				{
+					text: "TfiAlarmClock",
+					icon: <TfiAlarmClock className="menu-item-icon"/>,
+					links: "/dashboard"
+				},
+				{
+					text: "TfiMicrophoneAlt",
+					icon: <TfiMicrophoneAlt className="menu-item-icon"/>,
+					links: "/dashboard"
+				},
+				{
+					text: "TfiHeart",
+					icon: <TfiHeart className="menu-item-icon"/>,
+					links: "/dashboard"
+				},
+				{
+					text:"IoTicketOutline", //
+					icon:<IoTicketOutline className="menu-item-icon"/>,
+					links:"/dashboard"
+				},
+				{
+					text: "Settings ",
+					icon: <SlSettings className="menu-item-icon"/>,
+					links: "/dashboard"
+				},
+				{
+					text:"TfiHeadphoneAlt", //
+					icon:<TfiHeadphoneAlt className="menu-item-icon"/>,
+					links:"/dashboard"
 				}
 			]);
 		}

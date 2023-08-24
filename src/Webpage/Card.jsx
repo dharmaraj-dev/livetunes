@@ -2193,13 +2193,16 @@ export function SlideView({ title, itemId, children }) {
 
               <img src={Eventmanager} alt="" className="eventmanager-img-sec" />
               <div className="eventmanager-btn-sec">
+              <Link to="/signup">
+
                 <button
                   type="button"
                   className="l-sb wbtnn back-btn btn btn-primary"
-                  onClick={() => {joinAs('Organiser')}}
-                >
+                  onClick={() => {joinAs('User')}}
+                  >
                   Join as a <br /> Organiser
                 </button>
+              </Link>
               </div>
 
               <img src={Guitarist} alt="" className="guitarist-img-sec" />

@@ -3,7 +3,7 @@ import auth from "./auth";
 import common from "./common";
 import artist from "./artist";
 import judge from "./judge";
-
+import user from './user';
 // export default combineReducers({
 //   auth,
 //   message,
@@ -15,7 +15,8 @@ const rootReducer = combineReducers({
     auth,
     common,
     artist,
-    judge
+    judge,
+    user
 });
 
 export default (state, action) =>

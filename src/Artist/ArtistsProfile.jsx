@@ -753,6 +753,7 @@ const ArtistsProfile = (props) => {
                 setYoutubeUrl(res.data?.selASDetails?.YouTubeLink);
                 setWebsiteUrl(res.data?.selASDetails?.OtherLink);
             }).catch((err) => {
+                console.log(err)
                 navigate('/')
             })
         

@@ -18,9 +18,10 @@ import AuthService from "../services/auth.service";
 import CommonService from "../services/common.service";
 import authToken from "../services/auth-header";
 
-export const register = (phone, email) => (dispatch) => {
-  return AuthService.register(phone, email).then(
+export const register = (phone, email,joiningType) => (dispatch) => {
+  return AuthService.register(phone, email,joiningType).then(
     (response) => {
+      console.log(response)
        if(response.IsSuccess) {
           localStorage.setItem('tmpUser', btoa(JSON.stringify(response)));
           localStorage.setItem('ArtistId', response.RegId);
@@ -91,6 +92,7 @@ export const register = (phone, email) => (dispatch) => {
 export const login = (phone) => (dispatch) => {
   return AuthService.login(phone).then(
     (data) => {
+      console.log(data)
       if(data.IsSuccess) {
         
         localStorage.setItem('tmpUser', btoa(JSON.stringify(data)));
