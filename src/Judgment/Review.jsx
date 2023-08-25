@@ -50,6 +50,7 @@ const Review = () => {
   const [moreText, setMoreText] = useState("");
 
   const handleFormChange = (index, event) => {
+    if(Number(event.target.value)>10) event.target.value = "10";
     let data = [...inputFields];
     data[index]["Score"] = event.target.value;
     setInputFields(data);
