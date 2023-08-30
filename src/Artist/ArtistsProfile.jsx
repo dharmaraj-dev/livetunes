@@ -73,7 +73,7 @@ const ArtistsProfile = (props) => {
     const [selLanguages, setSelLanguages] = useState([]);
     const [expInYears, setSelExpInYears] = useState("");
     const [selPrefEvents, setSelPrefEvents] = useState([]);
-    const [selWillingToTravel, setSelWillingToTravel] = useState("");
+    const [selWillingToTravel, setSelWillingToTravel] = useState(0);
     const [selExpState, setSelExpState] = useState([]);
     const [selPerfDuration, setSelPerfDuration] = useState("");
     const [selChargesType, setSelChargesType] = useState("");
@@ -121,8 +121,14 @@ const ArtistsProfile = (props) => {
             if(firstName === "" || firstName === undefined) {
                 errorToast('First Name is required.');
                 return false;
-            } else if(lastName === "" || lastName === undefined) {
+            }else if(firstName.length > 30){
+                errorToast('Maximum character limit is 30 for firstName');
+                return false;
+            }else if(lastName === "" || lastName === undefined) {
                 errorToast('Last Name is required.');
+                return false;
+            }else if(lastName.length > 30){
+                errorToast('Maximum character limit is 30 for lastName');
                 return false;
             } else if(contactNo === "" || contactNo === undefined) {
                 errorToast('Contact No is required.');
@@ -199,9 +205,6 @@ const ArtistsProfile = (props) => {
                 return false;
             } else if(selPrefEvents.length === 0) {
                 errorToast('Preferred events is required.');
-                return false;
-            } else if(selWillingToTravel === "" || selWillingToTravel === undefined) {
-                errorToast('Willing to travel to other states for live events is required.');
                 return false;
             } else if(selPerfDuration === "" || selPerfDuration === undefined) {
                 errorToast('Preferred performance duration is required.');
@@ -781,7 +784,7 @@ const ArtistsProfile = (props) => {
     }
 
     function checkDate(e){
-        if(e.target.value === '0001-01-01'){
+        if(e.target.value === '0001-01-01' || (new Date(e.target.value) > new Date())){
             const date = new Date().toJSON().slice(0, 10);
             setDob(date);
         }
@@ -1265,7 +1268,7 @@ const ArtistsProfile = (props) => {
 
                                             <Col lg={12} md="12" className="mb2">
                                             <div className="form-check">
-                                                <input className="form-check-input" type="checkbox" name="flexCheckboxDefault" id="flexCheckboxDefault11" />
+                                                <input className="form-check-input" type="checkbox" name="flexCheckboxDefault" id="flexCheckboxDefault11" checked/>
                                                 <label className="form-check-label" htmlFor="flexCheckboxDefault11">
                                                 I agree, to give livetune the permission to fetch my social media information
                                                 </label>

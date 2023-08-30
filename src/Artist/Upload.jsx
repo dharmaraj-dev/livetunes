@@ -122,6 +122,8 @@ const Upload = () => {
             }
 
         }
+        console.log(maxAllowedFiles);
+        console.log(artistProfileData?.selLtMedia?.length);
     }, [artistProfileData])
 
 
@@ -271,6 +273,7 @@ const Upload = () => {
                 onupdatefiles={setEventFiles}
                 allowMultiple={true}
                 maxFiles={maxAllowedFiles}
+                maxParallelUploads={5}
                 acceptedFileTypes={["video/mp4", "image/png", "image/jpeg"]}
                 allowRevert={false}
                 allowRemove={false}
