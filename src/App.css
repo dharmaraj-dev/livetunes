@@ -1009,3 +1009,9 @@ numberInput.input[type=number] {
 .text-right {
   text-align: right;
 }
+
+.label-value {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #6D6875;
+}

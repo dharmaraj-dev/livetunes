@@ -51,12 +51,15 @@ const ArtistBankDetails = () => {
     const [accountNo, setAccountNo] = useState("");
     const [bankId, setBankId] = useState("");
     const [branchId, setBranchId] = useState("");
+    const [bankName, setBankName] = useState("");
+    const [branchName, setBranchName] = useState("");
     const [ifscCode, setIfscCode] = useState("");
     const [upiId, setUpiId] = useState("");
     const [step1Loading, setStep1Loading] = useState(false);
 
     //step 2
     const [photoIdProofType, setPhotoIdProofType] = useState("");
+    const [photoIdProofTypeName, setPhotoIdProofTypeName] = useState("");
     const [photoIdProofId, setPhotoIdProofId] = useState("");
     const [havePassport, setHavePassport] = useState(false);
     const [filePhotoProof, setFilePhotoFront] = useState([]);
@@ -72,7 +75,8 @@ const ArtistBankDetails = () => {
     const [cityName, setCityName] = useState("");
     const [stateName, setStateName] = useState("");
     const [stateId, setStateId] = useState("");
-    const [addressProof, setAddressProofData] = useState("");
+    const [addressProofId, setAddressProofId] = useState("");
+    const [addressProofName, setAddressProofName] = useState("");
     const [pincode, setPincode] = useState("");
     const [step3Loading, setStep3Loading] = useState(false);
     const [fileAddressProof, setFileAddressProof] = useState([]);
@@ -85,6 +89,8 @@ const ArtistBankDetails = () => {
     const [ref1ContNo, setRef1ContNo] = useState("");
     const [ref1Email, setRef1Email] = useState("");
     const [ref1StateId, setRef1StateId] = useState("");
+    const [ref1CityName, setRef1CityName] = useState("");
+    const [ref1StateName, setRef1StateName] = useState("");
     const [ref1CityId, setRef1CityId] = useState("");
     const [ref1Dob, setRef1Dob] = useState("");
     const [ref1Relation, setRef1Relation] = useState("");
@@ -155,7 +161,9 @@ const ArtistBankDetails = () => {
                 BankId: bankId,
                 BranchId: branchId,
                 IFSCCode: ifscCode,
-                UPIId: upiId
+                UPIId: upiId,
+                BranchName: branchName,
+                BankName: bankName
             };
             setStep1Loading(true);
             dispatch(setBankDetails(data)).then((response) => {
@@ -202,7 +210,8 @@ const ArtistBankDetails = () => {
             let data = {
                 IdProofId: photoIdProofType,
                 IdNo: photoIdProofId,
-                IsPassportAvail: havePassport
+                IsPassportAvail: havePassport,
+                IdProofName: photoIdProofTypeName
                 
             };
             setStep2Loading(true);
@@ -226,7 +235,7 @@ const ArtistBankDetails = () => {
            } else if(stateId === "" || stateId === null) {
                errorToast("State is required."); 
                return false;
-           } else if(addressProof === "" || addressProof === null) {
+           } else if(addressProofId === "" || addressProofId === null) {
                errorToast("Address Prood Type is required."); 
                return false;
            } else if(cityId === "" || cityId === null) {
@@ -250,11 +259,14 @@ const ArtistBankDetails = () => {
             //     return false;
             // }
             let data = {
-                AddressProofId: addressProof,
+                AddressProofId: addressProofId,
                 Address1: address,
                 StateId: stateId,
                 CityId: cityId,
-                PinCode: pincode
+                CityName: cityName,
+                StateName: stateName,
+                PinCode: pincode,
+                AddressProofName: addressProofName
             };
             setStep3Loading(true);
             dispatch(setAddressProof(data)).then((response) => {
@@ -322,8 +334,8 @@ const ArtistBankDetails = () => {
                 EmailId: ref1Email,
                 StateId: ref1StateId,
                 CityId: ref1CityId,
-                CityName: cityName,
-                StateName:stateName,
+                CityName: ref1CityName,
+                StateName: ref1StateName,
                 DOB: ref1Dob,
                 RWReference: ref1Relation
             };
@@ -381,17 +393,65 @@ const ArtistBankDetails = () => {
         })
     }
 
-    const selectCityName = (cId) => {
+    const selectRef1CityData = (cId) => {
         setRef1CityId(cId);
         const data = cities.filter((cts)=>cts.CityId == cId);
         if(data.length > 0) {
-            setStateName(data[0].StateName);
-            setCityName(data[0].CityName);
+            setRef1StateName(data[0].StateName);
+            setRef1CityName(data[0].CityName);
         } else {
-            setStateName("");
-            setCityName("");
+            setRef1StateName("");
+            setRef1CityName("");
         }
     }
+
+
+    const setBranchData = (bId) => {
+        setBranchId(bId);
+        const data = branchesForBank.filter((cts)=>cts.BankBranchId == bId);
+        if(data.length > 0) {
+            setBranchName(data[0].BankBranchName);
+            setBankName(data[0].BankName);
+        } else {
+            setBranchName("");
+            setBankName("");
+        }
+    }
+
+     const setIDProofData = (id) => {
+        setPhotoIdProofType(id);
+        const data = idProofs.filter((cts)=>cts.IdProofId == id);
+        if(data.length > 0) {
+            setPhotoIdProofTypeName(data[0].IdProofName);
+        } else {
+            setPhotoIdProofTypeName("");
+        }
+    }
+
+    const setCityData = (id) => {
+        setCityId(id);
+        const data = cities.filter((cts)=>cts.CityId == id);
+        if(data.length > 0) {
+            setCityName(data[0].CityName);
+            setStateName(data[0].StateName);
+        } else {
+            setCityName("");
+            setStateName("");
+        }
+    }
+
+    const setAddressProofData = (id) => {
+        setAddressProofId(id);
+        const data = addressProofs.filter((cts)=>cts.AddressProofId == id);
+        if(data.length > 0) {
+            setAddressProofName(data[0].AddressProofName);
+        } else {
+            setAddressProofName("");
+        }
+    }
+
+
+
 
     useEffect(() => {
         dispatch(getArtistProofData()).then((res) => {
@@ -406,6 +466,7 @@ const ArtistBankDetails = () => {
                 }
                 if(res.data?.selABDetails?.BranchId != 0) {
                     setBranchId(res.data?.selABDetails?.BranchId);
+                    setBranchData(res.data?.selABDetails?.BranchId);
                 }
                 if(res.data?.selABDetails?.IFSCCode !== null) {
                     setIfscCode(res.data?.selABDetails?.IFSCCode);
@@ -415,6 +476,7 @@ const ArtistBankDetails = () => {
                 }
                 if(res.data?.selAProof?.IdProofId != 0) {
                     setPhotoIdProofType(res.data?.selAProof?.IdProofId);
+                    setIDProofData(res.data?.selAProof?.IdProofId);
                 }
                 if(res.data?.selAProof?.IdNo !== null) {
                     setPhotoIdProofId(res.data?.selAProof?.IdNo);
@@ -435,11 +497,13 @@ const ArtistBankDetails = () => {
                 if(res.data?.selAddDetails?.StateId != 0) {
                     setStateId(res.data?.selAddDetails?.StateId);
                     selectStateAndGetItsCities(res.data?.selAddDetails?.StateId);
+                    setCityData(res.data?.selAddDetails?.StateId);
                 }
                 if(res.data?.selAddDetails?.CityId != 0) {
                     setCityId(res.data?.selAddDetails?.CityId);
                 }
                 if(res.data?.selAddDetails?.AddressProofId != 0) {
+                    setAddressProofId(res.data?.selAddDetails?.AddressProofId);
                     setAddressProofData(res.data?.selAddDetails?.AddressProofId);
                 }
                 if(res.data?.selAddDetails?.PinCode !== null) {
@@ -463,96 +527,25 @@ const ArtistBankDetails = () => {
                 }
                 if(res.data?.selARefDetails?.CityId != 0) {
                     setRef1CityId(res.data?.selARefDetails?.CityId);
+                    selectRef1CityData(res.data?.selARefDetails?.CityId);
                 }
                 if(res.data?.selARefDetails?.DOB != "0001-01-01T00:00:00") {
                     setRef1Dob(moment(res.data?.selARefDetails?.DOB).format("YYYY-MM-DD"));
                 }
                 if(res.data?.selARefDetails?.RWReference !== null) {
                     setRef1Relation(res.data?.selARefDetails?.RWReference);
+                }
+
+
+
+                if(res.data?.selABDetails?.AccNo !== null && res.data?.selABDetails?.BankId != 0 && res.data?.selABDetails?.BranchId) {
+                    setCurrentStep(2);
                 } 
             }
             setPageLoading(false);
         }).catch((err) => {
             navigate('/')
         })
-        // if(artistProofData?.IsSuccess) {
-        //     if(artistProofData?.selABDetails?.AccNo !== null) {
-        //         setAccountNo(artistProofData?.selABDetails?.AccNo);
-        //     }
-        //     if(artistProofData?.selABDetails?.BankId != 0) {
-        //         setBankId(artistProofData?.selABDetails?.BankId);
-        //         const data = branches.filter((bnk)=>bnk.BankId == artistProofData?.selABDetails?.BankId);
-        //         setBranchesForBank(data)
-        //     }
-        //     if(artistProofData?.selABDetails?.BranchId != 0) {
-        //         setBranchId(artistProofData?.selABDetails?.BranchId);
-        //     }
-        //     if(artistProofData?.selABDetails?.IFSCCode !== null) {
-        //         setIfscCode(artistProofData?.selABDetails?.IFSCCode);
-        //     }
-        //     if(artistProofData?.selABDetails?.UPIId !== null) {
-        //         setUpiId(artistProofData?.selABDetails?.UPIId);
-        //     }
-        //     if(artistProofData?.selAProof?.IdProofId != 0) {
-        //         setPhotoIdProofType(artistProofData?.selAProof?.IdProofId);
-        //     }
-        //     if(artistProofData?.selAProof?.IdNo !== null) {
-        //         setPhotoIdProofId(artistProofData?.selAProof?.IdNo);
-        //     }
-        //     if(artistProofData?.selAProof?.IsPassportAvail !== null) {
-        //         setHavePassport(artistProofData?.selAProof?.IsPassportAvail);
-        //     }
-        //     if(artistProofData?.selIDPMedia !== null) {
-        //         setUploadedPhotoIdProofs(artistProofData?.selIDPMedia);
-        //     }
-        //     if(artistProofData?.selAProofMedia !== null) {
-        //         setUploadedAddressProofs(artistProofData?.selAProofMedia);
-        //     }
-
-            
-        //     //setAgreeMembership(artistProofData?.selAProof?.UPIId);
-        //     if(artistProofData?.selAddDetails?.Address1 !== null) {
-        //         setAddress(artistProofData?.selAddDetails?.Address1);
-        //     }
-        //     if(artistProofData?.selAddDetails?.StateId != 0) {
-        //         setStateId(artistProofData?.selAddDetails?.StateId);
-        //         selectStateAndGetItsCities(artistProofData?.selAddDetails?.StateId);
-        //     }
-        //     if(artistProofData?.selAddDetails?.CityId != 0) {
-        //         setCityId(artistProofData?.selAddDetails?.CityId);
-        //     }
-        //     if(artistProofData?.selAddDetails?.AddressProofId != 0) {
-        //         setAddressProofData(artistProofData?.selAddDetails?.AddressProofId);
-        //     }
-        //     if(artistProofData?.selAddDetails?.PinCode !== null) {
-        //         setPincode(artistProofData?.selAddDetails?.PinCode);
-        //     }
-
-        //     if(artistProofData?.selARefDetails?.FirstName !== null) {
-        //         setRef1FName(artistProofData?.selARefDetails?.FirstName);
-        //     }
-        //     if(artistProofData?.selARefDetails?.LastName !== null) {
-        //         setRef1LName(artistProofData?.selARefDetails?.LastName);
-        //     }
-        //     if(artistProofData?.selARefDetails?.ContactNo !== null) {
-        //         setRef1ContNo(artistProofData?.selARefDetails?.ContactNo);
-        //     }
-        //     if(artistProofData?.selARefDetails?.EmailId !== null) {
-        //         setRef1Email(artistProofData?.selARefDetails?.EmailId);
-        //     }
-        //     if(artistProofData?.selARefDetails?.StateId != 0) {
-        //         setRef1StateId(artistProofData?.selARefDetails?.StateId);
-        //     }
-        //     if(artistProofData?.selARefDetails?.CityId != 0) {
-        //         setRef1CityId(artistProofData?.selARefDetails?.CityId);
-        //     }
-        //     if(artistProofData?.selARefDetails?.DOB != "0001-01-01T00:00:00") {
-        //         setRef1Dob(moment(artistProofData?.selARefDetails?.DOB).format("YYYY-MM-DD"));
-        //     }
-        //     if(artistProofData?.selARefDetails?.RWReference !== null) {
-        //         setRef1Relation(artistProofData?.selARefDetails?.RWReference);
-        //     }          
-        // }
     }, [])
 
   return (
@@ -610,51 +603,97 @@ const ArtistBankDetails = () => {
 
                                         <Row className="align-items-center">
                                             <Col lg={12} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Account number* </Form.Label>
+                                            
                                             {artistProofData?.selABDetails?.AccNo === null ? (
-                                                 <Form.Control placeholder="Your Bank account no." type="text" value={accountNo} onChange={(e) => setAccountNo(e.target.value)}/>
+                                                <>
+                                                    <Form.Label className="l-sb">Account number<sup className="red-color">*</sup> </Form.Label>
+                                                    <Form.Control placeholder="Your Bank account no." type="text" value={accountNo} onChange={(e) => setAccountNo(e.target.value)}/>
+                                                </>
                                             ): (
-                                                <span>{artistProofData?.selABDetails?.AccNo}</span>
+                                                <>  
+                                                    <Form.Label className="l-sb">Account number: </Form.Label>
+                                                    <span className="label-value">{artistProofData?.selABDetails?.AccNo}</span>
+                                                </>
                                             )}
                                            
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Bank name<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control"
-                                            value={bankId} onChange={(e) => {bankChange(e.target.value)}}>
-                                                <option>Select Bank</option>
-                                                {banks?.filter((key) => !key.IsCancelled).map((bank, index) => {
-                                                    return (<option key={`${bank.BankId}'_'${bank.BankName}`} value={bank.BankId}>{bank.BankName}</option>)
-                                                })}
-                                            </Form.Select>
-                                            </Col>
-
-                                            <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Branch name<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control" value={branchId} onChange={(e) => {setBranchId(e.target.value)}}>
+                                            {artistProofData?.selABDetails?.BankName === null ? (
+                                                <>
+                                                    <Form.Label className="l-sb">Bank name<sup className="red-color">*</sup></Form.Label>
+                                                    <Form.Select aria-label="Default select example" className="form-control"
+                                                    value={bankId} onChange={(e) => {bankChange(e.target.value)}}>
+                                                        <option>Select Bank</option>
+                                                        {banks?.filter((key) => !key.IsCancelled).map((bank, index) => {
+                                                            return (<option key={`${bank.BankId}'_'${bank.BankName}`} value={bank.BankId}>{bank.BankName}</option>)
+                                                        })}
+                                                    </Form.Select>
+                                                </>
+                                            ) : (
+                                                <>  
+                                                    <Form.Label className="l-sb">Bank name: </Form.Label>
+                                                    <span className="label-value">{artistProofData?.selABDetails?.BankName}</span>
+                                                </>
+                                            ) }
                                                 
-                                                {branchesForBank.length == 0 ? (
-                                                    <option selected disabled value="">No Branch Available</option>
-                                                ):(
-                                                    <>
-                                                    <option>Select branch</option>
-                                                    {branchesForBank?.filter((key) => !key.IsCancelled).map((branch, index) => {
-                                                        return (<option key={`${branch.BankBranchId}'_'${branch.BankBranchName}`} value={branch.BankBranchId}>{branch.BankBranchName}</option>)
-                                                    })}
-                                                    </>
-                                                )}
-                                            </Form.Select>
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">IFSC Code</Form.Label>
-                                            <Form.Control placeholder="IFSC Code" type="text" value={ifscCode} onChange={(e) => {setIfscCode(e.target.value)}}/>
+                                            {artistProofData?.selABDetails?.BranchName === null ? (
+                                                <>
+                                                    <Form.Label className="l-sb">Branch name<sup className="red-color">*</sup></Form.Label>
+                                                    <Form.Select aria-label="Default select example" className="form-control" value={branchId} onChange={(e) => {setBranchData(e.target.value)}}>
+                                                        
+                                                        {branchesForBank.length == 0 ? (
+                                                            <option selected disabled value="">No Branch Available</option>
+                                                        ):(
+                                                            <>
+                                                            <option>Select branch</option>
+                                                            {branchesForBank?.filter((key) => !key.IsCancelled).map((branch, index) => {
+                                                                return (<option key={`${branch.BankBranchId}'_'${branch.BankBranchName}`} value={branch.BankBranchId}>{branch.BankBranchName}</option>)
+                                                            })}
+                                                            </>
+                                                        )}
+                                                    </Form.Select>
+                                                </>
+                                            ) : (
+                                                <>  
+                                                    <Form.Label className="l-sb">Branch name: </Form.Label>
+                                                    <span className="label-value">{artistProofData?.selABDetails?.BranchName}</span>
+                                                </>
+                                            ) }
+                                            
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">UPI ID</Form.Label>
-                                            <Form.Control placeholder="eg: namead@oksbi" type="text" value={upiId} onChange={(e) => {setUpiId(e.target.value)}}/>
+                                            {artistProofData?.selABDetails?.IFSCCode === null ? (
+                                                <>
+                                                    <Form.Label className="l-sb">IFSC Code</Form.Label>
+                                                    <Form.Control placeholder="IFSC Code" type="text" value={ifscCode} onChange={(e) => {setIfscCode(e.target.value)}}/>
+                                                </>
+                                            ):(
+                                                <>  
+                                                    <Form.Label className="l-sb">IFSC Code: </Form.Label>
+                                                    <span className="label-value">{artistProofData?.selABDetails?.IFSCCode}</span>
+                                                </>
+                                            )}
+                                           
+                                            </Col>
+
+                                            <Col lg={6} md="12" className="mb-4">
+                                            {artistProofData?.selABDetails?.UPIId === null ? (
+                                                <>
+                                                    <Form.Label className="l-sb">UPI ID</Form.Label>
+                                                    <Form.Control placeholder="eg: namead@oksbi" type="text" value={upiId} onChange={(e) => {setUpiId(e.target.value)}}/>
+                                                </>
+                                            ):(
+                                                <>  
+                                                    <Form.Label className="l-sb">UPI ID: </Form.Label>
+                                                    <span className="label-value">{artistProofData?.selABDetails?.UPIId == "" ? 'NA' : artistProofData?.selABDetails?.UPIId}</span>
+                                                </>
+                                            )}
+                                            
                                             </Col>
 
                                             <Col lg={12} md="12" className="mt-4">
@@ -682,7 +721,7 @@ const ArtistBankDetails = () => {
                                         <Row className="">
                                             <Col lg={6} md="12" className="mb-4">
                                             <Form.Label className="l-sb">Select id<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control" value={photoIdProofType} onChange={(e) => {setPhotoIdProofType(e.target.value)}}>
+                                            <Form.Select aria-label="Default select example" className="form-control" value={photoIdProofType} onChange={(e) => {setIDProofData(e.target.value)}}>
                                                 <option>Select id type</option>
                                                 {idProofs?.filter((key) => !key.IsCancelled).map((idproof, index) => {
                                                     return (<option key={`${idproof.IdProofId}'_'${idproof.IdProofName}`} value={idproof.IdProofId}>{idproof.IdProofName}</option>)
@@ -750,13 +789,10 @@ const ArtistBankDetails = () => {
                                                             server={ {
                                                                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                                                                     const formData = new FormData();
-                                                                    const proof_name = idProofs?.filter((key) => key.IdProofId == photoIdProofType).map((idproof, index) => {
-                                                                        return (idproof.IdProofName)
-                                                                    })
                                                                     
                                                                     formData.append(fieldName, file, file.name);
                                                                     const request = new XMLHttpRequest();
-                                                                    request.open('POST', 'https://livetunesapi.azurewebsites.net/api/LTMedia/uploadp-proof?proof_name='+proof_name);
+                                                                    request.open('POST', 'https://livetunesapi.azurewebsites.net/api/LTMedia/uploadp-proof?proof_name='+photoIdProofTypeName);
                                                                     request.setRequestHeader("Authorization", authToken());
                                                                     request.upload.onprogress = (e) => {
                                                                         console.log(e.lengthComputable, e.loaded, e.total);
@@ -868,7 +904,7 @@ const ArtistBankDetails = () => {
 
                                             <Col lg={6} md="12" className="mb-4">
                                                 <Form.Label className="l-sb">Address proof<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control" value={addressProof} onChange={(e) => {setAddressProofData(e.target.value)}}>
+                                                <Form.Select aria-label="Default select example" className="form-control" value={addressProofId} onChange={(e) => {setAddressProofData(e.target.value)}}>
                                                     <option>Address proof</option>
                                                     {addressProofs?.filter((key) => !key.IsCancelled).map((addProof, index) => {
                                                         return (<option key={`${addProof.AddressProofId}'_'${addProof.AddressProofName}`} value={addProof.AddressProofId}>{addProof.AddressProofName}</option>)
@@ -882,7 +918,7 @@ const ArtistBankDetails = () => {
 
                                             <Col lg={12} md="12" className="">
                                                <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control" value={cityId} onChange={(e) => {setCityId(e.target.value)}}>
+                                                <Form.Select aria-label="Default select example" className="form-control" value={cityId} onChange={(e) => {setCityData(e.target.value)}}>
                                                     <option>City name</option>
                                                     {filteredCities?.filter((key) => !key.IsCancelled).map((city, index) => {
                                                         return (<option key={`${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
@@ -928,14 +964,11 @@ const ArtistBankDetails = () => {
                                                             server={ {
                                                                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                                                                     const formData = new FormData();
-                                                                    const proof_name = addressProofs?.filter((key) => !key.IsCancelled && key.AddressProofId == addressProof).map((addr, index) => {
-                                                                        return (addr.AddressProofName)
-                                                                    })
-                                                                    console.log(file,fieldName)
+                                                                    
                                                                     formData.append(fieldName, file, file.name);
 
                                                                     const request = new XMLHttpRequest();
-                                                                    request.open('POST', 'https://livetunesapi.azurewebsites.net/api/LTMedia/uploada-proof?proof_name='+proof_name);
+                                                                    request.open('POST', 'https://livetunesapi.azurewebsites.net/api/LTMedia/uploada-proof?proof_name='+addressProofName);
                                                                     request.setRequestHeader("Authorization", authToken());
                                                                     request.upload.onprogress = (e) => {
                                                                         console.log(e.lengthComputable, e.loaded, e.total);
@@ -1059,7 +1092,7 @@ const ArtistBankDetails = () => {
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
                                                 <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control" value={ref1CityId} onChange={(e) => {selectCityName(e.target.value)}}>
+                                                <Form.Select aria-label="Default select example" className="form-control" value={ref1CityId} onChange={(e) => {selectRef1CityData(e.target.value)}}>
                                                     <option>City name</option>
                                                     {cities?.filter((key) => !key.IsCancelled).map((city, index) => {
                                                         return (<option key={`${index}'_'${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
