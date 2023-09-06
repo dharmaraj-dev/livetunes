@@ -24,6 +24,7 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, F
 const Upload = () => {
     const dispatch = useDispatch();
     const MySwal = withReactContent(Swal)
+    const {ArtistIsApproved} = useSelector(state => state.auth);
 
 
     const { artistProfileData } = useSelector(state => state.artist);
@@ -110,6 +111,7 @@ const Upload = () => {
 
 
     useEffect(() => {
+        console.log(ArtistIsApproved);
         if(artistProfileData) {
              if(artistProfileData?.selLtMedia?.length > 0){
                 setAlreadyAddedEventsFiles(artistProfileData?.selLtMedia);
@@ -215,7 +217,6 @@ const Upload = () => {
                              
                             }
                             }
-                            name="file"
                             labelIdle='<span class="profile_upload_browse"></span>'
                           />
                     </label>
@@ -225,7 +226,9 @@ const Upload = () => {
                 {alreadyAddedEventsFile?.filter((key) => !key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
                     return (
                         <Col lg={6} md={6} key={`eventImgFiles_${index}`} className="mb-4 position-relative">
+                            {ArtistIsApproved && (
                             <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
+                            )}
                             <img src={eveFile.LTMediaURL}/>
                             <Row>
                                 <Col>
@@ -238,7 +241,8 @@ const Upload = () => {
                                       cancelButtonLabel={<AiOutlineClose />}
                                       placeholder={`Add caption/location`}
                                     />
-                                    <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
+                                   
+                                    
                                 </Col>
                             </Row>
                         </Col>
@@ -247,7 +251,9 @@ const Upload = () => {
                 {alreadyAddedEventsFile?.filter((key) => key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
                     return (
                         <Col lg={6} md={6} key={`eventVidFiles_${index}`} className="mb-4 position-relative">
+                            {ArtistIsApproved && (
                             <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
+                            )}
                             <video controls={true} src={eveFile.LTMediaURL}></video>
                             <Row>
                                 <Col>
@@ -260,7 +266,7 @@ const Upload = () => {
                                       cancelButtonLabel={<AiOutlineClose />}
                                       placeholder={`Add caption/location`}
                                     />
-                                    <AiOutlineDelete className="red-color deleteAttachment" onClick={() => {removeEventAttachment(eveFile.LTMediaLogId, index)}} />
+                                    
                                 </Col>
                             </Row>
                         </Col>

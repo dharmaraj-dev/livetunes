@@ -258,7 +258,7 @@ const Judgment = () => {
                                               <div className="appro-reje-sec l-m text-center reject-sec">Cancelled</div>
                                           )}
                                           {!appl.IsReject && !appl.IsApprove && !appl.IsCancelled && (
-                                            <Link to={`/artist-application/${btoa(appl.JPanelId)}`}>Unaudited</Link>
+                                            <Link to={`/artist-application/${btoa(appl.JPanelId)}`}>Review</Link>
                                           )}
                                         </td>
                                     </tr>

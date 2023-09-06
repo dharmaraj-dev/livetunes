@@ -84,7 +84,7 @@ const Review = () => {
   const reviewArtist = (status) => {
     const isScoreAddedLength = inputFields.filter((inf) => { return inf.Score; })
     if(feedLogs.length != isScoreAddedLength.length) {
-      infoToast('Star fields are mendatory.');
+      infoToast('Star fields are mandatory.');
       return false;
     }
 

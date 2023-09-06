@@ -79,7 +79,7 @@ const SideNavBar = () => {
 				{
 					text: "TfiHeart",
 					icon: <TfiHeart className="menu-item-icon"/>,
-					links: "/dashboard"
+					links: "/favourites"
 				},
 				{
 					text:"IoTicketOutline", //

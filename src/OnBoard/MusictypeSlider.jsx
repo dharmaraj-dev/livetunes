@@ -8,13 +8,15 @@ import Musicimg4 from '../assets/images/musicimg4.png';
 import { GrClose } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import {setMusicalityTypes} from "../actions/user";
+import { useEffect } from "react";
 
 
 const MusictypeSlider = () => {
     const dispatch = useDispatch();
     const { userMusicalityTypes } = useSelector(state => state.user);
+    let userMusicalityTypesArray = userMusicalityTypes;
 
-    const showMusicalityTypes = userMusicalityTypes.map((musicalityType)=> <Badge className='l-r'> {musicalityType}      <GrClose className="red-color"/></Badge> );
+    const showMusicalityTypes = userMusicalityTypes.map((musicalityType)=> <Badge className='l-r'> {musicalityType}      <GrClose className="red-color" onClick={(e)=>handleClick(e)}/></Badge> );
 
     const settings = {
       dots: false,
@@ -47,6 +49,69 @@ const MusictypeSlider = () => {
         }
       ]
     };
+
+    function handleClick(e){
+      const musicalityType = e.target.parentElement.innerText.trim();
+      let checkInput = "";
+      if(musicalityType === "Electronic Music" && userMusicalityTypes.includes("Electronic Music")){
+        userMusicalityTypesArray.splice(userMusicalityTypes.indexOf("Electronic Music"),1);
+        checkInput = document.getElementById("electronic");
+      }else if(musicalityType === "POP Music" && userMusicalityTypes.includes("POP Music")){
+        userMusicalityTypesArray.splice(userMusicalityTypes.indexOf("POP Music"),1);
+        checkInput = document.getElementById("pop");
+      }else if(musicalityType === "Rock" && userMusicalityTypes.includes("Rock")){
+        userMusicalityTypesArray.splice(userMusicalityTypes.indexOf("Rock"),1);
+        checkInput = document.getElementById("rock");
+      }else if(musicalityType === "Concert" && userMusicalityTypes.includes("Concert")){
+        userMusicalityTypesArray.splice(userMusicalityTypes.indexOf("Concert"),1);
+        checkInput = document.getElementById("concert");
+      }
+      checkInput.checked = false;
+      dispatch(setMusicalityTypes(userMusicalityTypesArray));
+    }
+
+    function handleChange(e){
+      console.log(e);
+      if(e.target.checked){
+        if(e.target.name === "electronic" && !userMusicalityTypes.includes("Electronic Music")){
+          userMusicalityTypesArray.push("Electronic Music");
+        }else if(e.target.name === "pop" && !userMusicalityTypes.includes("POP Music")){
+          userMusicalityTypesArray.push("POP Music");
+        }else if(e.target.name === "rock" && !userMusicalityTypes.includes("Rock")){
+          userMusicalityTypesArray.push("Rock");
+        }else if(e.target.name === "concert" && !userMusicalityTypes.includes("Concert")){
+          userMusicalityTypesArray.push("Concert");
+        }
+      }else{
+        if(e.target.name === "electronic" && userMusicalityTypes.includes("Electronic Music")){
+          userMusicalityTypesArray.splice(userMusicalityTypes.indexOf("Electronic Music"),1);
+        }else if(e.target.name === "pop" && userMusicalityTypes.includes("POP Music")){
+          userMusicalityTypesArray.splice(userMusicalityTypes.indexOf("POP Music"),1);
+        }else if(e.target.name === "rock" && userMusicalityTypes.includes("Rock")){
+          userMusicalityTypesArray.splice(userMusicalityTypes.indexOf("Rock"),1);
+        }else if(e.target.name === "concert" && userMusicalityTypes.includes("Concert")){
+          userMusicalityTypesArray.splice(userMusicalityTypes.indexOf("Concert"),1);
+        }
+      }
+      dispatch(setMusicalityTypes(userMusicalityTypesArray));
+    }
+
+    useEffect(()=>{
+      userMusicalityTypes.map((musicalityType)=>{
+        let checkInput = "";
+        if(musicalityType === "Electronic Music"){
+          checkInput = document.getElementById("electronic");
+        }else if(musicalityType === "POP Music"){
+          checkInput = document.getElementById("pop");
+        }else if(musicalityType === "Rock"){
+          checkInput = document.getElementById("rock");
+        }else if(musicalityType === "Concert"){
+          checkInput = document.getElementById("concert");
+        }
+        checkInput.checked = true;
+      })
+    },[])
+
     return (
         <div>
           <div className="music-type-selected">
@@ -63,36 +128,42 @@ const MusictypeSlider = () => {
           </div>
           <Slider {...settings}>
             <div>
-                <label className="music-type-slide-sec btn-light active">
-                  <input type="checkbox" name="electronic"/>
+                <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Electronic Music") && "active"}`}>
+                  <input type="checkbox" name="electronic" id="electronic" 
+                    onChange={(e)=>handleChange(e)}
+                  />
                   <img src={Musicimg1} className="mx-auto w-100" alt="img" />
                   <span className="l-b white-color music-type-text">Electronic Music</span>
                 </label>
             </div>
             <div>
-              <label className="music-type-slide-sec btn-light">
-                <input type="checkbox" name="pop" />
+              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("POP Music") && "active"}`}>
+                <input type="checkbox" name="pop" id="pop"
+                  onChange={(e)=>handleChange(e)}
+                />
                 <img src={Musicimg2} className="mx-auto w-100" alt="img"/>
                 <span className="l-b white-color music-type-text">POP Music</span>
               </label>
             </div>
             <div>
-              <label className="music-type-slide-sec btn-light">
-                <input type="checkbox" name="rock" />
+              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Rock") && "active"}`}>
+                <input type="checkbox" name="rock" id="rock"
+                  onChange={(e)=>handleChange(e)}
+                />
                 <img src={Musicimg3} className="mx-auto w-100" alt="img" />
-                <div className="music-type-text">
-                  <span className="l-b white-color">Rock</span>
-                </div>
+                <span className="l-b white-color music-type-text">Rock</span>
               </label>
             </div>
             <div>
-              <label className="music-type-slide-sec btn-light">
-                <input type="checkbox" name="concert"/>
+              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Concert") && "active"}`}>
+                <input type="checkbox" name="concert" id="concert"
+                  onChange={(e)=>handleChange(e)}
+                />
                 <img src={Musicimg4} className="mx-auto w-100" alt="img" />
                 <span className="l-b white-color music-type-text">Concert</span>
               </label>
             </div>
-            <div>
+            {/* <div>
               <label className="music-type-slide-sec btn-light">
                 <input type="checkbox" />
                 <img src={Musicimg1} className="mx-auto w-100" alt="img" />
@@ -105,7 +176,7 @@ const MusictypeSlider = () => {
                 <img src={Musicimg2} className="mx-auto w-100" alt="img" />
                 <span className="l-b white-color music-type-text">POP Music</span>
               </label>
-            </div>
+            </div> */}
            
           </Slider>
         </div>
