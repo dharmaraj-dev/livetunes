@@ -8,9 +8,18 @@ import Col from 'react-bootstrap/Col';
 import FavouriteCard from "./FavouriteCard";
 import Badge from 'react-bootstrap/Badge';
 import MoveCart from "./MoveCart";
+import { useDispatch,useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getUserFavoriteArtists } from "../actions/user";
 
 
 const Favourites = () => {
+  const dispatch = useDispatch();
+  const {userFavoriteArtists} = useSelector(state => state.user);
+  const {user} = useSelector(state => state.auth);
+  useEffect(()=>{
+    dispatch(getUserFavoriteArtists(user.RegId));
+  },[]);
   return (
     <>
         <div className="wrapper">
@@ -33,18 +42,7 @@ const Favourites = () => {
                                     <Tab eventKey="all" title="Liked artists"
                                     >
                                        <Row>
-                                            <Col xl={3} md={6}>
-                                                <FavouriteCard/>
-                                            </Col>
-                                            <Col xl={3} md={6}>
-                                                <FavouriteCard/>
-                                            </Col>
-                                            <Col xl={3} md={6}>
-                                                <FavouriteCard/>
-                                            </Col>
-                                            <Col xl={3} md={6}>
-                                                <FavouriteCard/>
-                                            </Col>
+                                            {userFavoriteArtists.map((artist) => <Col xl={3} md={6}><FavouriteCard props={artist}/></Col>)}
                                         </Row>
                                     </Tab>
                                     <Tab eventKey="bookings" title="Moved form cart"

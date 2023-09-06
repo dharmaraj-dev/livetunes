@@ -49,6 +49,7 @@ import {
 } from "./actions/types";
 import { welcomeSeen } from './actions/auth';
 import 'react-loading-skeleton/dist/skeleton.css'
+import { setJoiningType } from './actions/auth';
 
 
 function App() {
@@ -58,7 +59,9 @@ function App() {
   const { isLoggedIn, IsProfileSend, joiningType, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
 
   useEffect(() => {
-
+    if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"){
+      dispatch(setJoiningType("User"));
+    }
     if(!isLoggedIn) {
       navigate("/");
     } else {

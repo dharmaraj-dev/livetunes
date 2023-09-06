@@ -8,6 +8,8 @@ import EventDetailVenue from "./EventDetailVenue";
 import ArtistInfo from "../OnBoard/ArtistInfo";
 import ValueCard from "./ValueCard";
 import Billdetail from "./Billdetail";
+import { InlineWidget } from "react-calendly";
+
 
 const CheckAvailability = () => {
   return (
@@ -20,6 +22,23 @@ const CheckAvailability = () => {
             <div className="header">
                 <NavBar />
             </div>
+            {/* calendly */}
+            {/* <div
+                style={{
+                    width:"490px",
+                    marginLeft:"auto",
+                    marginRight:"auto",
+                    marginTop:"100px"
+                }}
+            >
+                <InlineWidget url="https://calendly.com/sujalagrawalgondia/gazal"
+                    style={{
+                        border:"3px solid black",
+                        minWidth:"413px",
+                        height:"831px"
+                    }}
+                />
+            </div> */}
             <div className="main-content">
                 <Container fluid>
                     <div className="main-artists-list">

@@ -12,6 +12,7 @@ import { validateOtp, resendOtp } from "../actions/auth";
 import { Navigate  } from 'react-router-dom';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import { logout } from '../actions/auth';
 
 const OneTimepass = () => {
   const dispatch = useDispatch();
@@ -57,6 +58,11 @@ const OneTimepass = () => {
       const usersOtp = input1+''+input2+''+input3+''+input4+''+input5;
       dispatch(validateOtp(otpSentTo,usersOtp))
       .then((res) => {
+        if(res.ProfileType === null){
+          errorToast("Invalid joining type");
+          dispatch(logout());
+          return;
+        }
         console.log('res', res);
         setOtpVerifyLoading(false);
         if(res.IsSuccess) {

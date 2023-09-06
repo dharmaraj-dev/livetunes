@@ -1,4 +1,4 @@
-import React  from "react";
+import React, { useEffect }  from "react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import NavBar from "../Layout/NavBar";
@@ -35,10 +35,20 @@ import Videos from "./Videos";
 import { FiShare2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import ArtistInfo from "./ArtistInfo";
-
+import { useLocation } from 'react-router-dom';
+import { Navigate, useNavigate  } from 'react-router-dom';
 
 
 const SingleArtist = () => {
+  const location = useLocation();
+  let navigate = useNavigate();
+  const artistId = location?.state?.artistId;
+  useEffect(()=>{
+    if(artistId === undefined){
+        navigate("/dashboard");
+    }
+
+  },[]);  
   return (
     <>
         <div className="wrapper">

@@ -3,7 +3,13 @@ import {
     USER_SELECTED_CITIES,
     USER_BUDGET_MIN_VALUE,
     USER_BUDGET_MAX_VALUE,
-    USER_MUSICALITY_TYPES
+    USER_MUSICALITY_TYPES,
+    USER_SELECTED_CATEGORIES,
+    USER_SELECTED_GENRES,
+    USER_SELECTED_EVENTS,
+    USER_FILTERED_ARTISTS,
+    USER_FAVORITE_ARTISTS,
+    USER_UPDATE_ARTIST_LIST,
   } from "./types";
   
   import UserService from "../services/user.service";
@@ -46,4 +52,72 @@ import {
             type:USER_MUSICALITY_TYPES,
             payload:musicalityTypes,
         });
+    }
+
+    export const setUserSelectedCategories = (selectedCategories) => (dispatch) => {
+        UserService.setUserSelectedCategories(selectedCategories);
+        dispatch({
+            type:USER_SELECTED_CATEGORIES,
+            payload:selectedCategories,
+        });
+    }
+
+    export const setUserSelectedGenres = (selectedGenres) => (dispatch) => {
+        UserService.setUserSelectedGenres(selectedGenres);
+        dispatch({
+            type:USER_SELECTED_GENRES,
+            payload:selectedGenres,
+        });
+    }
+
+    export const setUserSelectedEvents = (selectedEvents) => (dispatch) => {
+        UserService.setUserSelectedEvents(selectedEvents);
+        dispatch({
+            type:USER_SELECTED_EVENTS,
+            payload:selectedEvents,
+        });
+    }
+
+    export const getUserFilteredArtists = (filteringCriteria) => (dispatch) => {
+        UserService.getUserFilteredArtists(filteringCriteria).then(
+            (response) => {
+                localStorage.setItem("userFilteredArtists",JSON.stringify(response.data.output_data));
+                dispatch({
+                    type:USER_FILTERED_ARTISTS,
+                    payload:response.data.output_data,
+                });
+            },
+            (error) => {
+                console.log(error);
+            }
+        )
+    }
+
+    export const getUserFavoriteArtists = (userId) => (dispatch) => {
+        UserService.getUserFavoriteArtists(userId).then(
+            (response) => {
+                localStorage.setItem("userFavoriteArtists",JSON.stringify(response.data.output_data));
+                dispatch({
+                    type:USER_FAVORITE_ARTISTS,
+                    payload:response.data.output_data,
+                });
+            },
+            (error) => {
+                console.log(error);
+            }
+        )
+    }
+
+    export const insertFavoriteArtists = (artist) => (dispatch) => {
+        UserService.insertFavoriteArtists(artist).then(
+            (response) => {
+                dispatch({
+                    type: USER_UPDATE_ARTIST_LIST,
+                    payload:artist
+                })
+            },
+            (error) => {
+                // console.log(error);
+            }
+        )
     }

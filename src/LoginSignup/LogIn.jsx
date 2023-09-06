@@ -65,7 +65,9 @@ const LogIn = () => {
     }
 
   useEffect(() => {
-    
+      if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"){
+        dispatch(setJoiningType("User"));
+      }
       if(loc.pathname === '/judge-login') {
         dispatch(setJoiningType('Judge'));
       }

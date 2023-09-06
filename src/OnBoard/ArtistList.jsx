@@ -6,9 +6,10 @@ import Filter from "./Filter";
 import ArtistCard from "./ArtistCard";
 import SlideCard from "./SlideCard";
 import Advertise from "./Advertise";
-
+import { useDispatch, useSelector } from "react-redux";
 
 const ArtistList = () => {
+  const { userFilteredArtists } = useSelector(state => state.user);
   return (
     <>
         <div className="wrapper">
@@ -27,7 +28,7 @@ const ArtistList = () => {
                     <section className="artists-found-card">
                       <div className="found-heading-sec">
                         <p className="l-sb head">For You</p>
-                        <p className="l-l sub-head"><span>150</span> Artists Found!</p>
+                        <p className="l-l sub-head"><span>{userFilteredArtists.length}</span> Artists Found!</p>
                       </div>
                       <div className="artists-card-sec">
                         <ArtistCard/>

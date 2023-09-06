@@ -69,6 +69,8 @@ const ArtistBankDetails = () => {
     //step 3
     const [address, setAddress] = useState("");
     const [cityId, setCityId] = useState("");
+    const [cityName, setCityName] = useState("");
+    const [stateName, setStateName] = useState("");
     const [stateId, setStateId] = useState("");
     const [addressProof, setAddressProofData] = useState("");
     const [pincode, setPincode] = useState("");
@@ -320,6 +322,8 @@ const ArtistBankDetails = () => {
                 EmailId: ref1Email,
                 StateId: ref1StateId,
                 CityId: ref1CityId,
+                CityName: cityName,
+                StateName:stateName,
                 DOB: ref1Dob,
                 RWReference: ref1Relation
             };
@@ -357,8 +361,8 @@ const ArtistBankDetails = () => {
             return dispatch(removeArtistAttachment(attachId.LTMediaLogId)).then((response) => {
                 if(response.data.IsSuccess) {
                     return dispatch(getArtistProofData()).then((res) => {
-                        setUploadedPhotoIdProofs(res.data?.data?.selIDPMedia);
-                        setUploadedAddressProofs(res.data?.data?.selAProofMedia);
+                        setUploadedPhotoIdProofs(res.data?.selIDPMedia);
+                        setUploadedAddressProofs(res.data?.selAProofMedia);
                         return res;
                     });
                 } else {
@@ -375,6 +379,18 @@ const ArtistBankDetails = () => {
             Swal.fire('Attachment delete cancelled.', '', 'info')
           }
         })
+    }
+
+    const selectCityName = (cId) => {
+        setRef1CityId(cId);
+        const data = cities.filter((cts)=>cts.CityId == cId);
+        if(data.length > 0) {
+            setStateName(data[0].StateName);
+            setCityName(data[0].CityName);
+        } else {
+            setStateName("");
+            setCityName("");
+        }
     }
 
     useEffect(() => {
@@ -594,8 +610,13 @@ const ArtistBankDetails = () => {
 
                                         <Row className="align-items-center">
                                             <Col lg={12} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Account number*</Form.Label>
-                                            <Form.Control placeholder="Your Bank account no." type="text" value={accountNo} onChange={(e) => setAccountNo(e.target.value)}/>
+                                            <Form.Label className="l-sb">Account number* </Form.Label>
+                                            {artistProofData?.selABDetails?.AccNo === null ? (
+                                                 <Form.Control placeholder="Your Bank account no." type="text" value={accountNo} onChange={(e) => setAccountNo(e.target.value)}/>
+                                            ): (
+                                                <span>{artistProofData?.selABDetails?.AccNo}</span>
+                                            )}
+                                           
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
@@ -671,7 +692,7 @@ const ArtistBankDetails = () => {
 
                                             <Col lg={6} md="12" className="mb-4">
                                                 <Form.Label className="l-sb">Id No.<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Control placeholder="Your Bank account no." type="text" value={photoIdProofId} onChange={(e) => {setPhotoIdProofId(e.target.value)}}/>
+                                                <Form.Control placeholder="Id no." type="text" value={photoIdProofId} onChange={(e) => {setPhotoIdProofId(e.target.value)}}/>
                                             </Col>
 
 
@@ -698,20 +719,25 @@ const ArtistBankDetails = () => {
                                                     <div className="note-text">Passport id is required for international events, if you do not have a passport yet you can provide the no. afterwards.</div>
                                                 </div>
                                             </Col>
-                                            {uploadedPhotoIdProofs?.length !== 2 && (
+                                            {uploadedPhotoIdProofs?.length < 2 && (
                                             <Col lg={6} md="12" className="mb-4">
                                                 <div className="main-id-img-sec">
                                                     <div className="id-img-sec">
                                                         <FilePond
                                                             allowMultiple={true}
                                                             files={filePhotoProof}
-                                                            maxFiles={2}
+                                                            maxFiles={uploadedPhotoIdProofs?.length >= 2 ? 0 : 2 - uploadedPhotoIdProofs?.length}
                                                             allowImageCrop={true}
                                                             allowImageTransform={true}
                                                             imageCropAspectRatio={'1:1'}
                                                             acceptedFileTypes={["application/pdf", "image/jpeg"]}
                                                             name="file"
                                                             oninit={() => {console.log(filePhotoProof)}}
+                                                            onwarning={(e) => {
+                                                                if(e.type === "warning" && e.body === "Max files") {
+                                                                    infoToast(`Maximum upload limit exceeds, available limit is ${uploadedPhotoIdProofs?.length >= 2 ? 0 : 2 - uploadedPhotoIdProofs?.length}`)
+                                                                }
+                                                            }}
                                                             allowRevert={false}
                                                             allowRemove={false}
                                                             onremovefile={() => {console.log('removed')}}
@@ -740,7 +766,8 @@ const ArtistBankDetails = () => {
                                                                         if (request.status >= 200 && request.status < 300) {
                                                                             if(JSON.parse(request.response)?.IsSuccess) {
                                                                                 successToast('ID proof uploaded successfully.');
-                                                                                dispatch(getArtistProofData()).then(() => {
+                                                                                dispatch(getArtistProofData()).then((res) => {
+                                                                                    setUploadedPhotoIdProofs(res.data?.selIDPMedia);
                                                                                     setFilePhotoFront([]);
                                                                                 })
                                                                             }
@@ -768,7 +795,6 @@ const ArtistBankDetails = () => {
                                                                 },                                                             
                                                             }
                                                             }
-                                                            name="file"
                                                             labelIdle='Drag & Drop id proof in .pdf or .jpg format OR <span class="cursor-pointer">Browse</span>'
                                                           />
                                                     </div>
@@ -885,6 +911,11 @@ const ArtistBankDetails = () => {
                                                             acceptedFileTypes={["application/pdf", "image/jpeg"]}
                                                             name="file"
                                                             oninit={() => {console.log(fileAddressProof)}}
+                                                            onwarning={(e) => {
+                                                                if(e.type === "warning" && e.body === "Max files") {
+                                                                    infoToast(`Maximum upload limit exceeds, available limit is ${1}`)
+                                                                }
+                                                            }}
                                                             allowRevert={false}
                                                             allowRemove={false}
                                                             onremovefile={() => {console.log('removed')}}
@@ -900,7 +931,7 @@ const ArtistBankDetails = () => {
                                                                     const proof_name = addressProofs?.filter((key) => !key.IsCancelled && key.AddressProofId == addressProof).map((addr, index) => {
                                                                         return (addr.AddressProofName)
                                                                     })
-                                                                    
+                                                                    console.log(file,fieldName)
                                                                     formData.append(fieldName, file, file.name);
 
                                                                     const request = new XMLHttpRequest();
@@ -915,7 +946,8 @@ const ArtistBankDetails = () => {
                                                                             if(JSON.parse(request.response)?.IsSuccess) {
                                                                                 successToast('Address proof uploaded successfully.');
                                                                                 
-                                                                                dispatch(getArtistProofData()).then(() => {
+                                                                                dispatch(getArtistProofData()).then((res) => {
+                                                                                    setUploadedAddressProofs(res.data?.selAProofMedia);
                                                                                     setFileAddressProof([]);
                                                                                 })
                                                                             }
@@ -943,7 +975,6 @@ const ArtistBankDetails = () => {
                                                                 },                                                             
                                                             }
                                                             }
-                                                            name="file"
                                                             labelIdle='Drag & Drop address proof in .pdf or .jpg format OR <span class="cursor-pointer">Browse</span>'
                                                           />
                                                         </div>
@@ -1028,7 +1059,7 @@ const ArtistBankDetails = () => {
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
                                                 <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control" value={ref1CityId} onChange={(e) => {setRef1CityId(e.target.value)}}>
+                                                <Form.Select aria-label="Default select example" className="form-control" value={ref1CityId} onChange={(e) => {selectCityName(e.target.value)}}>
                                                     <option>City name</option>
                                                     {cities?.filter((key) => !key.IsCancelled).map((city, index) => {
                                                         return (<option key={`${index}'_'${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)

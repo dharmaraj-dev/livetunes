@@ -23,10 +23,40 @@ const setMusicalityTypes = (musicalityTypes) => {
     localStorage.setItem("musicalityTypes",JSON.stringify(musicalityTypes));
 }
 
+const setUserSelectedCategories = (selectedCategories) => {
+    localStorage.setItem("userSelectedCategories",JSON.stringify(selectedCategories));
+}
+
+const setUserSelectedGenres = (selectedGenres) => {
+    localStorage.setItem("userSelectedGenres",JSON.stringify(selectedGenres));
+}
+
+const setUserSelectedEvents = (selectedEvents) => {
+    localStorage.setItem("userSelectedEvents",JSON.stringify(selectedEvents));
+}
+
+const getUserFilteredArtists = (filteringCriteria) => {
+    return axios.post(API_URL + "UserProfile/GetAllArtist", filteringCriteria, { headers: authHeader() });
+}
+
+const getUserFavoriteArtists = (userId) => {
+    return axios.get(API_URL + "AFav/ByUserId/"+userId , {headers:authHeader()});
+}
+
+const insertFavoriteArtists = (artist) => {
+    return axios.post(API_URL + "AFav/Insert",artist,{headers:authHeader()});
+}
+
 export default{
     setSelectedLanguages,
     setSelectedCities,
     setBudgetMin,
     setBudgetMax,
     setMusicalityTypes,
+    setUserSelectedCategories,
+    setUserSelectedGenres,
+    setUserSelectedEvents,
+    getUserFilteredArtists,
+    getUserFavoriteArtists,
+    insertFavoriteArtists
 };
