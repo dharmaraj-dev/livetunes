@@ -57,6 +57,7 @@ function App() {
   let navigate = useNavigate();
 
   const { isLoggedIn, IsProfileSend, joiningType, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
+  const { isDefaultSettings } = useSelector(state => state.user);
 
   useEffect(() => {
     if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"){
@@ -77,7 +78,12 @@ function App() {
       } else if(joiningType === 'Judge') {
         navigate("/judgment-panel");
       } else if(joiningType === 'User'){
-        navigate("/dashboard");
+        if(isDefaultSettings) {
+          navigate("/dashboard");
+        } else {
+          navigate("/languages");
+        }
+        
       }
     }
   }, [isLoggedIn])
@@ -99,7 +105,7 @@ function App() {
         <Route path="/locationcheck" element={<LocationCheck/>}/>
         <Route path="/budgetmusictype" element={<BudgetMusictype/>}/>
         <Route path="/artistList" element={<ArtistList/>}/>
-        <Route path="/singleartist" element={<SingleArtist/>}/>
+        <Route path="/artist-details/:id" element={<SingleArtist/>}/>
         <Route path="/checkavailability" element={<CheckAvailability/>}/>
         <Route path="/cart" element={<Cart/>}/>
         <Route path="/notifications" element={<Notifications/>}/>

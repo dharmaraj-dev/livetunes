@@ -34,7 +34,7 @@ const HelloScreen = () => {
                             </Col>
                             <Col md={4} lg={4} className="postion-r">
                                 <div className="hello-left-btn-sec">
-                                    <Link to="/languages">
+                                    <Link to="/artistList">
                                         <Button variant="primary" className="l-b wbtnn">Let’s Go!</Button>
                                     </Link>    
                                 </div>

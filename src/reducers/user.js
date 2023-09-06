@@ -9,7 +9,8 @@ import {
     USER_SELECTED_EVENTS,
     USER_FILTERED_ARTISTS,
     USER_FAVORITE_ARTISTS,
-    USER_UPDATE_ARTIST_LIST
+    USER_UPDATE_ARTIST_LIST,
+    USER_GET_ARTIST_INFO
   } from "../actions/types";
   
   const selectedLanguages = localStorage.getItem("selectedLanguages") != null ? JSON.parse(localStorage.getItem("selectedLanguages")) : [];
@@ -22,7 +23,7 @@ import {
   const userSelectedEvents = localStorage.getItem("userSelectedEvents") != null ? JSON.parse(localStorage.getItem("userSelectedEvents")) : [];
   const userFilteredArtists = localStorage.getItem("userFilteredArtists") != null ? JSON.parse(localStorage.getItem("userFilteredArtists")) : [];
   const userFavoriteArtists = localStorage.getItem("userFavoriteArtists") != null ? JSON.parse(localStorage.getItem("userFavoriteArtists")) : [];
-  
+  const isDefaultSettings = selectedLanguages.length > 0 && selectedCities.length > 0 && minimumBudget && maximumBudget && musicalityTypes.length > 0 ? true : false;
   
   const initialState = { 
     userSelectedLanguages: selectedLanguages,
@@ -34,7 +35,9 @@ import {
     userSelectedGenres,
     userSelectedEvents,
     userFilteredArtists,
-    userFavoriteArtists
+    userFavoriteArtists,
+    isDefaultSettings,
+    artistInfo: []
   };
   
   
@@ -93,16 +96,21 @@ import {
                 userFavoriteArtists:payload
         };
         case USER_UPDATE_ARTIST_LIST:
-          let tmp = userFilteredArtists;
-          tmp.map((art) => {
-            if(art.ArtId == payload.ArtId) {
-              return art.IsFavArtist = payload.IsFavArtist
+          const updateList = userFilteredArtists.map((artList) => {
+            if(artList.ArtistId == payload.ArtId) {
+                return { ...artList, IsFavArtist: payload.likeState };
             }
-            return art;
-          })
+            return artList;
+          });
+            console.log('updateList', updateList);
             return{
                 ...state,
-                userFilteredArtists:tmp
+                userFilteredArtists: updateList
+        };
+        case USER_GET_ARTIST_INFO:
+            return{
+                ...state,
+                artistInfo:payload
         };
       default:
         return state;

@@ -37,16 +37,28 @@ import { Link } from "react-router-dom";
 import ArtistInfo from "./ArtistInfo";
 import { useLocation } from 'react-router-dom';
 import { Navigate, useNavigate  } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { getArtistInfo } from "../actions/user";
+import { useParams } from 'react-router';
 
 
 const SingleArtist = () => {
-  const location = useLocation();
-  let navigate = useNavigate();
-  const artistId = location?.state?.artistId;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params= useParams()
+  const artistId = atob(params.id);
+
+  const { artistInfo } = useSelector(state => state.user);
+
   useEffect(()=>{
     if(artistId === undefined){
         navigate("/dashboard");
     }
+
+    dispatch(getArtistInfo(artistId)).then((res) => {
+        console.log(res, artistInfo);
+    });
+    
 
   },[]);  
   return (

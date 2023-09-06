@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Avtar from '../assets/images/avtar.png';
@@ -14,6 +14,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 const ArtistCard = () => {
     const { userFilteredArtists } = useSelector(state => state.user);
+
+    useEffect(() => {
+
+    }, [userFilteredArtists])
+    
     const ArtistCards = userFilteredArtists.map((artist) =>
         <Col xs={12} lg={12} xl={6}>
             <div className="inner-artist-card postion-r">
@@ -51,7 +56,7 @@ const ArtistCard = () => {
                     <Heartlike props={artist}/>
                 </div>
                 <div className="book-now-btn">
-                    <Link to="/singleartist" state={{ artistId: artist.ArtistId }}>
+                    <Link to={`/artist-details/${btoa(artist.ArtistId)}`}>
                         <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
                     </Link>
                 </div>

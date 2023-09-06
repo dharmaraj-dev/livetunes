@@ -1,26 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Heart from "react-heart";
 import { useDispatch,useSelector } from "react-redux";
-import { insertFavoriteArtists } from "../actions/user";
+import { insertFavoriteArtists, removeFavoriteArtists } from "../actions/user";
 
 
 const Heartlike = ({props}) => {
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.auth);
-    const [active, setActive] = useState(props?.IsFavArtist)
-    function addFavorite(isFav){
-      console.log(isFav, 'isFav')
-      if(isFav) {
-        //dispatch(removeFavoriteArtists({"RegId":user.RegId,"ArtId":props.ArtistId}));
+    const [active, setActive] = useState(props?.IsFavArtist);
+
+
+    function addFavorite(){
+      console.log(props?.IsFavArtist, 'active')
+      if(props?.IsFavArtist) {
+        const data = {
+          "AFavId": props?.AFavId,
+          "likeState": false
+        }
+        dispatch(removeFavoriteArtists(data));
+        setActive(false);
       } else {
-        dispatch(insertFavoriteArtists({"RegId":user.RegId,"ArtId":props?.ArtistId,"IsFavArtist": !isFav}));
+        const data = {
+          "AFavId": props?.ArtistId,
+          "RegId":user.RegId,
+          "ArtId":props?.ArtistId,
+          "likeState": true
+        }
+        dispatch(insertFavoriteArtists(data));
+        setActive(true);
       }
-      setActive(!isFav);
     }
+
+    useEffect (() => {
+      
+    }, [props])
   return (
     <>
         <div className="heart-like-sec">
-            <Heart isActive={active} onClick={() => {addFavorite(props?.IsFavArtist)}} animationTrigger = "hover" animationScale = {1.1}/>
+            <Heart isActive={active} onClick={() => {addFavorite()}} animationTrigger = "hover" animationScale = {1.1}/>
         </div>
     </>
   )

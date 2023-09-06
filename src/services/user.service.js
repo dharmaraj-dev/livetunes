@@ -47,6 +47,14 @@ const insertFavoriteArtists = (artist) => {
     return axios.post(API_URL + "AFav/Insert",artist,{headers:authHeader()});
 }
 
+const removeFavoriteArtists = (data) => {
+    return axios.post(API_URL + "AFav/Delete",data,{headers:authHeader()});
+}
+
+const getArtistInfoById = (id) => {
+    return axios.get(API_URL + `ArtistProfile/GetArtistProfileNew/${id}`,{headers:authHeader()});
+}
+
 export default{
     setSelectedLanguages,
     setSelectedCities,
@@ -58,5 +66,7 @@ export default{
     setUserSelectedEvents,
     getUserFilteredArtists,
     getUserFavoriteArtists,
-    insertFavoriteArtists
+    insertFavoriteArtists,
+    removeFavoriteArtists,
+    getArtistInfoById
 };

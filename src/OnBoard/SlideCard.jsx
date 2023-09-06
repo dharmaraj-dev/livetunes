@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Slidecard3 from '../assets/images/slidecard3wrked.png';
 import Slidecard2 from '../assets/images/slidecard2wrked.png';
 import Slidecard1 from '../assets/images/slidecard1wrked.png';
+import { Link } from "react-router-dom";
 
 
 const SlideCard = () => {
@@ -54,7 +55,9 @@ const SlideCard = () => {
                           <p className="l-l sub-head white-color">Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempo</p>
                         </Col>
                         <Col sm={12} lg={4}>
-                          <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          <Link to="/artistList">
+                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          </Link>
                         </Col>
                    </div>
                   </div>
@@ -68,7 +71,10 @@ const SlideCard = () => {
                           <p className="l-l sub-head white-color">Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempo</p>
                         </Col>
                         <Col sm={12} lg={4}>
-                          <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          <Link to="/artistList">
+                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          </Link>
+                         
                         </Col>
                    </div>
                   </div>
@@ -82,7 +88,9 @@ const SlideCard = () => {
                           <p className="l-l sub-head white-color">Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempo</p>
                         </Col>
                         <Col sm={12} lg={4}>
-                          <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          <Link to="/artistList">
+                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          </Link>
                         </Col>
                    </div>
                   </div>
@@ -96,7 +104,9 @@ const SlideCard = () => {
                           <p className="l-l sub-head white-color">Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempo</p>
                         </Col>
                         <Col sm={12} lg={4}>
-                          <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          <Link to="/artistList">
+                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          </Link>
                         </Col>
                    </div>
                   </div>
@@ -110,7 +120,9 @@ const SlideCard = () => {
                           <p className="l-l sub-head white-color">Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempo</p>
                         </Col>
                         <Col sm={12} lg={4}>
-                          <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          <Link to="/artistList">
+                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          </Link>
                         </Col>
                    </div>
                   </div>

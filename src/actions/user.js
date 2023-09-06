@@ -10,6 +10,7 @@ import {
     USER_FILTERED_ARTISTS,
     USER_FAVORITE_ARTISTS,
     USER_UPDATE_ARTIST_LIST,
+    USER_GET_ARTIST_INFO
   } from "./types";
   
   import UserService from "../services/user.service";
@@ -108,16 +109,61 @@ import {
         )
     }
 
-    export const insertFavoriteArtists = (artist) => (dispatch) => {
-        UserService.insertFavoriteArtists(artist).then(
+    export const insertFavoriteArtists = (data) => (dispatch) => {
+        UserService.insertFavoriteArtists(data).then(
             (response) => {
                 dispatch({
                     type: USER_UPDATE_ARTIST_LIST,
-                    payload:artist
+                    payload:data
                 })
             },
             (error) => {
                 // console.log(error);
             }
         )
+    }
+
+    export const removeFavoriteArtists = (data) => (dispatch) => {
+        UserService.removeFavoriteArtists(data).then(
+            (response) => {
+                dispatch({
+                    type: USER_UPDATE_ARTIST_LIST,
+                    payload:data
+                })
+            },
+            (error) => {
+                // console.log(error);
+            }
+        )
+    }
+
+    export const getArtistInfo = (artId) => (dispatch) => {
+        return UserService.getArtistInfoById(artId).then(
+            (response) => {
+               if(response.data.IsSuccess) {
+                    localStorage.setItem("artistInfo",JSON.stringify(response.data));
+                  dispatch({
+                    type: USER_GET_ARTIST_INFO,
+                    payload: response.data,
+                  });
+                }
+                else {
+                  dispatch({
+                    type: USER_GET_ARTIST_INFO,
+                    payload: [],
+                  });
+                }
+
+              return Promise.resolve(response);
+            },
+            (error) => {
+              const message =
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                error.message ||
+                error.toString();
+              return Promise.reject(error);
+            }
+          );
     }
