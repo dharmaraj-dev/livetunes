@@ -21,7 +21,7 @@ const Heartlike = ({props}) => {
         setActive(false);
       } else {
         const data = {
-          "AFavId": props?.ArtistId,
+          "AFavId": props?.AFavId,
           "RegId":user.RegId,
           "ArtId":props?.ArtistId,
           "likeState": true

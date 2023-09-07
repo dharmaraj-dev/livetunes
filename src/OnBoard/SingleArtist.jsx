@@ -42,12 +42,15 @@ import { getArtistInfo } from "../actions/user";
 import { useParams } from 'react-router';
 
 
+
 const SingleArtist = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params= useParams()
   const artistId = atob(params.id);
-
+  const location = useLocation()
+  const { props } = location.state
+  console.log(props);
   const { artistInfo } = useSelector(state => state.user);
 
   useEffect(()=>{
@@ -81,7 +84,7 @@ const SingleArtist = () => {
                             <div className="inner-artist-info postion-r">
                                 <ArtistInfo/>
                                 <div className="check-now-btn">
-                                    <Heartlike/>
+                                    <Heartlike props={props}/>
                                     <div className="share-icon"><FiShare2/>
                                      <SocialIcon/>
                                     </div>
@@ -120,7 +123,7 @@ const SingleArtist = () => {
                                         </div>
                                         <div className="right-text-sec">
                                             <h2>About me</h2>
-                                            <p className="l-r">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
+                                            <p className="l-r">{artistInfo.selAPDetails.BriefIntro}</p>
                                         </div>
                                     </div>
                                     <div className="left-text-sec">
@@ -130,9 +133,11 @@ const SingleArtist = () => {
                                         <div className="right-text-sec">
                                             <h2>Performance Languages</h2>
                                             <div className="per-lang">
-                                                <div className="inner-per-lang l-sb">Hindi</div>
-                                                <div className="inner-per-lang l-sb">English</div>
-                                                <div className="inner-per-lang l-sb">Marathi</div>
+                                                {
+                                                    artistInfo.selAPDetails.LanguageName.split(",").map((language) => {
+                                                        return <div className="inner-per-lang l-sb">{language}</div>
+                                                    })
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -143,9 +148,12 @@ const SingleArtist = () => {
                                         <div className="right-text-sec">
                                             <h2>Performance Gernes</h2>
                                             <div className="per-lang">
-                                                <div className="inner-per-lang l-sb">Bollywood</div>
-                                                <div className="inner-per-lang l-sb">Hindi Retro</div>
-                                                <div className="inner-per-lang l-sb">Western</div>
+                                                {
+                                                    artistInfo.selAPDetails.GenreName
+                                                    .split(",").map((genre) => {
+                                                        return <div className="inner-per-lang l-sb">{genre}</div>
+                                                    })
+                                                }
                                             </div>
                                         </div>
                                     </div>

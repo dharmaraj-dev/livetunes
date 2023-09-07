@@ -4,39 +4,21 @@ import Img2 from '../assets/images/img2.png';
 import Img3 from '../assets/images/img3.png';
 import Img4 from '../assets/images/img4.png';
 import Img5 from '../assets/images/img5.png';
+import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
 
 const Gallery = () => {
-    let data =[
-       
-        {
-            id: 2,
-            imgSrc: Img2,
-        },
-        {
-            id: 3,
-            imgSrc: Img3,
-        },
-        {
-            id: 4,
-            imgSrc: Img4,
-        },
-        {
-            id: 5,
-            imgSrc: Img5,
-        },
-        {
-            id: 6,
-            imgSrc: Img3,
-        },
-        {
-            id: 7,
-            imgSrc: Img4,
-        },
-        {
-            id: 8,
-            imgSrc: Img5,
+    const {artistInfo} = useSelector(state => state.user);
+    let data1 = artistInfo.selLtMedia.filter((photo) => {
+       return !photo.LTMediaLogName.endsWith('.mp4');
+    });
+    let data = data1.map((photo)=>{
+        return {
+            id:photo.LTMediaLogId,
+            imgSrc: photo.LTMediaURL
         }
-    ]
+    });
+
+    console.log(data);
 
     const [model, setModel] = useState(false);
     const [tempimgSrc, setTempImgSrc] = useState('');

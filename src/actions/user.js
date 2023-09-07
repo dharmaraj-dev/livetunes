@@ -126,6 +126,7 @@ import {
     export const removeFavoriteArtists = (data) => (dispatch) => {
         UserService.removeFavoriteArtists(data).then(
             (response) => {
+                console.log(response);
                 dispatch({
                     type: USER_UPDATE_ARTIST_LIST,
                     payload:data

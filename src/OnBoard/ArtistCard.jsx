@@ -56,7 +56,7 @@ const ArtistCard = () => {
                     <Heartlike props={artist}/>
                 </div>
                 <div className="book-now-btn">
-                    <Link to={`/artist-details/${btoa(artist.ArtistId)}`}>
+                    <Link to={`/artist-details/${btoa(artist.ArtistId)}`} state={{ props: artist }}>
                         <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
                     </Link>
                 </div>

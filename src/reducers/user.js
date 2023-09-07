@@ -97,7 +97,7 @@ import {
         };
         case USER_UPDATE_ARTIST_LIST:
           const updateList = userFilteredArtists.map((artList) => {
-            if(artList.ArtistId == payload.ArtId) {
+            if(artList.AFavId == payload.AFavId) {
                 return { ...artList, IsFavArtist: payload.likeState };
             }
             return artList;

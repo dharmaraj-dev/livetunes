@@ -7,6 +7,7 @@ import ArtistCard from "./ArtistCard";
 import SlideCard from "./SlideCard";
 import Advertise from "./Advertise";
 import { useDispatch, useSelector } from "react-redux";
+import ThreeDotLoader from '../Artist/ThreeDotLoader'
 
 const ArtistList = () => {
   const { userFilteredArtists } = useSelector(state => state.user);
@@ -25,6 +26,7 @@ const ArtistList = () => {
                     <section>
                       <Filter/>
                     </section>
+                    {!userFilteredArtists && <ThreeDotLoader />}
                     <section className="artists-found-card">
                       <div className="found-heading-sec">
                         <p className="l-sb head">For You</p>
