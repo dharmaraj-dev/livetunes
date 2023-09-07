@@ -4,7 +4,7 @@ import Minisitelogo from '../assets/images/mini-logo.png';
 import {TfiDashboard } from "react-icons/tfi";
 import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
-import { SlSettings } from "react-icons/sl";
+import { SlCalender, SlSettings } from "react-icons/sl";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
 import { IoIosLogOut } from "react-icons/io";
 import { BsChevronDoubleRight } from "react-icons/bs";
@@ -54,6 +54,11 @@ const SideNavBar = () => {
 					text: "Settings ",
 					icon: <SlSettings className="menu-item-icon"/>,
 					links: "/artists-bank-details"
+				},
+				{
+					text:"calender",
+					icon: <SlCalender className="menu-item-icon" />,
+					links:"/artist-avail-slot"
 				}
 			]);
 		} else if(joiningType ===  "Judge") {

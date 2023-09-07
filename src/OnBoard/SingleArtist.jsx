@@ -40,6 +40,10 @@ import { Navigate, useNavigate  } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getArtistInfo } from "../actions/user";
 import { useParams } from 'react-router';
+import Octicons from '../assets/images/octicons.png';
+import { useState } from "react";
+import ThreeDotLoader from "../Artist/ThreeDotLoader";
+
 
 
 
@@ -51,18 +55,19 @@ const SingleArtist = () => {
   const location = useLocation()
   const { props } = location.state
   console.log(props);
-  const { artistInfo } = useSelector(state => state.user);
+  const [artistInfoDetails,setArtistInfoDetails] = useState([]);
+  const [showLoader,setShowLoader] = useState(true);
+
 
   useEffect(()=>{
     if(artistId === undefined){
         navigate("/dashboard");
     }
-
     dispatch(getArtistInfo(artistId)).then((res) => {
-        console.log(res, artistInfo);
+        console.log(res, artistInfoDetails);
+        setArtistInfoDetails(res.data);
+        setShowLoader(false);
     });
-    
-
   },[]);  
   return (
     <>
@@ -75,281 +80,303 @@ const SingleArtist = () => {
                 <NavBar />
             </div>
             <div className="main-content">
-                <Container fluid>
-                    <div className="main-artists-list">
-                        <section>
-                            <BreadCrumbs/>
-                        </section>
-                        <section>
-                            <div className="inner-artist-info postion-r">
-                                <ArtistInfo/>
-                                <div className="check-now-btn">
-                                    <Heartlike props={props}/>
-                                    <div className="share-icon"><FiShare2/>
-                                     <SocialIcon/>
+                {
+                    artistInfoDetails.length === 0 ? <ThreeDotLoader /> : (
+                        <Container fluid>
+                            <div className="main-artists-list">
+                                <section>
+                                    <BreadCrumbs/>
+                                </section>
+                                <section>
+                                    <div className="inner-artist-info postion-r">
+                                    <div className="inner-artist-info postion-r">
+                                        <div className="avtar-img">
+                                        <img src={artistInfoDetails?.selProfileImage[0]?.LTMediaURL} alt="" className="w-100" />
+                                        </div>
+                                            <div className="s-artist-detail">
+                                                <p className="name l-b">{artistInfoDetails?.selApInfo?.FullName} <span><img src={Octicons} alt="" style={{width:26}} /></span></p>
+                                                <p className="l-r locotion">{artistInfoDetails?.selApInfo?.CityName}, {artistInfoDetails?.selAPDetails
+                                    ?.OtherStateName}</p>
+                                                <Stack direction="horizontal" gap={2} className="d-inline-flex">
+                                                    <div className="star-rate-sec l-r">
+                                                    <span><BsFillStarFill className="star-class"/></span>
+                                                    <span>4</span>
+                                                    <span>/</span>
+                                                    <span>5</span>
+                                                    </div>
+                                                    <div className="count-review l-r cursor-pointer">2 Reviews</div>
+                                                </Stack>
+                                            </div>
+                                        </div>
+                                        <div className="check-now-btn">
+                                            <Heartlike props={props}/>
+                                            <div className="share-icon"><FiShare2/>
+                                            <SocialIcon/>
+                                            </div>
+                                            <Link to="/checkavailability">
+                                                <button type="button" className="l-b btnn check-btn btn btn-primary">Check Availability</button>
+                                            </Link>
+                                        </div>
                                     </div>
-                                    <Link to="/checkavailability">
-                                        <button type="button" className="l-b btnn check-btn btn btn-primary">Check Availability</button>
-                                    </Link>
-                                </div>
-                            </div>
-                        </section>
-                        <section>
-                            <section className="main-livetune-details">
-                                <div className="s-heading">
-                                    <p className="s-head l-b">Videos and images</p>
-                                </div>
-                                <Tabs
-                                defaultActiveKey="photos"
-                                id="uncontrolled-tab-example"
-                                className="mb-3 justify-content-end video-photos-sec"
-                                >
-                                    <Tab eventKey="photos" title="Photos">
-                                        <Gallery/>
-                                    </Tab>
-                                    <Tab eventKey="videos" title="Videos">
-                                        <Videos/>
-                                    </Tab>
-                                </Tabs>
+                                </section>
+                                <section>
+                                    <section className="main-livetune-details">
+                                        <div className="s-heading">
+                                            <p className="s-head l-b">Videos and images</p>
+                                        </div>
+                                        <Tabs
+                                        defaultActiveKey="photos"
+                                        id="uncontrolled-tab-example"
+                                        className="mb-3 justify-content-end video-photos-sec"
+                                        >
+                                            <Tab eventKey="photos" title="Photos">
+                                                <Gallery/>
+                                            </Tab>
+                                            <Tab eventKey="videos" title="Videos">
+                                                <Videos/>
+                                            </Tab>
+                                        </Tabs>
 
-                            </section>
-                        </section>
-                        <section className="s-about-social-sec">
-                            <Row>
-                                <Col lg={6}>
-                                    <div className="left-text-sec">
-                                        <div className="ico-img">
-                                            <BiUser className="red-color inner-ico-img"/>
-                                        </div>
-                                        <div className="right-text-sec">
-                                            <h2>About me</h2>
-                                            <p className="l-r">{artistInfo.selAPDetails.BriefIntro}</p>
-                                        </div>
-                                    </div>
-                                    <div className="left-text-sec">
-                                        <div className="ico-img">
-                                            <TbMessageLanguage className="red-color inner-ico-img"/>
-                                        </div>
-                                        <div className="right-text-sec">
-                                            <h2>Performance Languages</h2>
-                                            <div className="per-lang">
-                                                {
-                                                    artistInfo.selAPDetails.LanguageName.split(",").map((language) => {
-                                                        return <div className="inner-per-lang l-sb">{language}</div>
-                                                    })
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="left-text-sec">
-                                        <div className="ico-img">
-                                            <HiOutlineMusicalNote className="red-color inner-ico-img"/>
-                                        </div>
-                                        <div className="right-text-sec">
-                                            <h2>Performance Gernes</h2>
-                                            <div className="per-lang">
-                                                {
-                                                    artistInfo.selAPDetails.GenreName
-                                                    .split(",").map((genre) => {
-                                                        return <div className="inner-per-lang l-sb">{genre}</div>
-                                                    })
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Col>
-                                <Col lg={6}>
-                                    <div className="main-social-sec">
-                                        <h2>Performance Gernes</h2>
-                                        <div className="inner-social-sec">
-                                            <Stack direction="horizontal">
-                                                <div className="ico-text-sec">
-                                                    <img src={Insta} alt="" />
-                                                    <span className="head l-r">Instagram</span>
+                                    </section>
+                                </section>
+                                <section className="s-about-social-sec">
+                                    <Row>
+                                        <Col lg={6}>
+                                            <div className="left-text-sec">
+                                                <div className="ico-img">
+                                                    <BiUser className="red-color inner-ico-img"/>
                                                 </div>
-                                                <div className="ms-auto">
-                                                    <span className="l-b">2K </span>
-                                                    <span className="l-r">Followers</span>
+                                                <div className="right-text-sec">
+                                                    <h2>About me</h2>
+                                                    <p className="l-r">{artistInfoDetails?.selAPDetails?.BriefIntro}</p>
                                                 </div>
-                                            </Stack>
-                                        </div>
-                                        <div className="inner-social-sec">
-                                            <Stack direction="horizontal">
-                                                <div className="ico-text-sec">
-                                                    <img src={Facebook} alt="" />
-                                                    <span className="head l-r">Facebook</span>
-                                                </div>
-                                                <div className="ms-auto">
-                                                    <span className="l-b">500 </span>
-                                                    <span className="l-r">Followers</span>
-                                                </div>
-                                            </Stack>
-                                        </div>
-                                        <div className="inner-social-sec">
-                                            <Stack direction="horizontal">
-                                                <div className="ico-text-sec">
-                                                    <img src={Youtube} alt="" />
-                                                    <span className="head l-r">YouTube</span>
-                                                </div>
-                                                <div className="ms-auto">
-                                                    <span className="l-b">5K </span>
-                                                    <span className="l-r">Subscribers ,</span>
-                                                    <span className="l-b">8K </span>
-                                                    <span className="l-r">Views</span>
-                                                </div>
-                                            </Stack>
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </section>
-                        <section className="main-livetune-details">
-                            <div className="s-heading">
-                                <p className="s-head l-b">Livetunes Details</p>
-                            </div>
-                            <div className="livetune-detail-box">
-                                <div className="inner-livetune-detail-box">
-                                    <h2 className="red-color">004</h2>
-                                    <p className="l-sb sub-head">Total performance</p>
-                                </div>
-                                <div className="inner-livetune-detail-box">
-                                    <h2 className="red-color">01</h2>
-                                    <p className="l-sb sub-head">Performing member</p>
-                                </div>
-                                <div className="inner-livetune-detail-box">
-                                    <h2 className="red-color">2 hrs</h2>
-                                    <p className="l-sb sub-head">Performing Duration</p>
-                                </div>
-                                <div className="inner-livetune-detail-box">
-                                    <h2 className="red-color">Yes</h2>
-                                    <p className="l-sb sub-head">Willing to travel</p>
-                                </div>
-                            </div>
-                        </section>
-                        <section className="main-livetune-details">
-                            <div className="s-heading">
-                                <p className="s-head l-b">Preferred events</p>
-                            </div>
-                            <div className="preferred-event-box">
-                                <div className="inner-preferred-event-box">
-                                    <div className="pre-evnt-ico">
-                                        <img src={Nounwed} alt="" />
-                                    </div>
-                                    <p className="l-r sub-head">weddings</p>
-                                </div>
-                                <div className="inner-preferred-event-box">
-                                    <div className="pre-evnt-ico">
-                                        <img src={Nouncafe} alt="" />
-                                    </div>
-                                    <p className="l-r sub-head">Cafes</p>
-                                </div>
-                                <div className="inner-preferred-event-box">
-                                    <div className="pre-evnt-ico">
-                                        <img src={Nounpray} alt="" />
-                                    </div>
-                                    <p className="l-r sub-head">Religious</p>
-                                </div>
-                                <div className="inner-preferred-event-box">
-                                    <div className="pre-evnt-ico">
-                                        <img src={Nounconcert} alt="" />
-                                    </div>
-                                    <p className="l-r sub-head">Concerts</p>
-                                </div>
-                                <div className="inner-preferred-event-box">
-                                    <div className="pre-evnt-ico">
-                                        <img src={Nounbirthday} alt="" />
-                                    </div>
-                                    <p className="l-r sub-head">Kids</p>
-                                </div>
-                                <div className="inner-preferred-event-box">
-                                    <div className="pre-evnt-ico">
-                                        <img src={Nounpub} alt="" />
-                                    </div>
-                                    <p className="l-r sub-head">Pubs</p>
-                                </div>
-                                <div className="inner-preferred-event-box">
-                                    <div className="pre-evnt-ico">
-                                        <img src={Nounfestival} alt="" />
-                                    </div>
-                                    <p className="l-r sub-head">Festivals</p>
-                                </div>
-                                <div className="inner-preferred-event-box">
-                                    <div className="pre-evnt-ico">
-                                        <img src={Nounparty} alt="" />
-                                    </div>
-                                    <p className="l-r sub-head">Parties</p>
-                                </div>
-                            </div>
-                        </section>
-                        <section className="main-livetune-details">
-                            <div className="s-heading">
-                                <p className="s-head l-b">Ratings & Reviews</p>
-                            </div>
-                            <Row className="main-rate-review-sec">
-                                <Col lg={4}>
-                                    <div className="rating-sec">
-                                        <div className="star-sec red-color l-b">
-                                            <span>4</span>
-                                            <span>/</span>
-                                            <span>5</span>
-                                            <span><BsFillStarFill className="star-class"/></span>
-                                        </div>
-                                        <h2 className="l-b red-color">Wonderful</h2>
-                                        <p className="sub-head l-r">Based on 2 verified users reviews</p>
-                                    </div>
-                                </Col>
-                                <Col lg={8}>
-                                    <div className="reviews-sec">
-                                        <div className="reviews-box">
-                                            <div className="ico-img">
-                                                <img src={Revieimg} alt="" />
                                             </div>
-                                            <div className="reviews-detail-sec">
-                                                <Stack direction="horizontal" gap={3}>
-                                                    <div className="l-b name">Roshni Rao</div>
-                                                    <div className="l-r date">17 Jun 2022</div>
-                                                </Stack>
-                                                <Stack direction="horizontal" gap={5}>
-                                                    <div className="l-sb like-text"><AiFillLike className="red-color"/> awesome song selection.</div>
-                                                    <div className="l-sb like-text"><AiFillDislike className="red-color"/> N.A.</div>
-                                                </Stack>
-                                                <p className="l-r">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
+                                            <div className="left-text-sec">
+                                                <div className="ico-img">
+                                                    <TbMessageLanguage className="red-color inner-ico-img"/>
+                                                </div>
+                                                <div className="right-text-sec">
+                                                    <h2>Performance Languages</h2>
+                                                    <div className="per-lang">
+                                                        {
+                                                            artistInfoDetails?.selAPDetails?.LanguageName.split(",").map((language) => {
+                                                                return <div className="inner-per-lang l-sb">{language}</div>
+                                                            })
+                                                        }
+                                                    </div>
+                                                </div>
                                             </div>
+                                            <div className="left-text-sec">
+                                                <div className="ico-img">
+                                                    <HiOutlineMusicalNote className="red-color inner-ico-img"/>
+                                                </div>
+                                                <div className="right-text-sec">
+                                                    <h2>Performance Gernes</h2>
+                                                    <div className="per-lang">
+                                                        {
+                                                            artistInfoDetails?.selAPDetails?.GenreName
+                                                            .split(",").map((genre) => {
+                                                                return <div className="inner-per-lang l-sb">{genre}</div>
+                                                            })
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Col>
+                                        {/* <Col lg={6}>
+                                            <div className="main-social-sec">
+                                                <h2>Performance Gernes</h2>
+                                                <div className="inner-social-sec">
+                                                    <Stack direction="horizontal">
+                                                        <div className="ico-text-sec">
+                                                            <img src={Insta} alt="" />
+                                                            <span className="head l-r">Instagram</span>
+                                                        </div>
+                                                        <div className="ms-auto">
+                                                            <span className="l-b">2K </span>
+                                                            <span className="l-r">Followers</span>
+                                                        </div>
+                                                    </Stack>
+                                                </div>
+                                                <div className="inner-social-sec">
+                                                    <Stack direction="horizontal">
+                                                        <div className="ico-text-sec">
+                                                            <img src={Facebook} alt="" />
+                                                            <span className="head l-r">Facebook</span>
+                                                        </div>
+                                                        <div className="ms-auto">
+                                                            <span className="l-b">500 </span>
+                                                            <span className="l-r">Followers</span>
+                                                        </div>
+                                                    </Stack>
+                                                </div>
+                                                <div className="inner-social-sec">
+                                                    <Stack direction="horizontal">
+                                                        <div className="ico-text-sec">
+                                                            <img src={Youtube} alt="" />
+                                                            <span className="head l-r">YouTube</span>
+                                                        </div>
+                                                        <div className="ms-auto">
+                                                            <span className="l-b">5K </span>
+                                                            <span className="l-r">Subscribers ,</span>
+                                                            <span className="l-b">8K </span>
+                                                            <span className="l-r">Views</span>
+                                                        </div>
+                                                    </Stack>
+                                                </div>
+                                            </div>
+                                        </Col> */}
+                                    </Row>
+                                </section>
+                                {/* <section className="main-livetune-details">
+                                    <div className="s-heading">
+                                        <p className="s-head l-b">Livetunes Details</p>
+                                    </div>
+                                    <div className="livetune-detail-box">
+                                        <div className="inner-livetune-detail-box">
+                                            <h2 className="red-color">004</h2>
+                                            <p className="l-sb sub-head">Total performance</p>
                                         </div>
-                                        <div className="reviews-box">
-                                            <div className="ico-img">
-                                                <img src={Revieimg} alt="" />
-                                            </div>
-                                            <div className="reviews-detail-sec">
-                                                <Stack direction="horizontal" gap={3}>
-                                                    <div className="l-b name">Roshni Rao</div>
-                                                    <div className="l-r date">17 Jun 2022</div>
-                                                </Stack>
-                                                <Stack direction="horizontal" gap={5}>
-                                                    <div className="l-sb like-text"><AiFillLike className="red-color"/> awesome song selection.</div>
-                                                    <div className="l-sb like-text"><AiFillDislike className="red-color"/> N.A.</div>
-                                                </Stack>
-                                                <p className="l-r">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
-                                            </div>
+                                        <div className="inner-livetune-detail-box">
+                                            <h2 className="red-color">01</h2>
+                                            <p className="l-sb sub-head">Performing member</p>
+                                        </div>
+                                        <div className="inner-livetune-detail-box">
+                                            <h2 className="red-color">2 hrs</h2>
+                                            <p className="l-sb sub-head">Performing Duration</p>
+                                        </div>
+                                        <div className="inner-livetune-detail-box">
+                                            <h2 className="red-color">Yes</h2>
+                                            <p className="l-sb sub-head">Willing to travel</p>
                                         </div>
                                     </div>
-                                </Col>
-                            </Row>
-                        </section>  
-                        <section className="main-livetune-details">
-                            <div className="s-heading">
-                                <p className="s-head l-b">Frequently asked questions</p>
+                                </section>
+                                <section className="main-livetune-details">
+                                    <div className="s-heading">
+                                        <p className="s-head l-b">Preferred events</p>
+                                    </div>
+                                    <div className="preferred-event-box">
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounwed} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">weddings</p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nouncafe} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Cafes</p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounpray} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Religious</p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounconcert} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Concerts</p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounbirthday} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Kids</p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounpub} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Pubs</p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounfestival} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Festivals</p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounparty} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Parties</p>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section className="main-livetune-details">
+                                    <div className="s-heading">
+                                        <p className="s-head l-b">Ratings & Reviews</p>
+                                    </div>
+                                    <Row className="main-rate-review-sec">
+                                        <Col lg={4}>
+                                            <div className="rating-sec">
+                                                <div className="star-sec red-color l-b">
+                                                    <span>4</span>
+                                                    <span>/</span>
+                                                    <span>5</span>
+                                                    <span><BsFillStarFill className="star-class"/></span>
+                                                </div>
+                                                <h2 className="l-b red-color">Wonderful</h2>
+                                                <p className="sub-head l-r">Based on 2 verified users reviews</p>
+                                            </div>
+                                        </Col>
+                                        <Col lg={8}>
+                                            <div className="reviews-sec">
+                                                <div className="reviews-box">
+                                                    <div className="ico-img">
+                                                        <img src={Revieimg} alt="" />
+                                                    </div>
+                                                    <div className="reviews-detail-sec">
+                                                        <Stack direction="horizontal" gap={3}>
+                                                            <div className="l-b name">Roshni Rao</div>
+                                                            <div className="l-r date">17 Jun 2022</div>
+                                                        </Stack>
+                                                        <Stack direction="horizontal" gap={5}>
+                                                            <div className="l-sb like-text"><AiFillLike className="red-color"/> awesome song selection.</div>
+                                                            <div className="l-sb like-text"><AiFillDislike className="red-color"/> N.A.</div>
+                                                        </Stack>
+                                                        <p className="l-r">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
+                                                    </div>
+                                                </div>
+                                                <div className="reviews-box">
+                                                    <div className="ico-img">
+                                                        <img src={Revieimg} alt="" />
+                                                    </div>
+                                                    <div className="reviews-detail-sec">
+                                                        <Stack direction="horizontal" gap={3}>
+                                                            <div className="l-b name">Roshni Rao</div>
+                                                            <div className="l-r date">17 Jun 2022</div>
+                                                        </Stack>
+                                                        <Stack direction="horizontal" gap={5}>
+                                                            <div className="l-sb like-text"><AiFillLike className="red-color"/> awesome song selection.</div>
+                                                            <div className="l-sb like-text"><AiFillDislike className="red-color"/> N.A.</div>
+                                                        </Stack>
+                                                        <p className="l-r">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </section>  
+                                <section className="main-livetune-details">
+                                    <div className="s-heading">
+                                        <p className="s-head l-b">Frequently asked questions</p>
+                                    </div>
+                                    <Faq/>
+                                </section> 
+                                <section className="main-livetune-details">
+                                    <div className="s-heading">
+                                        <p className="s-head l-b">Artists you might like</p>
+                                    </div>
+                                    <ArtistsLikebox/>            
+                                </section> */}
                             </div>
-                            <Faq/>
-                        </section> 
-                        <section className="main-livetune-details">
-                            <div className="s-heading">
-                                <p className="s-head l-b">Artists you might like</p>
-                            </div>
-                            <ArtistsLikebox/>            
-                        </section>
-                    </div>
-                </Container>
+                        </Container>
+                    )
+                }
             </div>
             </div>
         </div>

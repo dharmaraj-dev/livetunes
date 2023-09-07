@@ -50,6 +50,7 @@ import {
 import { welcomeSeen } from './actions/auth';
 import 'react-loading-skeleton/dist/skeleton.css'
 import { setJoiningType } from './actions/auth';
+import ArtistAvailSlot from './Artist/ArtistAvailSlot';
 
 
 function App() {
@@ -105,6 +106,7 @@ function App() {
         <Route path="/locationcheck" element={<LocationCheck/>}/>
         <Route path="/budgetmusictype" element={<BudgetMusictype/>}/>
         <Route path="/artistList" element={<ArtistList/>}/>
+        <Route path="/artist-avail-slot" element={<ArtistAvailSlot/>}/>
         <Route path="/artist-details/:id" element={<SingleArtist/>}/>
         <Route path="/checkavailability" element={<CheckAvailability/>}/>
         <Route path="/cart" element={<Cart/>}/>

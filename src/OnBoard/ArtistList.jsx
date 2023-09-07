@@ -26,16 +26,18 @@ const ArtistList = () => {
                     <section>
                       <Filter/>
                     </section>
-                    {!userFilteredArtists && <ThreeDotLoader />}
-                    <section className="artists-found-card">
-                      <div className="found-heading-sec">
-                        <p className="l-sb head">For You</p>
-                        <p className="l-l sub-head"><span>{userFilteredArtists.length}</span> Artists Found!</p>
-                      </div>
-                      <div className="artists-card-sec">
-                        <ArtistCard/>
-                      </div>
+                    {
+                      userFilteredArtists.length === 0 ?  <ThreeDotLoader /> : (
+                        <section className="artists-found-card">
+                          <div className="found-heading-sec">
+                            <p className="l-sb head">For You</p>
+                            <p className="l-l sub-head"><span>{userFilteredArtists.length}</span> Artists Found!</p>
+                          </div>
+                          <div className="artists-card-sec">
+                            <ArtistCard/>
+                          </div>
                     </section>
+                      )}
                     <section>
                       <Advertise/>
                     </section>

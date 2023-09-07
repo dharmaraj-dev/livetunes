@@ -540,7 +540,16 @@ const ArtistBankDetails = () => {
 
                 if(res.data?.selABDetails?.AccNo !== null && res.data?.selABDetails?.BankId != 0 && res.data?.selABDetails?.BranchId) {
                     setCurrentStep(2);
+                }
+                if(res.data?.selAProof?.IdProofId !== 0 && res.data?.selAProof?.IdNo != null ) {
+                    setCurrentStep(3);
                 } 
+                if(res.data?.selAddDetails?.Address1 !== null && res.data?.selAddDetails?.StateId != 0 && res.data?.selAddDetails?.CityId != 0 && res.data?.selAddDetails?.AddressProofId != 0 && res.data?.selAddDetails?.PinCode !== null){
+                    setCurrentStep(4);
+                }
+                if(res.data?.selARefDetails?.FirstName !== null && res.data?.selARefDetails?.LastName !== null && res.data?.selARefDetails?.ContactNo !== null && res.data?.selARefDetails?.EmailId !== null && res.data?.selARefDetails?.StateId != 0 && res.data?.selARefDetails?.CityId != 0 && res.data?.selARefDetails?.DOB != "0001-01-01T00:00:00" && res.data?.selARefDetails?.RWReference !== null){
+                    setCurrentStep(5);
+                }
             }
             setPageLoading(false);
         }).catch((err) => {
@@ -720,18 +729,36 @@ const ArtistBankDetails = () => {
 
                                         <Row className="">
                                             <Col lg={6} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Select id<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Select aria-label="Default select example" className="form-control" value={photoIdProofType} onChange={(e) => {setIDProofData(e.target.value)}}>
-                                                <option>Select id type</option>
-                                                {idProofs?.filter((key) => !key.IsCancelled).map((idproof, index) => {
-                                                    return (<option key={`${idproof.IdProofId}'_'${idproof.IdProofName}`} value={idproof.IdProofId}>{idproof.IdProofName}</option>)
-                                                })}
-                                            </Form.Select>
+                                            {artistProofData?.selAProof?.APidProofName === null ? (
+                                                <>
+                                                    <Form.Label className="l-sb">Select id<sup className="red-color">*</sup></Form.Label>
+                                                    <Form.Select aria-label="Default select example" className="form-control" value={photoIdProofType} onChange={(e) => {setIDProofData(e.target.value)}}>
+                                                        <option>Select id type</option>
+                                                        {idProofs?.filter((key) => !key.IsCancelled).map((idproof, index) => {
+                                                            return (<option key={`${idproof.IdProofId}'_'${idproof.IdProofName}`} value={idproof.IdProofId}>{idproof.IdProofName}</option>)
+                                                        })}
+                                                    </Form.Select>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Form.Label className="l-sb">Selected id : </Form.Label>
+                                                    <span className="label-value">{artistProofData?.selAProof?.APidProofName}</span>
+                                                </>
+                                            )}
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                                <Form.Label className="l-sb">Id No.<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Control placeholder="Id no." type="text" value={photoIdProofId} onChange={(e) => {setPhotoIdProofId(e.target.value)}}/>
+                                                {artistProofData?.selAProof?.IdNo === "" ? (
+                                                    <>
+                                                        <Form.Label className="l-sb">Id No.<sup className="red-color">*</sup></Form.Label>
+                                                        <Form.Control placeholder="Id no." type="text" value={photoIdProofId} onChange={(e) => {setPhotoIdProofId(e.target.value)}}/>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">Id No. : </Form.Label>
+                                                        <span className="label-value">{artistProofData?.selAProof?.IdNo}</span>
+                                                    </>
+                                                )}
                                             </Col>
 
 
@@ -888,46 +915,90 @@ const ArtistBankDetails = () => {
 
                                         <Row className="">
                                             <Col lg={12} md="12" className="mb-4">
-                                            <Form.Label className="l-sb">Address line<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Control placeholder="Address" type="text" value={address} onChange={(e) => {setAddress(e.target.value)}}/>
+                                            {artistProofData?.selAddDetails?.Address1 === "" ? (
+                                                <>
+                                                    <Form.Label className="l-sb">Address line<sup className="red-color">*</sup></Form.Label>
+                                                    <Form.Control placeholder="Address" type="text" value={address} onChange={(e) => {setAddress(e.target.value)}}/>  
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Form.Label className="l-sb">Address line : </Form.Label>
+                                                    <span className="label-value">{artistProofData?.selAddDetails?.Address1}</span>
+                                                </>
+                                            )}
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                                 <Form.Label className="l-sb">State<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control" value={stateId} onChange={(e) => {selectStateAndGetItsCities(e.target.value);setStateId(e.target.value);setCityId("")}}>
-                                                    <option>Select State</option>
-                                                    {states?.filter((key) => !key.IsCancelled).map((state, index) => {
-                                                        return (<option key={`${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
-                                                    })}
-                                                </Form.Select>
+                                                {artistProofData?.selAddDetails?.StateName === null ? (
+                                                    <>
+                                                        <Form.Label className="l-sb">State<sup className="red-color">*</sup></Form.Label>
+                                                        <Form.Select aria-label="Default select example" className="form-control" value={stateId} onChange={(e) => {selectStateAndGetItsCities(e.target.value);setStateId(e.target.value);setCityId("")}}>
+                                                            <option>Select State</option>
+                                                            {states?.filter((key) => !key.IsCancelled).map((state, index) => {
+                                                                return (<option key={`${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
+                                                            })}
+                                                        </Form.Select>  
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">State : </Form.Label>
+                                                        <span className="label-value">{artistProofData?.selAddDetails?.Address1}</span>
+                                                    </>
+                                                )}
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                                <Form.Label className="l-sb">Address proof<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control" value={addressProofId} onChange={(e) => {setAddressProofData(e.target.value)}}>
-                                                    <option>Address proof</option>
-                                                    {addressProofs?.filter((key) => !key.IsCancelled).map((addProof, index) => {
-                                                        return (<option key={`${addProof.AddressProofId}'_'${addProof.AddressProofName}`} value={addProof.AddressProofId}>{addProof.AddressProofName}</option>)
-                                                    })}
-                                                </Form.Select>
+                                                {artistProofData?.selAddDetails?.AAddressProofName === null ? (
+                                                    <>
+                                                        <Form.Label className="l-sb">Address proof<sup className="red-color">*</sup></Form.Label>
+                                                        <Form.Select aria-label="Default select example" className="form-control" value={addressProofId} onChange={(e) => {setAddressProofData(e.target.value)}}>
+                                                            <option>Address proof</option>
+                                                            {addressProofs?.filter((key) => !key.IsCancelled).map((addProof, index) => {
+                                                                return (<option key={`${addProof.AddressProofId}'_'${addProof.AddressProofName}`} value={addProof.AddressProofId}>{addProof.AddressProofName}</option>)
+                                                            })}
+                                                        </Form.Select>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">Address proof : </Form.Label>
+                                                        <span className="label-value">{artistProofData?.selAddDetails?.AAddressProofName}</span>
+                                                    </>
+                                                )}
                                             </Col>
                                         </Row>
 
                                         <Row>
                                             <Col lg={6} md="12" className="mb-4">
-
                                             <Col lg={12} md="12" className="">
-                                               <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control" value={cityId} onChange={(e) => {setCityData(e.target.value)}}>
-                                                    <option>City name</option>
-                                                    {filteredCities?.filter((key) => !key.IsCancelled).map((city, index) => {
-                                                        return (<option key={`${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
-                                                    })}
-                                                </Form.Select>
+                                                {artistProofData?.selAddDetails?.CityName === null ? (
+                                                    <>
+                                                        <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
+                                                        <Form.Select aria-label="Default select example" className="form-control" value={cityId} onChange={(e) => {setCityData(e.target.value)}}>
+                                                            <option>City name</option>
+                                                            {filteredCities?.filter((key) => !key.IsCancelled).map((city, index) => {
+                                                                return (<option key={`${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
+                                                            })}
+                                                        </Form.Select>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">City : </Form.Label>
+                                                        <span className="label-value">{artistProofData?.selAddDetails?.CityName}</span>
+                                                    </>
+                                                )}
                                             </Col>
                                             <Col lg={12} md="12" className="mt-4">
-                                            <Form.Label className="l-sb">Pincode<sup className="red-color">*</sup></Form.Label>
-                                            <Form.Control placeholder="Pincode" type="text" value={pincode} onChange={(e) => {setPincode(e.target.value)}}/>
+                                            {artistProofData?.selAddDetails?.PinCode === "" ? (
+                                                <>
+                                                    <Form.Label className="l-sb">Pincode<sup className="red-color">*</sup></Form.Label>
+                                                    <Form.Control placeholder="Pincode" type="text" value={pincode} onChange={(e) => {setPincode(e.target.value)}}/>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Form.Label className="l-sb">Pincode : </Form.Label>  
+                                                    <span className="label-value">{artistProofData?.selAddDetails?.PinCode}</span>
+                                                </>
+                                            )}
                                             </Col>
 
                                             </Col>
@@ -1059,54 +1130,129 @@ const ArtistBankDetails = () => {
 
                                         <Row className="">
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">First Name<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Control placeholder="First Name" type="text" value={ref1FName} onChange={(e) => {setRef1FName(e.target.value)}}/>
+                                                {artistProofData?.selARefDetails?.FirstName === "" ? (
+                                                    <>
+                                                        <Form.Label className="l-sb">First Name<sup className="red-color">*</sup></Form.Label>
+                                                        <Form.Control placeholder="First Name" type="text" value={ref1FName} onChange={(e) => {setRef1FName(e.target.value)}}/>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">First Name : </Form.Label>
+                                                        <span className="label-value">{artistProofData?.selARefDetails?.FirstName}</span>
+                                                    </>
+                                                )}
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">Last Name<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Control placeholder="Last Name" type="text" value={ref1LName} onChange={(e) => {setRef1LName(e.target.value)}}/>
+                                                {artistProofData?.selARefDetails?.LastName === "" ? (
+                                                    <>
+                                                         <Form.Label className="l-sb">Last Name<sup className="red-color">*</sup></Form.Label>
+                                                         <Form.Control placeholder="Last Name" type="text" value={ref1LName} onChange={(e) => {setRef1LName(e.target.value)}}/>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                         <Form.Label className="l-sb">Last Name : </Form.Label>
+                                                        <span className="label-value">{artistProofData?.selARefDetails?.LastName}</span>
+                                                    </>
+                                                )}
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">Contact No<sup className="red-color">*</sup></Form.Label>
-                                                <PhoneInput
-                                                    className="l-r"
-                                                    country={"in"}
-                                                    enableSearch={true}
-                                                    placeholder={9999999999}
-                                                    onChange={(phone) => setRef1ContNo(phone)}
-                                                    value={ref1ContNo}
-                                                  />
+                                                {artistProofData?.selARefDetails?.ContactNo === "" ? (
+                                                    <>
+                                                        <Form.Label className="l-sb">Contact No<sup className="red-color">*</sup></Form.Label>
+                                                        <PhoneInput
+                                                            className="l-r"
+                                                            country={"in"}
+                                                            enableSearch={true}
+                                                            placeholder={9999999999}
+                                                            onChange={(phone) => setRef1ContNo(phone)}
+                                                            value={ref1ContNo}
+                                                        />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">Contact No : </Form.Label>
+                                                        <span className="label-value">{artistProofData?.selARefDetails?.ContactNo}</span>
+                                                    </>
+                                                )}
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">Email<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Control placeholder="Email" type="email" value={ref1Email} onChange={(e) => {setRef1Email(e.target.value)}}/>
+                                                {artistProofData?.selARefDetails?.EmailId === "" ? (
+                                                    <>
+                                                        <Form.Label className="l-sb">Email<sup className="red-color">*</sup></Form.Label>
+                                                        <Form.Control placeholder="Email" type="email" value={ref1Email} onChange={(e) => {setRef1Email(e.target.value)}}/>  
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">Email : </Form.Label>
+                                                        <span className="label-value">{artistProofData?.selARefDetails?.EmailId}</span>
+                                                    </>
+                                                )}
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">State<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control" value={ref1StateId} onChange={(e) => {selectStateAndGetItsCities(e.target.value);setRef1StateId(e.target.value);setRef1CityId("")}}>
-                                                    <option>State</option>
-                                                    {states?.filter((key) => !key.IsCancelled).map((state, index) => {
-                                                        return (<option key={`${index}'_'${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
-                                                    })}
-                                                </Form.Select>
+                                                {artistProofData?.selARefDetails?.StateName === null ? (
+                                                    <>
+                                                        <Form.Label className="l-sb">State<sup className="red-color">*</sup></Form.Label>
+                                                        <Form.Select aria-label="Default select example" className="form-control" value={ref1StateId} onChange={(e) => {selectStateAndGetItsCities(e.target.value);setRef1StateId(e.target.value);setRef1CityId("")}}>
+                                                            <option>State</option>
+                                                            {states?.filter((key) => !key.IsCancelled).map((state, index) => {
+                                                                return (<option key={`${index}'_'${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
+                                                            })}
+                                                        </Form.Select>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">State</Form.Label>
+                                                        <span className="label-value">{artistProofData?.selARefDetails?.StateName}</span>
+                                                    </>
+                                                )}
+                                                
                                             </Col>
                                             <Col lg={6} md="6" className="mb-4">
-                                                <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Select aria-label="Default select example" className="form-control" value={ref1CityId} onChange={(e) => {selectRef1CityData(e.target.value)}}>
-                                                    <option>City name</option>
-                                                    {cities?.filter((key) => !key.IsCancelled).map((city, index) => {
-                                                        return (<option key={`${index}'_'${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
-                                                    })}
-                                                </Form.Select>
+                                                {artistProofData?.selARefDetails?.CityName === null ? (
+                                                    <>
+                                                        <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
+                                                        <Form.Select aria-label="Default select example" className="form-control" value={ref1CityId} onChange={(e) => {selectRef1CityData(e.target.value)}}>
+                                                            <option>City name</option>
+                                                            {cities?.filter((key) => !key.IsCancelled).map((city, index) => {
+                                                                return (<option key={`${index}'_'${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
+                                                            })}
+                                                        </Form.Select>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">City : </Form.Label>
+                                                        <span className="label-value">{artistProofData?.selARefDetails?.CityName}</span>
+                                                    </>
+                                                )}
+                                                
                                             </Col>
                                             
                                             <Col lg={6} md="12" className="mb-4">
-                                                <Form.Label className="l-sb">Date of birth</Form.Label>
-                                                <Form.Control type="date" value={ref1Dob} onChange={(e) => {setRef1Dob(e.target.value)}}/>
+                                                {artistProofData?.selARefDetails?.DOB === "" ? (
+                                                    <>
+                                                         <Form.Label className="l-sb">Date of birth</Form.Label>
+                                                         <Form.Control type="date" value={ref1Dob} onChange={(e) => {setRef1Dob(e.target.value)}}/>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">Date of birth : </Form.Label>
+                                                        <span className="label-value">{moment(artistProofData?.selARefDetails?.DOB).format("YYYY-MM-DD")}</span>
+                                                    </>
+                                                )}
                                             </Col>
                                             <Col lg={6} md="12" className="mb-4">
-                                                <Form.Label className="l-sb">Relationship with the person<sup className="red-color">*</sup></Form.Label>
-                                                <Form.Control placeholder="Uncle" type="text" value={ref1Relation} onChange={(e) => {setRef1Relation(e.target.value)}}/>
+                                                {artistProofData?.selARefDetails?.RWReference === "" ? (
+                                                    <>
+                                                        <Form.Label className="l-sb">Relationship with the person<sup className="red-color">*</sup></Form.Label>
+                                                        <Form.Control placeholder="Uncle" type="text" value={ref1Relation} onChange={(e) => {setRef1Relation(e.target.value)}}/>    
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Form.Label className="l-sb">Relationship with the person</Form.Label>
+                                                        <span className="label-value">{artistProofData?.selARefDetails?.RWReference}</span>
+                                                    </>
+                                                )}
+                                                
                                             </Col>
                                         </Row>
                                         <Row>

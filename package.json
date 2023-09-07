@@ -28,6 +28,7 @@
     "multi-range-slider-react": "^2.0.2",
     "multiselect-react-dropdown": "^2.0.25",
     "react": "^18.2.0",
+    "react-available-times": "^1.4.0",
     "react-bootstrap": "^2.7.0",
     "react-calendly": "^4.1.1",
     "react-dom": "^18.2.0",
