@@ -38,10 +38,10 @@ const ArtistAvailSlot = () => {
                         })
                     }}
                     onEventsRequested={({ calendarId, start, end, callback }) => {
-                        loadMoreEvents(calendarId, start, end).then(callback);
+                        //loadMoreEvents(calendarId, start, end).then(callback);
                     }}
                     initialSelections={[
-                        { start: aDateObject, end: anotherDateObject }
+                        { start: new Date(), end: new Date() }
                     ]}
                     height={400}
                     recurring={false}
