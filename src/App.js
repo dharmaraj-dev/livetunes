@@ -51,7 +51,7 @@ import { welcomeSeen } from './actions/auth';
 import 'react-loading-skeleton/dist/skeleton.css'
 import { setJoiningType } from './actions/auth';
 import ArtistAvailSlot from './Artist/ArtistAvailSlot';
-
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 function App() {
   const dispatch = useDispatch();

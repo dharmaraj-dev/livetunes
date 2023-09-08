@@ -1,10 +1,41 @@
-import React from 'react'
+import React, {useState, useMemo, useCallback} from 'react'
 import NavBar from '../Layout/NavBar'
 import SideNavBar from '../Layout/SideNavBar'
-import AvailableTimes from 'react-available-times';
-
+import moment from "moment";
+import { Calendar, Views, momentLocalizer } from 'react-big-calendar'
+const mLocalizer = momentLocalizer(moment)
 
 const ArtistAvailSlot = () => {
+    const [myEvents, setEvents] = useState([])
+
+    const handleSelectSlot = useCallback(
+        ({ start, end }) => {
+          const title = window.prompt('New Event name')
+          if (title) {
+            setEvents((prev) => [...prev, { start, end, title }])
+          }
+        },
+        [setEvents]
+      )
+    
+      const handleSelectEvent = useCallback(
+        (event) => window.alert(event.title),
+        []
+      )
+    
+      const { defaultDate, scrollToTime } = useMemo(
+        () => ({
+          defaultDate: new Date(),
+          scrollToTime: new Date(),
+        }),
+        []
+      )
+
+      const tileDisabled = ({ activeStartDate, date, view }) => {
+        return date < new Date()
+     }
+    
+
   return (
     <>
          <div className="wrapper">
@@ -15,39 +46,29 @@ const ArtistAvailSlot = () => {
                 <div className="header">
                     <NavBar />
                 </div>
-                <AvailableTimes
-                    weekStartsOn="monday"
-                    calendars={[
-                        {
-                        id: 'work',
-                        title: 'Work',
-                        foregroundColor: '#ff00ff',
-                        backgroundColor: '#f0f0f0',
-                        selected: true,
-                        },
-                        {
-                        id: 'private',
-                        title: 'My private cal',
-                        foregroundColor: '#666',
-                        backgroundColor: '#f3f3f3',
-                        },
-                    ]}
-                    onChange={(selections) => {
-                        selections.forEach(({ start, end }) => {
-                        console.log('Start:', start, 'End:', end);
-                        })
+                <div className="main-content">
+                    <Calendar
+                    defaultDate={defaultDate}
+                    defaultView={Views.WEEK}
+                    events={myEvents}
+                    localizer={mLocalizer}
+                    onSelectEvent={handleSelectEvent}
+                    onSelectSlot={handleSelectSlot}
+                    selectable
+                    scrollToTime={scrollToTime}
+                    step={60}
+                    length={60}
+                    dayLayoutAlgorithm="no-overlap"
+                    timeslots={1}
+                    eventPropGetter={(myEventsList) => {
+                      const backgroundColor = 'red';
+                      const color = 'white';
+                      return { style: { backgroundColor ,color} }
                     }}
-                    onEventsRequested={({ calendarId, start, end, callback }) => {
-                        //loadMoreEvents(calendarId, start, end).then(callback);
-                    }}
-                    initialSelections={[
-                        { start: new Date(), end: new Date() }
-                    ]}
-                    height={400}
-                    recurring={false}
-                    availableDays={['monday', 'tuesday', 'wednesday', 'thursday', 'friday']}
-                    availableHourRange={{ start: 9, end: 19 }}
-                />
+                    onSelecting = {slot => false}
+                    minDate={new Date()}
+                    />
+                </div>
             </div>
         </div>
     </>
