@@ -3,6 +3,7 @@ import NavBar from '../Layout/NavBar'
 import SideNavBar from '../Layout/SideNavBar'
 import moment from "moment";
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar'
+import { successToast, errorToast, infoToast } from "../services/toast-service";
 const mLocalizer = momentLocalizer(moment)
 
 const ArtistAvailSlot = () => {
@@ -10,16 +11,23 @@ const ArtistAvailSlot = () => {
 
     const handleSelectSlot = useCallback(
         ({ start, end }) => {
-          const title = window.prompt('New Event name')
-          if (title) {
-            setEvents((prev) => [...prev, { start, end, title }])
-          }
+            if ( start.getTime() > new Date().getTime()) {
+                const price = window.prompt('This slot price')
+                  if (price) {
+                    setEvents((prev) => [...prev, { start, end, price }]);
+                  }
+             } else {
+                errorToast("Invalid slot.")
+                return false;
+             }
+
+          
         },
         [setEvents]
       )
     
       const handleSelectEvent = useCallback(
-        (event) => window.alert(event.title),
+        (event) => {console.log(myEvents);window.alert(event.price)},
         []
       )
     
@@ -61,9 +69,10 @@ const ArtistAvailSlot = () => {
                     dayLayoutAlgorithm="no-overlap"
                     timeslots={1}
                     eventPropGetter={(myEventsList) => {
-                      const backgroundColor = 'red';
+                      const backgroundColor = '#FD3743';
                       const color = 'white';
-                      return { style: { backgroundColor ,color} }
+                      const border = '#FD3743';
+                      return { style: { backgroundColor ,color, border} }
                     }}
                     onSelecting = {slot => false}
                     minDate={new Date()}
