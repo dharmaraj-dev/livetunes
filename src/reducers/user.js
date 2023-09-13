@@ -23,7 +23,7 @@ import {
   const userSelectedEvents = localStorage.getItem("userSelectedEvents") != null ? JSON.parse(localStorage.getItem("userSelectedEvents")) : [];
   const userFilteredArtists = localStorage.getItem("userFilteredArtists") != null ? JSON.parse(localStorage.getItem("userFilteredArtists")) : [];
   const userFavoriteArtists = localStorage.getItem("userFavoriteArtists") != null ? JSON.parse(localStorage.getItem("userFavoriteArtists")) : [];
-  const isDefaultSettings = selectedLanguages.length > 0 && selectedCities.length > 0 && minimumBudget && maximumBudget && musicalityTypes.length > 0 ? true : false;
+  const isDefaultSettings = selectedLanguages.length > 0 && minimumBudget && maximumBudget && musicalityTypes.length > 0 ? true : false;
   
   const initialState = { 
     userSelectedLanguages: selectedLanguages,

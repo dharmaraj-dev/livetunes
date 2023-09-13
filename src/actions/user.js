@@ -139,6 +139,7 @@ import {
     }
 
     export const getArtistInfo = (artId) => (dispatch) => {
+        console.log(artId);
         return UserService.getArtistInfoById(artId).then(
             (response) => {
                if(response.data.IsSuccess) {
@@ -167,4 +168,9 @@ import {
               return Promise.reject(error);
             }
           );
+    }
+
+
+    export const getSpecialEvents = () => () => {
+        return UserService.getAllSpecialEvents();
     }

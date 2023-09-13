@@ -2,13 +2,15 @@ import React from "react";
 import Slider from "react-slick";
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import Slidecard3 from '../assets/images/slidecard3wrked.png';
-import Slidecard2 from '../assets/images/slidecard2wrked.png';
-import Slidecard1 from '../assets/images/slidecard1wrked.png';
 import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getSpecialEvents } from "../actions/user";
+import ThreeDotLoader from "../Artist/ThreeDotLoader";
 
 const SlideCard = () => {
+        const dispatch = useDispatch();
         const settings = {
           dots: false,
           arrows: false,
@@ -43,90 +45,45 @@ const SlideCard = () => {
             }
           ]
         };
+
+        const [specialEvents,setSpecialEvents] = useState([]);
+        useEffect(()=>{
+          dispatch(getSpecialEvents()).then((res)=>{
+            console.log(res);
+            setSpecialEvents(res.data.output_data);
+          })
+        },[])
+
+        const displaySpecialEvents = specialEvents.map((sEvent) => 
+               <div>
+                  <div className="look-slide-sec">
+                    <img src={sEvent.SEImgURL} className="mx-auto w-100" alt="" />
+                    <div className="inner-look-slide">
+                       <Col sm={12} lg={8}>
+                          <h2 className="head white-color">{sEvent.HeadText}</h2>
+                          <p className="l-l sub-head white-color">{sEvent.SubText} {sEvent.SubText1} {specialEvents.SubText2} {sEvent.SubText3}</p>
+                        </Col>
+                        <Col sm={12} lg={4}>
+                          <Link to={{
+                            pathname: '/artistList',
+                            search: `?GenreName=${sEvent.GenreName}`,
+                          }}>
+                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
+                          </Link>
+                        </Col>
+                   </div>
+                  </div>
+                </div>
+        );
+
         return (
             <div>
               <Slider {...settings}>
-                <div>
-                  <div className="look-slide-sec">
-                    <img src={Slidecard3} className="mx-auto w-100" alt="" />
-                    <div className="inner-look-slide">
-                       <Col sm={12} lg={8}>
-                          <h2 className="head white-color">Valentine Special</h2>
-                          <p className="l-l sub-head white-color">Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempo</p>
-                        </Col>
-                        <Col sm={12} lg={4}>
-                          <Link to="/artistList">
-                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
-                          </Link>
-                        </Col>
-                   </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="look-slide-sec">
-                    <img src={Slidecard2} className="mx-auto w-100" alt="" />
-                    <div className="inner-look-slide">
-                       <Col sm={12} lg={8}>
-                          <h2 className="head white-color">Wedding Special</h2>
-                          <p className="l-l sub-head white-color">Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempo</p>
-                        </Col>
-                        <Col sm={12} lg={4}>
-                          <Link to="/artistList">
-                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
-                          </Link>
-                         
-                        </Col>
-                   </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="look-slide-sec">
-                    <img src={Slidecard1} className="mx-auto w-100" alt="" />
-                    <div className="inner-look-slide">
-                       <Col sm={12} lg={8}>
-                          <h2 className="head white-color">Get To Gather</h2>
-                          <p className="l-l sub-head white-color">Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempo</p>
-                        </Col>
-                        <Col sm={12} lg={4}>
-                          <Link to="/artistList">
-                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
-                          </Link>
-                        </Col>
-                   </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="look-slide-sec">
-                    <img src={Slidecard3} className="mx-auto w-100" alt="" />
-                    <div className="inner-look-slide">
-                       <Col sm={12} lg={8}>
-                          <h2 className="head white-color">Valentine Special</h2>
-                          <p className="l-l sub-head white-color">Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempo</p>
-                        </Col>
-                        <Col sm={12} lg={4}>
-                          <Link to="/artistList">
-                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
-                          </Link>
-                        </Col>
-                   </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="look-slide-sec">
-                    <img src={Slidecard2} className="mx-auto w-100" alt="" />
-                    <div className="inner-look-slide">
-                       <Col sm={12} lg={8}>
-                          <h2 className="head white-color">Wedding Special</h2>
-                          <p className="l-l sub-head white-color">Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempo</p>
-                        </Col>
-                        <Col sm={12} lg={4}>
-                          <Link to="/artistList">
-                            <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
-                          </Link>
-                        </Col>
-                   </div>
-                  </div>
-                </div>
+                {
+                  specialEvents.length === 0 ? <ThreeDotLoader /> : (
+                    displaySpecialEvents
+                  )
+                }
               </Slider>
             </div>
           );

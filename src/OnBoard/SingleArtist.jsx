@@ -47,6 +47,7 @@ import ThreeDotLoader from "../Artist/ThreeDotLoader";
 
 
 
+
 const SingleArtist = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,13 +58,14 @@ const SingleArtist = () => {
   console.log(props);
   const [artistInfoDetails,setArtistInfoDetails] = useState([]);
   const [showLoader,setShowLoader] = useState(true);
+  const {ArtistId} = useSelector(state => state.auth);
 
 
   useEffect(()=>{
     if(artistId === undefined){
         navigate("/dashboard");
     }
-    dispatch(getArtistInfo(artistId)).then((res) => {
+    dispatch(getArtistInfo({artistId,ArtistId})).then((res) => {
         console.log(res, artistInfoDetails);
         setArtistInfoDetails(res.data);
         setShowLoader(false);

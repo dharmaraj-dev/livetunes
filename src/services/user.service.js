@@ -52,7 +52,12 @@ const removeFavoriteArtists = (data) => {
 }
 
 const getArtistInfoById = (id) => {
-    return axios.get(API_URL + `ArtistProfile/GetArtistProfileNew/${id}`,{headers:authHeader()});
+    console.log(id);
+    return axios.get(API_URL + `ArtistProfile/GetArtistProfileNew/${id.artistId}/${id.ArtistId}`,{headers:authHeader()});
+}
+
+const getAllSpecialEvents = () => {
+    return axios.get(API_URL + "SpecialEvents/GetAll",{headers:authHeader()});
 }
 
 export default{
@@ -68,5 +73,6 @@ export default{
     getUserFavoriteArtists,
     insertFavoriteArtists,
     removeFavoriteArtists,
-    getArtistInfoById
+    getArtistInfoById,
+    getAllSpecialEvents
 };

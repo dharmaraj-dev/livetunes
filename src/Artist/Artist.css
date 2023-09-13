@@ -106,3 +106,25 @@ table {border-collapse: separate;border-spacing: 1px 15px;}
 .focus-state-city{
 	border: solid black 2px !important;
 }
+
+.modal-label-top{
+	margin-top: 1rem;
+}
+
+.modal-button{
+	margin-bottom: 1rem;
+	margin-top:2rem;
+	border:none;
+	background-color:#F13743;
+	border-radius:0.3rem;
+	color:white;
+	padding:1rem;
+}
+
+.slot-input-box{
+	display: flex;
+	flex-direction: column;
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}

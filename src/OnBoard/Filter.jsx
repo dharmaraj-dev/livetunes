@@ -8,10 +8,13 @@ import Multiselect from 'multiselect-react-dropdown';
 import { useDispatch, useSelector } from "react-redux";
 import { setUserSelectedCategories,setUserSelectedGenres,setUserSelectedEvents,getUserFilteredArtists } from '../actions/user';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 
 
 const Filter = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
     const { categories,gernes,events } = useSelector(state => state.common );
     const { userSelectedCategories,userSelectedGenres,userSelectedEvents,userSelectedLanguages,userSelectedCities } = useSelector(state => state.user);
     const {userMinimumBudget,userMaximumBudget} = useSelector(state=>state.user);
@@ -33,7 +36,13 @@ const Filter = () => {
     const removeEvent = (selectedList, removedItem) => {
         dispatch(setUserSelectedEvents(selectedList));
     }
+    console.log(userSelectedGenres)
     useEffect(()=>{
+        const selectedGenre = new URLSearchParams(location.search).get('GenreName');
+        console.log(selectedGenre)
+        if(selectedGenre){
+            setUserSelectedGenres(gernes.filter((genre)=> {return genre.GenreName === selectedGenre}));
+        }
         const filteringCriteria = {
             "LanguageId":userSelectedLanguages?.map(a => a.LanguageId)?.join(","),
             "CategoryId":userSelectedCategories?.map(a => a.CategoryId)?.join(","),
