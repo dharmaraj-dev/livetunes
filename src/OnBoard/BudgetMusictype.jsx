@@ -35,7 +35,7 @@ const BudgetMusictype = () => {
                             </div>
                             <MusictypeSlider/>
                         </div>
-                        <Link to="/artistList">
+                        <Link to="/artist-list">
                         <Button variant="primary" className="l-sb btnn next-btn">Next</Button>
                         </Link>
                     </section>

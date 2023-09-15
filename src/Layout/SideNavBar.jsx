@@ -43,7 +43,7 @@ const SideNavBar = () => {
 				{
 					text: "Dashboard",
 					icon: <TfiDashboard className="menu-item-icon"/>,
-					links: "/artistdashboard"
+					links: "/artist-dashboard"
 				},
 				{
 					text: "Find Artist",
@@ -73,7 +73,7 @@ const SideNavBar = () => {
 			setMenuItemsDynamic([
 				{
 					text: "TfiAlarmClock",
-					icon: <TfiAlarmClock className="menu-item-icon"/>,
+					icon: <TfiDashboard className="menu-item-icon"/>,
 					links: "/dashboard"
 				},
 				{

@@ -8,8 +8,10 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getSpecialEvents } from "../actions/user";
 import ThreeDotLoader from "../Artist/ThreeDotLoader";
+import Skeleton from 'react-loading-skeleton'
 
-const SlideCard = () => {
+const SlideCard = (props) => {
+  console.log('props', props);
         const dispatch = useDispatch();
         const settings = {
           dots: false,
@@ -46,16 +48,18 @@ const SlideCard = () => {
           ]
         };
 
-        const [specialEvents,setSpecialEvents] = useState([]);
+        const [specialEvents,setSpecialEvents] = useState(props.data);
         useEffect(()=>{
-          dispatch(getSpecialEvents()).then((res)=>{
-            console.log(res);
-            setSpecialEvents(res.data.output_data);
-          })
-        },[])
+          if(props.data) {
+            setSpecialEvents(props.data);
+          } else {
+            setSpecialEvents([]);
+          }
+          
+        },[props])
 
-        const displaySpecialEvents = specialEvents.map((sEvent) => 
-               <div>
+        const displaySpecialEvents = specialEvents?.map((sEvent,index) => 
+               <div key={`sEvent_${index}`}>
                   <div className="look-slide-sec">
                     <img src={sEvent.SEImgURL} className="mx-auto w-100" alt="" />
                     <div className="inner-look-slide">
@@ -65,8 +69,8 @@ const SlideCard = () => {
                         </Col>
                         <Col sm={12} lg={4}>
                           <Link to={{
-                            pathname: '/artistList',
-                            search: `?GenreName=${sEvent.GenreName}`,
+                            pathname: '/artist-list',
+                            search: `?genre=${sEvent.GenreId}&event=${sEvent.EventsId}`,
                           }}>
                             <Button variant="primary" className="l-b wbtnn look-btn">Let’s Go!</Button>
                           </Link>
@@ -79,11 +83,19 @@ const SlideCard = () => {
         return (
             <div>
               <Slider {...settings}>
-                {
-                  specialEvents.length === 0 ? <ThreeDotLoader /> : (
-                    displaySpecialEvents
-                  )
-                }
+                {props.isLoading ? (
+                  [...Array(6)].map((e, i) => {
+                    return (
+                      <div key={`slider_${i}`}>
+                        <div className="specialEventLoader">
+                          <Skeleton className="" count={1} height={"220px"}  />
+                        </div>
+                      </div>
+                    )
+                  })
+                ):(
+                  displaySpecialEvents
+                )}
               </Slider>
             </div>
           );

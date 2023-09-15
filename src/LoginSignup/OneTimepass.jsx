@@ -250,7 +250,7 @@ const OneTimepass = () => {
                           <div className='model-succes-text'>
                             <h2 className="l-b head">Successfully</h2>
                             <p className="l-b sub-head">Registered to Livetunes</p>
-                            <Link to="/artistdashboard">
+                            <Link to="/artist-dashboard">
                             <Button variant="secondary" className='otp-done l-sb btnn' onClick={handleClose}>
                              Done
                             </Button>

@@ -43,7 +43,7 @@ const Home = () => {
   }, [welcomeSeen])
 
   if (isLoggedIn && joiningType === "Artist") {
-    return <Navigate to="/artistdashboard" />;
+    return <Navigate to="/artist-dashboard" />;
   }
 
   return (

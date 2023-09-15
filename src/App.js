@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {Routes, Route} from 'react-router-dom';
+import WelcomeLoader from './WelcomeLoader';
 import SideNavBar from './Layout/SideNavBar';
 import OneTimepass from './LoginSignup/OneTimepass';
 import SignUp from './LoginSignup/SignUp';
@@ -74,7 +75,7 @@ function App() {
         if(ArtistIsNotSubmitted) {
           navigate("/artists-profile");
         } else {
-          navigate("/artistdashboard");
+          navigate("/artist-dashboard");
         }
       } else if(joiningType === 'Judge') {
         navigate("/judgment-panel");
@@ -105,7 +106,7 @@ function App() {
         <Route path="/languages" element={<Languages/>}/>
         <Route path="/locationcheck" element={<LocationCheck/>}/>
         <Route path="/budgetmusictype" element={<BudgetMusictype/>}/>
-        <Route path="/artistList" element={<ArtistList/>}/>
+        <Route path="/artist-List" element={<ArtistList/>}/>
         <Route path="/artist-avail-slot" element={<ArtistAvailSlot/>}/>
         <Route path="/artist-details/:id" element={<SingleArtist/>}/>
         <Route path="/checkavailability" element={<CheckAvailability/>}/>
@@ -121,10 +122,11 @@ function App() {
         <Route path="/bankdetails" element={<BankDetails/>}/>
         <Route path="/photoid" element={<PhotoId/>}/>
         <Route path="/addressproof" element={<AddressProof/>}/>
-        <Route path="/artistdashboard" element={<ArtistDashboard/>}/>
+        <Route path="/artist-dashboard" element={<ArtistDashboard/>}/>
         <Route path="/my-profile" element={<ArtistProfiles/>}/>
         <Route path="/billinginvoice" element={<BillingInvoice/>}/>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<WelcomeLoader/>}/>
+        <Route path="/welcome" element={<Home/>}/>
         <Route path="/judgment-panel" element={<Judgment/>}/>
         <Route path="/artist-application/:id" element={<SingleApplication/>}/>
         <Route path="/application-review/:id/:name/:city/:state/:profile" element={<Review/>}/>

@@ -1,4 +1,5 @@
 import React, {useEffect} from "react";
+import Skeleton from 'react-loading-skeleton'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Avtar from '../assets/images/avtar.png';
@@ -12,57 +13,67 @@ import { Link } from "react-router-dom";
 import Heartlike from "./Heartlike";
 import { useDispatch, useSelector } from "react-redux";
 
-const ArtistCard = () => {
+const ArtistCard = (props) => {
     const { userFilteredArtists } = useSelector(state => state.user);
 
     useEffect(() => {
 
     }, [userFilteredArtists])
     
-    const ArtistCards = userFilteredArtists.map((artist) =>
-        <Col xs={12} lg={12} xl={6}>
-            <div className="inner-artist-card postion-r">
-                <div className="avtar-sec">
-                    <div className="avtar-img">
-                        <img src={artist.ArtistProfileImg} alt="" className="w-100" />
+    const ArtistCards = props.isLoading ? (
+            [...Array(6)].map((e, i) => {
+            return (<Col xs={12} lg={12} xl={6} key={`artist_${i}`}>
+                        <div className="">
+                            <Skeleton className="inner-artist-card postion-r"  height="300px" count={1}  />
+                        </div>
+                    </Col>)
+            })
+        ) : (
+            userFilteredArtists.map((artist, index) =>
+                <Col xs={12} lg={12} xl={6} key={`artist_${index}`}>
+                    <div className="inner-artist-card postion-r">
+                        <div className="avtar-sec">
+                            <div className="avtar-img">
+                                <img src={artist.ArtistProfileImg} alt="" className="w-100" />
+                            </div>
+                            <StarRate />
+                        </div>
+                        <div className="music-detail">
+                            <p className="name l-sb">{artist.ArtistName}</p>
+                            <Stack direction="horizontal" gap={2} className="from-select-filter">
+                                <div className="inner-from-select-filter">First item</div>
+                                <div className="inner-from-select-filter">Second item</div>
+                                <div className="inner-from-select-filter">Third item</div>
+                            </Stack>
+                            <div className="music-short-detail">
+                                <Stack direction="vertical" className="">
+                                    <div className="">
+                                        <span className="ico-sec"><BiTime className="red-color" /></span> <span>{artist.ArtistTimeDur}</span>
+                                    </div>
+                                    <div className="">
+                                        <span className="ico-sec"><TbMessageLanguage className="red-color" /></span> <span>{artist.ArtistLanguage}</span>
+                                    </div>
+                                    <div className="">
+                                        <span className="ico-sec"><IoLocationOutline className="red-color" /></span> <span>{artist.ArtistCity}</span>
+                                    </div>
+                                    <div className="">
+                                        <span className="ico-sec"><TbCurrencyRupee className="red-color" /></span> <span className="price red-color l-sb">{artist.ArtistCharges}</span>
+                                    </div>
+                                </Stack>
+                            </div>
+                        </div>
+                        <div className="artist-list-like">
+                            <Heartlike props={artist}/>
+                        </div>
+                        <div className="book-now-btn">
+                            <Link to={`/artist-details/${btoa(artist.ArtistId)}`} state={{ props: artist }}>
+                                <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
+                            </Link>
+                        </div>
                     </div>
-                    <StarRate />
-                </div>
-                <div className="music-detail">
-                    <p className="name l-sb">{artist.ArtistName}</p>
-                    <Stack direction="horizontal" gap={2} className="from-select-filter">
-                        <div className="inner-from-select-filter">First item</div>
-                        <div className="inner-from-select-filter">Second item</div>
-                        <div className="inner-from-select-filter">Third item</div>
-                    </Stack>
-                    <div className="music-short-detail">
-                        <Stack direction="vertical" className="">
-                            <div className="">
-                                <span className="ico-sec"><BiTime className="red-color" /></span> <span>{artist.ArtistTimeDur}</span>
-                            </div>
-                            <div className="">
-                                <span className="ico-sec"><TbMessageLanguage className="red-color" /></span> <span>{artist.ArtistLanguage}</span>
-                            </div>
-                            <div className="">
-                                <span className="ico-sec"><IoLocationOutline className="red-color" /></span> <span>{artist.ArtistCity}</span>
-                            </div>
-                            <div className="">
-                                <span className="ico-sec"><TbCurrencyRupee className="red-color" /></span> <span className="price red-color l-sb">{artist.ArtistCharges}</span>
-                            </div>
-                        </Stack>
-                    </div>
-                </div>
-                <div className="artist-list-like">
-                    <Heartlike props={artist}/>
-                </div>
-                <div className="book-now-btn">
-                    <Link to={`/artist-details/${btoa(artist.ArtistId)}`} state={{ props: artist }}>
-                        <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
-                    </Link>
-                </div>
-            </div>
-        </Col>
-    );
+                </Col>
+            )
+        );
     return (
         <>
             <Row>

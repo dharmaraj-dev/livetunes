@@ -7,10 +7,12 @@ import {
     USER_SELECTED_CATEGORIES,
     USER_SELECTED_GENRES,
     USER_SELECTED_EVENTS,
+    USER_FILTERED_ARTISTS_LOADING,
     USER_FILTERED_ARTISTS,
     USER_FAVORITE_ARTISTS,
     USER_UPDATE_ARTIST_LIST,
-    USER_GET_ARTIST_INFO
+    USER_GET_ARTIST_INFO,
+    USER_SPECIAL_EVENTS
   } from "./types";
   
   import UserService from "../services/user.service";
@@ -80,16 +82,30 @@ import {
     }
 
     export const getUserFilteredArtists = (filteringCriteria) => (dispatch) => {
-        UserService.getUserFilteredArtists(filteringCriteria).then(
+        dispatch({
+                type:USER_FILTERED_ARTISTS_LOADING,
+                payload:true
+            });
+       return UserService.getUserFilteredArtists(filteringCriteria).then(
             (response) => {
                 localStorage.setItem("userFilteredArtists",JSON.stringify(response.data.output_data));
+                dispatch({
+                    type:USER_FILTERED_ARTISTS_LOADING,
+                    payload:false
+                });
                 dispatch({
                     type:USER_FILTERED_ARTISTS,
                     payload:response.data.output_data,
                 });
+                return Promise.resolve(response);
             },
             (error) => {
+                dispatch({
+                    type:USER_FILTERED_ARTISTS_LOADING,
+                    payload:false
+                });
                 console.log(error);
+                return Promise.reject(error);
             }
         )
     }
@@ -139,7 +155,6 @@ import {
     }
 
     export const getArtistInfo = (artId) => (dispatch) => {
-        console.log(artId);
         return UserService.getArtistInfoById(artId).then(
             (response) => {
                if(response.data.IsSuccess) {
@@ -171,6 +186,33 @@ import {
     }
 
 
-    export const getSpecialEvents = () => () => {
-        return UserService.getAllSpecialEvents();
+    export const getSpecialEvents = () => (dispatch) => {
+        return UserService.getAllSpecialEvents().then(
+            (response) => {
+               if(response.data.IsSuccess) {
+                    localStorage.setItem("userSpecialEvents",JSON.stringify(response.data.output_data));
+                  dispatch({
+                    type: USER_SPECIAL_EVENTS,
+                    payload: response.data.output_data,
+                  });
+                }
+                else {
+                  dispatch({
+                    type: USER_SPECIAL_EVENTS,
+                    payload: [],
+                  });
+                }
+
+              return Promise.resolve(response);
+            },
+            (error) => {
+              const message =
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                error.message ||
+                error.toString();
+              return Promise.reject(error);
+            }
+          );
     }

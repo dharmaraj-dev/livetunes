@@ -7,6 +7,7 @@ import {
     USER_SELECTED_CATEGORIES,
     USER_SELECTED_GENRES,
     USER_SELECTED_EVENTS,
+    USER_FILTERED_ARTISTS_LOADING,
     USER_FILTERED_ARTISTS,
     USER_FAVORITE_ARTISTS,
     USER_UPDATE_ARTIST_LIST,
@@ -35,6 +36,7 @@ import {
     userSelectedGenres,
     userSelectedEvents,
     userFilteredArtists,
+    userFilteredArtistsLoading: true,
     userFavoriteArtists,
     isDefaultSettings,
     artistInfo: []
@@ -84,6 +86,11 @@ import {
             return{
                 ...state,
                 userSelectedEvents:payload
+        };
+    case USER_FILTERED_ARTISTS_LOADING:
+            return{
+                ...state,
+                userFilteredArtistsLoading: payload
         };
         case USER_FILTERED_ARTISTS:
             return{

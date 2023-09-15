@@ -1,4 +1,4 @@
-.hello-header{background-repeat: no-repeat;background-size: cover;background-position: center;padding: 113px 90px 34px 172px; border-radius: 0 132px 0 132px;}
+.hello-header{background-repeat: no-repeat;background-size: cover;background-position: center;padding: 113px 90px 34px 172px; border-radius: 0 132px 0 132px !important;}
 .hello-header .hello-right-text-sec .head{font-size: 80px;margin-bottom: 36px;}
 .hello-header .hello-right-text-sec .sub-head{font-size: 40px;}
 .hello-header .hello-right-text-sec .para-text{font-size: 26px;}
@@ -82,7 +82,7 @@
 .artists-card-sec{padding: 26px 0 0;}
 .artists-found-card{margin: 40px 0 0;}
 .inner-artist-card{display: flex;}
-.inner-artist-card{background: #fff;box-shadow: 0px 3px 6px #00000029;border-radius: 106px 24px 24px 24px;padding: 24px;margin: 0 0 30px;}
+.inner-artist-card{background: #fff;box-shadow: 0px 3px 6px #00000029;border-radius: 106px 24px 24px 24px !important;padding: 24px;margin: 0 0 30px;}
 .inner-artist-card .avtar-sec{display: grid;text-align: center;}
 .inner-artist-card .avtar-sec .avtar-img{display: inline-block;width: 180px;margin: 0 0 20px 0;border-radius: 91px;}
 .music-detail{padding: 0 0 0 62px;}

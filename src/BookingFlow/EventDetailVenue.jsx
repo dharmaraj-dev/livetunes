@@ -28,31 +28,7 @@ const EventDetailVenue = () => {
     <>
         <section>
             <Form>
-            <h4 className="l-b mb-4">Please Fill the event details</h4>
-            <Row>
-                <Col lg={6} md="12" className="mb-4">
-                    <Form.Select aria-label="Default select example" className="form-control">
-                        <option>House party</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </Form.Select>
-                </Col>
-                <Col lg={6} md="12" className="mb-4">
-                <Form.Control placeholder="Event date - " type="date"/>
-                </Col>
-                <Col lg={6} md="12" className="mb-4">
-                <Form.Control placeholder="Event time - " type="time"/>
-                </Col>
-                <Col lg={6} md="12" className="mb-4">
-                    <Form.Select aria-label="Default select example" className="form-control">
-                        <option>Event duration</option>
-                        <option value="1">1hr</option>
-                        <option value="2">2hr</option>
-                        <option value="3">3hr</option>
-                    </Form.Select>
-                </Col>
-            </Row>
+            
 
             <div className="venue-sec">
                 <Row>
@@ -99,6 +75,31 @@ const EventDetailVenue = () => {
                     <Form.Group className="l-r" controlId="formBasicCheckbox">
                         <Form.Check type="checkbox" label="Additional travel, food and stay charges may be applicable according to the venue location" />
                     </Form.Group>
+                </Col>
+            </Row>
+            <h4 className="l-b mt-4 mb-4">Please Fill the event details</h4>
+            <Row>
+                <Col lg={6} md="12" className="mb-4">
+                    <Form.Select aria-label="Default select example" className="form-control">
+                        <option>House party</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </Form.Select>
+                </Col>
+                <Col lg={6} md="12" className="mb-4">
+                <Form.Control placeholder="Event date - " type="date"/>
+                </Col>
+                <Col lg={6} md="12" className="mb-4">
+                <Form.Control placeholder="Event time - " type="time"/>
+                </Col>
+                <Col lg={6} md="12" className="mb-4">
+                    <Form.Select aria-label="Default select example" className="form-control">
+                        <option>Event duration</option>
+                        <option value="1">1hr</option>
+                        <option value="2">2hr</option>
+                        <option value="3">3hr</option>
+                    </Form.Select>
                 </Col>
             </Row>
             <section className="event-check-button-sec">

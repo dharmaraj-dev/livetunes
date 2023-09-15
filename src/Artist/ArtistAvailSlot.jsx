@@ -20,9 +20,9 @@ const ArtistAvailSlot = () => {
     const [isNew, setIsNew] = useState(false);
 
     const handleClose = () => {
-      setSlotPrice(-1);
-      setTravelPrice(-1);
-      setFoodPrice(-1);
+      setSlotPrice("");
+      setTravelPrice("");
+      setFoodPrice("");
       setStartDate(new Date());
       setEndDate(new Date());
       setShow(false);
@@ -76,8 +76,13 @@ const ArtistAvailSlot = () => {
       )
     
       const handleSelectEvent = useCallback(
-        (event) => {console.log(myEvents);window.alert(event.price)},
-        []
+        (event) => {
+          setSlotPrice(event.slotPrice);
+          setTravelPrice(event.travelPrice);
+          setFoodPrice(event.foodPrice);
+          setShow(true);
+        },
+      []
       )
     
       const { defaultDate, scrollToTime } = useMemo(
@@ -88,11 +93,13 @@ const ArtistAvailSlot = () => {
         []
       )
 
-      const EventComponent = () => (
-        <div>
-         <div>hi</div>
-        </div>
-       );
+      const EventComponent = (props) => {
+         return (
+            <div>
+              <div>Price: {props.eventData.event.slotPrice}/-</div>
+            </div>)
+      };
+
 
        const formats = {
         eventTimeRangeFormat: () => { 
@@ -123,9 +130,7 @@ const ArtistAvailSlot = () => {
                     <Calendar
                     defaultDate={defaultDate}
                     defaultView={Views.WEEK}
-                    components={{
-                      event: EventComponent,
-                    }}
+                    components={{event: (ev) => <EventComponent eventData={ev} />}}
                     formats={formats}
                     events={myEvents}
                     localizer={mLocalizer}
@@ -137,11 +142,13 @@ const ArtistAvailSlot = () => {
                     length={60}
                     dayLayoutAlgorithm="no-overlap"
                     timeslots={1}
-                    eventPropGetter={(myEventsList) => {
-                      const backgroundColor = '#FD3743';
+                    eventPropGetter={(event) => {
+                      let backgroundColor = 'green';
+                      if(event.isBooked) {
+                        backgroundColor = '#FD3743';
+                      }
                       const color = 'white';
-                      const border = '#FD3743';
-                      return { style: { backgroundColor ,color, border} }
+                      return { style: { backgroundColor ,color} }
                     }}
                     onSelecting = {slot => false}
                     minDate={new Date()}
@@ -169,11 +176,11 @@ const ArtistAvailSlot = () => {
                                           <Form onSubmit={handleSubmit}>
                                            <div className='slot-input-box'>
                                             <Form.Label className='l-sb form-label' htmlFor="slotPrice">Slot Price</Form.Label>
-                                            <Form.Control className='form-control numberInput' type="number" required min={0} id='slotPrice' onChange={handleChange}/>
+                                            <Form.Control className='form-control numberInput' type="number" required min={0} id='slotPrice' value={slotPrice} onChange={handleChange} placeholder="Slot Price"/>
                                             <Form.Label htmlFor="travelPrice" className='l-sb form-label'>Travel Expense</Form.Label>
-                                            <Form.Control className='form-control numberInput' type="number" required min={0} id='travelPrice' onChange={handleChange}/>
+                                            <Form.Control className='form-control numberInput' type="number" required min={0} id='travelPrice' value={travelPrice} onChange={handleChange} placeholder="Travel Expense"/>
                                             <Form.Label htmlFor="foodPrice" className='l-sb form-label'>Food and Other Expense</Form.Label>
-                                            <Form.Control className='form-control numberInput' type="number"required  min={0} id='foodPrice' onChange={handleChange}/>
+                                            <Form.Control className='form-control numberInput' type="number"required  min={0} id='foodPrice' value={foodPrice} placeholder="Food & Other Expense" onChange={handleChange}/>
                                             <button className='mt-4 l-b p-3 btnn btn btn-primary' type="submit">ADD</button>
                                            </div>
                                            </Form>

@@ -4,6 +4,8 @@ import common from "./common";
 import artist from "./artist";
 import judge from "./judge";
 import user from './user';
+import userHome from "../redux/userHomeSlice";
+
 // export default combineReducers({
 //   auth,
 //   message,
@@ -16,7 +18,8 @@ const rootReducer = combineReducers({
     common,
     artist,
     judge,
-    user
+    user,
+    userHome
 });
 
 export default (state, action) =>
