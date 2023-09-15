@@ -64,7 +64,6 @@ const Filter = (props) => {
             const preSelectedEvents = events.filter((eve)=> {return selectedEvent.split(",").includes(eve.EventsId.toString())});
             dispatch(setUserSelectedEvents(preSelectedEvents));
         }
-        console.log(selectedGenre.split(","))
         // if(selectedGenre){
         //     setUserSelectedGenres(gernes.filter((genre)=> {return genre.GenreName === selectedGenre}));
         // }
