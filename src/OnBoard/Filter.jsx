@@ -11,6 +11,10 @@ import { useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton'
 import { useLocation } from 'react-router';
 import queryString from 'query-string';
+import MultiRangeSlider from "multi-range-slider-react";
+import {setBudgetMin,setBudgetMax} from "../actions/user";
+
+
 
 
 const Filter = (props) => {
@@ -20,6 +24,10 @@ const Filter = (props) => {
     const { categories,gernes,events } = useSelector(state => state.common );
     const { userSelectedCategories,userSelectedGenres,userSelectedEvents,userSelectedLanguages,userSelectedCities } = useSelector(state => state.user);
     const {userMinimumBudget,userMaximumBudget} = useSelector(state=>state.user);
+    const handleChange = (e) => {
+        dispatch(setBudgetMin(e.minValue));
+        dispatch(setBudgetMax(e.maxValue));
+    };
     const selectCategory = (selectedList, selectedItem) => {
       dispatch(setUserSelectedCategories(selectedList));
     }
@@ -143,9 +151,33 @@ const Filter = (props) => {
                             onRemove={removeEvent}
                             selectedValues={userSelectedEvents}
                         />
-                        <div className="budgetRange">
-                            <span>Budget</span>&nbsp;&nbsp;&nbsp;
-                            <span>₹{userMinimumBudget}-₹{userMaximumBudget}</span>
+                        <div>
+                            <div style={{display:"flex"}}>
+                                <h6 style={{marginRight:"1rem"}}>MinBudget : <b>{userMinimumBudget}</b></h6>
+                                <h6>MaxBudget : <b>{userMaximumBudget}</b></h6>
+                            </div>
+                            <MultiRangeSlider
+                                min={5000}
+                                max={250000}
+                                step={10000}
+                                stepOnly= 'true'
+                                ruler='false'
+                                barLeftColor='#F13743'
+                                barInnerColor='#fff'
+                                barRightColor='#F13743'
+                                thumbLeftColor='#fff'
+                                thumbRightColor='#fff'
+                                minValue={userMinimumBudget}
+                                maxValue={userMaximumBudget}
+                                style={{
+                                    width:'200px',
+                                    border:'none',
+                                    boxShadow:'none'
+                                }}
+                                onChange={(e)=>{
+                                    handleChange(e);
+                                }}
+                            />
                         </div>
                     </div>
                     </>

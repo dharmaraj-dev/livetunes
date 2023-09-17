@@ -12,8 +12,10 @@ import city4 from '../assets/images/city4.png';
 import city5 from '../assets/images/city5.png';
 import SelectCity from "./SelectCity";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const LocationCheck = () => {
+const {userSelectedCities} = useSelector(state => state.user);
   return (
     <>
     
@@ -76,7 +78,7 @@ const LocationCheck = () => {
                                 </Col>
                             </Row>
                             <Link to="/budgetmusictype">
-                            <Button variant="primary" className="l-sb btnn next-btn">Next</Button>
+                            <Button variant="primary" disabled={userSelectedCities.length === 0} className="l-sb btnn next-btn">Next</Button>
                             </Link>
                         </div>
                     </section>

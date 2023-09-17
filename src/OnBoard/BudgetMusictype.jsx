@@ -6,8 +6,10 @@ import RangeSlider from "./RangeSlider";
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 import MusictypeSlider from "./MusictypeSlider";
+import { useSelector } from "react-redux";
 
 const BudgetMusictype = () => {
+    const {userMusicalityTypes} = useSelector(state => state.user);
   return (
     <>
         <div className="wrapper">
@@ -36,7 +38,7 @@ const BudgetMusictype = () => {
                             <MusictypeSlider/>
                         </div>
                         <Link to="/artist-list">
-                        <Button variant="primary" className="l-sb btnn next-btn">Next</Button>
+                        <Button variant="primary" disabled={userMusicalityTypes.length === 0} className="l-sb btnn next-btn">Next</Button>
                         </Link>
                     </section>
                 </Container>

@@ -128,8 +128,8 @@ const MusictypeSlider = () => {
           </div>
           <Slider {...settings}>
             <div>
-                <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Electronic Music") && "active"}`}>
-                  <input type="checkbox" name="electronic" id="electronic" 
+                <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Electronic Music") && "active"}`} style={{cursor:'pointer'}}>
+                  <input type="checkbox" name="electronic" id="electronic"
                     onChange={(e)=>handleChange(e)}
                   />
                   <img src={Musicimg1} className="mx-auto w-100" alt="img" />
@@ -137,7 +137,7 @@ const MusictypeSlider = () => {
                 </label>
             </div>
             <div>
-              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("POP Music") && "active"}`}>
+              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("POP Music") && "active"}`} style={{cursor:'pointer'}}>
                 <input type="checkbox" name="pop" id="pop"
                   onChange={(e)=>handleChange(e)}
                 />
@@ -146,7 +146,7 @@ const MusictypeSlider = () => {
               </label>
             </div>
             <div>
-              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Rock") && "active"}`}>
+              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Rock") && "active"}`} style={{cursor:'pointer'}}>
                 <input type="checkbox" name="rock" id="rock"
                   onChange={(e)=>handleChange(e)}
                 />
@@ -155,7 +155,7 @@ const MusictypeSlider = () => {
               </label>
             </div>
             <div>
-              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Concert") && "active"}`}>
+              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Concert") && "active"}`} style={{cursor:'pointer'}}>
                 <input type="checkbox" name="concert" id="concert"
                   onChange={(e)=>handleChange(e)}
                 />
