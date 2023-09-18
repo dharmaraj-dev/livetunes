@@ -43,6 +43,7 @@ import { useParams } from 'react-router';
 import Octicons from '../assets/images/octicons.png';
 import { useState } from "react";
 import ThreeDotLoader from "../Artist/ThreeDotLoader";
+import Skeleton from "react-loading-skeleton";
 
 
 
@@ -83,7 +84,15 @@ const SingleArtist = () => {
             </div>
             <div className="main-content">
                 {
-                    artistInfoDetails.length === 0 ? <ThreeDotLoader /> : (
+                    artistInfoDetails.length === 0 ? (
+                        <>
+                            <Skeleton className="l-sb head mb-2" width="160px" count={1}  />
+                            <Skeleton className="l-l sub-head mb-2" width="240px" count={1}  />
+                            <Skeleton className="l-l sub-head mb-2" width="380px" count={1}  />
+                            <Skeleton className="l-l sub-head mb-5" width="500px" count={1}  />
+                            <Skeleton className="hello-header" count={1}  />    
+                        </>
+                    ) : (
                         <Container fluid>
                             <div className="main-artists-list">
                                 <section>
@@ -185,7 +194,7 @@ const SingleArtist = () => {
                                                 </div>
                                             </div>
                                         </Col>
-                                        {/* <Col lg={6}>
+                                        <Col lg={6}>
                                             <div className="main-social-sec">
                                                 <h2>Performance Gernes</h2>
                                                 <div className="inner-social-sec">
@@ -227,10 +236,10 @@ const SingleArtist = () => {
                                                     </Stack>
                                                 </div>
                                             </div>
-                                        </Col> */}
+                                        </Col>
                                     </Row>
                                 </section>
-                                {/* <section className="main-livetune-details">
+                                <section className="main-livetune-details">
                                     <div className="s-heading">
                                         <p className="s-head l-b">Livetunes Details</p>
                                     </div>
@@ -374,7 +383,7 @@ const SingleArtist = () => {
                                         <p className="s-head l-b">Artists you might like</p>
                                     </div>
                                     <ArtistsLikebox/>            
-                                </section> */}
+                                </section>
                             </div>
                         </Container>
                     )

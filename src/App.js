@@ -43,6 +43,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllMasters } from "./actions/common";
 import { getProfileData, getArtistProofData } from "./actions/artist";
 import 'filepond/dist/filepond.min.css'
+import 'react-range-slider-input/dist/style.css';
 import { Navigate, useNavigate  } from 'react-router-dom';
 import {
   ARTIST_PROFILE_STATUS,

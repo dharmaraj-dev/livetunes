@@ -25,17 +25,19 @@ const Settings = () => {
                     <div className="main-artists-list">
                         <div className="main-settings-sec">
                             <div className="head-sec">
-                                <h1 className="l-b" style={{marginBottom:'2rem'}}>Security And Login</h1>
+                                <h1 className="l-b" style={{marginBottom:'2rem'}}>Edit Settings</h1>
                             </div>
 
                             {/* <LoginSetting/>
                             <Payments/>
                             <NotificationSettings/> */}
-                            <div style={{marginBottom:"1rem"}}>
-                                <SelectMultiotion />
-                            </div>
-                            <div style={{marginBottom:"1rem"}}>
-                                <SelectCity />
+                            <div style={{display:"flex",justifyContent:'space-around'}}>
+                                <div style={{marginBottom:"1rem"}}>
+                                    <SelectMultiotion />
+                                </div>
+                                <div style={{marginBottom:"5rem"}}>
+                                    <SelectCity />
+                                </div>
                             </div>
                             <div style={{marginBottom:"1rem"}}>
                                 <MusictypeSlider />

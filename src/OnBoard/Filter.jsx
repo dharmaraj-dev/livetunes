@@ -11,8 +11,10 @@ import { useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton'
 import { useLocation } from 'react-router';
 import queryString from 'query-string';
-import MultiRangeSlider from "multi-range-slider-react";
 import {setBudgetMin,setBudgetMax} from "../actions/user";
+import RangeSlider from 'react-range-slider-input';
+import './slider.css';
+
 
 
 
@@ -22,7 +24,7 @@ const Filter = (props) => {
     const location = useLocation();
     console.log(queryString.parse(location.search));
     const { categories,gernes,events } = useSelector(state => state.common );
-    const { userSelectedCategories,userSelectedGenres,userSelectedEvents,userSelectedLanguages,userSelectedCities } = useSelector(state => state.user);
+    const { userSelectedCategories,userSelectedGenres,userSelectedEvents,userSelectedLanguages,userSelectedCities,userFilteredArtists } = useSelector(state => state.user);
     const {userMinimumBudget,userMaximumBudget} = useSelector(state=>state.user);
     const handleChange = (e) => {
         dispatch(setBudgetMin(e.minValue));
@@ -46,6 +48,19 @@ const Filter = (props) => {
     const removeEvent = (selectedList, removedItem) => {
         dispatch(setUserSelectedEvents(selectedList));
     }
+    const handleDrag = () => {
+        console.log(document.querySelectorAll('.range-slider__thumb'));
+        const thumb = document.querySelectorAll('.range-slider__thumb');
+        const maxVal = Number(thumb[0].ariaValueNow) > Number(thumb[1].ariaValueNow) ? Number(thumb[0].ariaValueNow) : Number(thumb[1].ariaValueNow);
+        const minVal = Number(thumb[0].ariaValueNow) < Number(thumb[1].ariaValueNow) ? Number(thumb[0].ariaValueNow) : Number(thumb[1].ariaValueNow);
+        dispatch(setBudgetMin(minVal));
+        dispatch(setBudgetMax(maxVal));
+        const budgetBox = document.querySelectorAll('.range-slider__thumb');
+            if(budgetBox.length > 0){
+                budgetBox[0].innerText = userMinimumBudget;
+                budgetBox[1].innerText = userMaximumBudget;
+            }
+    }
     console.log('userSelectedGenres', userSelectedGenres)
 
     const filterArtists = () => {
@@ -63,6 +78,22 @@ const Filter = (props) => {
     useEffect(()=>{
         const selectedGenre = new URLSearchParams(location.search).get('genre');
         const selectedEvent = new URLSearchParams(location.search).get('event');
+
+        // setting the minimum and maximum value of budget
+        setTimeout(() => {
+            const budgetBox = document.querySelectorAll('.range-slider__thumb');
+            if(budgetBox.length > 0){
+                budgetBox[0].innerText = userMinimumBudget;
+                budgetBox[1].innerText = userMaximumBudget;
+            }
+        }, 500);
+        setTimeout(() => {
+            const budgetBox = document.querySelectorAll('.range-slider__thumb');
+            if(budgetBox.length > 0){
+                budgetBox[0].innerText = userMinimumBudget;
+                budgetBox[1].innerText = userMaximumBudget;
+            }
+        }, 3000);
 
         if(selectedGenre !== null){
             const preSelectedGenres = gernes.filter((genre)=> {return selectedGenre.split(",").includes(genre.GenreId.toString())});
@@ -84,7 +115,7 @@ const Filter = (props) => {
         //     "ToCharge":userMaximumBudget
         // }
         // dispatch(getUserFilteredArtists(filteringCriteria));
-    },[])
+    },[userMinimumBudget,userMaximumBudget,userFilteredArtists])
   return (
     <>
         <section className="main-filter-sec">
@@ -151,32 +182,18 @@ const Filter = (props) => {
                             onRemove={removeEvent}
                             selectedValues={userSelectedEvents}
                         />
-                        <div>
-                            <div style={{display:"flex"}}>
-                                <h6 style={{marginRight:"1rem"}}>MinBudget : <b>{userMinimumBudget}</b></h6>
-                                <h6>MaxBudget : <b>{userMaximumBudget}</b></h6>
+                        <div style={{display:"flex",alignItems:"baseline"}}>
+                            <div style={{marginRight:"1rem"}}>
+                                <h6>Budget : <b>{userMinimumBudget}-{userMaximumBudget}</b></h6>
                             </div>
-                            <MultiRangeSlider
-                                min={5000}
+                            <RangeSlider 
+                                min={0}
                                 max={250000}
-                                step={10000}
-                                stepOnly= 'true'
-                                ruler='false'
-                                barLeftColor='#F13743'
-                                barInnerColor='#fff'
-                                barRightColor='#F13743'
-                                thumbLeftColor='#fff'
-                                thumbRightColor='#fff'
-                                minValue={userMinimumBudget}
-                                maxValue={userMaximumBudget}
-                                style={{
-                                    width:'200px',
-                                    border:'none',
-                                    boxShadow:'none'
-                                }}
-                                onChange={(e)=>{
-                                    handleChange(e);
-                                }}
+                                step={5000}
+                                defaultValue={[25000,75000]}
+                                id="range-slider-ab"
+                                className="margin-lg"
+                                onThumbDragEnd = {()=>{handleDrag()}}
                             />
                         </div>
                     </div>
