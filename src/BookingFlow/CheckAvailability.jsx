@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import NavBar from "../Layout/NavBar";
 import SideNavBar from "../Layout/SideNavBar";
 import Container from 'react-bootstrap/Container';
@@ -12,6 +12,12 @@ import { InlineWidget } from "react-calendly";
 
 
 const CheckAvailability = () => {
+
+    const [selectedSlot, setSelectedSlot] = useState("");
+
+    const selectSlot = (data) => {
+        setSelectedSlot(data);
+    }
   return (
     <>
         <div className="wrapper">
@@ -22,39 +28,25 @@ const CheckAvailability = () => {
             <div className="header">
                 <NavBar />
             </div>
-            {/* calendly */}
-            {/* <div
-                style={{
-                    width:"490px",
-                    marginLeft:"auto",
-                    marginRight:"auto",
-                    marginTop:"100px"
-                }}
-            >
-                <InlineWidget url="https://calendly.com/sujalagrawalgondia/gazal"
-                    style={{
-                        border:"3px solid black",
-                        minWidth:"413px",
-                        height:"831px"
-                    }}
-                />
-            </div> */}
             <div className="main-content">
                 <Container fluid>
                     <div className="main-artists-list">
                         <Row>
                             <Col xl={7} lg={6} md={12}>
-                                <EventDetailVenue/>
+                                <EventDetailVenue setSlotForAvailability={selectSlot} props/>
                             </Col>
                             <Col xl={5} lg={6} md={12} className="main-checkavailability-right-sec">
                                 <div className="checkavailability-right-sec">
                                     <ArtistInfo/>
-                                    <div className="main-value-card-sec align-center">
-                                        <ValueCard/>
-                                    </div>
-                                    <div className="main-billing-details">
-                                        <Billdetail/>
-                                    </div>
+                                    {selectedSlot === "" ? (
+                                        <div className="main-value-card-sec align-center">
+                                            <ValueCard/>
+                                        </div>
+                                    ):(
+                                        <div className="main-billing-details">
+                                            <Billdetail/>
+                                        </div>
+                                    )}
                                 </div>
                             </Col>
                         </Row>

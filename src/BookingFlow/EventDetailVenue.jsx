@@ -13,10 +13,14 @@ import { RxCross2 } from "react-icons/rx";
 import Lmark from '../assets/images/l-mark.png';
 import Lottie from "lottie-react";
 import Sademoji from "../components/sademoji.json";
+import { useDispatch, useSelector } from "react-redux";
 
-const EventDetailVenue = () => {
+const EventDetailVenue = (props) => {
+    const { events } = useSelector(state => state.common);
+
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
+    const [selectedSlot, setSelectedSlot] = useState("");
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -24,12 +28,19 @@ const EventDetailVenue = () => {
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
 
+    const selectSlot = (slotId) => {
+        console.log(slotId);
+        setSelectedSlot(slotId);
+        if(selectedSlot === slotId) {
+            slotId = "";
+        }
+        props.setSlotForAvailability(slotId);
+    }
+
   return (
     <>
         <section>
             <Form>
-            
-
             <div className="venue-sec">
                 <Row>
                     <Col lg={5}><h4 className="l-b">Event venue</h4></Col>
@@ -77,38 +88,42 @@ const EventDetailVenue = () => {
                     </Form.Group>
                 </Col>
             </Row>
-            <h4 className="l-b mt-4 mb-4">Please Fill the event details</h4>
+             <h4 className="l-b mb-4 mt-4">Event details</h4>
             <Row>
                 <Col lg={6} md="12" className="mb-4">
                     <Form.Select aria-label="Default select example" className="form-control">
-                        <option>House party</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        {events.map((eve,index) => {
+                            return (
+                                <option key={`event_${index}`} value={eve.EventsId}>{eve.EventsName}</option>
+                                )
+                        })}
                     </Form.Select>
                 </Col>
                 <Col lg={6} md="12" className="mb-4">
-                <Form.Control placeholder="Event date - " type="date"/>
+                    <Form.Control placeholder="Event date - " type="date"/>
                 </Col>
-                <Col lg={6} md="12" className="mb-4">
-                <Form.Control placeholder="Event time - " type="time"/>
-                </Col>
-                <Col lg={6} md="12" className="mb-4">
-                    <Form.Select aria-label="Default select example" className="form-control">
-                        <option>Event duration</option>
-                        <option value="1">1hr</option>
-                        <option value="2">2hr</option>
-                        <option value="3">3hr</option>
-                    </Form.Select>
+                <Col lg={12} md="12" className="mb-4">
+                   <label>Available Slots:</label>
+                   <ul className="slots-list">
+                       <li onClick={() =>{selectSlot(1)}} className={selectedSlot === 1 ? 'active' : ''}>
+                           <label>
+                               10:00 AM - 11:00 AM
+                           </label>
+                       </li>
+                       <li onClick={() =>{selectSlot(2)}} className={selectedSlot === 2 ? 'active' : ''}>
+                           <label>
+                               11:00 AM - 12:00 PM
+                           </label>
+                       </li>
+                       <li onClick={() =>{selectSlot(3)}} className={selectedSlot === 3 ? 'active' : ''}>
+                           <label>
+                               4:00 PM - 5:00 PM
+                           </label>
+                       </li>
+                   </ul>
                 </Col>
             </Row>
             <section className="event-check-button-sec">
-                <Row>
-                    <Col lg="12">
-                        <button type="button" className="l-b btnn btn btn-primary w-100" onClick={handleShow2}>Check Availability</button>
-                        {/* onClick={handleShow2} */}
-                    </Col>
-                </Row>
                 <Row>
                     <Col lg="6">
                         <Link to="/checkavailability">

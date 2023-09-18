@@ -1034,3 +1034,29 @@ numberInput.input[type=number] {
 .advertise_slider .slick-slide.slick-active.slick-current {
   padding: 10px;
 }
+
+.slots-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.slots-list li {
+  display: inline-block;
+  margin-right: 10px;
+  background: gray;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.slots-list li label {
+  cursor: pointer;
+}
+
+.slots-list li.active {
+  background: #FD3743;
+}

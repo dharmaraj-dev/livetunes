@@ -22,7 +22,9 @@ const ArtistList = (props) => {
   const { userSelectedCategories,userSelectedGenres,userSelectedEvents,userSelectedLanguages,userSelectedCities, userMinimumBudget, userMaximumBudget } = useSelector(state => state.user);
   const { userFilteredArtists, userFilteredArtistsLoading } = useSelector(state => state.user);
 
-
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   useEffect(() => {
     console.log('userFilteredArtistsLoading', userFilteredArtistsLoading)
     const filteringCriteria = {
