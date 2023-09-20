@@ -68,7 +68,7 @@ const Filter = (props) => {
             "LanguageId":userSelectedLanguages?.map(a => a.LanguageId)?.join(","),
             "CategoryId":userSelectedCategories?.map(a => a.CategoryId)?.join(","),
             "GenreId":userSelectedGenres?.map(a => a.GenreId)?.join(","),
-            "CityId":userSelectedCities?.map(a => a.CityId)?.join(","),
+            // "CityId":userSelectedCities?.map(a => a.CityId)?.join(","),
             "FromCharge":userMinimumBudget,
             "ToCharge":userMaximumBudget
         }

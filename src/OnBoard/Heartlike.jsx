@@ -7,10 +7,13 @@ import { insertFavoriteArtists, removeFavoriteArtists } from "../actions/user";
 const Heartlike = ({props}) => {
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.auth);
+    const {userFilteredArtists} = useSelector(state => state.user);
     const [active, setActive] = useState(props?.IsFavArtist);
+    const [showHeart,setShowHeart] = useState(true);
 
 
     function addFavorite(){
+      setShowHeart(false);
       console.log(props?.IsFavArtist, 'active')
       if(props?.IsFavArtist) {
         const data = {
@@ -32,12 +35,16 @@ const Heartlike = ({props}) => {
     }
 
     useEffect (() => {
-      
-    }, [props])
+      setShowHeart(true);
+    }, [props,userFilteredArtists])
   return (
     <>
         <div className="heart-like-sec">
-            <Heart isActive={active} onClick={() => {addFavorite()}} animationTrigger = "hover" animationScale = {1.1}/>
+            {
+              showHeart && (
+                <Heart isActive={active} onClick={() => {addFavorite()}}  animationTrigger = "hover" animationScale = {1.1}/>
+              )
+            }
         </div>
     </>
   )

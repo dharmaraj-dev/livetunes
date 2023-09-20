@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 const ArtistCard = (props) => {
     const { userFilteredArtists } = useSelector(state => state.user);
+    const {user} = useSelector(state => state.auth);
+    console.log(user);
 
     useEffect(() => {
 
@@ -66,7 +68,7 @@ const ArtistCard = (props) => {
                             <Heartlike props={artist}/>
                         </div>
                         <div className="book-now-btn">
-                            <Link to={`/artist-details/${btoa(artist.ArtistId)}`} state={{ props: artist }}>
+                            <Link to={`/artist-details/${btoa(artist.ArtistId)}/${btoa(user.RegId)}`}>
                                 <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
                             </Link>
                         </div>

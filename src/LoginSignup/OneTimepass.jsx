@@ -19,6 +19,8 @@ const OneTimepass = () => {
   const continueButton = useRef();
 
   const { isLoggedIn, otpSentTo } = useSelector(state => state.auth);
+  const {isDefaultSettings} = useSelector(state => state.user);
+  const {joiningType} = useSelector(state => state.auth);
 
   const [show, setShow] = useState(false);
   const [isOtpValid, setIsOtpValid] = useState("");
@@ -39,8 +41,15 @@ const OneTimepass = () => {
     inputfield.focus();
   },[]);
 
-  if (isLoggedIn) {
+  if (isLoggedIn && joiningType==="Artist") {
     return <Navigate to="/artists-profile" />;
+  }
+  else if(isLoggedIn && joiningType === "User"){
+    if(isDefaultSettings) {
+      <Navigate to="/dashboard" />
+    } else {
+      <Navigate to="/languages" />
+    }
   }
 
   if(otpSentTo == undefined) {
@@ -250,7 +259,7 @@ const OneTimepass = () => {
                           <div className='model-succes-text'>
                             <h2 className="l-b head">Successfully</h2>
                             <p className="l-b sub-head">Registered to Livetunes</p>
-                            <Link to="/artist-dashboard">
+                            <Link to="/">
                             <Button variant="secondary" className='otp-done l-sb btnn' onClick={handleClose}>
                              Done
                             </Button>

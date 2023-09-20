@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "../Layout/NavBar";
 import SideNavBar from "../Layout/SideNavBar";
 import Container from 'react-bootstrap/Container';
@@ -11,15 +11,18 @@ import MoveCart from "./MoveCart";
 import { useDispatch,useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUserFavoriteArtists } from "../actions/user";
+import Skeleton from "react-loading-skeleton";
 
 
 const Favourites = () => {
   const dispatch = useDispatch();
   const {userFavoriteArtists} = useSelector(state => state.user);
   const {user} = useSelector(state => state.auth);
+  const [favoriteArtists,setFavoriteArtists] = useState([]);
   useEffect(()=>{
     dispatch(getUserFavoriteArtists(user.RegId));
-  },[]);
+    setFavoriteArtists(userFavoriteArtists);
+  },[favoriteArtists]);
   return (
     <>
         <div className="wrapper">
@@ -31,11 +34,21 @@ const Favourites = () => {
                 <NavBar />
             </div>
             <div className="main-content">
-                <Container fluid>
-                    <div className="main-artists-list">
-                        <div className="main-favourite-sec">
+                {
+                    favoriteArtists.length === 0 ? (
+                        <>
+                            <Skeleton className="l-sb head mb-2" width="160px" count={1}  />
+                            <Skeleton className="l-l sub-head mb-2" width="240px" count={1}  />
+                            <Skeleton className="l-l sub-head mb-2" width="380px" count={1}  />
+                            <Skeleton className="l-l sub-head mb-5" width="500px" count={1}  />
+                            <Skeleton className="hello-header" count={1}  />
+                        </>
+                    ) : (
+                        <Container fluid>
+                            <div className="main-artists-list">
+                             <div className="main-favourite-sec">
                             <div className="head-sec">
-                                <h1 className="l-b">Favourites <Badge className="fav-badge">04</Badge></h1>
+                                 <h1 className="l-b">Favourites <Badge className="fav-badge">{userFavoriteArtists.length}</Badge></h1>
                             </div>
                             <div className="favourite-tab-sec">
                                 <Tabs defaultActiveKey="all" id="uncontrolled-tab-example" className="mb-1 justify-content-end">
@@ -63,7 +76,9 @@ const Favourites = () => {
                             </div>
                         </div>
                     </div>
-                </Container>
+                        </Container>
+                    )
+                }
             </div>
             </div>
         </div>

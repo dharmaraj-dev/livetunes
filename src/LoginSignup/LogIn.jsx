@@ -19,6 +19,7 @@ const LogIn = () => {
     
 
     const { isLoggedIn, joiningType } = useSelector(state => state.auth);
+    const {isDefaultSettings} = useSelector(state => state.user);
     console.log(joiningType);
     const [phone, setPhone] = useState("");
     const [loading, setLoading] = useState(false);
@@ -77,6 +78,12 @@ const LogIn = () => {
       return <Navigate to="/artists-profile" />;
     } else if (isLoggedIn && joiningType == "Judge") {
       return <Navigate to="/judgment-panel" />;
+    } else if(isLoggedIn && joiningType === "User"){
+      if(isDefaultSettings) {
+        <Navigate to="/dashboard" />
+      } else {
+        <Navigate to="/languages" />
+      }
     }
 
     

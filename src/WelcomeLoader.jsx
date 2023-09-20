@@ -7,16 +7,26 @@ import { getAllMasters } from "./actions/common";
 import { welcomeSeen, setJoiningType } from './actions/auth';
 
 import { getProfileData, getArtistProofData } from "./actions/artist";
+import { useParams } from 'react-router-dom';
 
 const WelcomeLoader = () => {
 	const dispatch = useDispatch();
   	let navigate = useNavigate();
+	const params = useParams();
   	//useScript('./WelcomeLoader.js');
 
   	const { isLoggedIn, IsProfileSend, joiningType, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
   	const { isDefaultSettings } = useSelector(state => state.user);
 
   	 useEffect(() => {
+
+		console.log(params);
+		if(params.artistId && params.userId){
+		  navigate(`/artist-details/${btoa(params.artistId)}/${btoa(params.userId)}`);
+		  return false;
+		}
+
+		
 	    if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"){
 	    	//adding Joining Type manually if not found...
 	      dispatch(setJoiningType("User"));

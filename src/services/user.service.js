@@ -53,7 +53,7 @@ const removeFavoriteArtists = (data) => {
 
 const getArtistInfoById = (id) => {
     console.log(id);
-    return axios.get(API_URL + `ArtistProfile/GetArtistProfileNew/${id.artistId}/${id.ArtistId}`,{headers:authHeader()});
+    return axios.get(API_URL + `ArtistProfile/GetArtistProfileNew/${id.artistId}/${id.userId}`,{headers:authHeader()});
 }
 
 const getAllSpecialEvents = () => {

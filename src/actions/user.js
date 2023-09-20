@@ -132,9 +132,11 @@ import {
                     type: USER_UPDATE_ARTIST_LIST,
                     payload:data
                 })
+                return Promise.resolve(response);
             },
             (error) => {
                 // console.log(error);
+                return Promise.reject(error);
             }
         )
     }

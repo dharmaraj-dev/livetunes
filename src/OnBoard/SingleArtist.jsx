@@ -53,20 +53,19 @@ const SingleArtist = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params= useParams()
-  const artistId = atob(params.id);
-  const location = useLocation()
-  const { props } = location.state
-  console.log(props);
+  const artistId = atob(params.artistId);
+  const userId = atob(params.userId);
   const [artistInfoDetails,setArtistInfoDetails] = useState([]);
   const [showLoader,setShowLoader] = useState(true);
   const {ArtistId} = useSelector(state => state.auth);
 
 
   useEffect(()=>{
+    console.log(artistId);
     if(artistId === undefined){
         navigate("/dashboard");
     }
-    dispatch(getArtistInfo({artistId,ArtistId})).then((res) => {
+    dispatch(getArtistInfo({artistId,userId})).then((res) => {
         console.log(res, artistInfoDetails);
         setArtistInfoDetails(res.data);
         setShowLoader(false);
@@ -120,7 +119,7 @@ const SingleArtist = () => {
                                             </div>
                                         </div>
                                         <div className="check-now-btn">
-                                            <Heartlike props={props}/>
+                                            <Heartlike/>
                                             <div className="share-icon"><FiShare2/>
                                             <SocialIcon/>
                                             </div>
