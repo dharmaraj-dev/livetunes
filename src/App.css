@@ -1060,3 +1060,16 @@ numberInput.input[type=number] {
 .slots-list li.active {
   background: #FD3743;
 }
+
+.default-city {
+    background: #ede4e4;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.default-city span {
+      line-height: 100px;
+      font-size: 1.4rem;
+}

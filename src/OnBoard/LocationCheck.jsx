@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import NavBar from "../Layout/NavBar";
 import SideNavBar from "../Layout/SideNavBar";
 import Container from 'react-bootstrap/Container';
@@ -10,12 +10,35 @@ import city2 from '../assets/images/city2.png';
 import city3 from '../assets/images/city3.png';
 import city4 from '../assets/images/city4.png';
 import city5 from '../assets/images/city5.png';
+import defaultCity from '../assets/images/default.png';
+import { useDispatch, useSelector } from "react-redux";
+import {setSelectedCities} from "../actions/user";
+import Multiselect from 'multiselect-react-dropdown';
 import SelectCity from "./SelectCity";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const LocationCheck = () => {
-const {userSelectedCities} = useSelector(state => state.user);
+    const dispatch = useDispatch();
+    const { userSelectedCities } = useSelector(state => state.user);
+    const { cities,states } = useSelector(state => state.common );
+    const [isStateSelected,setIsStateSelected] = useState(false);
+    const [selectedStateId,setSelectedStateId] = useState(-1);
+    const selectCity = (selectedList, selectedItem) => {
+      dispatch(setSelectedCities(selectedList));
+    }
+
+    const removeCity = (selectedList, removedItem) => {
+        dispatch(setSelectedCities(selectedList));
+    }
+
+    const selectState = (selectedList,selectedItem) => {
+      setIsStateSelected(true);
+      setSelectedStateId(selectedItem.StateId);
+    }
+
+    useEffect(() => {
+        console.log('cities', cities.filter((key) => key.IsLTLive))
+    }, [])
   return (
     <>
     
@@ -47,38 +70,61 @@ const {userSelectedCities} = useSelector(state => state.user);
                                          <div className="head-loco-img">
                                             <h1>Are You From Our Top Trending Cities?</h1>
                                             <div className="loco-box">
-                                                <div className="text-center">
-                                                    <img src={citym} alt="" />
-                                                    <p className="l-m city-name">MUMBAI</p>
-                                                </div>
-                                                <div className="text-center">
-                                                    <img src={city2} alt="" />
-                                                    <p className="l-m city-name">PUNE</p>
-                                                </div>
-                                                <div className="text-center">
-                                                    <img src={city3} alt="" />
-                                                    <p className="l-m city-name">HYDERABAD</p>
-                                                </div>
-                                                <div className="text-center">
-                                                    <img src={city4} alt="" />
-                                                    <p className="l-m city-name">BANGALORE</p>
-                                                </div>
-                                                <div className="text-center">
-                                                    <img src={city5} alt="" />
-                                                    <p className="l-m city-name">LUCKNOW</p>
-                                                </div>
+                                                {cities?.filter((key) => key.IsLTLive).map((ct,index) => {
+                                                    return (<div className="text-center cursor-pointer">
+                                                            {ct.MImgURL == null ? (
+                                                                <span className="default-city mr-2">
+                                                                    <span>{ct.CityName.charAt(0)}</span>
+                                                                </span>
+                                                            ):(
+                                                                <img className="mr-2" src={ct.MImgURL} alt={ct.CityName} />
+                                                            )}
+                                                            <p className="l-m city-name">{ct.CityName}</p>
+                                                        </div>)
+                                                })}
                                             </div>
                                          </div>
-                                         <div>
-                                            <h1>Don’t See Your City</h1>
-                                            <p className="l-l sub-head">Then Make It One Of Them</p>
-                                            <SelectCity/>
-                                         </div> 
                                     </div>
+                                </Col>
+                                <Col md={12} lg={12} xl={12}>
+                                    <div>
+                                        <h1>Don’t See Your City</h1>
+                                        <p className="l-l sub-head">Then Make It One Of Them</p>
+                                        <Row>
+                                            <Col md={6} lg={6} xl={6}>
+                                                <Multiselect
+                                                  isObject={true}
+                                                  options= { states?.filter((key) => !key.IsCancelled) }
+                                                  showArrow
+                                                  placeholder="Select State"
+                                                  displayValue="StateName"
+                                                  onSelect={selectState}
+                                                  singleSelect = {true}
+                                                />
+                                            </Col>
+                                            <Col md={6} lg={6} xl={6}>
+                                                {isStateSelected && (
+                                                    <Multiselect
+                                                      isObject={true}
+                                                      options= { cities?.filter((key) => !key.IsCancelled).filter((city)=>city.StateId === selectedStateId) }
+                                                      showCheckbox
+                                                      showArrow
+                                                      className='l-l'
+                                                      placeholder="Select City"
+                                                      displayValue="CityName"
+                                                      onSelect={selectCity}
+                                                      onRemove={removeCity}
+                                                      selectedValues={userSelectedCities}
+                                                    />
+                                                )}
+                                            </Col>
+                                        </Row>
+                                        
+                                     </div> 
                                 </Col>
                             </Row>
                             <Link to="/budgetmusictype">
-                            <Button variant="primary" disabled={userSelectedCities.length === 0} className="l-sb btnn next-btn">Next</Button>
+                            <Button variant="primary" className="l-sb btnn next-btn">Next</Button>
                             </Link>
                         </div>
                     </section>

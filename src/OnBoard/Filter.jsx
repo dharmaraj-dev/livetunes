@@ -13,6 +13,8 @@ import { useLocation } from 'react-router';
 import queryString from 'query-string';
 import {setBudgetMin,setBudgetMax} from "../actions/user";
 import RangeSlider from 'react-range-slider-input';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import './slider.css';
 
 
@@ -145,58 +147,59 @@ const Filter = (props) => {
                             <Button variant="primary" className="l-b wbtnn view-all-btn" onClick={filterArtists}>View all</Button>
                         </div>
                     </Stack>
-                    <div className="filter-option">
-                        <Multiselect
-                            isObject={true}
-                            options= { categories?.filter((key) => !key.IsCancelled) }
-                            showCheckbox
-                            showArrow
-                            className='l-l'
-                            placeholder="Categories"
-                            displayValue="CategoryName"
-                            onSelect={selectCategory}
-                            onRemove={removeCategory}
-                            selectedValues={userSelectedCategories}
-                        />
-                        <Multiselect
-                            isObject={true}
-                            options= { gernes?.filter((key) => !key.IsCancelled) }
-                            showCheckbox
-                            showArrow
-                            className='l-l'
-                            placeholder="Genres"
-                            displayValue="GenreName"
-                            onSelect={selectGenre}
-                            onRemove={removeGenre}
-                            selectedValues={userSelectedGenres}
-                        />
-                        <Multiselect
-                            isObject={true}
-                            options= { events?.filter((key) => !key.IsCancelled) }
-                            showCheckbox
-                            showArrow
-                            className='l-l'
-                            placeholder="Events"
-                            displayValue="EventsName"
-                            onSelect={selectEvent}
-                            onRemove={removeEvent}
-                            selectedValues={userSelectedEvents}
-                        />
-                        <div style={{display:"flex",alignItems:"baseline"}}>
-                            <div style={{marginRight:"1rem"}}>
-                                <h6>Budget : <b>{userMinimumBudget}-{userMaximumBudget}</b></h6>
-                            </div>
-                            <RangeSlider 
-                                min={0}
+                    <Row>
+                        <Col md={6} lg={6} xl={6}>
+                            <Multiselect
+                                isObject={true}
+                                options= { categories?.filter((key) => !key.IsCancelled) }
+                                showCheckbox
+                                showArrow
+                                className='l-l mb-3'
+                                placeholder="Categories"
+                                displayValue="CategoryName"
+                                onSelect={selectCategory}
+                                onRemove={removeCategory}
+                                selectedValues={userSelectedCategories}
+                            />
+                            <Multiselect
+                                isObject={true}
+                                options= { gernes?.filter((key) => !key.IsCancelled) }
+                                showCheckbox
+                                showArrow
+                                className='l-l mb-3'
+                                placeholder="Genres"
+                                displayValue="GenreName"
+                                onSelect={selectGenre}
+                                onRemove={removeGenre}
+                                selectedValues={userSelectedGenres}
+                            />
+                            
+                        </Col>
+                        <Col md={6} lg={6} xl={6}>
+                            <Multiselect
+                                isObject={true}
+                                options= { events?.filter((key) => !key.IsCancelled) }
+                                showCheckbox
+                                showArrow
+                                className='l-l'
+                                placeholder="Events"
+                                displayValue="EventsName"
+                                onSelect={selectEvent}
+                                onRemove={removeEvent}
+                                selectedValues={userSelectedEvents}
+                            />
+                           <RangeSlider 
+                                min={2000}
                                 max={250000}
-                                step={5000}
+                                step={1000}
                                 defaultValue={[25000,75000]}
                                 id="range-slider-ab"
-                                className="margin-lg"
+                                className=""
                                 onThumbDragEnd = {()=>{handleDrag()}}
                             />
-                        </div>
-                    </div>
+                        </Col>
+                    </Row>
+                    
                     </>
             )}            
         </section>
