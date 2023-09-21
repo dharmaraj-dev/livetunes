@@ -20,9 +20,8 @@ const WelcomeLoader = () => {
 
   	 useEffect(() => {
 
-		console.log(params);
 		if(params.artistId && params.userId){
-		  navigate(`/artist-details/${btoa(params.artistId)}/${btoa(params.userId)}`);
+		  navigate(`/artist-details/${params.ArtistName.replace(/ /g,"-")}/${btoa(params.artistId)}/${btoa(params.userId)}`);
 		  return false;
 		}
 

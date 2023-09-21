@@ -38,7 +38,7 @@
 .map-box iframe{width: 100%;height: 500px;box-shadow: 5px 5px 10px #00000029;border: 1px solid #DDDDDD;border-radius: 16px;}
 .location-right-sec{padding: 0 0 0 60px;}
 .location-right-sec .head-loco-img .loco-box{display: flex;flex-wrap: wrap;gap: 22px;margin: 36px 0;}
-.location-right-sec .head-loco-img .loco-box img{width: 80%;}
+.location-right-sec .head-loco-img .loco-box img{ width: 100px; border-radius: 50%; height: 100px}
 .location-right-sec .head-loco-img .loco-box .city-name{font-size: 19px;}
 .location-right-sec h1{margin-bottom: 0;}
 .location-right-sec .multiSelectContainer {width: 50%;}
@@ -110,6 +110,9 @@
 .main-artists-list{padding: 0 10%;}
 .inner-artist-info {display: flex;align-items: center;}
 .inner-artist-info .avtar-img {display: block;width: 180px;margin: 0;border-radius: 91px;padding: 0;}
+.inner-artist-info .avtar-img img {
+    border-radius: 50%;
+}
 .inner-artist-info .s-artist-detail {margin: 0 0 0 40px;}
 .inner-artist-info .s-artist-detail .name{font-size: 32px;margin: 0;}
 .inner-artist-info .s-artist-detail .locotion{font-size: 22px;margin: 0 0 7px;}
@@ -163,7 +166,11 @@
 .count-review{font-size: 20px;}
 
 .main-artist-like-box{margin: 30px 0 0;}
-.main-artist-like-box .img-sec{width: 160px;height: 160px;margin: 0 auto 10px;}
+.main-artist-like-box .img-sec{width: 160px;height: 160px;margin: 0 auto 10px;border: 1px solid;
+    border-radius: 50%;}
+.main-artist-like-box .img-sec img {
+    border-radius: 50%;
+}
 .main-artist-like-box .sub-head{font-size: 22px;margin: 0 0 7px;}
 
 .video-photos-sec.nav-tabs, .video-photos-sec.nav-tabs .nav-link{border: 0;font-size: 20px;font-weight: 400;color: #444444;padding: 0 0;margin: 0 8px 0;}

@@ -6,19 +6,7 @@ import Img4 from '../assets/images/img4.png';
 import Img5 from '../assets/images/img5.png';
 import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
 
-const Gallery = () => {
-    const {artistInfo} = useSelector(state => state.user);
-    let data1 = artistInfo.selLtMedia.filter((photo) => {
-       return !photo.LTMediaLogName.endsWith('.mp4');
-    });
-    let data = data1.map((photo)=>{
-        return {
-            id:photo.LTMediaLogId,
-            imgSrc: photo.LTMediaURL
-        }
-    });
-
-    console.log(data);
+const Gallery = (props) => {
 
     const [model, setModel] = useState(false);
     const [tempimgSrc, setTempImgSrc] = useState('');
@@ -34,10 +22,10 @@ const Gallery = () => {
             <RxCross1 onClick={() => setModel(false)} />
         </div>
         <div className="gallery">
-            {data.map((item, index)=>{
+            {props.data.selLtMedia.filter((photo) => { return !photo.LTMediaLogName.endsWith('.mp4');}).map((item, index)=>{
                 return(
-                    <div className="pics" key={index} onClick={()=> getImg(item.imgSrc)}>
-                        <img src={item.imgSrc} className="w-100" alt="img" />
+                    <div key={`img_gallary_${index}`} className="pics" key={index} onClick={()=> getImg(item.LTMediaURL)}>
+                        <img src={item.LTMediaURL} className="w-100" alt="img" />
                     </div>
                 )
             })}

@@ -68,7 +68,7 @@ const ArtistCard = (props) => {
                             <Heartlike props={artist}/>
                         </div>
                         <div className="book-now-btn">
-                            <Link to={`/artist-details/${btoa(artist.ArtistId)}/${btoa(user.RegId)}`}>
+                            <Link to={`/artist-details/${artist.ArtistName.replace(/ /g,"-")}/${btoa(artist.ArtistId)}/${btoa(user.RegId)}`}>
                                 <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
                             </Link>
                         </div>

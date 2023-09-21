@@ -119,7 +119,7 @@ function App() {
         <Route path="/budgetmusictype" element={<BudgetMusictype/>}/>
         <Route path="/artist-List" element={<ArtistList/>}/>
         <Route path="/artist-avail-slot" element={<ArtistAvailSlot/>}/>
-        <Route path="/artist-details/:artistId/:userId" element={<SingleArtist/>}/>
+        <Route path="/artist-details/:artistName/:artistId/:userId" element={<SingleArtist/>}/>
         <Route path="/checkavailability" element={<CheckAvailability/>}/>
         <Route path="/cart" element={<Cart/>}/>
         <Route path="/notifications" element={<Notifications/>}/>

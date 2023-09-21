@@ -53,7 +53,7 @@ const SideNavBar = () => {
 				{
 					text: "Settings ",
 					icon: <SlSettings className="menu-item-icon"/>,
-					links: "/artists-bank-details"
+					links: "/settings"
 				},
 				{
 					text:"calender",
@@ -94,7 +94,7 @@ const SideNavBar = () => {
 				{
 					text: "Settings ",
 					icon: <SlSettings className="menu-item-icon"/>,
-					links: "/dashboard"
+					links: "/settings"
 				},
 				{
 					text:"TfiHeadphoneAlt", //

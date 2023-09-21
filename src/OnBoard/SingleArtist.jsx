@@ -44,7 +44,7 @@ import Octicons from '../assets/images/octicons.png';
 import { useState } from "react";
 import ThreeDotLoader from "../Artist/ThreeDotLoader";
 import Skeleton from "react-loading-skeleton";
-
+import { fetchArtistDetails } from "../redux/artistDetailsSlice";
 
 
 
@@ -52,25 +52,18 @@ import Skeleton from "react-loading-skeleton";
 const SingleArtist = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const params= useParams()
+  const params= useParams();
+  const { details, loading, error } = useSelector(state => state.artistDetails);
   const artistId = atob(params.artistId);
   const userId = atob(params.userId);
-  const [artistInfoDetails,setArtistInfoDetails] = useState([]);
-  const [showLoader,setShowLoader] = useState(true);
-  const {ArtistId} = useSelector(state => state.auth);
-
-
+  
   useEffect(()=>{
-    console.log(artistId);
     if(artistId === undefined){
         navigate("/dashboard");
     }
-    dispatch(getArtistInfo({artistId,userId})).then((res) => {
-        console.log(res, artistInfoDetails);
-        setArtistInfoDetails(res.data);
-        setShowLoader(false);
-    });
-  },[]);  
+    window.scrollTo(0, 0);
+    dispatch(fetchArtistDetails(artistId,userId));
+  },[artistId]);  
   return (
     <>
         <div className="wrapper">
@@ -83,7 +76,7 @@ const SingleArtist = () => {
             </div>
             <div className="main-content">
                 {
-                    artistInfoDetails.length === 0 ? (
+                    loading ? (
                         <>
                             <Skeleton className="l-sb head mb-2" width="160px" count={1}  />
                             <Skeleton className="l-l sub-head mb-2" width="240px" count={1}  />
@@ -101,11 +94,11 @@ const SingleArtist = () => {
                                     <div className="inner-artist-info postion-r">
                                     <div className="inner-artist-info postion-r">
                                         <div className="avtar-img">
-                                        <img src={artistInfoDetails?.selProfileImage[0]?.LTMediaURL} alt="" className="w-100" />
+                                        <img src={details?.selProfileImage[0]?.LTMediaURL} alt="" className="w-100" />
                                         </div>
                                             <div className="s-artist-detail">
-                                                <p className="name l-b">{artistInfoDetails?.selApInfo?.FullName} <span><img src={Octicons} alt="" style={{width:26}} /></span></p>
-                                                <p className="l-r locotion">{artistInfoDetails?.selApInfo?.CityName}, {artistInfoDetails?.selAPDetails
+                                                <p className="name l-b">{details?.selApInfo?.FullName} <span><img src={Octicons} alt="" style={{width:26}} /></span></p>
+                                                <p className="l-r locotion">{details?.selApInfo?.CityName}, {details?.selAPDetails
                                     ?.OtherStateName}</p>
                                                 <Stack direction="horizontal" gap={2} className="d-inline-flex">
                                                     <div className="star-rate-sec l-r">
@@ -119,7 +112,7 @@ const SingleArtist = () => {
                                             </div>
                                         </div>
                                         <div className="check-now-btn">
-                                            <Heartlike/>
+                                            <Heartlike props={details}/>
                                             <div className="share-icon"><FiShare2/>
                                             <SocialIcon/>
                                             </div>
@@ -140,10 +133,10 @@ const SingleArtist = () => {
                                         className="mb-3 justify-content-end video-photos-sec"
                                         >
                                             <Tab eventKey="photos" title="Photos">
-                                                <Gallery/>
+                                                <Gallery data={details}/>
                                             </Tab>
                                             <Tab eventKey="videos" title="Videos">
-                                                <Videos/>
+                                                <Videos data={details}/>
                                             </Tab>
                                         </Tabs>
 
@@ -158,7 +151,7 @@ const SingleArtist = () => {
                                                 </div>
                                                 <div className="right-text-sec">
                                                     <h2>About me</h2>
-                                                    <p className="l-r">{artistInfoDetails?.selAPDetails?.BriefIntro}</p>
+                                                    <p className="l-r">{details?.selAPDetails?.BriefIntro}</p>
                                                 </div>
                                             </div>
                                             <div className="left-text-sec">
@@ -169,8 +162,8 @@ const SingleArtist = () => {
                                                     <h2>Performance Languages</h2>
                                                     <div className="per-lang">
                                                         {
-                                                            artistInfoDetails?.selAPDetails?.LanguageName.split(",").map((language) => {
-                                                                return <div className="inner-per-lang l-sb">{language}</div>
+                                                            details?.selAPDetails?.LanguageName.split(",").map((language,index) => {
+                                                                return <div key={`lang_${index}`} className="inner-per-lang l-sb">{language}</div>
                                                             })
                                                         }
                                                     </div>
@@ -184,9 +177,9 @@ const SingleArtist = () => {
                                                     <h2>Performance Gernes</h2>
                                                     <div className="per-lang">
                                                         {
-                                                            artistInfoDetails?.selAPDetails?.GenreName
-                                                            .split(",").map((genre) => {
-                                                                return <div className="inner-per-lang l-sb">{genre}</div>
+                                                            details?.selAPDetails?.GenreName
+                                                            .split(",").map((genre,index) => {
+                                                                return <div key={`gen_${index}`} className="inner-per-lang l-sb">{genre}</div>
                                                             })
                                                         }
                                                     </div>
@@ -375,13 +368,13 @@ const SingleArtist = () => {
                                     <div className="s-heading">
                                         <p className="s-head l-b">Frequently asked questions</p>
                                     </div>
-                                    <Faq/>
+                                    <Faq data={details?.selQuestLog}/>
                                 </section> 
                                 <section className="main-livetune-details">
                                     <div className="s-heading">
                                         <p className="s-head l-b">Artists you might like</p>
                                     </div>
-                                    <ArtistsLikebox/>            
+                                    <ArtistsLikebox data={details?.selOtherArtist}/>            
                                 </section>
                             </div>
                         </Container>

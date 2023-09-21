@@ -2,7 +2,7 @@ import React from 'react';
 import {FacebookShareButton, WhatsappShareButton,LinkedinShareButton, LinkedinIcon, EmailShareButton, EmailIcon, WhatsappIcon, FacebookIcon } from "react-share";
 
 const SocialIcon = () => {
-    const shareUrl = "#"
+    const shareUrl = window.location.href;
   return (
     <>  
         <ul className="share-btn-icon">
