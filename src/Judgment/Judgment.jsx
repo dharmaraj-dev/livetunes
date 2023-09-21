@@ -12,42 +12,31 @@ import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 
 import { useDispatch, useSelector } from "react-redux";
-import { getApplications } from "../actions/judge";
-import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Loader from '../Artist/Loader';
-import { Navigate, useNavigate  } from 'react-router-dom';
 import moment from "moment";
 import ThreeDotLoader from '../Artist/ThreeDotLoader';
+import { fetchApplications, filterApplications } from "../redux/judgeApplicationsSlice";
+import Skeleton from 'react-loading-skeleton'
 
 const Judgment = () => {
   const dispatch = useDispatch();
-  const MySwal = withReactContent(Swal);
-  let navigate = useNavigate();
-  const { applications } = useSelector(state => state.judge);
-  const [pageLoading, setPageLoading] = useState(true);
+  const { applications, filteredApplications, loading, error } = useSelector(state => state.judgeApplications);
+
   
   const [show, setShow] = useState(false);
+  const [applicationFilter, setApplicationFilter] = useState(0);
+
+  const changeTopApplicationFilters = (data) => {
+    setApplicationFilter(data);
+    dispatch(filterApplications(applications, data))
+  }
 
   
     useEffect(() => {
-        if(applications) {
-            if(applications.length <= 0) {
-              dispatch(getApplications()).then((res) => {
-                  setPageLoading(false);
-              })
-            } else {
-              setPageLoading(false);
-              dispatch(getApplications()).then((res) => {
-                  setPageLoading(false);
-              })
-            }
-        } else {
-            dispatch(getApplications()).then((res) => {
-                setPageLoading(false);
-            })
-        }
-      }, [])
+        window.scrollTo(0, 0)
+        dispatch(fetchApplications());
+    }, [])
     return (
       <>
           <div className="wrapper">
@@ -59,12 +48,44 @@ const Judgment = () => {
                   <NavBar />
               </div>
               <div className="main-content">
-                {pageLoading ? (
-                <div className="artist_loader">
-                    <ThreeDotLoader />
-                </div>
-                ):(
+                {loading ? (
+                  
+                  <Container fluid>
+                     <div className="main-artists-list">
+                          <div className="main-bill-invoice-sec new-appli-box">
+                            <Skeleton  className="l-b" />
+                              <hr/>
+                              <Row>
+                                  <Col xl={3} lg={3} sm={6}>
+                                     <Skeleton height={151} className="earned-sec mb-4 postion-r" />
+                                  </Col>
+                                  <Col xl={3} lg={3} sm={6}>
+                                    <Skeleton height={151} className="earned-sec mb-4 postion-r" /> 
+                                  </Col>
+                                  <Col xl={3} lg={3} sm={6}>
+                                    <Skeleton height={151} className="earned-sec mb-4 postion-r" />
+                                  </Col>
+                                  <Col xl={3} lg={3} sm={6}>
+                                   <Skeleton height={151} className="earned-sec mb-4 postion-r" />
+                                  </Col>
+                              </Row>
+                          </div>
+                          <div className="main-booking-history-sec mt-3 new-appli-list">
+                              <div className="mb-2">
+                                  <Skeleton className="head-top-sec" height={90} />
+                              </div>
 
+  
+                              <div className="table-scroll">
+                              <div className="">
+                                  <Skeleton className="" height={80} />
+                                  <Skeleton className="" height={65} count={4} />
+                              </div>
+                              </div>
+                          </div>
+                      </div>
+                  </Container>
+                ):(
                   <Container fluid>
                      <div className="main-artists-list">
                           <div className="main-bill-invoice-sec new-appli-box">
@@ -73,7 +94,7 @@ const Judgment = () => {
                               <Row>
                                   <Col xl={3} lg={3} sm={6}>
                                     <label>
-                                    <input type="radio" name="product" className="card-input-element" />
+                                    <input type="radio" name="topFilter" className="card-input-element" value={applicationFilter} onChange={(e) => {changeTopApplicationFilters(0)}} checked={applicationFilter === 0 ? true : false} />
                                       <div className="earned-sec mb-4 postion-r card-input">
                                           <Stack direction="horizontal" gap={4} className="align-items-self">
                                               <div className="ico-sec-over">
@@ -103,7 +124,7 @@ const Judgment = () => {
                                   </Col>
                                   <Col xl={3} lg={3} sm={6}>
                                     <label>
-                                    <input type="radio" name="product" className="card-input-element" />
+                                    <input type="radio" name="topFilter" className="card-input-element" value={applicationFilter} onChange={(e) => {changeTopApplicationFilters(1)}} checked={applicationFilter === 1 ? true : false}/>
                                       <div className="earned-sec mb-4 postion-r card-input">
                                           <Stack direction="horizontal" gap={4} className="align-items-self">
                                               <div className="ico-sec-over">
@@ -133,7 +154,7 @@ const Judgment = () => {
                                   </Col>
                                   <Col xl={3} lg={3} sm={6}>
                                     <label>
-                                    <input type="radio" name="product" className="card-input-element" />
+                                    <input type="radio" name="topFilter" className="card-input-element" value={applicationFilter} onChange={(e) => {changeTopApplicationFilters(2)}} checked={applicationFilter === 2 ? true : false}/>
                                       <div className="earned-sec mb-4 postion-r card-input">
                                           <Stack direction="horizontal" gap={4} className="align-items-self">
                                               <div className="ico-sec-over">
@@ -165,7 +186,7 @@ const Judgment = () => {
                                   </Col>
                                   <Col xl={3} lg={3} sm={6}>
                                     <label>
-                                    <input type="radio" name="product" className="card-input-element" />
+                                    <input type="radio" name="topFilter" className="card-input-element" value={applicationFilter} onChange={(e) => {changeTopApplicationFilters(3)}} checked={applicationFilter === 3 ? true : false}/>
                                       <div className="earned-sec mb-4 postion-r card-input">
                                           <Stack direction="horizontal" gap={4} className="align-items-self">
                                               <div className="ico-sec-over">
@@ -234,7 +255,7 @@ const Judgment = () => {
                                   </tr>
                                   </thead>
                                   <tbody>
-                                  {applications.map((appl, index) => {
+                                  {filteredApplications.map((appl, index) => {
                                     return (
                                       <tr key={`appl_${index}`}>
                                         <td>
@@ -258,13 +279,13 @@ const Judgment = () => {
                                               <div className="appro-reje-sec l-m text-center reject-sec">Cancelled</div>
                                           )}
                                           {!appl.IsReject && !appl.IsApprove && !appl.IsCancelled && (
-                                            <Link to={`/artist-application/${btoa(appl.JPanelId)}`}>Review</Link>
+                                            <Link className="appro-reje-sec l-m text-center btn btn-secondary" to={`/artist-application/${btoa(appl.JPanelId)}`}>Review</Link>
                                           )}
                                         </td>
                                     </tr>
                                     )
                                   })}
-                                  {applications.length == 0 && (
+                                  {filteredApplications.length == 0 && (
                                     <tr>
                                         <td className="text-center" colSpan="7">
                                             No applications available

@@ -3,6 +3,7 @@ import auth from "./auth";
 import common from "./common";
 import artist from "./artist";
 import judge from "./judge";
+import judgeApplications from "../redux/judgeApplicationsSlice";
 import user from './user';
 import userHome from "../redux/userHomeSlice";
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     artist,
     judge,
     user,
+    judgeApplications,
     userHome
 });
 
