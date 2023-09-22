@@ -5,35 +5,54 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import citym from '../assets/images/citym.png';
-import city2 from '../assets/images/city2.png';
-import city3 from '../assets/images/city3.png';
-import city4 from '../assets/images/city4.png';
-import city5 from '../assets/images/city5.png';
-import defaultCity from '../assets/images/default.png';
 import { useDispatch, useSelector } from "react-redux";
-import {setSelectedCities} from "../actions/user";
 import Multiselect from 'multiselect-react-dropdown';
-import SelectCity from "./SelectCity";
 import { Link } from "react-router-dom";
+import {setUserRequestedCities,setSelectedCities,setUserRequestedCitiesAPI} from '../redux/userSettings';
 
 const LocationCheck = () => {
     const dispatch = useDispatch();
-    const { userSelectedCities } = useSelector(state => state.user);
+    const { userRequestedCities,selectedCities } = useSelector(state => state.userSettings);
     const { cities,states } = useSelector(state => state.common );
+    const {user} = useSelector(state => state.auth);
     const [isStateSelected,setIsStateSelected] = useState(false);
     const [selectedStateId,setSelectedStateId] = useState(-1);
     const selectCity = (selectedList, selectedItem) => {
-      dispatch(setSelectedCities(selectedList));
+      dispatch(setUserRequestedCities(selectedList));
+    }
+
+    const addRequestedCity = () => {
+        if(userRequestedCities.length > 0){
+            let requestedCities = '';
+            let requestedStates = '';
+            requestedCities = userRequestedCities.map((city)=>city.CityId).join(',');
+            requestedStates = [... new Set(userRequestedCities.map((city) => city.StateId))].join(',');
+            dispatch(setUserRequestedCitiesAPI({"StateId":requestedStates,"CityId":requestedCities,"UserId":user.RegId}));
+        }
     }
 
     const removeCity = (selectedList, removedItem) => {
-        dispatch(setSelectedCities(selectedList));
+        dispatch(setUserRequestedCities(selectedList));
     }
 
     const selectState = (selectedList,selectedItem) => {
       setIsStateSelected(true);
       setSelectedStateId(selectedItem.StateId);
+    }
+
+    const selectAvailableCities = (e,ct) => {
+        console.log(ct);
+        const targetedCity = document.getElementById(e.target.id).parentElement;
+        if(e.target.parentElement.style.backgroundColor === 'rgb(253, 55, 67)'){
+            dispatch(setSelectedCities(selectedCities.filter((city)=>city.CityName
+            !==ct.CityName
+            )));
+            targetedCity.style.backgroundColor = '';
+        }
+        else{
+            targetedCity.style.backgroundColor = '#FD3743';
+            dispatch(setSelectedCities([...selectedCities,ct]));
+        }
     }
 
     useEffect(() => {
@@ -71,13 +90,13 @@ const LocationCheck = () => {
                                             <h1>Are You From Our Top Trending Cities?</h1>
                                             <div className="loco-box">
                                                 {cities?.filter((key) => key.IsLTLive).map((ct,index) => {
-                                                    return (<div className="text-center cursor-pointer">
+                                                    return (<div className="text-center ">
                                                             {ct.MImgURL == null ? (
                                                                 <span className="default-city mr-2">
                                                                     <span>{ct.CityName.charAt(0)}</span>
                                                                 </span>
                                                             ):(
-                                                                <img className="mr-2" src={ct.MImgURL} alt={ct.CityName} />
+                                                                <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`} onClick={(e)=>selectAvailableCities(e,ct)}/>
                                                             )}
                                                             <p className="l-m city-name">{ct.CityName}</p>
                                                         </div>)
@@ -114,7 +133,7 @@ const LocationCheck = () => {
                                                       displayValue="CityName"
                                                       onSelect={selectCity}
                                                       onRemove={removeCity}
-                                                      selectedValues={userSelectedCities}
+                                                      selectedValues={userRequestedCities}
                                                     />
                                                 )}
                                             </Col>
@@ -123,8 +142,8 @@ const LocationCheck = () => {
                                      </div> 
                                 </Col>
                             </Row>
-                            <Link to="/budgetmusictype">
-                            <Button variant="primary" className="l-sb btnn next-btn">Next</Button>
+                            <Link onClick={()=> addRequestedCity()} to="/budgetmusictype">
+                            <Button variant="primary" className="l-sb btnn next-btn" >Next</Button>
                             </Link>
                         </div>
                     </section>

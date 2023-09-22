@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
 
 const Languages = () => {
-    const {userSelectedLanguages} = useSelector(state => state.user);
+    const {selectedLanguages} = useSelector(state => state.userSettings);
   return (
     <>
 
@@ -49,7 +49,7 @@ const Languages = () => {
                                 </Col>
                             </Row>
                             <Link to="/locationcheck">
-                                <Button variant="primary" disabled={userSelectedLanguages.length === 0} className="l-sb btnn next-btn">Next</Button>
+                                <Button variant="primary" disabled={selectedLanguages.length === 0} className="l-sb btnn next-btn">Next</Button>
                             </Link>
                         </div>
                     </section>

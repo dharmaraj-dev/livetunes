@@ -5,6 +5,7 @@ import artist from "./artist";
 import judge from "./judge";
 import judgeApplications from "../redux/judgeApplicationsSlice";
 import artistDetails from "../redux/artistDetailsSlice";
+import userSettings from "../redux/userSettings";
 import user from './user';
 import userHome from "../redux/userHomeSlice";
 
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     user,
     judgeApplications,
     artistDetails,
+    userSettings,
     userHome
 });
 

@@ -6,10 +6,26 @@ import RangeSlider from "./RangeSlider";
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 import MusictypeSlider from "./MusictypeSlider";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {setUserSettings} from '../redux/userSettings';
+import { Dispatch } from "react";
 
 const BudgetMusictype = () => {
+    const dispatch = useDispatch();
     const {userMusicalityTypes} = useSelector(state => state.user);
+    const {selectedLanguages,selectedCities} = useSelector(state => state.userSettings);
+    const {user} = useSelector(state => state.auth);
+    const addUserSettings = () => {
+        let cityId = '';
+        let cityNames = '';
+        let languageId = '';
+        let LanguageName = '';
+        languageId = selectedLanguages.map((language)=>language.LanguageId).join(',');
+        LanguageName = selectedLanguages.map((language)=>language.LanguageName).join(',');
+        cityNames = selectedCities.map((city)=> city.CityName).join(',');
+        cityId = selectedCities.map((city)=> city.CityId).join(',');
+        dispatch(setUserSettings({"LangId":languageId,"LangName":LanguageName,"CityId":cityId,"CityName":cityNames,"RegId":user.RegId}));
+    }
   return (
     <>
         <div className="wrapper">
@@ -37,7 +53,7 @@ const BudgetMusictype = () => {
                             </div>
                             <MusictypeSlider/>
                         </div>
-                        <Link to="/artist-list">
+                        <Link onClick={()=>addUserSettings()} to="/artist-list">
                         <Button variant="primary" disabled={userMusicalityTypes.length === 0} className="l-sb btnn next-btn">Next</Button>
                         </Link>
                     </section>

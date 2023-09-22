@@ -7,31 +7,32 @@ const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 const sLanguages = localStorage.getItem('selectedLanguages')
   ? JSON.parse(localStorage.getItem('selectedLanguages')).length > 0 ? JSON.parse(localStorage.getItem('selectedLanguages')) : [] : [];
 
-const sStates = localStorage.getItem('selectedStates')
-  ? JSON.parse(localStorage.getItem('selectedStates')).length > 0 ? JSON.parse(localStorage.getItem('selectedStates')) : [] : [];
-
 const sCities = localStorage.getItem('selectedCities')
   ? JSON.parse(localStorage.getItem('selectedCities')).length > 0 ? JSON.parse(localStorage.getItem('selectedCities')) : [] : [];
+
+const userRCities = localStorage.getItem('userRequestedCities')
+  ? JSON.parse(localStorage.getItem('userRequestedCities')).length > 0 ? JSON.parse(localStorage.getItem('userRequestedCities')) : [] : [];
 
 
   const slice = createSlice({
     name:'userSettings',
     initialState:{
         selectedLanguages : sLanguages,
-        selectedStates : sStates,
         selectedCities : sCities,
+        userRequestedCities : userRCities,
         isSettingsSaved : false,
     },
     reducers: {
         setLanguages : (state,action) => {
+            console.log(state,action);
             state.selectedLanguages = action.payload;
             localStorage.setItem('selectedLanguages',JSON.stringify(state.selectedLanguages));
         },
-        setStates : (state,action) => {
-            state.selectedStates = action.payload;
-            localStorage.setItem('selectedStates',JSON.stringify(state.selectedStates));
+        setUserRequestedCities : (state,action) => {
+            state.userRequestedCities = action.payload;
+            localStorage.setItem('userRequestedCities',JSON.stringify(state.userRequestedCities));
         },
-        setCities : (state,action) => {
+        setSelectedCities : (state,action) => {
             state.selectedCities = action.payload;
             localStorage.setItem('selectedCities',JSON.stringify(state.selectedCities));
         },
@@ -43,13 +44,26 @@ const sCities = localStorage.getItem('selectedCities')
   
   export default slice.reducer
 
-  const { setLanguages, setStates, setCities,setSettingsSaveStatus} = slice.actions;
+ export const { setLanguages,setSelectedCities, setUserRequestedCities , setSettingsSaveStatus} = slice.actions;
 
-export const setUserSettings = () => async dispatch => {
+export const setUserRequestedCitiesAPI = (param) => async dispatch => {
+    try{
+        await axios
+            .post(API_URL+"UWishList/Insert",param,{headers:authHeader()})
+            .then((response)=>{
+                console.log(response);
+            })
+    } catch (e) {
+        console.log('settings error',e);
+    }
+}
+
+export const setUserSettings = (param) => async dispatch => {
     try{
         await axios 
-            .post(API_URL + "USett/Insert",{headers:authHeader()})
+            .post(API_URL + "USett/Insert",param,{headers:authHeader()})
             .then((response) => {
+                console.log(response);
                 dispatch(setSettingsSaveStatus());
                 if(response.IsSuccess){
                     return true;
@@ -63,17 +77,16 @@ export const setUserSettings = () => async dispatch => {
     }
 };
 
-export const getUserSettings = () => async dispatch => {
-    try{
-        await axios 
-              .post(API_URL + "USett/ByUserId/47" ,{headers:authHeader()})
-              .then((response)=>{
-                dispatch(setLanguages(response.data.output_data.LangName));
-                dispatch(setStates(response.data.output_data.stateName));
-                dispatch(setCities(response.data.output_data.CityName));
-                // if(selectedLanguages)
-              })
-    } catch(e){
-        console.log('get setting error',e);
-    }
-};
+// export const getUserSettings = () => async dispatch => {
+//     try{
+//         await axios 
+//               .post(API_URL + "USett/ByUserId/47" ,{headers:authHeader()})
+//               .then((response)=>{
+//                 dispatch(setLanguages(response.data.output_data.LangName));
+//                 dispatch(setUserRequestedCities(response.data.output_data.CityName));
+//                 // if(selectedLanguages)
+//               })
+//     } catch(e){
+//         console.log('get setting error',e);
+//     }
+// };

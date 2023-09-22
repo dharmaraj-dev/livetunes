@@ -1,20 +1,19 @@
 import React, { useState,useEffect } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 import { useDispatch, useSelector } from "react-redux";
-import {setSelectedLanguages} from "../actions/user";
+import {setLanguages} from "../redux/userSettings";
 
 const SelectMultiotion = () => {
     const dispatch = useDispatch();
     const { languages } = useSelector(state => state.common);
     const { userSelectedLanguages } = useSelector(state => state.user);
     console.log(languages)
-    //const [options] =useState(['English','Hindi','Panjabi','Gujrati','Tamil','Bangali','Malyalam','Nepali']) ;
     const selectLanguage = (selectedList, selectedItem) => {
-      dispatch(setSelectedLanguages(selectedList));
+      dispatch(setLanguages(selectedList));
     }
 
   const removeLanguage = (selectedList, removedItem) => {
-      dispatch(setSelectedLanguages(selectedList));
+      dispatch(setLanguages(selectedList));
   }
     useEffect(()=>
     {

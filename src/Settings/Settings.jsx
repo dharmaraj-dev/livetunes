@@ -8,8 +8,46 @@ import NotificationSettings from "../Notification/NotificationSettings";
 import SelectMultiotion from "../OnBoard/SelectLanguages";
 import SelectCity from "../OnBoard/SelectCity";
 import MusictypeSlider from "../OnBoard/MusictypeSlider";
+import { Stack } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {setUserSettings} from '../redux/userSettings';
+import {setSelectedCities} from '../redux/userSettings';
+import Col from "react-bootstrap/Col";
+
 
 const Settings = () => {
+    const dispatch = useDispatch();
+    const { cities,states } = useSelector(state => state.common );
+    const {userMusicalityTypes} = useSelector(state=> state.user);
+    const {selectedLanguages,selectedCities} = useSelector(state => state.userSettings);
+    const {user} = useSelector(state => state.auth);
+    const addUserSettings = () => {
+        let cityId = '';
+        let cityNames = '';
+        let languageId = '';
+        let LanguageName = '';
+        languageId = selectedLanguages.map((language)=>language.LanguageId).join(',');
+        LanguageName = selectedLanguages.map((language)=>language.LanguageName).join(',');
+        cityNames = selectedCities.map((city)=> city.CityName).join(',');
+        cityId = selectedCities.map((city)=> city.CityId).join(',');
+        dispatch(setUserSettings({"LangId":languageId,"LangName":LanguageName,"CityId":cityId,"CityName":cityNames,"RegId":user.RegId}));
+    }
+    const selectAvailableCities = (e,ct) => {
+        console.log(ct);
+        const targetedCity = document.getElementById(e.target.id).parentElement;
+        if(e.target.parentElement.style.backgroundColor === 'rgb(253, 55, 67)'){
+            dispatch(setSelectedCities(selectedCities.filter((city)=>city.CityName
+            !==ct.CityName
+            )));
+            targetedCity.style.backgroundColor = '';
+        }
+        else{
+            targetedCity.style.backgroundColor = '#FD3743';
+            dispatch(setSelectedCities([...selectedCities,ct]));
+        }
+    }
   return (
     <>
         <div className="wrapper">
@@ -31,17 +69,52 @@ const Settings = () => {
                             {/* <LoginSetting/>
                             <Payments/>
                             <NotificationSettings/> */}
-                            <div style={{display:"flex",justifyContent:'space-around'}}>
-                                <div style={{marginBottom:"1rem"}}>
+                                <div className="cart-details-box  login-setting-cart">
+                                <div className="cart-header">
+                                    <Stack direction="horizontal" gap={5}>
+                                        <h4 className="l-sb">Select Language</h4>
+                                    </Stack>
+                                </div>
                                     <SelectMultiotion />
                                 </div>
-                                <div style={{marginBottom:"5rem"}}>
-                                    <SelectCity />
+                                <div className="cart-details-box  login-setting-cart">
+                                <div className="cart-header">
+                                    <Stack direction="horizontal" gap={5}>
+                                        <h4 className="l-sb">Select City</h4>
+                                    </Stack>
                                 </div>
-                            </div>
-                            <div style={{marginBottom:"1rem"}}>
+                                    <Col md={12} lg={7} xl={7}>
+                                    <div className="location-right-sec select-multi">
+                                         <div className="head-loco-img">
+                                            <div className="loco-box">
+                                                {cities?.filter((key) => key.IsLTLive).map((ct,index) => {
+                                                    return (<div className="text-center ">
+                                                            {ct.MImgURL == null ? (
+                                                                <span className="default-city mr-2">
+                                                                    <span>{ct.CityName.charAt(0)}</span>
+                                                                </span>
+                                                            ):(
+                                                                <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`} onClick={(e)=>selectAvailableCities(e,ct)}/>
+                                                            )}
+                                                            <p className="l-m city-name">{ct.CityName}</p>
+                                                        </div>)
+                                                })}
+                                            </div>
+                                         </div>
+                                    </div>
+                                </Col>
+                                </div>
+                            <div className="cart-details-box  login-setting-cart">
+                                <div className="cart-header">
+                                    <Stack direction="horizontal" gap={5}>
+                                        <h4 className="l-sb">Select Musicality Type</h4>
+                                    </Stack>
+                                </div>
                                 <MusictypeSlider />
                             </div>
+                            <Link onClick={()=>addUserSettings()} to="/artist-list">
+                                <Button variant="primary" disabled={userMusicalityTypes.length === 0} className="l-sb btnn " style={{width:"7rem",padding:"0.5rem",fontSize:"1.4rem"}}>Edit</Button>
+                            </Link>
                         </div>    
                     </div>
                 </Container>
