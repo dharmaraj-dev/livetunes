@@ -32,7 +32,7 @@ const CheckAvailability = () => {
                 <Container fluid>
                     <div className="main-artists-list">
                         <Row>
-                            <Col xl={7} lg={6} md={12}>
+                            <Col className="booking-venue-form-section" xl={7} lg={6} md={12}>
                                 <EventDetailVenue setSlotForAvailability={selectSlot} props/>
                             </Col>
                             <Col xl={5} lg={6} md={12} className="main-checkavailability-right-sec">

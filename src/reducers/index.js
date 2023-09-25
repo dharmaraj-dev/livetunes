@@ -8,6 +8,7 @@ import artistDetails from "../redux/artistDetailsSlice";
 import userSettings from "../redux/userSettings";
 import user from './user';
 import userHome from "../redux/userHomeSlice";
+import artistSlots from "../redux/artistSlotsSlice";
 
 // export default combineReducers({
 //   auth,
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
     judgeApplications,
     artistDetails,
     userSettings,
-    userHome
+    userHome,
+    artistSlots
 });
 
 export default (state, action) =>

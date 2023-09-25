@@ -312,6 +312,19 @@ body.modal-open .App{filter: blur(6px);}
     
 }
 
+@media (max-width:990px){
+  .booking-venue-form-section {
+    order: 2;
+  }
+
+  .main-checkavailability-right-sec{
+    order: 1;
+  }
+
+  .checkavailability-right-sec {
+      padding: 0;
+  }
+}
 
 @media (max-width:768px){
     .inner-sign-white-sec {padding: 28px 24px; margin: 18% 15px 14%;}
