@@ -6,8 +6,13 @@ import likeimg from '../assets/images/like-img.png';
 import { BsFillStarFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
 const ArtistsLikebox = (props) => {
+  const params = useParams();
+  console.log(params);
   const {user} = useSelector(state => state.auth);
+  const userId = user?.RegId ? btoa(user?.RegId) : params.userId;
   
   return (
     <>
@@ -16,7 +21,7 @@ const ArtistsLikebox = (props) => {
         return (
           
           <Col lg={3} md={6} key={`other_artist_${index}`}>
-              <Link to={`/artist-details/${artData.ArtistName.replace(/ /g,"-")}/${btoa(artData.ArtistId)}/${btoa(user.RegId)}`}>
+              <Link to={`/artist-details/${artData.ArtistName.replace(/ /g,"-")}/${btoa(artData.ArtistId)}/${userId}`}>
                 <div className="main-artist-like-box text-center">
                   <div className="img-sec">
                     <img src={artData.ArtistProfileImg} alt="" className="w-100" />
