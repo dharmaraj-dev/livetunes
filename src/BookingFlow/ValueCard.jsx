@@ -1,7 +1,10 @@
 import React from 'react';
 import Rupee from '../assets/images/rupee.png';
+import { useSelector } from 'react-redux';
 
 const ValueCard = () => {
+  const {slots} = useSelector(state => state.artistSlots);
+  console.log(slots);
   return (
     <>
         <div className="value-card d-flex">

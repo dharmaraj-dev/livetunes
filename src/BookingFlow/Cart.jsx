@@ -10,8 +10,29 @@ import Art from '../assets/images/art.png';
 import Billdetail from "./Billdetail";
 import Reward from "./Reward";
 import Coupons from "./Coupons";
+import {fetchArtistDetails} from '../redux/artistDetailsSlice';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {moveTransactionToCart} from "../redux/userBookingSlice";
+import { useParams } from "react-router-dom";
 
 const Cart = () => {
+  const dispatch = useDispatch();
+  const params = useParams();
+  const transactId = atob(params.transactionId);
+  console.log(transactId);
+  const {user} = useSelector(state => state.auth);
+  const {details} = useSelector(state => state.artistDetails);
+  const {eventData,selectedSlots,artistId,transactionId} = useSelector(state => state.userBooking);
+  const {events} = useSelector(state => state.common);
+
+  const moveToCart = () => {
+    dispatch(moveTransactionToCart({"TransactId":transactionId}))
+  }
+
+  useEffect(()=>{
+    dispatch(fetchArtistDetails(artistId,user.RegId));
+  },[]);
   return (
     <>
       <div className="wrapper">
@@ -50,48 +71,31 @@ const Cart = () => {
                         <div className="cart-details-box postion-r">
                             <div className="d-flex">
                                 <div className="img-sec">
-                                    <img src={Art} alt="" className="w-100"/>
+                                    <img src={details.selProfileImage.length > 0 ? details.selProfileImage[0].LTMediaURL : Art} alt="" className="w-100"/>
                                 </div>
                                 <div className="inner-artist-detail">
-                                    <h4 className="l-sb">Artist Name, Solo Singer</h4>
-                                    <div className="value-sec l-b"><span>Rs 40,000</span></div>
+                                    <h4 className="l-sb">{details?.selApInfo?.FullName}, {details?.selAPDetails?.GenreName} {details?.selAPDetails?.CategoryName}</h4>
+                                    <div className="value-sec l-b"><span>Rs {selectedSlots.PerShowRate}</span></div>
                                     <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Location :</div>
-                                    <div className="l-r sub-head">Mumbai , Maharashtra</div>
+                                    <span className="label-value">{eventData.CityName} , {eventData.StateName}</span>
                                     </Stack>
                                     <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Event type :</div>
-                                    <div className="l-r sub-head">
-                                        <Form.Select aria-label="Default select example" className="form-control">
-                                            <option>House party</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </Form.Select>
-                                    </div>
+                                    <span className="label-value">{events.filter((event)=>event.EventsId == eventData.EventTypeId)[0].EventsName}</span>
                                     </Stack>
                                     <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Event date :</div>
-                                    <div className="l-r sub-head">
-                                        <Form.Control placeholder="" type="date"/>
-                                    </div>
+                                    <span className="label-value">{eventData.EventDate}</span>
                                     </Stack>
                                     <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Event time :</div>
-                                    <div className="l-r sub-head">
-                                        <Form.Control placeholder=" " type="time"/>
-                                    </div>
+                                    <span className="label-value">{selectedSlots.Slot}</span>
                                     </Stack>
-                                    <Stack direction="horizontal" gap={3}>
+                                    {/* <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Event duration :</div>
-                                    <div className="l-r sub-head">
-                                        <Form.Select aria-label="Default select example" className="form-control">
-                                            <option value="1">1hr</option>
-                                            <option value="2">2hr</option>
-                                            <option value="3">3hr</option>
-                                        </Form.Select>
-                                    </div>
-                                    </Stack>
+                                    
+                                    </Stack> */}
                                 </div>
                             </div>
                             <div className="cart-footer">
@@ -100,7 +104,7 @@ const Cart = () => {
                                     <button type="button" className="l-b wbtnn btn btn-primary w-100">REMOVE</button>
                                 </div>
                                 <div className="ms-auto">
-                                    <button type="button" className="l-b wbtnn btn btn-primary w-100">MOVE TO WISHLIST</button>
+                                    <button type="button" className="l-b wbtnn btn btn-primary w-100" onClick={()=>moveToCart()}>MOVE TO WISHLIST</button>
                                 </div>
                                 </Stack>
                             </div>

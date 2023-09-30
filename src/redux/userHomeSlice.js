@@ -35,9 +35,9 @@ const slice = createSlice({
     dataSuccess: (state, action) => {
     	console.log('action.payload', action.payload)
 		if(action.payload.IsSuccess) {
-			state.specialEvents = action.payload.output_data.filter((dt) => {return !dt.IsHeadBanner && !dt.IsSBanner});
-			state.headerBanner = action.payload.output_data.filter((dt) => {return dt.IsHeadBanner});
-			state.addBanner = action.payload.output_data.filter((dt) => {return dt.IsSBanner})
+			state.specialEvents = action.payload.output_data.length>0? action.payload.output_data.filter((dt) => {return !dt.IsHeadBanner && !dt.IsSBanner}):action.payload.default_data.filter((dt)=>{return !dt.IsHeadBanner && !dt.IsSBanner});
+			state.headerBanner = action.payload.output_data.length>0 ? action.payload.output_data.filter((dt) => {return dt.IsHeadBanner}) : action.payload.default_data.filter((dt)=> {return dt.IsHeadBanner});
+			state.addBanner = action.payload.output_data.length>0 ? action.payload.output_data.filter((dt) => {return dt.IsSBanner}) : action.payload.default_data.filter((dt)=> {return dt.IsSBanner});
       		state.homeLoading = false;
 		} else {
 			state.specialEvents = [];

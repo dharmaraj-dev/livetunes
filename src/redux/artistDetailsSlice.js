@@ -7,7 +7,7 @@ const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 const slice = createSlice({
   name: 'artistDetails',
   initialState: {
-    details: null,
+    details: JSON.parse(localStorage.getItem('details')),
     loading: true,
     error: false,
   },
@@ -22,6 +22,7 @@ const slice = createSlice({
     setData: (state, action) => {
   		if(action.payload.IsSuccess) {
   			state.details = action.payload;
+        localStorage.setItem('details',JSON.stringify(action.payload));
     		state.loading = false;
   		} else {
   			state.details = null;

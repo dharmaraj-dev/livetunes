@@ -116,7 +116,7 @@ const SingleArtist = () => {
                                             <div className="share-icon"><FiShare2/>
                                             <SocialIcon/>
                                             </div>
-                                            <Link to="/checkavailability">
+                                            <Link to={`/check-availability/${btoa(artistId)}`}>
                                                 <button type="button" className="l-b btnn check-btn btn btn-primary">Check Availability</button>
                                             </Link>
                                         </div>
@@ -162,9 +162,9 @@ const SingleArtist = () => {
                                                     <h2>Performance Languages</h2>
                                                     <div className="per-lang">
                                                         {
-                                                            details?.selAPDetails?.LanguageName.split(",").map((language,index) => {
+                                                           details.selAPDetails.LanguageName ? details?.selAPDetails?.LanguageName.split(",").map((language,index) => {
                                                                 return <div key={`lang_${index}`} className="inner-per-lang l-sb">{language}</div>
-                                                            })
+                                                            }) : <></>
                                                         }
                                                     </div>
                                                 </div>
