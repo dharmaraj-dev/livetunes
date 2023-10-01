@@ -118,7 +118,7 @@ function App() {
         <Route path="/locationcheck" element={<LocationCheck/>}/>
         <Route path="/budgetmusictype" element={<BudgetMusictype/>}/>
         <Route path="/artist-List" element={<ArtistList/>}/>
-        <Route path="/artist-avail-slot" element={<ArtistAvailSlot/>}/>
+        <Route path="/artist-slots" element={<ArtistAvailSlot/>}/>
         <Route path="/artist-details/:artistName/:artistId/:userId" element={<SingleArtist/>}/>
         <Route path="/check-availability/:artistId" element={<CheckAvailability/>}/>
         <Route path="/cart/:transactionId" element={<Cart/>}/>

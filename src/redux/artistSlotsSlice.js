@@ -20,11 +20,13 @@ const slice = createSlice({
     },
     startAddUpdateLoading: state => {
       state.addUpdateLoading = true;
+      state.loading = false;
       state.error = false;
     },
     hasError: (state, action) => {
       state.error = action.payload;
       state.loading = false;
+      state.addUpdateLoading = false;
     },
     getSlotsSuccess: (state, action) => {
   		if(action.payload.IsSuccess) {
@@ -38,6 +40,7 @@ const slice = createSlice({
   		}      
     },
     addSlotsSuccess: (state, action) => {
+      console.log('action', action);
       if(action.payload.IsSuccess) {
         state.slots = action.payload.slot_data;
         state.addUpdateLoading = false;

@@ -22,27 +22,45 @@ const ArtistAvailSlot = () => {
   const { ArtistId } = useSelector(state => state.auth);
 
 
-    const [myEvents, setEvents] = useState([])
+    const [myEvents, setEvents] = useState(slots)
     const [show, setShow] = useState(false);
     const [slotPrice,setSlotPrice] = useState("");
     const [travelPrice,setTravelPrice] = useState("");
     const [foodPrice,setFoodPrice] = useState("");
-    const [startDate,setStartDate] = useState(new Date());
-    const [endDate,setEndDate] = useState(new Date());
+    const [startDate,setStartDate] = useState("");
+    const [endDate,setEndDate] = useState("");
+    const [slotDisabled, setSlotDisabled] = useState(false);
+    const [slotBooked, setSlotBooked] = useState(false);
     const [editedSlotId,setEditedSlotId] = useState(0);
+
+    const events = slots.map((slt)=>{
+        return {
+          id: slt.ASlotId,
+          title: "Price: "+slt.PerShowRate,
+          start: new Date(slt.StartDate),
+          end: new Date(slt.EndDate),
+          allDay: false,
+          TravelFees: slt.TravelFees,
+          PerShowRate: slt.PerShowRate,
+          FoodStay: slt.FoodStay,
+          isbooked: slt.isbooked,
+          ASlotId: slt.ASlotId
+        }
+      })
 
     const handleClose = () => {
       setSlotPrice("");
       setTravelPrice("");
       setFoodPrice("");
-      setStartDate(new Date());
-      setEndDate(new Date());
+      setStartDate("");
+      setEndDate("");
       setEditedSlotId(0);
+      setSlotDisabled(false);
+      setSlotBooked(false);
       setShow(false);
     }
 
     const handleShow = ({start,end}) => {
-      console.log(start,end);
       setStartDate(start);
       setEndDate(end);
       setShow(true);
@@ -50,16 +68,17 @@ const ArtistAvailSlot = () => {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log('editedSlotId', editedSlotId)
-      const data = [
+      let data = [
         {
-          "start": startDate,
-          "end": endDate,
+          "start": moment(startDate).format("YYYY-MM-DD HH:mm:ss"),
+          "end": moment(endDate).format("YYYY-MM-DD HH:mm:ss"),
           "price": slotPrice,
           "travelFees": travelPrice,
-          "foodAndStay": foodPrice
+          "foodAndStay": foodPrice,
         }
       ]
+
+      
       if(editedSlotId === 0) {
         //add
         dispatch(addArtistSlot(data)).then((res) => {
@@ -72,7 +91,7 @@ const ArtistAvailSlot = () => {
         });
       } else {
         //update
-        data.aslotid = editedSlotId;
+        data[0].aslotid = editedSlotId;
         dispatch(updateArtistSlot(data)).then((res) => {
             if(!addUpdateLoading) {
               handleClose();
@@ -82,11 +101,7 @@ const ArtistAvailSlot = () => {
               alert('api error');
             }
         });
-      }
-      
-
-      
-      setEvents((prev) => [...prev, { start:startDate, end:endDate, PerShowRate:slotPrice,TravelFees:travelPrice,FoodStay:foodPrice }]);
+      }      
     }
     const handleChange = (e) => {
       if(e.target.id === "slotPrice"){
@@ -100,9 +115,11 @@ const ArtistAvailSlot = () => {
 
     const handleSelectSlot = useCallback(
         ({ start, end }) => {
-            console.log(start)
             if ( start.getTime() > new Date().getTime()) {
-              handleShow({start, end});
+              // handleShow({start,end });
+              setStartDate(moment(start).format("YYYY-MM-DD HH:mm:ss"));
+              setEndDate(moment(end).format("YYYY-MM-DD HH:mm:ss"));
+              setShow(true);
              } else {
                 errorToast("Invalid slot.")
                 return false;
@@ -120,10 +137,17 @@ const ArtistAvailSlot = () => {
     
       const handleSelectEvent = useCallback(
         (event) => {
+          console.log(moment(event.start).isBefore())
+          if(moment(event.start).isBefore()) {
+            setSlotDisabled(true);
+          }
+          setStartDate(moment(event.start).format("YYYY-MM-DD HH:mm:ss"));
+          setEndDate(moment(event.end).format("YYYY-MM-DD HH:mm:ss"))
           setSlotPrice(event.PerShowRate);
           setTravelPrice(event.TravelFees);
           setFoodPrice(event.FoodStay);
           setEditedSlotId(event.ASlotId);
+          setSlotBooked(event.isbooked);
           setShow(true);
         },
       []
@@ -157,9 +181,7 @@ const ArtistAvailSlot = () => {
 
      useEffect(()=>{
       dispatch(getSlots(ArtistId));
-      console.log(myEvents);
-      console.log(loading, error, slots)
-     },[myEvents])
+     },[])
     
 
   return (
@@ -201,7 +223,9 @@ const ArtistAvailSlot = () => {
                       defaultView={Views.WEEK}
                       components={{event: (ev) => <EventComponent eventData={ev} />}}
                       formats={formats}
-                      events={myEvents}
+                      events={events}
+                      startAccessor="start"
+                      endAccessor="end"
                       localizer={mLocalizer}
                       onSelectEvent={handleSelectEvent}
                       onSelectSlot={handleSelectSlot}
@@ -213,11 +237,15 @@ const ArtistAvailSlot = () => {
                       timeslots={1}
                       eventPropGetter={(event) => {
                         let backgroundColor = 'green';
-                        if(event.isBooked) {
-                          backgroundColor = '#FD3743';
+                        backgroundColor = event.background;
+                        if(moment(event.start).isBefore()) {
+                          backgroundColor = "#d3d4d5";
                         }
+                        // if(event.isBooked) {
+                        //   backgroundColor = event.background;
+                        // }
                         const color = 'white';
-                        return { style: { backgroundColor ,color} }
+                        return { style: { backgroundColor ,color, "border": "0"} }
                       }}
                       onSelecting = {slot => false}
                       minDate={new Date()}
@@ -254,7 +282,25 @@ const ArtistAvailSlot = () => {
                           <Form.Control className='form-control numberInput' type="number" required min={0} id='travelPrice' value={travelPrice} onChange={handleChange} placeholder="Travel Expense"/>
                           <Form.Label htmlFor="foodPrice" className='l-sb form-label'>Food and Other Expense</Form.Label>
                           <Form.Control className='form-control numberInput' type="number"required  min={0} id='foodPrice' value={foodPrice} placeholder="Food & Other Expense" onChange={handleChange}/>
-                          <button className='mt-4 l-b p-3 btnn btn btn-primary' type="submit">ADD</button>
+                          {slotDisabled ? (
+                            <button className='mt-4 l-b p-3 btn btn-light'>
+                              {slotBooked && (
+                                'Booked'
+                              )}
+                              {slotDisabled && (
+                                'Disabled'
+                              )}
+                            </button>
+                          ):(
+                            <button className='mt-4 l-b p-3 btnn btn btn-primary' type="submit">
+                              {editedSlotId === 0 ? (
+                                "Add"
+                              ):(
+                                "Update"
+                              )}
+                            </button>
+                          )}
+                          
                          </div>
                       </Form>
                     )}

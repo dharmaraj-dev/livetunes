@@ -58,7 +58,7 @@ const SideNavBar = () => {
 				{
 					text:"calender",
 					icon: <SlCalender className="menu-item-icon" />,
-					links:"/artist-avail-slot"
+					links:"/artist-slots"
 				}
 			]);
 		} else if(joiningType ===  "Judge") {

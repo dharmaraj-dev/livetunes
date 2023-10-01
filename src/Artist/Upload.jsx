@@ -231,7 +231,7 @@ const Upload = () => {
                             )}
                             <img src={eveFile.LTMediaURL}/>
                             <Row>
-                                <Col>
+                                <Col lg={12} md={12} className="mb-3">
                                     <EasyEdit
                                       type={Types.TEXTAREA}
                                       onSave={(e) => {saveDescription(e,eveFile.LTMediaLogId)}}
@@ -241,8 +241,6 @@ const Upload = () => {
                                       cancelButtonLabel={<AiOutlineClose />}
                                       placeholder={`Add caption/location`}
                                     />
-                                   
-                                    
                                 </Col>
                             </Row>
                         </Col>
@@ -256,7 +254,7 @@ const Upload = () => {
                             )}
                             <video controls={true} src={eveFile.LTMediaURL}></video>
                             <Row>
-                                <Col>
+                                <Col lg={12} md={12} className="mb-3">
                                     <EasyEdit
                                       type={Types.TEXTAREA}
                                       onSave={(e) => {saveDescription(e,eveFile.LTMediaLogId)}}

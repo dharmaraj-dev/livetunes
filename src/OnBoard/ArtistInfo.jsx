@@ -21,11 +21,11 @@ const ArtistInfo = ({artistId}) => {
     <>
       <div className="inner-artist-info postion-r">
         <div className="avtar-img">
-            <img src={details.selProfileImage.length > 0 ? details.selProfileImage[0].LTMediaURL : Avtar} alt="" className="w-100" />
+            <img src={details?.selProfileImage?.length > 0 ? details?.selProfileImage[0]?.LTMediaURL : Avtar} alt="" className="w-100" />
         </div>
         <div className="s-artist-detail">
-            <p className="name l-b">{details.selApInfo.FullName} <span><img src={Octicons} alt="" style={{width:26}} /></span></p>
-            <p className="l-r locotion">{details.selApInfo.CityName}, {details.selApInfo.StateName}</p>
+            <p className="name l-b">{details?.selApInfo.FullName} <span><img src={Octicons} alt="" style={{width:26}} /></span></p>
+            <p className="l-r locotion">{details?.selApInfo.CityName}, {details?.selApInfo.StateName}</p>
             <Stack direction="horizontal" gap={2} className="d-inline-flex">
                 <div className="star-rate-sec l-r">
                 <span><BsFillStarFill className="star-class"/></span>
