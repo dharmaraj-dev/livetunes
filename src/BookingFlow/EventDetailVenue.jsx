@@ -218,7 +218,7 @@ const EventDetailVenue = (props) => {
             <section className="event-check-button-sec">
                 <Row>
                     <Col lg="6">
-                        <Link to={`/artist-details/${details.selApInfo.FullName.replace(/ /g,"-")}/${btoa(props.artistId)}/${btoa(user.RegId)}`}>
+                        <Link to={`/artist-details/${details.selApInfo.FullName?.replace(/ /g,"-")}/${btoa(props.artistId)}/${btoa(user.RegId)}`}>
                         <button type="button" className="l-b wbtnn back-btn btn btn-primary w-100">Back</button>
                         </Link>
                     </Col>

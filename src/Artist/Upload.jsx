@@ -148,7 +148,7 @@ const Upload = () => {
                             allowImageCrop={true}
                             allowImageTransform={true}
                             imageCropAspectRatio={'1:1'}
-                            acceptedFileTypes={["image/png", "image/jpeg"]}
+                            acceptedFileTypes={["image/*"]}
                             name="file"
                             allowRevert={false}
                             allowRemove={false}
@@ -161,6 +161,7 @@ const Upload = () => {
                             }}
                             server={ {
                                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+                                    console.log('fileItems,e', fieldName)
                                     // fieldName is the name of the input field
                                     // file is the actual file object to send
                                     const formData = new FormData();

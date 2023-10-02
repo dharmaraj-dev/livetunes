@@ -76,29 +76,29 @@ function App() {
     //   return false;
     // }
 
-    // if(!isLoggedIn) {
-    //   navigate("/");
-    // } else {
-    //   dispatch(getAllMasters());
-    //   if(joiningType === 'Artist') {
-    //     dispatch(getProfileData());
-    //     dispatch(getArtistProofData());
-    //     if(ArtistIsNotSubmitted) {
-    //       navigate("/artists-profile");
-    //     } else {
-    //       navigate("/artist-dashboard");
-    //     }
-    //   } else if(joiningType === 'Judge') {
-    //     navigate("/judgment-panel");
-    //   } else if(joiningType === 'User'){
-    //     if(isDefaultSettings) {
-    //       navigate("/dashboard");
-    //     } else {
-    //       navigate("/languages");
-    //     }
+    if(!isLoggedIn) {
+      //navigate("/");
+    } else {
+      dispatch(getAllMasters());
+      // if(joiningType === 'Artist') {
+      //   dispatch(getProfileData());
+      //   dispatch(getArtistProofData());
+      //   if(ArtistIsNotSubmitted) {
+      //     navigate("/artists-profile");
+      //   } else {
+      //     navigate("/artist-dashboard");
+      //   }
+      // } else if(joiningType === 'Judge') {
+      //   navigate("/judgment-panel");
+      // } else if(joiningType === 'User'){
+      //   if(isDefaultSettings) {
+      //     navigate("/dashboard");
+      //   } else {
+      //     navigate("/languages");
+      //   }
         
-    //   }
-    // }
+      // }
+    }
   }, [isLoggedIn])
 
   return (
