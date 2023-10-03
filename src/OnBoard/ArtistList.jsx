@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ThreeDotLoader from '../Artist/ThreeDotLoader'
 import queryString from 'query-string';
 import { setUserSelectedCategories,setUserSelectedGenres,setUserSelectedEvents,getUserFilteredArtists } from '../actions/user';
+import { fetchHomeData } from "../redux/userHomeSlice";
 
 const ArtistList = (props) => {
   const dispatch = useDispatch();
@@ -36,6 +37,10 @@ const ArtistList = (props) => {
       }
       dispatch(getUserFilteredArtists(filteringCriteria));
   }, [])
+
+  useEffect(() => {
+     dispatch(fetchHomeData());
+  }, [dispatch]);
   //console.log(queryString.parse(location.search));
   
 

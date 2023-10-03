@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
+import Skeleton from 'react-loading-skeleton'
 import { IoLocationSharp } from "react-icons/io5";
 import { FiEdit3 } from "react-icons/fi";
 import { HiOutlineSearch } from "react-icons/hi";
@@ -25,7 +26,7 @@ const EventDetailVenue = (props) => {
     const {details} = useSelector(state => state.artistDetails);
     const { events ,states,cities} = useSelector(state => state.common);
     const {user} = useSelector(state => state.auth);
-    const {availSlots,transactionId} = useSelector(state => state.userBooking);
+    const {availSlotsLoading, availSlots, availSlotsMsg, transactionId} = useSelector(state => state.userBooking);
 
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
@@ -194,26 +195,35 @@ const EventDetailVenue = (props) => {
                 <Col lg={6} md="12" className="mb-4">
                     <Form.Control value={eventDate} placeholder="Event date - " type="date" onChange={(e)=>setDate(e)}/>
                 </Col>
-                {
+                {availSlotsLoading ? (
+                    <ul className="slots-list">
+                    {[...Array(6)].map((e, i) => {
+                        return (
+                          <Skeleton className="mr-2"  width="140px" height="50px" count={1} inline={true}  />
+                        )
+                    })}
+                    </ul>
+                ):(
                     availSlots?.length > 0 ? (
                         <Col lg={12} md="12" className="mb-4">
-                        <label>Available Slots:</label>
-                        <ul className="slots-list">
-                            {availSlots.map((slot) => (
-                                    <li onClick={() =>{selectSlot(slot.ASlotId)}} className={selectedSlot === slot.ASlotId ? 'active' : ''}>
-                                    <label>
-                                        <span className='slot-box'>{slot.Slot}</span><br></br>
-                                    </label>
-                                </li>)
-                            )}
-                        </ul>
-                </Col>
-                ) : (
+                            <label>Available Slots:</label>
+                            <ul className="slots-list">
+                                {availSlots.map((slot) => (
+                                        <li onClick={() =>{selectSlot(slot.ASlotId)}} className={selectedSlot === slot.ASlotId ? 'active' : ''}>
+                                        <label>
+                                            <span className='slot-box'>{slot.Slot}</span><br></br>
+                                        </label>
+                                    </li>)
+                                )}
+                            </ul>
+                        </Col>
+                    ) : (
                         <>
-                            Slots not available for this date and state
+                            <p className="info-text">{availSlotsMsg !== null ? availSlotsMsg : 'Slots not available for this date and state'}</p>
                         </>
                     )
-                }
+                )}
+                
             </Row>
             <section className="event-check-button-sec">
                 <Row>

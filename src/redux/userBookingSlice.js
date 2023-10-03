@@ -7,15 +7,25 @@ const slice = createSlice({
     name: 'userBooking',
     initialState: {
       availSlots: [],
+      availSlotsLoading: false,
+      availSlotsMsg: null,
       transactionId:"",
       selectedSlots:null,
       artistId:null,
       eventData:null
     },
     reducers: {
+      startSlotsLoading:(state,action)=>{
+        state.availSlotsLoading = true;
+      },
       setAvailSlots:(state,action) => {
         if(action.payload.IsSuccess){
             state.availSlots = action.payload.SlotDetails
+            state.availSlotsLoading = false;
+            state.availSlotsMsg = action.payload.Message;
+        } else {
+          state.availSlotsLoading = false;
+          state.availSlotsMsg = action.payload.Message;
         }
       },
       setTransactionId:(state,action) => {
@@ -38,9 +48,10 @@ const slice = createSlice({
   export default slice.reducer
   
   
-  export const { setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot} = slice.actions;
+  export const {startSlotsLoading,  setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot} = slice.actions;
   
   export const fetchAvailSlots = (body) => async dispatch => {
+    dispatch(startSlotsLoading());
     try{
         await axios
             .post(API_URL + 'UBooking/GetAvailableSlot',body,{headers:authHeader()})

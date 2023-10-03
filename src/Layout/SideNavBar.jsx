@@ -18,10 +18,12 @@ import { LOGOUT, STATE_RESET } from "../actions/types";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { authToken } from "../services/auth-header";
+import { useLocation } from 'react-router-dom';
 
 const SideNavBar = () => {
 	const dispatch = useDispatch();
 	let navigate = useNavigate();
+	const location = useLocation();
 	const MySwal = withReactContent(Swal);
 	const { joiningType } = useSelector((state) => state.auth);
 	
@@ -179,7 +181,7 @@ const SideNavBar = () => {
 					{menuItemsDynamic.map(({ text, icon, links }) => (
 						<Link
 							key={text+'_'+links}
-							className={isExpanded ? "menu-item" : "menu-item menu-item-NX "}
+							className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
 							to={links} 
 						>{/* Add active class */}
 						

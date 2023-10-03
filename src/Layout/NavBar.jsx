@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 const NavBar = () => {
   
   const { artistProfileData } = useSelector(state => state.artist);
+  const { joiningType } = useSelector((state) => state.auth);
 
   const [profilePic, setProfilePic] = useState(DefaultProfile);
 
@@ -40,6 +41,7 @@ const NavBar = () => {
             </Form>
             <div className="justify-content-end d-flex top-right-menu">
                 <ul className="navbar-nav">
+                  {joiningType === "User" && (
                   <li className="nav-item">
                     <Link to="/settings">
                       <div className="setting-ico cursor-pointer">
@@ -47,6 +49,7 @@ const NavBar = () => {
                       </div>
                     </Link>
                   </li>
+                  )}
                   <li className="nav-item">
                   <DropdownButton align="end" id="dropdown-menu-align-end" className="notification-class dropdown-menu-lg" title={<TfiBell className="white-color bell"/>}>
                     <Dropdown.ItemText>
@@ -54,6 +57,7 @@ const NavBar = () => {
                     </Dropdown.ItemText>
                   </DropdownButton>
                   </li>
+                  {(joiningType === "Artist" || joiningType === "User" )&& (
                   <li className="nav-item">
                     <Link to="/my-profile">
                     <div className="profile-class">
@@ -61,6 +65,7 @@ const NavBar = () => {
                     </div>
                     </Link>
                   </li>
+                  )}
                 </ul>
             </div>
         </Container>

@@ -180,6 +180,7 @@ const ArtistAvailSlot = () => {
      }
 
      useEffect(()=>{
+      window.scrollTo(0, 0)
       dispatch(getSlots(ArtistId));
      },[])
     
@@ -283,7 +284,7 @@ const ArtistAvailSlot = () => {
                           <Form.Label htmlFor="foodPrice" className='l-sb form-label'>Food and Other Expense</Form.Label>
                           <Form.Control className='form-control numberInput' type="number"required  min={0} id='foodPrice' value={foodPrice} placeholder="Food & Other Expense" onChange={handleChange}/>
                           {slotDisabled ? (
-                            <button className='mt-4 l-b p-3 btn btn-light'>
+                            <button className='mt-4 l-b p-3 btn btn-light' type="button">
                               {slotBooked && (
                                 'Booked'
                               )}

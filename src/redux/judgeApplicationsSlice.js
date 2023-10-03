@@ -31,9 +31,11 @@ const slice = createSlice({
     setData: (state, action) => {
   		if(action.payload.IsSuccess) {
   			state.applications = action.payload.JPanellst;
+        state.filteredApplications = action.payload.JPanellst;
     		state.loading = false;
   		} else {
   			state.applications = [];
+        state.filteredApplications = [];
         state.loading = false;
   		}
   		localStorage.setItem('judgeApplications', JSON.stringify(state.applications));
