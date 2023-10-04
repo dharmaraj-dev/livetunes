@@ -16,8 +16,9 @@ import Lottie from "lottie-react";
 import Sademoji from "../components/sademoji.json";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchAvailSlots} from "../redux/userBookingSlice";
-import { errorToast } from "../services/toast-service";
+import { errorToast, infoToast, successToast } from "../services/toast-service";
 import {setArtistId,setEventData,SelectSlot,saveUserBooking} from "../redux/userBookingSlice";
+import moment from 'moment/moment';
 
 
 const EventDetailVenue = (props) => {
@@ -26,7 +27,7 @@ const EventDetailVenue = (props) => {
     const {details} = useSelector(state => state.artistDetails);
     const { events ,states,cities} = useSelector(state => state.common);
     const {user} = useSelector(state => state.auth);
-    const {availSlotsLoading, availSlots, availSlotsMsg, transactionId} = useSelector(state => state.userBooking);
+    const {availSlotsLoading, availSlots, availSlotsMsg, transactionId,saveBookingLoading} = useSelector(state => state.userBooking);
 
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
@@ -57,13 +58,16 @@ const EventDetailVenue = (props) => {
         dispatch(fetchAvailSlots({"ArtistId":props.artistId,"EventDate":e.target.value,"StateName": state}));
     }
 
-    const selectSlot = (slotId) => {
-        console.log(slotId);
-        setSelectedSlot(slotId);
-        if(selectedSlot === slotId) {
-            slotId = "";
+    const selectSlot = (slottData) => {
+        console.log(slottData);
+        setSelectedSlot(slottData.ASlotId);
+        if(selectedSlot === slottData.ASlotId) {
+            setSelectedSlot("");
+            props.setSlotForAvailability("");
+        } else {
+            props.setSlotForAvailability(slottData);
         }
-        props.setSlotForAvailability(slotId);
+        
     }
 
      const handleClick =async () => {
@@ -112,11 +116,18 @@ const EventDetailVenue = (props) => {
             dispatch(setEventData(data));
             dispatch(SelectSlot(availSlots.filter((slot) => slot.ASlotId == selectedSlot)[0]));
             dispatch(saveUserBooking({...data,"ArtistId":props.artistId,"ASlotId":selectedSlot,"EventLat":eventLatitude,"EventLoc":eventLongitude}))
-            .then(()=>{
-                setTimeout(() => {
-                    console.log(transactionId);
-                    navigate(`/cart/${btoa(transactionId)}`);
-                }, 1000);
+            .then((res)=>{
+                console.log(res);
+                if(res.IsSuccess){
+                    if(res.TransactionId != null){
+                        successToast(res.Message);
+                        navigate(`/cart/${btoa(res.TransactionId)}`);
+                    } else{
+                        infoToast(res.Message);
+                    }
+                } else{
+                    errorToast('Something went wrong')
+                }
             })
             
         }
@@ -193,7 +204,7 @@ const EventDetailVenue = (props) => {
                     </Form.Select>
                 </Col>
                 <Col lg={6} md="12" className="mb-4">
-                    <Form.Control value={eventDate} placeholder="Event date - " type="date" onChange={(e)=>setDate(e)}/>
+                    <Form.Control disabled={state == "" ? true : false} value={eventDate} placeholder="Event date - " min={moment().format("YYYY-MM-DD")} type="date" onChange={(e)=>setDate(e)}/>
                 </Col>
                 {availSlotsLoading ? (
                     <ul className="slots-list">
@@ -208,8 +219,8 @@ const EventDetailVenue = (props) => {
                         <Col lg={12} md="12" className="mb-4">
                             <label>Available Slots:</label>
                             <ul className="slots-list">
-                                {availSlots.map((slot) => (
-                                        <li onClick={() =>{selectSlot(slot.ASlotId)}} className={selectedSlot === slot.ASlotId ? 'active' : ''}>
+                                {availSlots.filter((slot,index)=>availSlots.indexOf(slot) === index).map((slot) => (
+                                        <li onClick={() =>{selectSlot(slot)}} className={selectedSlot === slot.ASlotId ? 'active' : ''}>
                                         <label>
                                             <span className='slot-box'>{slot.Slot}</span><br></br>
                                         </label>
@@ -233,7 +244,11 @@ const EventDetailVenue = (props) => {
                         </Link>
                     </Col>
                     <Col lg="6">
-                        <button type="button" className="l-b btnn btn btn-primary w-100" onClick={()=>handleClick()}>Proceed to book</button>
+                        <button disabled={saveBookingLoading} type="button" className="l-b btnn btn btn-primary w-100" onClick={()=>handleClick()}>
+                        {saveBookingLoading && (
+                          <span className="spinner-border spinner-border-sm"></span>
+                        )}
+                        &nbsp; Proceed to book</button>
                     </Col>
                 </Row>
             </section>

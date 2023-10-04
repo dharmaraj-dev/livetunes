@@ -18,12 +18,13 @@ import { useParams } from "react-router-dom";
 
 const CheckAvailability = () => {
     const params= useParams();
+    console.log(params);
     const dispatch = useDispatch();
     const {loading, details} = useSelector(state => state.artistDetails);
     const [selectedSlot, setSelectedSlot] = useState("");
     const artistId = atob(params.artistId);
     const selectSlot = (data) => {
-
+        console.log("data", data);
         setSelectedSlot(data);
     }
   return (
@@ -45,16 +46,16 @@ const CheckAvailability = () => {
                             </Col>
                             <Col xl={5} lg={6} md={12} className="main-checkavailability-right-sec">
                                 <div className="checkavailability-right-sec">
-                                    <ArtistInfo loading={loading} artistId={details.selAProof.ArtRegId}/>
-                                    {/* {selectedSlot === "" ? (
+                                    <ArtistInfo loading={loading} artistId={artistId}/>
+                                    {selectedSlot === "" ? (
                                         <div className="main-value-card-sec align-center">
                                             <ValueCard/>
                                         </div>
                                     ):(
                                         <div className="main-billing-details">
-                                            <Billdetail/>
+                                            <Billdetail data={selectedSlot}/>
                                         </div>
-                                    )} */}
+                                    )}
                                 </div>
                             </Col>
                         </Row>

@@ -13,8 +13,10 @@ import Coupons from "./Coupons";
 import {fetchArtistDetails} from '../redux/artistDetailsSlice';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {moveTransactionToCart} from "../redux/userBookingSlice";
+import {moveTransactionToCart,saveTransactionDetails} from "../redux/userBookingSlice";
 import { useParams } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import moment from "moment";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ const Cart = () => {
   console.log(transactId);
   const {user} = useSelector(state => state.auth);
   const {details} = useSelector(state => state.artistDetails);
-  const {eventData,selectedSlots,artistId,transactionId} = useSelector(state => state.userBooking);
+  const {eventData,selectedSlots,artistId,transactionId,transactionDetailsLoading,transactionDetails} = useSelector(state => state.userBooking);
   const {events} = useSelector(state => state.common);
 
   const moveToCart = () => {
@@ -32,6 +34,7 @@ const Cart = () => {
 
   useEffect(()=>{
     dispatch(fetchArtistDetails(artistId,user.RegId));
+    dispatch(saveTransactionDetails({"TransactId":transactId}));
   },[]);
   return (
     <>
@@ -44,7 +47,16 @@ const Cart = () => {
             <NavBar />
           </div>
           <div className="main-content">
-            <Container fluid>
+            {
+              transactionDetailsLoading ? (
+                <>
+                  <div className="">
+                      <Skeleton className="mr-1 mb-3" width="32%" inline={true} height="300px" />
+                      <Skeleton className="mr-1 mb-3" width="32%" inline={true} height="300px" />
+                  </div>
+                </>
+              ) : (
+                <Container fluid>
               <div className="main-artists-list">
                 <section className="steps-progressbar">
                   <ol className="steps l-b">
@@ -71,26 +83,26 @@ const Cart = () => {
                         <div className="cart-details-box postion-r">
                             <div className="d-flex">
                                 <div className="img-sec">
-                                    <img src={details.selProfileImage.length > 0 ? details.selProfileImage[0].LTMediaURL : Art} alt="" className="w-100"/>
+                                    <img src={Art} alt="" className="w-100"/>
                                 </div>
                                 <div className="inner-artist-detail">
-                                    <h4 className="l-sb">{details?.selApInfo?.FullName}, {details?.selAPDetails?.GenreName} {details?.selAPDetails?.CategoryName}</h4>
-                                    <div className="value-sec l-b"><span>Rs {selectedSlots.PerShowRate}</span></div>
+                                    <h4 className="l-sb">Sujal Agrawal, Bhajan Singer</h4>
+                                    <div className="value-sec l-b"><span>Rs 500</span></div>
                                     <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Location :</div>
-                                    <span className="label-value">{eventData.CityName} , {eventData.StateName}</span>
+                                    <span className="label-value">{transactionDetails.selBook.CityName} , {transactionDetails.selBook.StateName}</span>
                                     </Stack>
                                     <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Event type :</div>
-                                    <span className="label-value">{events.filter((event)=>event.EventsId == eventData.EventTypeId)[0].EventsName}</span>
+                                    <span className="label-value">{events.filter((event)=>event.EventsId == transactionDetails.selBook.EventTypeId)[0].EventsName}</span>
                                     </Stack>
                                     <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Event date :</div>
-                                    <span className="label-value">{eventData.EventDate}</span>
+                                    <span className="label-value">{moment(transactionDetails.selBook.EventDate).format("YYYY-MM-DD")}</span>
                                     </Stack>
                                     <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Event time :</div>
-                                    <span className="label-value">{selectedSlots.Slot}</span>
+                                    <span className="label-value">{transactionDetails.selBook.ASlotId}</span>
                                     </Stack>
                                     {/* <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Event duration :</div>
@@ -117,12 +129,14 @@ const Cart = () => {
                           <div className="main-reward-sec">
                             <Reward/>
                           </div>
-                            <Billdetail/>
+                            <Billdetail data={selectedSlots}/>
                         </div>
                     </Col>
                 </Row>
               </div>
-            </Container>
+                </Container>
+              )
+            }
           </div>
         </div>
       </div>

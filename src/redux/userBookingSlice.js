@@ -12,11 +12,17 @@ const slice = createSlice({
       transactionId:"",
       selectedSlots:null,
       artistId:null,
-      eventData:null
+      eventData:null,
+      saveBookingLoading: false,
+      transactionDetails : null,
+      transactionDetailsLoading : true
     },
     reducers: {
       startSlotsLoading:(state,action)=>{
         state.availSlotsLoading = true;
+      },
+      startBookingLoading:(state,action)=>{
+        state.saveBookingLoading = true;
       },
       setAvailSlots:(state,action) => {
         if(action.payload.IsSuccess){
@@ -41,6 +47,10 @@ const slice = createSlice({
       },
       SelectSlot:(state,action) => {
         state.selectedSlots = action.payload;
+      },
+      setTransactionDetails:(state,action) => {
+        state.transactionDetailsLoading = false
+        state.transactionDetails = action.payload;
       }
     }
   });
@@ -48,7 +58,7 @@ const slice = createSlice({
   export default slice.reducer
   
   
-  export const {startSlotsLoading,  setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot} = slice.actions;
+  export const {startSlotsLoading,  setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails} = slice.actions;
   
   export const fetchAvailSlots = (body) => async dispatch => {
     dispatch(startSlotsLoading());
@@ -62,14 +72,26 @@ const slice = createSlice({
   }
 
   export const saveUserBooking = (body) => async dispatch => {
+    dispatch(startBookingLoading())
     try{
-        await axios 
+      return await axios 
             .post(API_URL+'UBooking/SaveUBooking',body,{headers:authHeader()})
-            .then(response => dispatch(setTransactionId(response.data)));
+            .then(response => {dispatch(setTransactionId(response.data));return response.data});
     } catch (e){
         console.log(e);
+        return e;
     }
-    return true;
+  }
+
+  export const saveTransactionDetails = (body) => async dispatch => {
+    try{
+      return await axios 
+            .post(API_URL+'UBooking/GetTransactIdDetails',body,{headers:authHeader()})
+            .then(response => {dispatch(setTransactionDetails(response.data));return response.data});
+    } catch (e){
+        console.log(e);
+        return e;
+    }
   }
 
   export const moveTransactionToCart = (body) => async dispatch => {

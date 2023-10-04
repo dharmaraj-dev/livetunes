@@ -56,7 +56,7 @@ const SingleArtist = () => {
   const { details, loading, error } = useSelector(state => state.artistDetails);
   const artistId = atob(params.artistId);
   const userId = atob(params.userId);
-  
+  console.log(params.artistId);
   useEffect(()=>{
     if(artistId === undefined){
         navigate("/dashboard");
@@ -162,7 +162,7 @@ const SingleArtist = () => {
                                                     <h2>Performance Languages</h2>
                                                     <div className="per-lang">
                                                         {
-                                                           details.selAPDetails.LanguageName ? details?.selAPDetails?.LanguageName.split(",").map((language,index) => {
+                                                           details?.selAPDetails.LanguageName ? details?.selAPDetails?.LanguageName.split(",").map((language,index) => {
                                                                 return <div key={`lang_${index}`} className="inner-per-lang l-sb">{language}</div>
                                                             }) : <></>
                                                         }
