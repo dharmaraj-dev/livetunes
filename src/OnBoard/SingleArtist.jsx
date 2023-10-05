@@ -116,7 +116,7 @@ const SingleArtist = () => {
                                             <div className="share-icon"><FiShare2/>
                                             <SocialIcon/>
                                             </div>
-                                            <Link to={`/check-availability/${btoa(artistId)}`}>
+                                            <Link to={`/check-availability/${btoa(artistId)}/${btoa(userId)}`}>
                                                 <button type="button" className="l-b btnn check-btn btn btn-primary">Check Availability</button>
                                             </Link>
                                         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -17,21 +17,22 @@ import Sademoji from "../components/sademoji.json";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchAvailSlots} from "../redux/userBookingSlice";
 import { errorToast, infoToast, successToast } from "../services/toast-service";
-import {setArtistId,setEventData,SelectSlot,saveUserBooking} from "../redux/userBookingSlice";
+import {setArtistId,setEventData,SelectSlot,saveUserBooking, saveForBooking, payForBooking} from "../redux/userBookingSlice";
 import moment from 'moment/moment';
 
 
-const EventDetailVenue = (props) => {
+const EventDetailVenue = forwardRef((props, ref) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {details} = useSelector(state => state.artistDetails);
     const { events ,states,cities} = useSelector(state => state.common);
     const {user} = useSelector(state => state.auth);
-    const {availSlotsLoading, availSlots, availSlotsMsg, transactionId,saveBookingLoading} = useSelector(state => state.userBooking);
+    const {availSlotsLoading, availSlots, availSlotsMsg, transactionId,saveBookingLoading, saveAndPayLoading} = useSelector(state => state.userBooking);
 
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [selectedSlot, setSelectedSlot] = useState("");
+    const [selectedSlotData, setSelectedSlotData] = useState([]);
 
     const [eventId,setEventId] = useState(-1);
     const [eventDate,setEventDate] = useState("");
@@ -46,6 +47,109 @@ const EventDetailVenue = (props) => {
     const [isCheckboxChecked,setIsCheckboxChecked] = useState(false);
 
 
+    useImperativeHandle(
+        ref,
+        () => ({
+            payNowTrigger(transId) {
+                console.log('transId', transId);
+                return false;
+                if(eventAddress1 === ""){
+                    errorToast("Event Address1 field is missing");
+                    return false;
+                }else if(eventAddress2 === ""){
+                    errorToast("Event Address2 field is missing");
+                    return false;
+                }else if(landmark === ""){
+                    errorToast("Landmark field is missing");
+                    return false;
+                }else if(state === ""){
+                    errorToast("State field is missing");
+                    return false;
+                }else if(city === ""){
+                    errorToast("City field is missing");
+                    return false;
+                }else if(pincode === ""){
+                    errorToast("Pincode field is missing");
+                    return false;
+                }else if(eventId === -1){
+                    errorToast("Event field is missing");
+                    return false;
+                }else if(eventDate === ""){
+                    errorToast("Date field is missing");
+                    return false;
+                }else if(selectedSlot === ""){
+                    errorToast("Slot not available or not selected");
+                    return false;
+                }else{
+                    const sData = {
+                        "EventAdd1":eventAddress1,
+                        "EventAdd2":eventAddress2,
+                        "Landmark":landmark,
+                        "StateName":state,
+                        "CityName":city,
+                        "PinCode":pincode,
+                        "EventTypeId":eventId,
+                        "EventDate":eventDate,
+                        "ArtistId":props.artistId,
+                        "ASlotId":selectedSlot,
+                        "EventLat":eventLatitude,
+                        "EventLoc":eventLongitude,
+
+                    }
+                    dispatch(saveForBooking(sData))
+                    .then((res)=>{
+                        console.log(res);
+                        if(res.IsSuccess){
+                            if(res.TransactionId != null){
+                                const paymentData = {
+                                    "TransactId": res.TransactionId,
+                                    "selBookBill":
+                                    [
+                                        {
+                                            "BillSec":"Total artist rate",
+                                            "BillSecAmt": selectedSlotData.PerShowRate
+                                        },
+                                        {
+                                            "BillSec":"Food and stay",
+                                            "BillSecAmt": selectedSlotData.FoodStay
+                                        },
+                                        {
+                                            "BillSec":"Travel fees",
+                                            "BillSecAmt": selectedSlotData.TravelFees
+                                        },
+                                        {
+                                            "BillSec":"Gst(18%)",
+                                            "BillSecAmt": (selectedSlotData.PerShowRate + selectedSlotData.FoodStay + selectedSlotData.TravelFees)*0.18
+                                        }
+                                    ]
+                                        // "selBookCoupon":
+                                        // [
+                                        //     {
+                                        //         "TransactId" :"B2023925962",
+                                        //         "CouponId":1,
+                                        //         "CouponName":"LIVETUNENEW"
+                                        //     },
+                                        //     {
+                                        //         "TransactId" :"B2023925962",
+                                        //         "CouponId":2,
+                                        //         "CouponName":"EXCELLENT"
+                                        //     }
+                                        // ]
+                                    }
+
+                                    dispatch(payForBooking(paymentData));
+                            } else{
+                                infoToast(res.Message);
+                            }
+                        } else{
+                            errorToast('Something went wrong')
+                        }
+                    })
+                }
+            }
+        }),
+    )
+
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -54,18 +158,28 @@ const EventDetailVenue = (props) => {
     const handleShow2 = () => setShow2(true);
 
     const setDate = (e) => {
-        setEventDate(e.target.value);
-        dispatch(fetchAvailSlots({"ArtistId":props.artistId,"EventDate":e.target.value,"StateName": state}));
+        if(e == "") {
+            setEventDate("");
+            setSelectedSlot("");
+            setSelectedSlotData([]);
+
+        } else {
+            setEventDate(e.target.value);
+            dispatch(fetchAvailSlots({"ArtistId":props.artistId,"EventDate":e.target.value,"StateName": state,"CityName": city}));
+        }
+        
     }
 
-    const selectSlot = (slottData) => {
-        console.log(slottData);
-        setSelectedSlot(slottData.ASlotId);
-        if(selectedSlot === slottData.ASlotId) {
+    const selectSlot = (slotData) => {
+        setSelectedSlot(slotData.ASlotId);
+
+        if(selectedSlot === slotData.ASlotId) {
             setSelectedSlot("");
+            setSelectedSlotData([]);
             props.setSlotForAvailability("");
         } else {
-            props.setSlotForAvailability(slottData);
+            setSelectedSlotData(slotData);
+            props.setSlotForAvailability(slotData);
         }
         
     }
@@ -98,9 +212,6 @@ const EventDetailVenue = (props) => {
         }else if(selectedSlot === ""){
             errorToast("Slot not available or not selected");
             return false;
-        }else if(!isCheckboxChecked){
-            errorToast("Please check the checkbox");
-            return false;
         }else{
             dispatch(setArtistId(props.artistId));
             const data = {
@@ -117,7 +228,6 @@ const EventDetailVenue = (props) => {
             dispatch(SelectSlot(availSlots.filter((slot) => slot.ASlotId == selectedSlot)[0]));
             dispatch(saveUserBooking({...data,"ArtistId":props.artistId,"ASlotId":selectedSlot,"EventLat":eventLatitude,"EventLoc":eventLongitude}))
             .then((res)=>{
-                console.log(res);
                 if(res.IsSuccess){
                     if(res.TransactionId != null){
                         successToast(res.Message);
@@ -129,7 +239,6 @@ const EventDetailVenue = (props) => {
                     errorToast('Something went wrong')
                 }
             })
-            
         }
     }
 
@@ -160,7 +269,7 @@ const EventDetailVenue = (props) => {
                 <Form.Control placeholder="Landmark" type="text" onChange={(e)=>setLandmark(e.target.value)}/>
                 </Col>
                 <Col lg={4} md="12" className="mb-4"> 
-                    <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>setState(e.target.value)}>
+                    <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setState(e.target.value);setDate("")}}>
                         <option>Select state</option>
                         {
                             states.map((state,index)=><option key={`state_${index}`} value={state.StateName}>{state.StateName}</option>)
@@ -168,10 +277,10 @@ const EventDetailVenue = (props) => {
                     </Form.Select>
                 </Col>
             {
-                state ? (
+                state && (
                 <>
                     <Col lg={4} md="12" className="mb-4">
-                        <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>setCity(e.target.value)}>
+                        <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setCity(e.target.value); setIsCheckboxChecked(props.artistDetails.selApInfo.CityName != e.target.value ? true : false);setDate("")}}>
                             <option>Select city</option>
                             {
                                 cities.filter((city)=>city.StateName === state).map((city,index)=><option key={`city_${index}`} value={city.CityName}>{city.CityName}</option>)
@@ -182,12 +291,11 @@ const EventDetailVenue = (props) => {
                         <Form.Control placeholder="Pincode" type="number"/>
                     </Col>
                 </>
-                ) : <>
-                </>
+                )
             }
                 <Col>
                     <Form.Group className="l-r" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Additional travel, food and stay charges may be applicable according to the venue location" onChange={(e)=>setIsCheckboxChecked(e.target.checked)}/>
+                        <Form.Check type="checkbox" label="Additional travel, food and stay charges may be applicable according to the venue location" checked={isCheckboxChecked ? true : false} onChange={(e)=>setIsCheckboxChecked(e.target.checked)} disabled/>
                     </Form.Group>
                 </Col>
             </Row>
@@ -215,23 +323,25 @@ const EventDetailVenue = (props) => {
                     })}
                     </ul>
                 ):(
-                    availSlots?.length > 0 ? (
-                        <Col lg={12} md="12" className="mb-4">
-                            <label>Available Slots:</label>
-                            <ul className="slots-list">
-                                {availSlots.filter((slot,index)=>availSlots.indexOf(slot) === index).map((slot) => (
-                                        <li onClick={() =>{selectSlot(slot)}} className={selectedSlot === slot.ASlotId ? 'active' : ''}>
-                                        <label>
-                                            <span className='slot-box'>{slot.Slot}</span><br></br>
-                                        </label>
-                                    </li>)
-                                )}
-                            </ul>
-                        </Col>
-                    ) : (
-                        <>
-                            <p className="info-text">{availSlotsMsg !== null ? availSlotsMsg : 'Slots not available for this date and state'}</p>
-                        </>
+                    eventDate != "" && (
+                        availSlots?.length > 0 ? (
+                            <Col lg={12} md="12" className="mb-4">
+                                <label>Available Slots:</label>
+                                <ul className="slots-list">
+                                    {availSlots.filter((slot,index)=>availSlots.indexOf(slot) === index).map((slot) => (
+                                            <li onClick={() =>{selectSlot(slot)}} className={selectedSlot === slot.ASlotId ? 'active' : ''}>
+                                            <label>
+                                                <span className='slot-box'>{slot.Slot}</span><br></br>
+                                            </label>
+                                        </li>)
+                                    )}
+                                </ul>
+                            </Col>
+                        ) : (
+                            <>
+                                <p className="info-text">{availSlotsMsg !== null ? availSlotsMsg : 'Slots not available for this date and state'}</p>
+                            </>
+                        )
                     )
                 )}
                 
@@ -367,6 +477,6 @@ const EventDetailVenue = (props) => {
 
     </>
   )
-}
+})
 
 export default EventDetailVenue

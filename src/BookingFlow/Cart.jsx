@@ -13,7 +13,7 @@ import Coupons from "./Coupons";
 import {fetchArtistDetails} from '../redux/artistDetailsSlice';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {moveTransactionToCart,saveTransactionDetails} from "../redux/userBookingSlice";
+import {moveTransactionToCart,getTransactionDetails} from "../redux/userBookingSlice";
 import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import moment from "moment";
@@ -34,7 +34,7 @@ const Cart = () => {
 
   useEffect(()=>{
     dispatch(fetchArtistDetails(artistId,user.RegId));
-    dispatch(saveTransactionDetails({"TransactId":transactId}));
+    dispatch(getTransactionDetails({"TransactId":transactId}));
   },[]);
   return (
     <>
@@ -50,27 +50,21 @@ const Cart = () => {
             {
               transactionDetailsLoading ? (
                 <>
-                  <div className="">
-                      <Skeleton className="mr-1 mb-3" width="32%" inline={true} height="300px" />
-                      <Skeleton className="mr-1 mb-3" width="32%" inline={true} height="300px" />
-                  </div>
+                   <Row>
+                    <Col xl={7} lg={12} md={12}>
+                      <Skeleton className="mr-1 mb-3" height="160px" />
+                      <Skeleton className="mr-1" height="300px" />
+                    </Col>
+                    <Col xl={5} lg={12} md={12} className="">
+                      <div className="h-100">
+                        <Skeleton className="mr-1" height="100%" />
+                      </div>
+                    </Col>
+                    </Row>
                 </>
               ) : (
                 <Container fluid>
               <div className="main-artists-list">
-                <section className="steps-progressbar">
-                  <ol className="steps l-b">
-                    <li className="step is-active" data-step="1">
-                        My cart
-                    </li>
-                    <li className="step" data-step="2">
-                        Details
-                    </li>
-                    <li className="step" data-step="3">
-                        Payment
-                    </li>
-                  </ol>
-                </section>
                 <Row>
                     <Col xl={7} lg={12} md={12}>
                         <div className="cart-artist-detail">
@@ -83,11 +77,11 @@ const Cart = () => {
                         <div className="cart-details-box postion-r">
                             <div className="d-flex">
                                 <div className="img-sec">
-                                    <img src={Art} alt="" className="w-100"/>
+                                    <img src={transactionDetails.selBook.ProfileURL} alt="" className="w-100"/>
                                 </div>
                                 <div className="inner-artist-detail">
-                                    <h4 className="l-sb">Sujal Agrawal, Bhajan Singer</h4>
-                                    <div className="value-sec l-b"><span>Rs 500</span></div>
+                                    <h4 className="l-sb">{transactionDetails.selBook.ArtistName}, <br /> {transactionDetails.selBook.Genre}</h4>
+                                    <div className="value-sec l-b"><span>Rs {transactionDetails.selBook.PerShowRate}</span></div>
                                     <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Location :</div>
                                     <span className="label-value">{transactionDetails.selBook.CityName} , {transactionDetails.selBook.StateName}</span>
@@ -102,12 +96,8 @@ const Cart = () => {
                                     </Stack>
                                     <Stack direction="horizontal" gap={3}>
                                     <div className="l-r sub-head">Event time :</div>
-                                    <span className="label-value">{transactionDetails.selBook.ASlotId}</span>
+                                    <span className="label-value">{transactionDetails.selBook.SlotTime}</span>
                                     </Stack>
-                                    {/* <Stack direction="horizontal" gap={3}>
-                                    <div className="l-r sub-head">Event duration :</div>
-                                    
-                                    </Stack> */}
                                 </div>
                             </div>
                             <div className="cart-footer">
@@ -129,7 +119,7 @@ const Cart = () => {
                           <div className="main-reward-sec">
                             <Reward/>
                           </div>
-                            <Billdetail data={selectedSlots}/>
+                            <Billdetail  data={transactionDetails.selBook}/>
                         </div>
                     </Col>
                 </Row>

@@ -26,7 +26,7 @@ const SideNavBar = () => {
 	const location = useLocation();
 	const MySwal = withReactContent(Swal);
 	const { joiningType } = useSelector((state) => state.auth);
-	
+	const { userId } = useSelector((state) => state.user);
 
 	const audio = new Audio(Gaudio);
 	const [isExpanded, setExpendState] = useState(false);
@@ -81,7 +81,7 @@ const SideNavBar = () => {
 				{
 					text: "TfiMicrophoneAlt",
 					icon: <TfiMicrophoneAlt className="menu-item-icon"/>,
-					links: "/dashboard"
+					links: "/"
 				},
 				{
 					text: "TfiHeart",
@@ -91,7 +91,7 @@ const SideNavBar = () => {
 				{
 					text:"IoTicketOutline", //
 					icon:<IoTicketOutline className="menu-item-icon"/>,
-					links:"/dashboard"
+					links:`/bookings`
 				},
 				{
 					text: "Settings ",
@@ -101,7 +101,7 @@ const SideNavBar = () => {
 				{
 					text:"TfiHeadphoneAlt", //
 					icon:<TfiHeadphoneAlt className="menu-item-icon"/>,
-					links:"/dashboard"
+					links:"/"
 				}
 			]);
 		}

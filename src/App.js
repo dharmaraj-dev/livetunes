@@ -120,7 +120,7 @@ function App() {
         <Route path="/artist-List" element={<ArtistList/>}/>
         <Route path="/artist-slots" element={<ArtistAvailSlot/>}/>
         <Route path="/artist-details/:artistName/:artistId/:userId" element={<SingleArtist/>}/>
-        <Route path="/check-availability/:artistId" element={<CheckAvailability/>}/>
+        <Route path="/check-availability/:artistId/:userId" element={<CheckAvailability/>}/>
         <Route path="/cart/:transactionId" element={<Cart/>}/>
         <Route path="/notifications" element={<Notifications/>}/>
         <Route path="/profile" element={<Profile/>}/>

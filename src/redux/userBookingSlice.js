@@ -15,7 +15,14 @@ const slice = createSlice({
       eventData:null,
       saveBookingLoading: false,
       transactionDetails : null,
-      transactionDetailsLoading : true
+      transactionDetailsLoading : true,
+      payNowLoading: false,
+      payNowError: null,
+      payNowSuccess: null,
+      saveAndPayLoading: false,
+      saveAndPayError: null,
+      saveAndPaySucess: false,
+      saveAndPayMessage: null,
     },
     reducers: {
       startSlotsLoading:(state,action)=>{
@@ -23,6 +30,12 @@ const slice = createSlice({
       },
       startBookingLoading:(state,action)=>{
         state.saveBookingLoading = true;
+      },
+      startPayNowLoading:(state,action)=>{
+        state.payNowLoading = true;
+      },
+      startSaveAndPayLoading:(state,action)=>{
+        state.saveAndPayLoading = true;
       },
       setAvailSlots:(state,action) => {
         if(action.payload.IsSuccess){
@@ -51,14 +64,35 @@ const slice = createSlice({
       setTransactionDetails:(state,action) => {
         state.transactionDetailsLoading = false
         state.transactionDetails = action.payload;
-      }
+      },
+      setSaveAndPayDetails:(state,action) => {
+        state.saveAndPayLoading = false;
+        console.log(action.payload);
+        state.saveAndPayError = action.payload
+        state.saveAndPaySucess = action.payload;
+      },
+      stopSaveAndPayLoading:(state,action)=>{
+        state.saveAndPayLoading = false;
+        state.saveAndPayMessage = action.payload.Message;
+        state.saveAndPayError = true;
+        state.saveAndPaySucess = false;
+      },
+      saveAndPaySuccessError:(state,action)=>{
+        if(action.payload.IsSuccess) {
+          state.saveAndPaySucess = true;
+          state.saveAndPayMessage = action.payload.Message;
+        } else {
+          state.saveAndPayMessage = action.payload.Message;
+          state.saveAndPayError = true;
+        }        
+      },
     }
   });
   
   export default slice.reducer
   
   
-  export const {startSlotsLoading,  setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails} = slice.actions;
+  export const {startSlotsLoading,  setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails, startPayNowLoading, startSaveAndPayLoading, setSaveAndPayDetails, stopSaveAndPayLoading, saveAndPaySuccessError } = slice.actions;
   
   export const fetchAvailSlots = (body) => async dispatch => {
     dispatch(startSlotsLoading());
@@ -83,7 +117,19 @@ const slice = createSlice({
     }
   }
 
-  export const saveTransactionDetails = (body) => async dispatch => {
+  export const payForUserBooking = (body) => async dispatch => {
+    dispatch(startPayNowLoading())
+    try{
+      return await axios 
+            .post(API_URL+'UBooking/MoveForPay',body,{headers:authHeader()})
+            .then(response => {return response.data});
+    } catch (e){
+        console.log(e);
+        return e;
+    }
+  }
+
+  export const getTransactionDetails = (body) => async dispatch => {
     try{
       return await axios 
             .post(API_URL+'UBooking/GetTransactIdDetails',body,{headers:authHeader()})
@@ -103,5 +149,39 @@ const slice = createSlice({
       console.log(e);
     }
   }
-  
+
+  export const saveForBooking = (body) => async dispatch => {
+    dispatch(startSaveAndPayLoading());
+    try{
+      return await axios 
+            .post(API_URL+'UBooking/SaveUBooking',body,{headers:authHeader()})
+            .then(response => {
+              if(response.data.IsSuccess && response.data.TransactionId != null) {
+                return response.data;
+              } else {
+                dispatch(stopSaveAndPayLoading(response.data));
+              }
+            });
+    } catch (e){
+        console.log(e);
+        return e;
+    }
+  }
+
+  export const payForBooking = (body) => async dispatch => {
+    dispatch(startSaveAndPayLoading());
+    try{
+      return await axios 
+            .post(API_URL+'UBooking/MoveForPay',body,{headers:authHeader()})
+            .then(response => {
+              dispatch(stopSaveAndPayLoading(response.data));
+              dispatch(saveAndPaySuccessError(response.data));
+              return response.data
+            });
+    } catch (e){
+        console.log(e);
+        return e;
+    }
+  }
+
   
