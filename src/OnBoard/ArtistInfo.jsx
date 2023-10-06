@@ -5,19 +5,14 @@ import Skeleton from 'react-loading-skeleton'
 import Octicons from '../assets/images/octicons.png';
 import { BsFillStarFill } from "react-icons/bs";
 import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
-import {fetchArtistDetails} from '../redux/artistDetailsSlice'
 import { useDispatch } from 'react-redux';
 
-const ArtistInfo = ({loading, artistId}) => {
+const ArtistInfo = ({loading, artistId, artistDetails}) => {
   const dispatch = useDispatch();
-  const {artistInfo} = useSelector(state => state.user);
-  const {details} = useSelector(state => state.artistDetails);
-  const {user} = useSelector(state => state.auth);
+  
   useEffect(()=>{
-    console.log(artistId);
-    dispatch(fetchArtistDetails(artistId,user.RegId));
   },[]);
-  // console.log(artistInfo);
+
   return (
     <>
       <div className="inner-artist-info postion-r">
@@ -40,11 +35,11 @@ const ArtistInfo = ({loading, artistId}) => {
       ):(
         <>
           <div className="avtar-img">
-              <img src={details?.selProfileImage?.length > 0 ? details?.selProfileImage[0]?.LTMediaURL : Avtar} alt="" className="w-100" />
+              <img src={artistDetails?.selProfileImage?.length > 0 ? artistDetails?.selProfileImage[0]?.LTMediaURL : Avtar} alt="" className="w-100" />
           </div>
           <div className="s-artist-detail">
-            <p className="name l-b">{details?.selApInfo.FullName} <span><img src={Octicons} alt="" style={{width:26}} /></span></p>
-            <p className="l-r locotion">{details?.selApInfo.CityName}, {details?.selApInfo.StateName}</p>
+            <p className="name l-b">{artistDetails?.selApInfo.FullName} <span><img src={Octicons} alt="" style={{width:26}} /></span></p>
+            <p className="l-r locotion">{artistDetails?.selApInfo.CityName}, {artistDetails?.selApInfo.StateName}</p>
             <Stack direction="horizontal" gap={2} className="d-inline-flex">
                 <div className="star-rate-sec l-r">
                 <span><BsFillStarFill className="star-class"/></span>

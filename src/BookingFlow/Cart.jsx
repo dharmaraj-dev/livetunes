@@ -7,35 +7,53 @@ import Col from "react-bootstrap/Col";
 import Stack from 'react-bootstrap/Stack';
 import Form from 'react-bootstrap/Form';
 import Art from '../assets/images/art.png';
-import Billdetail from "./Billdetail";
+import BilldetailSlots from "./BilldetailSlots";
 import Reward from "./Reward";
 import Coupons from "./Coupons";
-import {fetchArtistDetails} from '../redux/artistDetailsSlice';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {moveTransactionToCart,getTransactionDetails} from "../redux/userBookingSlice";
+import {moveTransactionToCart, getTransactionDetails, resetToInitialState} from "../redux/userBookingSlice";
 import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import moment from "moment";
+import { errorToast, infoToast, successToast } from "../services/toast-service";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const params = useParams();
   const transactId = atob(params.transactionId);
   console.log(transactId);
   const {user} = useSelector(state => state.auth);
-  const {details} = useSelector(state => state.artistDetails);
-  const {eventData,selectedSlots,artistId,transactionId,transactionDetailsLoading,transactionDetails} = useSelector(state => state.userBooking);
+  const {
+      transactionDetailsLoading,
+      transactionDetails,
+      moveToWishlistLoading,
+      moveToWishlistSuccess,
+      moveToWishlistError,
+      moveToWishlistMessage
+  } = useSelector(state => state.userBooking);
   const {events} = useSelector(state => state.common);
 
   const moveToCart = () => {
-    dispatch(moveTransactionToCart({"TransactId":transactionId}))
+    dispatch(moveTransactionToCart({"TransactId":transactId}))
   }
 
   useEffect(()=>{
-    dispatch(fetchArtistDetails(artistId,user.RegId));
     dispatch(getTransactionDetails({"TransactId":transactId}));
   },[]);
+
+  useEffect(()=>{
+    if(moveToWishlistSuccess) {
+      successToast(moveToWishlistMessage);
+      dispatch(resetToInitialState())
+      navigate(`/bookings`);
+    } else if(moveToWishlistError) {
+      successToast(moveToWishlistMessage)
+    }
+  },[moveToWishlistSuccess, moveToWishlistError]);
+
   return (
     <>
       <div className="wrapper">
@@ -98,6 +116,9 @@ const Cart = () => {
                                     <div className="l-r sub-head">Event time :</div>
                                     <span className="label-value">{transactionDetails.selBook.SlotTime}</span>
                                     </Stack>
+                                    {transactionDetails.PayStatus === "Success" && (
+                                       <div class="rubber_stamp">BOOKED</div>
+                                    )}
                                 </div>
                             </div>
                             <div className="cart-footer">
@@ -106,7 +127,12 @@ const Cart = () => {
                                     <button type="button" className="l-b wbtnn btn btn-primary w-100">REMOVE</button>
                                 </div>
                                 <div className="ms-auto">
-                                    <button type="button" className="l-b wbtnn btn btn-primary w-100" onClick={()=>moveToCart()}>MOVE TO WISHLIST</button>
+                                    <button type="button" className="l-b wbtnn btn btn-primary w-100" onClick={()=>moveToCart()}>
+                                    {moveToWishlistLoading && (
+                                      <span className="spinner-border spinner-border-sm"></span>
+                                    )}
+                                      MOVE TO WISHLIST
+                                    </button>
                                 </div>
                                 </Stack>
                             </div>
@@ -119,7 +145,7 @@ const Cart = () => {
                           <div className="main-reward-sec">
                             <Reward/>
                           </div>
-                            <Billdetail  data={transactionDetails.selBook}/>
+                            <BilldetailSlots data={transactionDetails}/>
                         </div>
                     </Col>
                 </Row>

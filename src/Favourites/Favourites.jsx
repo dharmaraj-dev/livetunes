@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../Layout/NavBar";
 import SideNavBar from "../Layout/SideNavBar";
 import Container from 'react-bootstrap/Container';
@@ -8,21 +8,29 @@ import Col from 'react-bootstrap/Col';
 import FavouriteCard from "./FavouriteCard";
 import Badge from 'react-bootstrap/Badge';
 import MoveCart from "./MoveCart";
-import { useDispatch,useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getUserFavoriteArtists } from "../actions/user";
 import Skeleton from "react-loading-skeleton";
+import { useDispatch,useSelector } from "react-redux";
+import { getUserFavoriteArtists } from "../actions/user";
+import { fetchBookings } from "../redux/userBookingsSlice";
 
 
 const Favourites = () => {
   const dispatch = useDispatch();
   const {userFavoriteArtists} = useSelector(state => state.user);
   const {user} = useSelector(state => state.auth);
+  const { loading, error, message, bookings } = useSelector(state => state.userBookings);
+
   const [favoriteArtists,setFavoriteArtists] = useState([]);
+
   useEffect(()=>{
     dispatch(getUserFavoriteArtists(user.RegId));
     setFavoriteArtists(userFavoriteArtists);
   },[favoriteArtists]);
+
+  useEffect(()=>{
+    dispatch(fetchBookings());
+  },[]);
+
   return (
     <>
         <div className="wrapper">
@@ -61,15 +69,13 @@ const Favourites = () => {
                                     <Tab eventKey="bookings" title="Moved form cart"
                                     >
                                         <Row>
-                                            <Col xs={12}>
-                                                <MoveCart/>
-                                            </Col>
-                                            <Col xs={12}>
-                                                <MoveCart/>
-                                            </Col>
-                                            <Col xs={12}>
-                                                <MoveCart/>
-                                            </Col>
+                                            {bookings.filter((book) => { return book.selBookBill.length === 0}).map((book,index) => {
+                                                return (
+                                                    <Col xs={12} key={index}>
+                                                        <MoveCart loading={loading} data={book.selBook}/>
+                                                    </Col>
+                                                )
+                                            })}
                                         </Row>
                                     </Tab>
                                 </Tabs>

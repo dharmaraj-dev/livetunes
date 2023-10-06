@@ -19,11 +19,14 @@ import {fetchAvailSlots} from "../redux/userBookingSlice";
 import { errorToast, infoToast, successToast } from "../services/toast-service";
 import {setArtistId,setEventData,SelectSlot,saveUserBooking, saveForBooking, payForBooking} from "../redux/userBookingSlice";
 import moment from 'moment/moment';
+import { useParams } from "react-router-dom";
 
 
 const EventDetailVenue = forwardRef((props, ref) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const params = useParams();
+    const artistId = atob(params.artistId);
     const {details} = useSelector(state => state.artistDetails);
     const { events ,states,cities} = useSelector(state => state.common);
     const {user} = useSelector(state => state.auth);
@@ -50,9 +53,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
     useImperativeHandle(
         ref,
         () => ({
-            payNowTrigger(transId) {
-                console.log('transId', transId);
-                return false;
+            payNowTrigger() {
                 if(eventAddress1 === ""){
                     errorToast("Event Address1 field is missing");
                     return false;
@@ -90,7 +91,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
                         "PinCode":pincode,
                         "EventTypeId":eventId,
                         "EventDate":eventDate,
-                        "ArtistId":props.artistId,
+                        "ArtistId":artistId,
                         "ASlotId":selectedSlot,
                         "EventLat":eventLatitude,
                         "EventLoc":eventLongitude,
@@ -136,7 +137,6 @@ const EventDetailVenue = forwardRef((props, ref) => {
                                         //     }
                                         // ]
                                     }
-
                                     dispatch(payForBooking(paymentData));
                             } else{
                                 infoToast(res.Message);
@@ -165,7 +165,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
 
         } else {
             setEventDate(e.target.value);
-            dispatch(fetchAvailSlots({"ArtistId":props.artistId,"EventDate":e.target.value,"StateName": state,"CityName": city}));
+            dispatch(fetchAvailSlots({"ArtistId":artistId,"EventDate":e.target.value,"StateName": state,"CityName": city}));
         }
         
     }
@@ -213,7 +213,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
             errorToast("Slot not available or not selected");
             return false;
         }else{
-            dispatch(setArtistId(props.artistId));
+            dispatch(setArtistId(artistId));
             const data = {
                 "EventAdd1":eventAddress1,
                 "EventAdd2":eventAddress2,
@@ -226,7 +226,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
             }
             dispatch(setEventData(data));
             dispatch(SelectSlot(availSlots.filter((slot) => slot.ASlotId == selectedSlot)[0]));
-            dispatch(saveUserBooking({...data,"ArtistId":props.artistId,"ASlotId":selectedSlot,"EventLat":eventLatitude,"EventLoc":eventLongitude}))
+            dispatch(saveUserBooking({...data,"ArtistId":artistId,"ASlotId":selectedSlot,"EventLat":eventLatitude,"EventLoc":eventLongitude}))
             .then((res)=>{
                 if(res.IsSuccess){
                     if(res.TransactionId != null){
@@ -318,7 +318,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
                     <ul className="slots-list">
                     {[...Array(6)].map((e, i) => {
                         return (
-                          <Skeleton className="mr-2"  width="140px" height="50px" count={1} inline={true}  />
+                          <Skeleton key={`slot_${i}`} className="mr-2"  width="140px" height="50px" count={1} inline={true}  />
                         )
                     })}
                     </ul>
@@ -328,8 +328,8 @@ const EventDetailVenue = forwardRef((props, ref) => {
                             <Col lg={12} md="12" className="mb-4">
                                 <label>Available Slots:</label>
                                 <ul className="slots-list">
-                                    {availSlots.filter((slot,index)=>availSlots.indexOf(slot) === index).map((slot) => (
-                                            <li onClick={() =>{selectSlot(slot)}} className={selectedSlot === slot.ASlotId ? 'active' : ''}>
+                                    {availSlots.filter((slot,index)=>availSlots.indexOf(slot) === index).map((slot, indx) => (
+                                            <li key={`slot_data_${indx}`} onClick={() =>{selectSlot(slot)}} className={selectedSlot === slot.ASlotId ? 'active' : ''}>
                                             <label>
                                                 <span className='slot-box'>{slot.Slot}</span><br></br>
                                             </label>
@@ -349,7 +349,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
             <section className="event-check-button-sec">
                 <Row>
                     <Col lg="6">
-                        <Link to={`/artist-details/${details.selApInfo.FullName?.replace(/ /g,"-")}/${btoa(props.artistId)}/${btoa(user.RegId)}`}>
+                        <Link to={`/artist-details/${details.selApInfo.FullName?.replace(/ /g,"-")}/${btoa(artistId)}/${btoa(user.RegId)}`}>
                         <button type="button" className="l-b wbtnn back-btn btn btn-primary w-100">Back</button>
                         </Link>
                     </Col>

@@ -20,9 +20,17 @@ const slice = createSlice({
       payNowError: null,
       payNowSuccess: null,
       saveAndPayLoading: false,
-      saveAndPayError: null,
+      saveAndPayError: false,
       saveAndPaySucess: false,
       saveAndPayMessage: null,
+      payFromCartLoading: false,
+      payFromCartError: false,
+      payFromCartSuccess: false,
+      payFromCartMessage: null,
+      moveToWishlistLoading: false,
+      moveToWishlistError: false,
+      moveToWishlistSuccess: false,
+      moveToWishlistMessage: null
     },
     reducers: {
       startSlotsLoading:(state,action)=>{
@@ -36,6 +44,12 @@ const slice = createSlice({
       },
       startSaveAndPayLoading:(state,action)=>{
         state.saveAndPayLoading = true;
+      },
+      startPayFromCartLoading:(state,action)=>{
+        state.payFromCartLoading = true;
+      },
+      startMoveToWishlistLoading:(state,action)=>{
+        state.moveToWishlistLoading = true;
       },
       setAvailSlots:(state,action) => {
         if(action.payload.IsSuccess){
@@ -80,11 +94,40 @@ const slice = createSlice({
       saveAndPaySuccessError:(state,action)=>{
         if(action.payload.IsSuccess) {
           state.saveAndPaySucess = true;
+          state.saveAndPayError = false;
           state.saveAndPayMessage = action.payload.Message;
         } else {
-          state.saveAndPayMessage = action.payload.Message;
+          state.saveAndPaySucess = false;
           state.saveAndPayError = true;
+          state.saveAndPayMessage = action.payload.Message;
         }        
+      },
+      payFromCartSuccessError:(state,action)=>{
+        state.payFromCartLoading = false;
+        if(action.payload.IsSuccess) {
+          state.payFromCartSuccess = true;
+          state.payFromCartError = false;
+          state.payFromCartMessage = action.payload.Message;
+        } else {
+          state.payFromCartSuccess = false;
+          state.payFromCartError = true;
+          state.payFromCartMessage = action.payload.Message;
+        }        
+      },
+      moveToWishListSuccessError:(state,action)=>{
+        state.moveToWishlistLoading = false;
+        if(action.payload.IsSuccess) {
+          state.moveToWishlistSuccess = true;
+          state.moveToWishlistError = false;
+          state.moveToWishlistMessage = action.payload.Message;
+        } else {
+          state.moveToWishlistSuccess = false;
+          state.moveToWishlistError = true;
+          state.moveToWishlistMessage = action.payload.Message;
+        }        
+      },
+      resetState:(state,action)=>{
+        state = state.initialState;
       },
     }
   });
@@ -92,7 +135,7 @@ const slice = createSlice({
   export default slice.reducer
   
   
-  export const {startSlotsLoading,  setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails, startPayNowLoading, startSaveAndPayLoading, setSaveAndPayDetails, stopSaveAndPayLoading, saveAndPaySuccessError } = slice.actions;
+  export const {startSlotsLoading,  setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails, startPayNowLoading, startSaveAndPayLoading, setSaveAndPayDetails, stopSaveAndPayLoading, saveAndPaySuccessError, startPayFromCartLoading, payFromCartSuccessError, startMoveToWishlistLoading, moveToWishListSuccessError, resetState } = slice.actions;
   
   export const fetchAvailSlots = (body) => async dispatch => {
     dispatch(startSlotsLoading());
@@ -141,10 +184,13 @@ const slice = createSlice({
   }
 
   export const moveTransactionToCart = (body) => async dispatch => {
+    dispatch(startMoveToWishlistLoading())
     try{
       await axios
         .post(API_URL+'UBooking/MovetoCart',body,{headers:authHeader()})
-        .then(response=>console.log(response));
+        .then(response=>{
+            dispatch(moveToWishListSuccessError(response.data))
+        });
     } catch(e){
       console.log(e);
     }
@@ -182,6 +228,22 @@ const slice = createSlice({
         console.log(e);
         return e;
     }
+  }
+
+  export const payForBookingFromCart = (body) => async dispatch => {
+    dispatch(startPayFromCartLoading())
+    try{
+      return await axios 
+            .post(API_URL+'UBooking/MoveForPay',body,{headers:authHeader()})
+            .then(response => { dispatch(payFromCartSuccessError(response.data)); return response.data});
+    } catch (e){
+        console.log(e);
+        return e;
+    }
+  }
+
+  export const resetToInitialState = (body) => async dispatch => {
+    dispatch(resetState())
   }
 
   

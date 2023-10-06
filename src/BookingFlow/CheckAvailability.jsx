@@ -21,7 +21,6 @@ import { fetchArtistDetails } from "../redux/artistDetailsSlice";
 const CheckAvailability = () => {
     const params= useParams();
     const childRef = useRef();
-    console.log(params);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {loading, details} = useSelector(state => state.artistDetails);
@@ -29,7 +28,6 @@ const CheckAvailability = () => {
     const artistId = atob(params.artistId);
     const userId = atob(params.userId);
     const selectSlot = (data) => {
-        console.log("data", data);
         setSelectedSlot(data);
     }
 
@@ -62,8 +60,7 @@ const CheckAvailability = () => {
                                     artistDetails={details}
                                     artistId={artistId}
                                     setSlotForAvailability={selectSlot}
-                                    ref={childRef}/>
-                                />
+                                    ref={childRef} />
                             </Col>
                             <Col xl={5} lg={6} md={12} className="main-checkavailability-right-sec">
                                 <div className="checkavailability-right-sec">

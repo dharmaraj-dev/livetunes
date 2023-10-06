@@ -56,7 +56,6 @@ const SingleArtist = () => {
   const { details, loading, error } = useSelector(state => state.artistDetails);
   const artistId = atob(params.artistId);
   const userId = atob(params.userId);
-  console.log(params.artistId);
   useEffect(()=>{
     if(artistId === undefined){
         navigate("/dashboard");

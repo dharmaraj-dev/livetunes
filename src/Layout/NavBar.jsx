@@ -59,7 +59,7 @@ const NavBar = () => {
                   </li>
                   {(joiningType === "Artist" || joiningType === "User" )&& (
                   <li className="nav-item">
-                    <Link to="/my-profile">
+                    <Link to={`${joiningType === 'User' ? '/profile' : '/my-profile'}`}>
                     <div className="profile-class">
                       <img src={profilePic} alt="" />
                     </div>

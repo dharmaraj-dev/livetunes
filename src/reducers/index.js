@@ -10,13 +10,7 @@ import user from './user';
 import userHome from "../redux/userHomeSlice";
 import artistSlots from "../redux/artistSlotsSlice";
 import userBooking from "../redux/userBookingSlice";
-
-// export default combineReducers({
-//   auth,
-//   message,
-//   common,
-//   artist
-// });
+import userBookings from "../redux/userBookingsSlice";
 
 const rootReducer = combineReducers({
     auth,
@@ -29,7 +23,8 @@ const rootReducer = combineReducers({
     userSettings,
     userHome,
     artistSlots,
-    userBooking
+    userBooking,
+    userBookings
 });
 
 export default (state, action) =>

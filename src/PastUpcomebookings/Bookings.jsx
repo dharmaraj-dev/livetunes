@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "../Layout/NavBar";
 import SideNavBar from "../Layout/SideNavBar";
 import Container from 'react-bootstrap/Container';
+import Skeleton from "react-loading-skeleton";
 import { Tabs, Tab} from "react-bootstrap";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -9,8 +10,23 @@ import Badge from 'react-bootstrap/Badge';
 import PastBookings from "./PastBookings";
 import BookingFor from "./BookingFor";
 import UpcomeBookings from "./UpcomeBookings";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBookings } from "../redux/userBookingsSlice";
 
 const Bookings = () => {
+    const dispatch = useDispatch();
+    const {
+      loading,
+      error,
+      message,
+      bookings
+    } = useSelector(state => state.userBookings);
+
+    useEffect(() => {
+        dispatch(fetchBookings());
+    }, []);
+
+
   return (
     <>
         <div className="wrapper">

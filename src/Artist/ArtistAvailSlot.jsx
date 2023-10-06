@@ -44,7 +44,8 @@ const ArtistAvailSlot = () => {
           PerShowRate: slt.PerShowRate,
           FoodStay: slt.FoodStay,
           isbooked: slt.isbooked,
-          ASlotId: slt.ASlotId
+          ASlotId: slt.ASlotId,
+          background: slt.background
         }
       })
 
@@ -242,9 +243,9 @@ const ArtistAvailSlot = () => {
                         if(moment(event.start).isBefore()) {
                           backgroundColor = "#d3d4d5";
                         }
-                        // if(event.isBooked) {
-                        //   backgroundColor = event.background;
-                        // }
+                        if(event.isBooked) {
+                          backgroundColor = event.background;
+                        }
                         const color = 'white';
                         return { style: { backgroundColor ,color, "border": "0"} }
                       }}
@@ -278,29 +279,35 @@ const ArtistAvailSlot = () => {
                       <Form onSubmit={handleSubmit}>
                          <div className='slot-input-box'>
                           <Form.Label className='l-sb form-label' htmlFor="slotPrice">Slot Price</Form.Label>
-                          <Form.Control className='form-control numberInput' type="number" required min={0} id='slotPrice' value={slotPrice} onChange={handleChange} placeholder="Slot Price"/>
+                          <Form.Control className='form-control numberInput' type="number" required min={0} id='slotPrice' value={slotPrice} onChange={handleChange} placeholder="Slot Price" disabled={slotDisabled || slotBooked}/>
                           <Form.Label htmlFor="travelPrice" className='l-sb form-label'>Travel Expense</Form.Label>
-                          <Form.Control className='form-control numberInput' type="number" required min={0} id='travelPrice' value={travelPrice} onChange={handleChange} placeholder="Travel Expense"/>
+                          <Form.Control className='form-control numberInput' type="number" required min={0} id='travelPrice' value={travelPrice} onChange={handleChange} placeholder="Travel Expense" disabled={slotDisabled || slotBooked}/>
                           <Form.Label htmlFor="foodPrice" className='l-sb form-label'>Food and Other Expense</Form.Label>
-                          <Form.Control className='form-control numberInput' type="number"required  min={0} id='foodPrice' value={foodPrice} placeholder="Food & Other Expense" onChange={handleChange}/>
-                          {slotDisabled ? (
-                            <button className='mt-4 l-b p-3 btn btn-light' type="button">
-                              {slotBooked && (
-                                'Booked'
-                              )}
-                              {slotDisabled && (
-                                'Disabled'
-                              )}
-                            </button>
-                          ):(
-                            <button className='mt-4 l-b p-3 btnn btn btn-primary' type="submit">
-                              {editedSlotId === 0 ? (
-                                "Add"
-                              ):(
-                                "Update"
-                              )}
-                            </button>
-                          )}
+                          <Form.Control className='form-control numberInput' type="number"required  min={0} id='foodPrice' value={foodPrice} placeholder="Food & Other Expense" onChange={handleChange} disabled={slotDisabled || slotBooked}/>
+                          {slotBooked && (
+                              <button className='mt-4 l-b p-3 btn btn-light' type="button">
+                                Booked
+                              </button>
+                            )}
+                            {slotDisabled && (
+                              <button className='mt-4 l-b p-3 btn btn-light' type="button">
+                                Disabled
+                              </button> 
+                            )}
+                              {!slotBooked && !slotDisabled && (
+                                editedSlotId === 0 ? (
+                                  <button className='mt-4 l-b p-3 btnn btn btn-primary' type="submit">
+                                    Add
+                                  </button>
+                                ):(
+                                  <button className='mt-4 l-b p-3 btnn btn btn-primary' type="submit">
+                                    Update
+                                  </button>
+                                )
+                              ) }
+                              
+                            
+                    
                           
                          </div>
                       </Form>
