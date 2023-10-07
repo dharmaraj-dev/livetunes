@@ -10,15 +10,12 @@ import Straremoji from "../components/straremoji.json";
 import { useDispatch, useSelector } from "react-redux";
 import {payForBookingFromCart} from "../redux/userBookingSlice";
 import Sademoji from "../components/sademoji.json";
+import { Link } from "react-router-dom";
 
 
 const BilldetailSlots = (props) => {
     const dispatch = useDispatch();
     const { 
-            saveAndPayLoading,
-            saveAndPayMessage,
-            saveAndPaySucess,
-            saveAndPayError,
             payFromCartLoading,
             payFromCartError,
             payFromCartSuccess,
@@ -68,11 +65,11 @@ const BilldetailSlots = (props) => {
     }
 
     useEffect(() => {
-        console.log(payFromCartSuccess, payFromCartError, saveAndPaySucess, saveAndPayError)
-        if(payFromCartSuccess || payFromCartError || saveAndPaySucess || saveAndPayError) {
+        console.log(payFromCartSuccess, payFromCartError)
+        if(payFromCartSuccess || payFromCartError) {
             setShowDialogue(true);
         }
-    }, [payFromCartSuccess, payFromCartError, saveAndPaySucess, saveAndPayError])
+    }, [payFromCartSuccess, payFromCartError])
 
   return (
     <>
@@ -102,7 +99,7 @@ const BilldetailSlots = (props) => {
             </div>
 
             {props.data.PayStatus !== "Success" && (
-                <button disabled={saveAndPayLoading} type="button" className="l-b btnn pay-button btn btn-primary w-100"
+                <button disabled={payFromCartLoading} type="button" className="l-b btnn pay-button btn btn-primary w-100"
                     onClick={() => makePayment(props.data?.selBook.TransactId)}
                 >
                 {payFromCartLoading && (
@@ -127,25 +124,30 @@ const BilldetailSlots = (props) => {
             </div>
             <Modal.Body>
                 <div className="inner-reward-sec">
-                    {(payFromCartSuccess || saveAndPaySucess) && (
+                    {(payFromCartSuccess) && (
                         <>
                         <div className="lottie-gift2 mx-auto"><Lottie animationData={Gift2} loop={true} /></div>
                         <div className="reward-text-sec text-center">
                             <div className="head d-flex align-items-center justify-content-center">
                                 <div className="rupee-class"><Lottie animationData={Straremoji} loop={true} /></div><h2>Congratulations!!</h2><div className="rupee-class"><Lottie animationData={Straremoji} loop={true} /></div>
                             </div>
-                            <p className="l-r para">{payFromCartMessage || saveAndPayMessage}</p>
+                            <p className="l-r para">{payFromCartMessage}</p>
                         </div>
                         </>
                     )}
-                    {(payFromCartError || saveAndPayError) && (
+                    {(payFromCartError) && (
                         <>
                         <div className="lottie-gift2 mx-auto"><Lottie animationData={Sademoji} loop={true} /></div>
                         <div className="reward-text-sec text-center">
                             <div className="head d-flex align-items-center justify-content-center">
                                 <div className="rupee-class"><Lottie animationData={Sademoji} loop={true} /></div><h2>!!Unable to BOOK!!</h2><div className="rupee-class"><Lottie animationData={Sademoji} loop={true} /></div>
                             </div>
-                            <p className="l-r para">{payFromCartMessage || saveAndPayMessage}</p>
+                            <p className="l-r para">{payFromCartMessage}</p>
+                            {payFromCartMessage == "This Slot Is Not Available!" && (
+                               <Link to={`/check-availability/${btoa(props.data.selBook.ArtistId)}/${btoa(props.data.selBook.UserId)}`}>
+                                    <button type="button" className="l-b btnn check-btn btn btn-primary">Check Available Slots</button>
+                               </Link>
+                            )}
                         </div>
                         </>
                     )}

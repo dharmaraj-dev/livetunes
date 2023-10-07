@@ -10,7 +10,7 @@
 .inner-favourite-card .avtar-sec{text-align: left;display: grid;}
 .inner-favourite-card .avtar-sec .avtar-img{display: inline-block;width: 180px;margin: 0 0 20px 0;border-radius: 91px;}
 .inner-favourite-card .music-detail{padding: 0;}
-.inner-favourite-card .music-detail .name{font-size: 26px;margin: 0;}
+.inner-favourite-card .music-detail .name{font-size: 1.3rem;margin: 0;}
 .inner-favourite-card .from-select-filter{flex-wrap: wrap;}
 .inner-favourite-card .from-select-filter .inner-from-select-filter{font-size: 15px;color: #444444;border-right: 1px solid #444444;padding: 0 10px 0 0;}
 .inner-favourite-card .from-select-filter .inner-from-select-filter:last-child{border-right:none}

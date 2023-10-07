@@ -3,6 +3,7 @@ import Stack from 'react-bootstrap/Stack';
 import Form from 'react-bootstrap/Form';
 import Art from '../assets/images/art.png';
 import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 
 const MoveCart = (props) => {
   return (
@@ -80,8 +81,8 @@ const MoveCart = (props) => {
                         <img src={Art} alt="" className="w-100"/>
                     </div>
                     <div className="inner-artist-detail">
-                        <h4 className="l-sb">Artist Name, Solo Singer</h4>
-                        <div className="value-sec l-b red-color"><span>Rs 40,000</span></div>
+                        <h4 className="l-sb">{props.data.ArtistName}</h4>
+                        <div className="value-sec l-b red-color"><span>Rs {props.data.PerShowRate}</span></div>
                         <Stack direction="horizontal" gap={3}>
                         <div className="l-r sub-head">Location :</div>
                         <div className="l-r sub-head">{props.data.CityName} , {props.data.StateName}</div>
@@ -89,42 +90,34 @@ const MoveCart = (props) => {
                         <Stack direction="horizontal" gap={3}>
                         <div className="l-r sub-head">Event type :</div>
                         <div className="l-sb sub-head">
-                         House Party
+                         {props.data.EventType}
                         </div>
                         </Stack>
                         
                         <Stack direction="horizontal" gap={3}>
                         <div className="l-r sub-head">Event date :</div>
                         <div className="l-sb sub-head">
-                         22, Jul, 2022
+                         {props.data.EventDateDisplay}
                         </div>
                         </Stack>
 
                         <Stack direction="horizontal" gap={3}>
                         <div className="l-r sub-head">Event time :</div>
                         <div className="l-r sub-head">
-                            <Form.Control placeholder=" " type="time"/>
+                            {props.data.SlotTime}
                         </div>
                         </Stack>
 
                         <Stack direction="horizontal" gap={3}>
                         <div className="l-r sub-head">Event days :</div>
                         <div className="l-r sub-head">
-                            <Form.Select aria-label="Default select example" className="form-control">
-                                <option value="1">1 day</option>
-                                <option value="2">2 days</option>
-                                <option value="3">3 days</option>
-                            </Form.Select>
+                            {props.data.EventDays}
                         </div>
                         </Stack>
                         <Stack direction="horizontal" gap={3}>
                         <div className="l-r sub-head">Event duration :</div>
                         <div className="l-r sub-head">
-                            <Form.Select aria-label="Default select example" className="form-control">
-                                <option value="1">1hr</option>
-                                <option value="2">2hr</option>
-                                <option value="3">3hr</option>
-                            </Form.Select>
+                            1hr
                         </div>
                         </Stack>
                     </div>
@@ -135,7 +128,9 @@ const MoveCart = (props) => {
                         <button type="button" className="l-b wbtnn btn btn-primary w-100 red-color">Remove</button>
                     </div>
                     <div className="">
+                        <Link to={`/cart/${btoa(props.data.TransactId)}`}>
                         <button type="button" className="l-b wbtnn btn btn-primary w-100">Move to cart</button>
+                        </Link>
                     </div>
                     </Stack>
                 </div>

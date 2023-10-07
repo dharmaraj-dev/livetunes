@@ -7,7 +7,9 @@ const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 const slice = createSlice({
   name: 'userBookings',
   initialState: {
-    bookings: [],
+    movedToCart: [],
+    pastBookings: [],
+    postBookings: [],
     loading: false,
     error: false,
     message: null
@@ -23,12 +25,16 @@ const slice = createSlice({
     },
     setData: (state, action) => {
   		if(action.payload.IsSuccess) {
-  			state.bookings = action.payload.selBookDetails;
+  			state.movedToCart = action.payload.selBookDetails.selMovedToCart;
+        state.pastBookings = action.payload.selBookDetails.selPastBooking;
+        state.postBookings = action.payload.selBookDetails.selPostBooking;
     		state.loading = false;
     		state.error = false;
   		} else {
-  			state.bookings = [];
-	        state.error = true;
+          state.movedToCart = [];
+          state.postBookings = [];
+          state.postBookings = [];
+          state.error = true;
 	        state.loading = false;
   		}
     },

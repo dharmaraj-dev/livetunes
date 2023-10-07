@@ -1,5 +1,5 @@
 import React from 'react';
-import Avtar from '../assets/images/avtar.png';
+import Avtar from '../assets/images/default_profile.jpeg';
 import Stack from 'react-bootstrap/Stack';
 import { BiTime } from "react-icons/bi";
 import { TbMessageLanguage } from "react-icons/tb";
@@ -8,16 +8,28 @@ import { TbCurrencyRupee } from "react-icons/tb";
 import StarRate from '../OnBoard/StarRate';
 import { RxCrossCircled } from "react-icons/rx";
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { removeFavoriteArtists } from "../actions/user";
 
 const FavouriteCard = ({props}) => {
-  console.log(props);
+    const dispatch = useDispatch();
+    const {user} = useSelector(state => state.auth);
+
+    const removeFromFavourite = (id) => {
+        const data = {
+          "AFavId": id,
+          "likeState": false
+        }
+        dispatch(removeFavoriteArtists(data));
+      }
+
   return (
     <>
         <div className="inner-favourite-card postion-r">
-            <RxCrossCircled className="cross-sec"/>
+            <RxCrossCircled className="cross-sec" onClick={() => {removeFromFavourite(props.AFavId)}}/>
             <div className="avtar-sec">
                 <div className="avtar-img">
-                    <img src={props.ArtistProfileImg} alt="" className="w-100" />
+                    <img src={props.ArtistProfileImg == "" ? Avtar : props.ArtistProfileImg} alt={props.ArtistName} className="w-100 border-radius-cirlce" />
                 </div>
                 <StarRate/>   
             </div>
@@ -46,7 +58,7 @@ const FavouriteCard = ({props}) => {
                 </div>
             </div>
             <div className="book-now-btn">
-                <Link to="/singleartist" state={{ artistId : props.ArtistId }}>
+                <Link to={`/artist-details/${props.ArtistName.replace(/ /g,"-")}/${btoa(props.ArtistId)}/${btoa(user.RegId)}`}>
                     <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
                 </Link>
             </div>

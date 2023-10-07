@@ -58,6 +58,7 @@ const slice = createSlice({
             state.availSlotsMsg = action.payload.Message;
         } else {
           state.availSlotsLoading = false;
+          state.availSlots = [];
           state.availSlotsMsg = action.payload.Message;
         }
       },

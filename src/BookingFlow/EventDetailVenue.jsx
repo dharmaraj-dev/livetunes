@@ -269,7 +269,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
                 <Form.Control placeholder="Landmark" type="text" onChange={(e)=>setLandmark(e.target.value)}/>
                 </Col>
                 <Col lg={4} md="12" className="mb-4"> 
-                    <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setState(e.target.value);setDate("")}}>
+                    <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setState(e.target.value);setDate("");setIsCheckboxChecked(props.artistDetails.selApInfo.StateName != e.target.value ? true : false)}}>
                         <option>Select state</option>
                         {
                             states.map((state,index)=><option key={`state_${index}`} value={state.StateName}>{state.StateName}</option>)
@@ -280,7 +280,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
                 state && (
                 <>
                     <Col lg={4} md="12" className="mb-4">
-                        <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setCity(e.target.value); setIsCheckboxChecked(props.artistDetails.selApInfo.CityName != e.target.value ? true : false);setDate("")}}>
+                        <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setCity(e.target.value);setDate("")}}>
                             <option>Select city</option>
                             {
                                 cities.filter((city)=>city.StateName === state).map((city,index)=><option key={`city_${index}`} value={city.CityName}>{city.CityName}</option>)

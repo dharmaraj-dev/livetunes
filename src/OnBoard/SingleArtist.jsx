@@ -86,9 +86,9 @@ const SingleArtist = () => {
                     ) : (
                         <Container fluid>
                             <div className="main-artists-list">
-                                <section>
+                                {/*<section>
                                     <BreadCrumbs/>
-                                </section>
+                                </section>*/}
                                 <section>
                                     <div className="inner-artist-info postion-r">
                                     <div className="inner-artist-info postion-r">
@@ -111,7 +111,6 @@ const SingleArtist = () => {
                                             </div>
                                         </div>
                                         <div className="check-now-btn">
-                                            <Heartlike props={details}/>
                                             <div className="share-icon"><FiShare2/>
                                             <SocialIcon/>
                                             </div>
@@ -127,18 +126,19 @@ const SingleArtist = () => {
                                             <p className="s-head l-b">Videos and images</p>
                                         </div>
                                         <Tabs
-                                        defaultActiveKey="photos"
+                                        defaultActiveKey={details?.selLtMedia.filter((photo) => { return !photo.LTMediaLogName.endsWith('.mp4')}).length > 0 ? "photos" : "videos"}
                                         id="uncontrolled-tab-example"
                                         className="mb-3 justify-content-end video-photos-sec"
                                         >
-                                            <Tab eventKey="photos" title="Photos">
-                                                <Gallery data={details}/>
-                                            </Tab>
+                                            {details?.selLtMedia.filter((photo) => { return !photo.LTMediaLogName.endsWith('.mp4')}).length > 0 && (
+                                                <Tab eventKey="photos" title="Photos">
+                                                    <Gallery data={details}/>
+                                                </Tab>
+                                            )}
                                             <Tab eventKey="videos" title="Videos">
                                                 <Videos data={details}/>
                                             </Tab>
                                         </Tabs>
-
                                     </section>
                                 </section>
                                 <section className="s-about-social-sec">

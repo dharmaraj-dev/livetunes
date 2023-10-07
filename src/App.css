@@ -1121,3 +1121,18 @@ numberInput.input[type=number] {
   padding: 10px;
   background: url(https://raw.github.com/domenicosolazzo/css3/master/img/noise.png) repeat;
 }
+
+.border-radius-cirlce {
+  border-radius: 50%;
+}
+
+.no_bookings {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 15%;
+}
+
+.edit_cart_slot {
+  cursor: pointer;
+  color: #FD3743;
+}

@@ -66,18 +66,6 @@ const Favourites = () => {
                                             {userFavoriteArtists.map((artist) => <Col xl={3} md={6}><FavouriteCard props={artist}/></Col>)}
                                         </Row>
                                     </Tab>
-                                    <Tab eventKey="bookings" title="Moved form cart"
-                                    >
-                                        <Row>
-                                            {bookings.filter((book) => { return book.selBookBill.length === 0}).map((book,index) => {
-                                                return (
-                                                    <Col xs={12} key={index}>
-                                                        <MoveCart loading={loading} data={book.selBook}/>
-                                                    </Col>
-                                                )
-                                            })}
-                                        </Row>
-                                    </Tab>
                                 </Tabs>
                             </div>
                         </div>

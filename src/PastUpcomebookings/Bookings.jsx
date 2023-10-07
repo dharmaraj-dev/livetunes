@@ -10,19 +10,26 @@ import Badge from 'react-bootstrap/Badge';
 import PastBookings from "./PastBookings";
 import BookingFor from "./BookingFor";
 import UpcomeBookings from "./UpcomeBookings";
+import MoveCart from "../Favourites/MoveCart";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBookings } from "../redux/userBookingsSlice";
+import Stack from "react-bootstrap/Stack";
 
 const Bookings = () => {
     const dispatch = useDispatch();
-    const {
-      loading,
-      error,
-      message,
-      bookings
-    } = useSelector(state => state.userBookings);
+    const { loading, error, message, movedToCart, pastBookings, postBookings } = useSelector(state => state.userBookings);
+
+
+    const renderTitle = (txt,ct) => {
+        return (
+            <span>
+                {txt} <Badge className="fav-badge">{ct}</Badge>
+            </span>
+            )
+    }
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         dispatch(fetchBookings());
     }, []);
 
@@ -42,26 +49,60 @@ const Bookings = () => {
                     <div className="main-artists-list">
                         <div className="main-favourite-sec">
                             <div className="head-sec">
-                                <h1 className="l-b">Bookings <Badge className="fav-badge">04</Badge></h1>
+                                <h1 className="l-b">Bookings <Badge className="fav-badge">{pastBookings.length + postBookings.length}</Badge></h1>
                             </div>
                             <div className="favourite-tab-sec">
                                 <Tabs defaultActiveKey="all" id="uncontrolled-tab-example" className="mb-1 justify-content-end">
-                                    <Tab eventKey="all" title="Past bookings"
+                                    <Tab eventKey="all" title={renderTitle("Past bookings", pastBookings.length)}
                                     >
                                        <Row>
-                                            <Col xs={12}>
-                                                <BookingFor/>
-                                                <PastBookings/>
-                                            </Col>
+                                            {pastBookings.map((book,index) => {
+                                                return (
+                                                    <Col xs={12} key={`past_${index}`}>
+                                                        <BookingFor/>
+                                                        <PastBookings/>
+                                                    </Col>
+                                                )
+                                            })}
+                                            {pastBookings.length === 0 && (
+                                                <Col xs={12}>
+                                                    <div>
+                                                        <h3 className="no_bookings">No past bookings available</h3>
+                                                    </div>
+                                                </Col>
+                                            )}
                                         </Row>
                                     </Tab>
-                                    <Tab eventKey="bookings" title="Upcoming bookings"
+                                    <Tab eventKey="bookings" title={renderTitle("Upcoming bookings", postBookings.length)}
                                     >
                                         <Row>
-                                            <Col xs={12}>
-                                                <BookingFor/>
-                                                <UpcomeBookings/>
-                                            </Col>
+                                            {postBookings.map((book,index) => {
+                                                return (
+                                                    <Col xs={12} key={`post_${index}`}>
+                                                        <BookingFor/>
+                                                        <UpcomeBookings/>
+                                                    </Col>
+                                                )
+                                            })}
+                                            {postBookings.length === 0 && (
+                                                <Col xs={12}>
+                                                    <div>
+                                                        <h3 className="no_bookings">No post bookings available</h3>
+                                                    </div>
+                                                </Col>
+                                            )}
+                                        </Row>
+                                    </Tab>
+                                    <Tab eventKey="moved_card" title={renderTitle("Moved to cart", movedToCart.length)}
+                                    >
+                                        <Row>
+                                            {movedToCart.map((book,index) => {
+                                                return (
+                                                    <Col xs={12} key={`cart_${index}`}>
+                                                        <MoveCart loading={loading} data={book.selBook}/>
+                                                    </Col>
+                                                )
+                                            })}
                                         </Row>
                                     </Tab>
                                 </Tabs>
