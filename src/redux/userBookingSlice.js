@@ -30,7 +30,17 @@ const slice = createSlice({
       moveToWishlistLoading: false,
       moveToWishlistError: false,
       moveToWishlistSuccess: false,
-      moveToWishlistMessage: null
+      moveToWishlistMessage: null,
+      removeFromWishlistLoading: false,
+      removeFromWishlistError: false,
+      removeFromWishlistSuccess: false,
+      removeFromWishlistMessage: null,
+
+      fetchCouponsLoading: false,
+      fetchedCoupons: [],
+      fetchCouponsSuccess: false,
+      fetchCouponsError: false,
+      fetchCouponsMessage: null
     },
     reducers: {
       startSlotsLoading:(state,action)=>{
@@ -50,6 +60,12 @@ const slice = createSlice({
       },
       startMoveToWishlistLoading:(state,action)=>{
         state.moveToWishlistLoading = true;
+      },
+      startRemoveFromWishlistLoading:(state,action)=>{
+        state.removeFromWishlistLoading = true;
+      },
+      startFetchCouponsLoading:(state,action)=>{
+        state.fetchCouponsLoading = true;
       },
       setAvailSlots:(state,action) => {
         if(action.payload.IsSuccess){
@@ -127,6 +143,32 @@ const slice = createSlice({
           state.moveToWishlistMessage = action.payload.Message;
         }        
       },
+      removeFromWishListSuccessError:(state,action)=>{
+        state.removeFromWishlistLoading = false;
+        if(action.payload.IsSuccess) {
+          state.removeFromWishlistSuccess = true;
+          state.removeFromWishlistError = false;
+          state.removeFromWishlistMessage = action.payload.Message;
+        } else {
+          state.removeFromWishlistSuccess = false;
+          state.removeFromWishlistError = true;
+          state.removeFromWishlistMessage = action.payload.Message;
+        }        
+      },
+      fetchUserCouponSuccessErrror:(state,action)=>{
+        state.fetchCouponsLoading = false;
+        if(action.payload.IsSuccess) {
+          state.fetchedCoupons = action.payload.selOfferCoupons;
+          state.fetchCouponsSuccess = true;
+          state.fetchCouponsError = false;
+          state.fetchCouponsMessage = action.payload.Message;
+        } else {
+          state.fetchedCoupons = [];
+          state.fetchCouponsSuccess = false;
+          state.fetchCouponsError = true;
+          state.fetchCouponsMessage = action.payload.Message;
+        }        
+      },
       resetState:(state,action)=>{
         state = state.initialState;
       },
@@ -136,7 +178,7 @@ const slice = createSlice({
   export default slice.reducer
   
   
-  export const {startSlotsLoading,  setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails, startPayNowLoading, startSaveAndPayLoading, setSaveAndPayDetails, stopSaveAndPayLoading, saveAndPaySuccessError, startPayFromCartLoading, payFromCartSuccessError, startMoveToWishlistLoading, moveToWishListSuccessError, resetState } = slice.actions;
+  export const {startSlotsLoading,  setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails, startPayNowLoading, startSaveAndPayLoading, setSaveAndPayDetails, stopSaveAndPayLoading, saveAndPaySuccessError, startPayFromCartLoading, payFromCartSuccessError, startMoveToWishlistLoading, moveToWishListSuccessError, startRemoveFromWishlistLoading, removeFromWishListSuccessError, fetchUserCouponSuccessErrror, startFetchCouponsLoading, resetState } = slice.actions;
   
   export const fetchAvailSlots = (body) => async dispatch => {
     dispatch(startSlotsLoading());
@@ -237,6 +279,30 @@ const slice = createSlice({
       return await axios 
             .post(API_URL+'UBooking/MoveForPay',body,{headers:authHeader()})
             .then(response => { dispatch(payFromCartSuccessError(response.data)); return response.data});
+    } catch (e){
+        console.log(e);
+        return e;
+    }
+  }
+
+  export const removeFromCart = (body) => async dispatch => {
+    dispatch(startRemoveFromWishlistLoading())
+    try{
+      return await axios 
+            .post(API_URL+'UBooking/RemoveFromCart',body,{headers:authHeader()})
+            .then(response => { dispatch(removeFromWishListSuccessError(response.data)); return response.data});
+    } catch (e){
+        console.log(e);
+        return e;
+    }
+  }
+
+  export const fetchUserCoupons = () => async dispatch => {
+    dispatch(startRemoveFromWishlistLoading())
+    try{
+      return await axios 
+            .get(API_URL+'UBooking/GetUserOffers',{headers:authHeader()})
+            .then(response => { dispatch(fetchUserCouponSuccessErrror(response.data)); return response.data});
     } catch (e){
         console.log(e);
         return e;

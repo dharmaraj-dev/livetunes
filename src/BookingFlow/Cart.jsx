@@ -18,7 +18,7 @@ import moment from "moment";
 import { errorToast, infoToast, successToast } from "../services/toast-service";
 import { useNavigate } from "react-router-dom";
 import { TfiPencil, TfiReload } from "react-icons/tfi";
-import {fetchAvailSlots} from "../redux/userBookingSlice";
+import {fetchAvailSlots, fetchUserCoupons} from "../redux/userBookingSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,12 @@ const Cart = () => {
       moveToWishlistMessage,
       availSlotsLoading,
       availSlots,
-      availSlotsMsg
+      availSlotsMsg,
+      fetchCouponsLoading,
+      fetchedCoupons,
+      fetchCouponsSuccess,
+      fetchCouponsError,
+      fetchCouponsMessage
   } = useSelector(state => state.userBooking);
 
 
@@ -44,6 +49,9 @@ const Cart = () => {
   const [isSlotEditEnable, setIsSlotEditEnable] = useState(false);
   const [newEventSelectionDate, setNewEventSelectionDate] = useState("");
   const [selectedSlot, setSelectedSlot] = useState("");
+
+  const [selectedCoupon, setNewSelectedCoupon] = useState("");
+
   const moveToCart = () => {
     dispatch(moveTransactionToCart({"TransactId":transactId}))
   }
@@ -71,11 +79,18 @@ const Cart = () => {
         
     }
 
+  const setSelectedCoupon = (data) => {
+    setNewSelectedCoupon(data);
+    console.log('data', data);
+  }
+
   useEffect(()=>{
     dispatch(getTransactionDetails({"TransactId":transactId}));
+    dispatch(fetchUserCoupons({"TransactId":transactId}));
   },[]);
 
   useEffect(()=>{
+    window.scrollTo(0, 0);
     if(moveToWishlistSuccess) {
       successToast(moveToWishlistMessage);
       dispatch(resetToInitialState())
@@ -223,11 +238,11 @@ const Cart = () => {
                     </Col>
                     <Col xl={5} lg={12} md={12} className="">
                         <div className="checkavailability-right-sec">
-                          <Coupons/>
+                          <Coupons data={fetchedCoupons} loading={fetchCouponsLoading} selectCoupon={setSelectedCoupon}/>
                           <div className="main-reward-sec">
                             <Reward/>
                           </div>
-                            <BilldetailSlots data={transactionDetails}/>
+                            <BilldetailSlots data={transactionDetails} coupon={selectedCoupon}/>
                         </div>
                     </Col>
                 </Row>

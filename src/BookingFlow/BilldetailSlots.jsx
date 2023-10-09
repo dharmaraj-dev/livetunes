@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 
 
 const BilldetailSlots = (props) => {
+    console.log('props.coupon', props.coupon)
     const dispatch = useDispatch();
     const { 
             payFromCartLoading,
@@ -26,7 +27,7 @@ const BilldetailSlots = (props) => {
 
 
     const makePayment = (transId) => {
-        const paymentData = {
+        let paymentData = {
             "TransactId": transId,
             "selBookBill":
             [
@@ -61,6 +62,15 @@ const BilldetailSlots = (props) => {
                 //     }
                 // ]
             }
+            if(props.coupon != "") {
+                paymentData.selBookCoupon = [
+                    {
+                        "TransactId" : transId,
+                        "CouponId": props.coupon.VoucherStackId,
+                        "CouponName": props.coupon.VoucherStackCode
+                    }
+                ]
+            }
         dispatch(payForBookingFromCart(paymentData));
     }
 
@@ -91,10 +101,22 @@ const BilldetailSlots = (props) => {
                 <div className="bill-text l-r">Gst (18%)</div>
                 <div className="bill-text l-r ms-auto">Rs.{(props.data.selBook.PerShowRate+props.data.selBook.FoodStay+props.data.selBook.TravelFees)*0.18}</div>
             </Stack>
+            {props.coupon != "" && (
+                <Stack direction="horizontal" gap={3}>
+                    <div className="bill-text l-r">Coupon Discount</div>
+                    <div className="bill-text l-r ms-auto"> <span className="red-color">- Rs.{props.coupon.VoucherStackAmt}</span></div>
+                </Stack>
+            )}
             <div className="total-value">
                 <Stack direction="horizontal" gap={3}>
                     <div className=""><span className="bill-text l-b red-color">{props.data.PayStatus === "Success" ? 'Total paid' : 'Total payable'}</span> <span>(inclusive taxes)</span></div>
-                    <div className="bill-text l-b red-color ms-auto">Rs.{((props.data.selBook.PerShowRate+props.data.selBook.FoodStay+props.data.selBook.TravelFees)*1.18).toFixed()}</div>
+                    <div className="bill-text l-b red-color ms-auto">Rs.
+                        {props.coupon != "" ? (
+                           ((props.data.selBook.PerShowRate+props.data.selBook.FoodStay+props.data.selBook.TravelFees)*1.18 - props.coupon.VoucherStackAmt).toFixed()
+                        ):(
+                             ((props.data.selBook.PerShowRate+props.data.selBook.FoodStay+props.data.selBook.TravelFees)*1.18).toFixed()
+                        )}
+                    </div>
                 </Stack>
             </div>
 

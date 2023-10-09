@@ -1,11 +1,51 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Stack from 'react-bootstrap/Stack';
 import Form from 'react-bootstrap/Form';
 import Art from '../assets/images/art.png';
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
+import { removeFromCart } from "../redux/userBookingSlice";
+import { fetchBookings } from "../redux/userBookingsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { errorToast, infoToast, successToast } from "../services/toast-service";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const MoveCart = (props) => {
+    const dispatch = useDispatch();
+    const MySwal = withReactContent(Swal);
+    const { removeFromWishlistLoading, removeFromWishlistError, removeFromWishlistSuccess, removeFromWishlistMessage } = useSelector(state => state.userBooking);
+
+    const removeBookingFromCart = () => {
+        MySwal.fire({
+          title: '<strong>Are you sure!!</strong>',
+          icon: 'warning',
+          html:
+            'Do you want to remove this from cart?',
+          showDenyButton: true,
+          confirmButtonText: 'Yes',
+          denyButtonText: `No`,
+          showLoaderOnConfirm: true,
+          allowOutsideClick: () => false
+        }).then((result) => {
+          if (result.isConfirmed && result.value) {
+            dispatch(removeFromCart( {"TransactId": props.data.TransactId}));
+          } else {
+            Swal.fire('Cart remove cancelled.', '', 'info')
+          }
+        })
+    }
+
+    useEffect(() => {
+        if(removeFromWishlistError) {
+            errorToast(removeFromWishlistMessage)
+        } else
+        if(removeFromWishlistSuccess) {
+            errorToast(removeFromWishlistMessage);
+            dispatch(fetchBookings());
+        }
+    }, [removeFromWishlistError, removeFromWishlistSuccess]);
+
   return (
     <>
         <div className="cart-details-box postion-r cart-move-box">
@@ -125,7 +165,16 @@ const MoveCart = (props) => {
                 <div className="cart-footer">
                     <Stack direction="horizontal" gap={3}>
                     <div className="ms-auto">
-                        <button type="button" className="l-b wbtnn btn btn-primary w-100 red-color">Remove</button>
+                        <button
+                            type="button"
+                            className="l-b wbtnn btn btn-primary w-100 red-color"
+                            disabled={removeFromWishlistLoading}
+                            onClick={removeBookingFromCart}
+                            >
+                            {removeFromWishlistLoading && (
+                              <span className="spinner-border spinner-border-sm"></span> 
+                            )} 
+                             Remove</button>
                     </div>
                     <div className="">
                         <Link to={`/cart/${btoa(props.data.TransactId)}`}>

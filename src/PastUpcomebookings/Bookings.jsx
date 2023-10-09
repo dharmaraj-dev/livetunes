@@ -47,6 +47,14 @@ const Bookings = () => {
             <div className="main-content">
                 <Container fluid>
                     <div className="main-artists-list">
+                        {loading ?(
+                            <>
+                                <Skeleton className="mb-4" height="100px" />
+                                <Skeleton className="mb-3" height="140px" />
+                                <Skeleton className="mb-3" height="200px" />
+                                <Skeleton className="mb-3" height="200px" />
+                            </>
+                        ):(
                         <div className="main-favourite-sec">
                             <div className="head-sec">
                                 <h1 className="l-b">Bookings <Badge className="fav-badge">{pastBookings.length + postBookings.length}</Badge></h1>
@@ -58,9 +66,9 @@ const Bookings = () => {
                                        <Row>
                                             {pastBookings.map((book,index) => {
                                                 return (
-                                                    <Col xs={12} key={`past_${index}`}>
-                                                        <BookingFor/>
-                                                        <PastBookings/>
+                                                    <Col xs={12} key={`past_${index}`} className="mb-4">
+                                                        <BookingFor data={book.selBook} />
+                                                        <PastBookings data={book.selBook}/>
                                                     </Col>
                                                 )
                                             })}
@@ -78,9 +86,9 @@ const Bookings = () => {
                                         <Row>
                                             {postBookings.map((book,index) => {
                                                 return (
-                                                    <Col xs={12} key={`post_${index}`}>
-                                                        <BookingFor/>
-                                                        <UpcomeBookings/>
+                                                    <Col xs={12} key={`post_${index}`} className="mb-4">
+                                                        <BookingFor data={book.selBook}/>
+                                                        <UpcomeBookings data={book.selBook}/>
                                                     </Col>
                                                 )
                                             })}
@@ -99,15 +107,23 @@ const Bookings = () => {
                                             {movedToCart.map((book,index) => {
                                                 return (
                                                     <Col xs={12} key={`cart_${index}`}>
-                                                        <MoveCart loading={loading} data={book.selBook}/>
+                                                        <MoveCart loading={loading} data={book.selBook} className="mb-4"/>
                                                     </Col>
                                                 )
                                             })}
+                                            {movedToCart.length === 0 && (
+                                                <Col xs={12}>
+                                                    <div>
+                                                        <h3 className="no_bookings">No cart bookings available</h3>
+                                                    </div>
+                                                </Col>
+                                            )}
                                         </Row>
                                     </Tab>
                                 </Tabs>
                             </div>
                         </div>
+                        )}
                     </div>
                 </Container>
             </div>

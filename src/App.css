@@ -1136,3 +1136,7 @@ numberInput.input[type=number] {
   cursor: pointer;
   color: #FD3743;
 }
+
+.profile_save_button {
+  width: 120px;
+}

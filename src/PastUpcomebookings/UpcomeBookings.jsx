@@ -5,15 +5,20 @@ import { IoLocationSharp } from "react-icons/io5";
 import { IoIosMusicalNotes } from "react-icons/io";
 import { MdOutlineDateRange } from "react-icons/md";
 import { CgToday } from "react-icons/cg";
+import moment from 'moment';
+import {Link} from "react-router-dom";
 
-const UpcomeBookings = () => {
+
+const UpcomeBookings = (props) => {
   return (
     <>
         <div className="cart-details-box cart-move-box">
           <div className="cart-header">
             <Stack direction="horizontal" gap={5}>
-              <h4 className="l-sb">Booking ID : 2122212</h4>
-              <h4 className="l-sb ms-auto">22, Jun, 2022</h4>
+              <h4 className="l-sb">Booking ID : {props.data.TransactId}</h4>
+              <h4 className="l-sb ms-auto">{moment(props.data.EventDate).format("DD, MMM, YYYY")}}</h4>
+              <h5 className="l-b red-color text-decoration-underline">
+              <Link to={`/cart/${btoa(props.data.TransactId)}`} className="text-reset cursor-pointer">Invoice</Link></h5>
             </Stack>
           </div>
           <div className="d-flex postion-r">
@@ -21,31 +26,31 @@ const UpcomeBookings = () => {
               <img src={Art} alt="" className="w-100" />
             </div>
             <div className="inner-artist-detail">
-              <h4 className="l-sb">Artist Name, Solo Singer</h4>
+              <h4 className="l-sb">{props.data.ArtistName}</h4>
               <div className="value-sec l-b">
-                <span>Rs 40,000</span>
+                <span>Rs {props.data.PerShowRate}</span>
               </div>
               <Stack direction="horizontal" gap={2}>
                 <div className="red-color"><IoLocationSharp/></div>
                 <div className="l-r sub-head">Location :</div>
-                <div className="l-r sub-head">Mumbai , Maharashtra</div>
+                <div className="l-r sub-head">{props.data.CityName} , {props.data.StateName}</div>
               </Stack>
               <Stack direction="horizontal" gap={2}>
                 <div className="red-color"><IoIosMusicalNotes/></div>
                 <div className="l-r sub-head">Event type :</div>
-                <div className="l-sb sub-head">House Party</div>
+                <div className="l-sb sub-head">{props.data.EventType}</div>
               </Stack>
 
               <Stack direction="horizontal" gap={2}>
                 <div className="red-color"><MdOutlineDateRange/></div>
                 <div className="l-r sub-head">Event date :</div>
-                <div className="l-sb sub-head">22, Jul, 2022</div>
+                <div className="l-sb sub-head">{moment(props.data.EventDate).format("DD, MMM, YYYY")}</div>
               </Stack>
 
               <Stack direction="horizontal" gap={2}>
                 <div className="red-color"><CgToday/></div>
                 <div className="l-r sub-head">Event days :</div>
-                <div className="l-sb sub-head">1 day</div>
+                <div className="l-sb sub-head">{props.data.EventDays} day</div>
               </Stack>
             </div>
           </div>

@@ -17,6 +17,7 @@ const NavBar = () => {
   
   const { artistProfileData } = useSelector(state => state.artist);
   const { joiningType } = useSelector((state) => state.auth);
+  const { profileData, profileDataLoading} = useSelector(state => state.userProfile);
 
   const [profilePic, setProfilePic] = useState(DefaultProfile);
 
@@ -57,11 +58,24 @@ const NavBar = () => {
                     </Dropdown.ItemText>
                   </DropdownButton>
                   </li>
-                  {(joiningType === "Artist" || joiningType === "User" )&& (
+                  {(joiningType === "Artist" )&& (
                   <li className="nav-item">
-                    <Link to={`${joiningType === 'User' ? '/profile' : '/my-profile'}`}>
+                    <Link to="/my-profile">
                     <div className="profile-class">
                       <img src={profilePic} alt="" />
+                    </div>
+                    </Link>
+                  </li>
+                  )}
+                  {(joiningType === "User" )&& (
+                  <li className="nav-item">
+                    <Link to="/profile">
+                    <div className="profile-class">
+                      {profileDataLoading ? (
+                        <span className="spinner-border spinner-border-sm"></span>
+                      ):(
+                        <img src={profileData.profileImg != "" ? profileData.profileImg : profilePic} alt="" />
+                      )}
                     </div>
                     </Link>
                   </li>

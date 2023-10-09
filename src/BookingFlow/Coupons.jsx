@@ -7,15 +7,29 @@ import Offerimg from '../assets/images/offer-img.png';
 import Form from 'react-bootstrap/Form';
 import Suce from "../components/suce.json";
 
-const Coupons = () => {
+const Coupons = (props) => {
+  console.log(props)
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [selectedCouponData, setSelectedCouponData] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
+
+  const checkCouponSelected = (couponData) => {
+    props.selectCoupon(couponData);
+    setSelectedCouponData(couponData);
+    setShow(false);
+    handleShow2();
+  }
+
+  const closePopups = () => {
+    setShow2(false);
+  }
+
   return (
     <>
         <div className="coupons-check-sec">
@@ -45,35 +59,30 @@ const Coupons = () => {
                       <img src={Offerimg} alt="" />
                       <h2 className="l-b ms-4">OFFERS AND coupons</h2>
                     </div>
-                    <Form className="coupons-search-sec postion-r">
-                      <Form.Control
-                        type="search"
-                        placeholder="Input cupon name"
-                        className="me-2"
-                        aria-label="Search"
-                        />
-                      <div type="button" className="l-b apl-btn" onClick={handleShow2}>APPLY</div>
-                    </Form>
                   </div>
-                  <div className="avail-coupons-text">
-                    <h2 className="mb-0">Available coupons</h2>
-                  </div>
-                  <div className="coupons-box">
-                    <h2 className="mb-0">Get <span className="red-color">20% OFF</span> upto Rs. 2000</h2>
-                    <p className="l-r text-sec">Valid for 1st Time user <span className="l-sb ms-3"><a className="cursor-pointer">view details</a> </span></p>
-                    <div className="d-flex">
-                      <div className="me-auto code-text green-color l-b">LIVETUNENEW</div>
-                      <div className=""><button type="button" className="l-r btnn code-apply-btn btn btn-primary">APPLY</button></div>
+                  {props.data.length == 0 && !props.loading ? (
+                    <div className="avail-coupons-text">
+                      <h2 className="mb-0">No coupons available</h2>
                     </div>
-                  </div>
-                  <div className="coupons-box">
-                    <h2 className="mb-0">Get <span className="red-color">20% OFF</span> upto Rs. 2000</h2>
-                    <p className="l-r text-sec">Valid for 1st Time user <span className="l-sb ms-3"><a className="cursor-pointer">view details</a> </span></p>
-                    <div className="d-flex">
-                      <div className="me-auto code-text green-color l-b">LIVETUNENEW</div>
-                      <div className=""><button type="button" className="l-r btnn code-apply-btn btn btn-primary">APPLY</button></div>
-                    </div>
-                  </div>
+                  ):(
+                    <>
+                       <div className="avail-coupons-text">
+                        <h2 className="mb-0">Available coupons</h2>
+                      </div>
+                      {props.data.map((coup,index) => {
+                        return (
+                          <div key={`coupon_${index}`} className="coupons-box">
+                            <h2 className="mb-0 red-color">{coup.VoucherStackDesc}</h2>
+                            <p className="l-r text-sec">{coup.VoucherStackADesc}</p>
+                            <div className="d-flex">
+                              <div className="me-auto code-text green-color l-b">{coup.VoucherStackCode}</div>
+                              <div className=""><button type="button" className="l-r btnn code-apply-btn btn btn-primary" onClick={() => {checkCouponSelected(coup)}} >APPLY</button></div>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </>
+                  )}
                 </div>
             </Modal.Body>
         </Modal>
@@ -83,7 +92,7 @@ const Coupons = () => {
 
         <Modal
             show={show2}
-            onHide={handleClose2}
+            onHide={() => {closePopups();}}
             backdrop="static"
             keyboard={false}
             centered
@@ -99,9 +108,9 @@ const Coupons = () => {
                   <Lottie animationData={Suce} loop={true} />
                 </div>
                 <div className="right-text-sec">
-                  <p className="code-suc-text red-color l-bl">LIVETUNENEW</p>
+                  <p className="code-suc-text red-color l-bl">{selectedCouponData.VoucherStackCode}</p>
                   <h2>Coupon applied Sucessfully</h2>
-                  <p className="l-r para">You got <span className="l-b red-color">Rs.2000 OFF</span>  on your current booking with Artist name</p>
+                  <p className="l-r para">{selectedCouponData.VoucherStackDesc}</p>
                 </div>
                </div>
             </Modal.Body>
