@@ -178,7 +178,7 @@ const MoveCart = (props) => {
                     </div>
                     <div className="">
                         <Link to={`/cart/${btoa(props.data.TransactId)}`}>
-                        <button type="button" className="l-b wbtnn btn btn-primary w-100">Move to cart</button>
+                        <button type="button" className="l-b wbtnn btn btn-primary w-100">Whishlist</button>
                         </Link>
                     </div>
                     </Stack>
