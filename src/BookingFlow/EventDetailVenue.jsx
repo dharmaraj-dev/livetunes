@@ -17,12 +17,13 @@ import Sademoji from "../components/sademoji.json";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchAvailSlots} from "../redux/userBookingSlice";
 import { errorToast, infoToast, successToast } from "../services/toast-service";
-import {setArtistId,setEventData,SelectSlot,saveUserBooking, saveForBooking, payForBooking} from "../redux/userBookingSlice";
+import {setArtistId,setEventData,SelectSlot,saveUserBooking, saveForBooking, payForBooking, setSelectedSlotsToState} from "../redux/userBookingSlice";
 import moment from 'moment/moment';
 import { useParams } from "react-router-dom";
 
 
 const EventDetailVenue = forwardRef((props, ref) => {
+    console.log('props,', props)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
@@ -53,7 +54,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
     useImperativeHandle(
         ref,
         () => ({
-            payNowTrigger() {
+            payNowTrigger(stData) {
                 if(eventAddress1 === ""){
                     errorToast("Event Address1 field is missing");
                     return false;
@@ -78,10 +79,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
                 }else if(eventDate === ""){
                     errorToast("Date field is missing");
                     return false;
-                }else if(selectedSlot === ""){
-                    errorToast("Slot not available or not selected");
-                    return false;
-                }else{
+                } else{
                     const sData = {
                         "EventAdd1":eventAddress1,
                         "EventAdd2":eventAddress2,
@@ -92,14 +90,12 @@ const EventDetailVenue = forwardRef((props, ref) => {
                         "EventTypeId":eventId,
                         "EventDate":eventDate,
                         "ArtistId":artistId,
-                        "ASlotId":selectedSlot,
+                        "ASlotId":stData.ASlotId,
                         "EventLat":eventLatitude,
                         "EventLoc":eventLongitude,
-
                     }
                     dispatch(saveForBooking(sData))
                     .then((res)=>{
-                        console.log(res);
                         if(res.IsSuccess){
                             if(res.TransactionId != null){
                                 const paymentData = {
@@ -108,34 +104,21 @@ const EventDetailVenue = forwardRef((props, ref) => {
                                     [
                                         {
                                             "BillSec":"Total artist rate",
-                                            "BillSecAmt": selectedSlotData.PerShowRate
+                                            "BillSecAmt": stData.PerShowRate
                                         },
                                         {
                                             "BillSec":"Food and stay",
-                                            "BillSecAmt": selectedSlotData.FoodStay
+                                            "BillSecAmt": stData.FoodStay
                                         },
                                         {
                                             "BillSec":"Travel fees",
-                                            "BillSecAmt": selectedSlotData.TravelFees
+                                            "BillSecAmt": stData.TravelFees
                                         },
                                         {
                                             "BillSec":"Gst(18%)",
-                                            "BillSecAmt": (selectedSlotData.PerShowRate + selectedSlotData.FoodStay + selectedSlotData.TravelFees)*0.18
+                                            "BillSecAmt": (stData.PerShowRate + stData.FoodStay + stData.TravelFees)*0.18
                                         }
                                     ]
-                                        // "selBookCoupon":
-                                        // [
-                                        //     {
-                                        //         "TransactId" :"B2023925962",
-                                        //         "CouponId":1,
-                                        //         "CouponName":"LIVETUNENEW"
-                                        //     },
-                                        //     {
-                                        //         "TransactId" :"B2023925962",
-                                        //         "CouponId":2,
-                                        //         "CouponName":"EXCELLENT"
-                                        //     }
-                                        // ]
                                     }
                                     dispatch(payForBooking(paymentData));
                             } else{
@@ -176,10 +159,12 @@ const EventDetailVenue = forwardRef((props, ref) => {
         if(selectedSlot === slotData.ASlotId) {
             setSelectedSlot("");
             setSelectedSlotData([]);
-            props.setSlotForAvailability("");
+            //props.setSlotForAvailability("");
+            dispatch(setSelectedSlotsToState(null))
         } else {
             setSelectedSlotData(slotData);
-            props.setSlotForAvailability(slotData);
+            //props.setSlotForAvailability(slotData);
+            dispatch(setSelectedSlotsToState(slotData))
         }
         
     }
@@ -280,7 +265,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
                 state && (
                 <>
                     <Col lg={4} md="12" className="mb-4">
-                        <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setCity(e.target.value);setDate("")}}>
+                        <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setCity(e.target.value);}}>
                             <option>Select city</option>
                             {
                                 cities.filter((city)=>city.StateName === state).map((city,index)=><option key={`city_${index}`} value={city.CityName}>{city.CityName}</option>)

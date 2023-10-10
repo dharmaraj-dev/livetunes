@@ -46,6 +46,9 @@ const slice = createSlice({
       startSlotsLoading:(state,action)=>{
         state.availSlotsLoading = true;
       },
+      startTransactionDetailsLoading:(state,action)=>{
+        state.transactionDetailsLoading = true;
+      },
       startBookingLoading:(state,action)=>{
         state.saveBookingLoading = true;
       },
@@ -90,6 +93,7 @@ const slice = createSlice({
         state.eventData = action.payload;
       },
       SelectSlot:(state,action) => {
+        console.log('action', action);
         state.selectedSlots = action.payload;
       },
       setTransactionDetails:(state,action) => {
@@ -178,7 +182,7 @@ const slice = createSlice({
   export default slice.reducer
   
   
-  export const {startSlotsLoading,  setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails, startPayNowLoading, startSaveAndPayLoading, setSaveAndPayDetails, stopSaveAndPayLoading, saveAndPaySuccessError, startPayFromCartLoading, payFromCartSuccessError, startMoveToWishlistLoading, moveToWishListSuccessError, startRemoveFromWishlistLoading, removeFromWishListSuccessError, fetchUserCouponSuccessErrror, startFetchCouponsLoading, resetState } = slice.actions;
+  export const {startSlotsLoading, startTransactionDetailsLoading, setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails, startPayNowLoading, startSaveAndPayLoading, setSaveAndPayDetails, stopSaveAndPayLoading, saveAndPaySuccessError, startPayFromCartLoading, payFromCartSuccessError, startMoveToWishlistLoading, moveToWishListSuccessError, startRemoveFromWishlistLoading, removeFromWishListSuccessError, fetchUserCouponSuccessErrror, startFetchCouponsLoading, resetState } = slice.actions;
   
   export const fetchAvailSlots = (body) => async dispatch => {
     dispatch(startSlotsLoading());
@@ -216,6 +220,7 @@ const slice = createSlice({
   }
 
   export const getTransactionDetails = (body) => async dispatch => {
+    dispatch(startTransactionDetailsLoading());
     try{
       return await axios 
             .post(API_URL+'UBooking/GetTransactIdDetails',body,{headers:authHeader()})
@@ -311,6 +316,10 @@ const slice = createSlice({
 
   export const resetToInitialState = (body) => async dispatch => {
     dispatch(resetState())
+  }
+
+  export const setSelectedSlotsToState = (body) => async dispatch => {
+    dispatch(SelectSlot(body))
   }
 
   

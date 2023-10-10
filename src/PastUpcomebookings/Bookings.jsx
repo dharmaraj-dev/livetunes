@@ -14,6 +14,7 @@ import MoveCart from "../Favourites/MoveCart";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBookings } from "../redux/userBookingsSlice";
 import Stack from "react-bootstrap/Stack";
+import {resetToInitialState} from "../redux/userBookingSlice";
 
 const Bookings = () => {
     const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const Bookings = () => {
     }
 
     useEffect(() => {
+        dispatch(resetToInitialState());
         window.scrollTo(0, 0);
         dispatch(fetchBookings());
     }, []);

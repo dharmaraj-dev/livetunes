@@ -8,14 +8,17 @@ import Rupee from "../components/rupee.json";
 import Thumb from "../components/thumb.json";
 import Straremoji from "../components/straremoji.json";
 import { useDispatch, useSelector } from "react-redux";
-import {payForBookingFromCart} from "../redux/userBookingSlice";
+import {payForBookingFromCart, resetToInitialState} from "../redux/userBookingSlice";
 import Sademoji from "../components/sademoji.json";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const BilldetailSlots = (props) => {
     console.log('props.coupon', props.coupon)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const { 
             payFromCartLoading,
             payFromCartError,
@@ -29,49 +32,94 @@ const BilldetailSlots = (props) => {
     const makePayment = (transId) => {
         let paymentData = {
             "TransactId": transId,
+            "RewardTransactId" : "",
             "selBookBill":
             [
                 {
                     "BillSec":"Total artist rate",
-                    "BillSecAmt": props.data.selBook.PerShowRate
+                    "BillSecAmt": props.data.selBook.PerShowRate,
+                    "BillSecType":"DR"
                 },
                 {
                     "BillSec":"Food and stay",
-                    "BillSecAmt": props.data.selBook.FoodStay
+                    "BillSecAmt": props.data.selBook.FoodStay,
+                    "BillSecType":"DR"
                 },
                 {
                     "BillSec":"Travel fees",
-                    "BillSecAmt": props.data.selBook.TravelFees
+                    "BillSecAmt": props.data.selBook.TravelFees,
+                    "BillSecType":"DR"
                 },
                 {
                     "BillSec":"Gst(18%)",
-                    "BillSecAmt": (props.data.selBook.PerShowRate + props.data.selBook.FoodStay + props.data.selBook.TravelFees)*0.18
+                    "BillSecAmt": ((props.data.selBook.PerShowRate + props.data.selBook.FoodStay + props.data.selBook.TravelFees)*0.18).toFixed(),
+                    "BillSecType":"DR"
                 }
-            ]
-                // "selBookCoupon":
-                // [
-                //     {
-                //         "TransactId" :"B2023925962",
-                //         "CouponId":1,
-                //         "CouponName":"LIVETUNENEW"
-                //     },
-                //     {
-                //         "TransactId" :"B2023925962",
-                //         "CouponId":2,
-                //         "CouponName":"EXCELLENT"
-                //     }
-                // ]
+            ],
+            "selBookCoupon": []
             }
+
+            let totalCoupRewardAmout = 0;
+           
             if(props.coupon != "") {
-                paymentData.selBookCoupon = [
-                    {
+                paymentData.selBookCoupon.push({
                         "TransactId" : transId,
                         "CouponId": props.coupon.VoucherStackId,
-                        "CouponName": props.coupon.VoucherStackCode
-                    }
-                ]
+                        "CouponName": props.coupon.VoucherStackCode,
+                        "CouponAmt": props.coupon.VoucherStackAmt
+                    });
+                totalCoupRewardAmout = totalCoupRewardAmout + props.coupon.VoucherStackAmt;
+            }
+            if(props.reward != "") {
+                paymentData.RewardTransactId = props.reward.RewardTransactId;
+                paymentData.selBookCoupon.push({
+                        "TransactId" : transId,
+                        "CouponId": props.reward.VoucherStackId,
+                        "CouponName": props.reward.VoucherStackCode,
+                        "CouponAmt": props.coupon.VoucherStackAmt
+                    });
+                totalCoupRewardAmout = totalCoupRewardAmout + props.reward.VoucherStackAmt;
+            }
+
+            if(totalCoupRewardAmout != 0) {
+                paymentData.selBookBill.push({"BillSec":"Coupon&Rewards","BillSecAmt": totalCoupRewardAmout ,"BillSecType":"CR"})
             }
         dispatch(payForBookingFromCart(paymentData));
+    }
+
+    const closeDialogue = () => {
+        setShowDialogue(false);
+        if(payFromCartSuccess) {
+            dispatch(resetToInitialState());
+            navigate(`/bookings`);
+        }
+    }
+
+    const calculateTotalAmount = () => {
+        let amt = props.data.selBook.PerShowRate + props.data.selBook.FoodStay + props.data.selBook.TravelFees;
+        amt = amt * 1.18;
+        console.log(amt, props.coupon);
+        if(props.coupon) {
+            console.log(amt, props.coupon);
+            amt = amt - props.coupon.VoucherStackAmt;
+        }
+        if(props.reward) {
+            amt = amt - props.reward.VoucherStackAmt;
+        }
+        return amt.toFixed();
+    }
+
+    const generateBillAmount = (bl) => {
+        let amt = 0;
+        for(let i in bl) {
+            if(bl[i].BillSecType === "CR") {
+                amt = amt - bl[i].BillSecAmt
+            } else {
+                amt = amt + bl[i].BillSecAmt
+            }
+        }
+
+        return amt.toFixed();
     }
 
     useEffect(() => {
@@ -84,51 +132,81 @@ const BilldetailSlots = (props) => {
   return (
     <>
         <div className="billing-details">
-            <h2>BILLING DETAILS</h2>
-            <Stack direction="horizontal" gap={3}>
-                <div className="bill-text l-r">Total artist rate</div>
-                <div className="bill-text l-r ms-auto">Rs.{props.data.selBook.PerShowRate}</div>
-            </Stack>
-            <Stack direction="horizontal" gap={3}>
-                <div className="bill-text l-r">Food and stay</div>
-                <div className="bill-text l-r ms-auto">Rs.{props.data.selBook.FoodStay}</div>
-            </Stack>
-            <Stack direction="horizontal" gap={3}>
-                <div className="bill-text l-r">Travel fees</div>
-                <div className="bill-text l-r ms-auto">Rs.{props.data.selBook.TravelFees}</div>
-            </Stack>
-            <Stack direction="horizontal" gap={3}>
-                <div className="bill-text l-r">Gst (18%)</div>
-                <div className="bill-text l-r ms-auto">Rs.{(props.data.selBook.PerShowRate+props.data.selBook.FoodStay+props.data.selBook.TravelFees)*0.18}</div>
-            </Stack>
-            {props.coupon != "" && (
-                <Stack direction="horizontal" gap={3}>
-                    <div className="bill-text l-r">Coupon Discount</div>
-                    <div className="bill-text l-r ms-auto"> <span className="red-color">- Rs.{props.coupon.VoucherStackAmt}</span></div>
-                </Stack>
-            )}
-            <div className="total-value">
-                <Stack direction="horizontal" gap={3}>
-                    <div className=""><span className="bill-text l-b red-color">{props.data.PayStatus === "Success" ? 'Total paid' : 'Total payable'}</span> <span>(inclusive taxes)</span></div>
-                    <div className="bill-text l-b red-color ms-auto">Rs.
-                        {props.coupon != "" ? (
-                           ((props.data.selBook.PerShowRate+props.data.selBook.FoodStay+props.data.selBook.TravelFees)*1.18 - props.coupon.VoucherStackAmt).toFixed()
-                        ):(
-                             ((props.data.selBook.PerShowRate+props.data.selBook.FoodStay+props.data.selBook.TravelFees)*1.18).toFixed()
-                        )}
+            {props.data.PayStatus === "Success" ? (
+                <>
+                    <h2>BILLING DETAILS</h2>
+                    {props.data.selBookBill.map((bil,index) => {
+                        return (
+                        <Stack key={`bill_${index}`} direction="horizontal" gap={3}>
+                            <div className="bill-text l-r">{bil.BillSec}</div>
+                            {bil.BillSecType === "CR" ? (
+                                <div className="bill-text l-r ms-auto">
+                                    <span className="red-color">- Rs.{bil.BillSecAmt} </span>
+                                </div>
+                                
+                            ):(
+                                <div className="bill-text l-r ms-auto">Rs.{bil.BillSecAmt}</div>
+                            )}
+                            
+                        </Stack>
+                        )
+                    })}
+                    <div className="total-value">
+                        <Stack direction="horizontal" gap={3}>
+                            <div className=""><span className="bill-text l-b red-color">Total paid</span> <span>(inclusive taxes)</span></div>
+                            <div className="bill-text l-b red-color ms-auto">Rs. {generateBillAmount(props.data.selBookBill)
+                            }
+                            </div>
+                        </Stack>
                     </div>
-                </Stack>
-            </div>
-
-            {props.data.PayStatus !== "Success" && (
-                <button disabled={payFromCartLoading} type="button" className="l-b btnn pay-button btn btn-primary w-100"
-                    onClick={() => makePayment(props.data?.selBook.TransactId)}
-                >
-                {payFromCartLoading && (
-                  <span className="spinner-border spinner-border-sm"></span>
-                )} 
-                 Pay now
-                </button>
+                </>
+            ):(
+                <>
+                    <h2>BILLING DETAILS</h2>
+                    <Stack direction="horizontal" gap={3}>
+                        <div className="bill-text l-r">Total artist rate</div>
+                        <div className="bill-text l-r ms-auto">Rs.{props.data.selBook.PerShowRate}</div>
+                    </Stack>
+                    <Stack direction="horizontal" gap={3}>
+                        <div className="bill-text l-r">Food and stay</div>
+                        <div className="bill-text l-r ms-auto">Rs.{props.data.selBook.FoodStay}</div>
+                    </Stack>
+                    <Stack direction="horizontal" gap={3}>
+                        <div className="bill-text l-r">Travel fees</div>
+                        <div className="bill-text l-r ms-auto">Rs.{props.data.selBook.TravelFees}</div>
+                    </Stack>
+                    <Stack direction="horizontal" gap={3}>
+                        <div className="bill-text l-r">Gst (18%)</div>
+                        <div className="bill-text l-r ms-auto">Rs.{((props.data.selBook.PerShowRate+props.data.selBook.FoodStay+props.data.selBook.TravelFees)*0.18).toFixed()}</div>
+                    </Stack>
+                    {props.coupon != "" && (
+                        <Stack direction="horizontal" gap={3}>
+                            <div className="bill-text l-r">Coupon Discount</div>
+                            <div className="bill-text l-r ms-auto"> <span className="red-color">- Rs.{props.coupon.VoucherStackAmt}</span></div>
+                        </Stack>
+                    )}
+                    {props.reward != "" && (
+                        <Stack direction="horizontal" gap={3}>
+                            <div className="bill-text l-r">Reward Discount</div>
+                            <div className="bill-text l-r ms-auto"> <span className="red-color">- Rs.{props.reward.VoucherStackAmt}</span></div>
+                        </Stack>
+                    )}
+                    <div className="total-value">
+                        <Stack direction="horizontal" gap={3}>
+                            <div className=""><span className="bill-text l-b red-color">Total payable</span> <span>(inclusive taxes)</span></div>
+                            <div className="bill-text l-b red-color ms-auto">Rs. {calculateTotalAmount()}
+                            </div>
+                        </Stack>
+                    </div>
+                    <button disabled={payFromCartLoading} type="button" className="l-b btnn pay-button btn btn-primary w-100"
+                            onClick={() => makePayment(props.data?.selBook.TransactId)}
+                        >
+                        {payFromCartLoading && (
+                          <span className="spinner-border spinner-border-sm"></span>
+                        )} 
+                         Pay now
+                    </button>
+                </>
             )}
         </div>
 
@@ -142,7 +220,7 @@ const BilldetailSlots = (props) => {
             className="reward-model-sec"
         >
             <div className="closeButtonr" >
-                <RxCross2 onClick={() => {setShowDialogue(false)}}/>
+                <RxCross2 onClick={() => {closeDialogue()}} />
             </div>
             <Modal.Body>
                 <div className="inner-reward-sec">

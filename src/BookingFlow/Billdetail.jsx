@@ -22,6 +22,7 @@ const Billdetail = (props) => {
             saveAndPayMessage,
             saveAndPaySucess,
             saveAndPayError,
+            selectedSlots
     } = useSelector(state => state.userBooking);
 
     const [showDialogue, setShowDialogue] = useState(false);
@@ -70,7 +71,7 @@ const Billdetail = (props) => {
                 disabled={saveAndPayLoading}
                 type="button"
                 className="l-b btnn pay-button btn btn-primary w-100"
-                onClick={() => props.payNow()}
+                onClick={() => props.payNow(selectedSlots)}
                 >
                 {saveAndPayLoading && (
                   <span className="spinner-border spinner-border-sm"></span>

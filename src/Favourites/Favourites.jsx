@@ -11,24 +11,16 @@ import MoveCart from "./MoveCart";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch,useSelector } from "react-redux";
 import { getUserFavoriteArtists } from "../actions/user";
-import { fetchBookings } from "../redux/userBookingsSlice";
+import { fetchFavArtists } from "../redux/userBookingsSlice";
 
 
 const Favourites = () => {
   const dispatch = useDispatch();
-  const {userFavoriteArtists} = useSelector(state => state.user);
   const {user} = useSelector(state => state.auth);
-  const { loading, error, message, bookings } = useSelector(state => state.userBookings);
-
-  const [favoriteArtists,setFavoriteArtists] = useState([]);
+  const { favouriteArtists, favouriteArtistsLoading, removeFavouriteArtistsLoading } = useSelector(state => state.userBookings);
 
   useEffect(()=>{
-    dispatch(getUserFavoriteArtists(user.RegId));
-    setFavoriteArtists(userFavoriteArtists);
-  },[favoriteArtists]);
-
-  useEffect(()=>{
-    dispatch(fetchBookings());
+    dispatch(fetchFavArtists(user.RegId));
   },[]);
 
   return (
@@ -43,33 +35,30 @@ const Favourites = () => {
             </div>
             <div className="main-content">
                 {
-                    favoriteArtists.length === 0 ? (
+                    favouriteArtistsLoading ? (
                         <>
-                            <Skeleton className="l-sb head mb-2" width="160px" count={1}  />
-                            <Skeleton className="l-l sub-head mb-2" width="240px" count={1}  />
-                            <Skeleton className="l-l sub-head mb-2" width="380px" count={1}  />
-                            <Skeleton className="l-l sub-head mb-5" width="500px" count={1}  />
-                            <Skeleton className="hello-header" count={1}  />
+                            <Skeleton className="l-sb head mb-2" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" height="400px" count={1}  />
                         </>
                     ) : (
                         <Container fluid>
                             <div className="main-artists-list">
                              <div className="main-favourite-sec">
-                            <div className="head-sec">
-                                 <h1 className="l-b">Favourites <Badge className="fav-badge">{userFavoriteArtists.length}</Badge></h1>
-                            </div>
-                            <div className="favourite-tab-sec">
-                                <Tabs defaultActiveKey="all" id="uncontrolled-tab-example" className="mb-1 justify-content-end">
-                                    <Tab eventKey="all" title="Liked artists"
-                                    >
-                                       <Row>
-                                            {userFavoriteArtists.map((artist) => <Col xl={3} md={6}><FavouriteCard props={artist}/></Col>)}
-                                        </Row>
-                                    </Tab>
-                                </Tabs>
+                                <div className="head-sec">
+                                     <h1 className="l-b">Favourites <Badge className="fav-badge">{favouriteArtists.length}</Badge></h1>
+                                </div>
+                                <div className="favourite-tab-sec">
+                                    <Tabs defaultActiveKey="all" id="uncontrolled-tab-example" className="mb-1 justify-content-end">
+                                            <Tab eventKey="all" title="Liked artists"
+                                            >
+                                               <Row>
+                                                    {favouriteArtists.map((artist, index) => <Col key={`fav_${index}`} xl={3} md={6}><FavouriteCard props={artist}/></Col>)}
+                                                </Row>
+                                            </Tab>
+                                    </Tabs>
+                                </div>
                             </div>
                         </div>
-                    </div>
                         </Container>
                     )
                 }

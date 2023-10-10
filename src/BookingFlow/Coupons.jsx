@@ -6,6 +6,7 @@ import { RxCross2 } from "react-icons/rx";
 import Offerimg from '../assets/images/offer-img.png';
 import Form from 'react-bootstrap/Form';
 import Suce from "../components/suce.json";
+import { Tabs, Tab} from "react-bootstrap";
 
 const Coupons = (props) => {
   console.log(props)
@@ -19,8 +20,8 @@ const Coupons = (props) => {
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
 
-  const checkCouponSelected = (couponData) => {
-    props.selectCoupon(couponData);
+  const checkCouponSelected = (type, couponData) => {
+    props.selectCoupon(type, couponData);
     setSelectedCouponData(couponData);
     setShow(false);
     handleShow2();
@@ -57,32 +58,61 @@ const Coupons = (props) => {
                   <div className="inner-coupons-sec">
                     <div className="head-sec d-flex align-items-center">
                       <img src={Offerimg} alt="" />
-                      <h2 className="l-b ms-4">OFFERS AND coupons</h2>
+                      <h2 className="l-b ms-4">Offers, Coupons & Rewards</h2>
                     </div>
                   </div>
-                  {props.data.length == 0 && !props.loading ? (
-                    <div className="avail-coupons-text">
-                      <h2 className="mb-0">No coupons available</h2>
-                    </div>
-                  ):(
-                    <>
-                       <div className="avail-coupons-text">
-                        <h2 className="mb-0">Available coupons</h2>
-                      </div>
-                      {props.data.map((coup,index) => {
-                        return (
-                          <div key={`coupon_${index}`} className="coupons-box">
-                            <h2 className="mb-0 red-color">{coup.VoucherStackDesc}</h2>
-                            <p className="l-r text-sec">{coup.VoucherStackADesc}</p>
-                            <div className="d-flex">
-                              <div className="me-auto code-text green-color l-b">{coup.VoucherStackCode}</div>
-                              <div className=""><button type="button" className="l-r btnn code-apply-btn btn btn-primary" onClick={() => {checkCouponSelected(coup)}} >APPLY</button></div>
+                  <Tabs defaultActiveKey="coupons" id="uncontrolled-tab-example" className="mb-1 justify-content-start">
+                      <Tab eventKey="coupons" title="Coupons">
+                         {props.data.filter((cpn) => {return cpn.VoucherStackDetails === "COUPONS"}).length == 0 && !props.loading ? (
+                            <div className="avail-coupons-text">
+                              <h2 className="mb-0">No coupons available</h2>
                             </div>
-                          </div>
-                        )
-                      })}
-                    </>
-                  )}
+                          ):(
+                            <>
+                               <div className="avail-coupons-text">
+                                <h2 className="mb-0">Available coupons</h2>
+                              </div>
+                              {props.data.filter((cpn) => {return cpn.VoucherStackDetails === "COUPONS"}).map((coup,index) => {
+                                return (
+                                  <div key={`coupon_${index}`} className="coupons-box">
+                                    <h2 className="mb-0 red-color">{coup.VoucherStackDesc}</h2>
+                                    <p className="l-r text-sec">{coup.VoucherStackADesc}</p>
+                                    <div className="d-flex">
+                                      <div className="me-auto code-text green-color l-b">{coup.VoucherStackCode}</div>
+                                      <div className=""><button type="button" className="l-r btnn code-apply-btn btn btn-primary" onClick={() => {checkCouponSelected('coupons', coup)}} >APPLY</button></div>
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                            </>
+                            )}
+                      </Tab>
+                      <Tab eventKey="rewards" title="Rewards">
+                          {props.data.filter((cpn) => {return cpn.VoucherStackDetails === "REWARDS"}).length == 0 && !props.loading ? (
+                            <div className="avail-coupons-text">
+                              <h2 className="mb-0">No rewards available</h2>
+                            </div>
+                          ):(
+                            <>
+                               <div className="avail-coupons-text">
+                                <h2 className="mb-0">Available rewards</h2>
+                              </div>
+                              {props.data.filter((cpn) => {return cpn.VoucherStackDetails === "REWARDS"}).map((coup,index) => {
+                                return (
+                                  <div key={`reward_${index}`} className="coupons-box">
+                                    <h2 className="mb-0 red-color">{coup.VoucherStackDesc}</h2>
+                                    <p className="l-r text-sec">{coup.VoucherStackADesc}</p>
+                                    <div className="d-flex">
+                                      <div className="me-auto code-text green-color l-b">{coup.VoucherStackCode}</div>
+                                      <div className=""><button type="button" className="l-r btnn code-apply-btn btn btn-primary" onClick={() => {checkCouponSelected('rewards', coup)}} >APPLY</button></div>
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                            </>
+                            )}
+                      </Tab>
+                  </Tabs>
                 </div>
             </Modal.Body>
         </Modal>

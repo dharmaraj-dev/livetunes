@@ -10,23 +10,32 @@ import { RxCrossCircled } from "react-icons/rx";
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { removeFavoriteArtists } from "../actions/user";
+import { removeFavArtists } from "../redux/userBookingsSlice";
 
 const FavouriteCard = ({props}) => {
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.auth);
+    const { removeFavouriteArtistsLoading } = useSelector(state => state.userBookings);
 
-    const removeFromFavourite = (id) => {
+    const removeFromFavourite = (dt) => {
         const data = {
-          "AFavId": id,
+          "AFavId": dt.AFavId,
           "likeState": false
         }
-        dispatch(removeFavoriteArtists(data));
+        //dispatch(removeFavoriteArtists(data));
+        dispatch(removeFavArtists(data,dt));
       }
 
   return (
     <>
         <div className="inner-favourite-card postion-r">
-            <RxCrossCircled className="cross-sec" onClick={() => {removeFromFavourite(props.AFavId)}}/>
+            {removeFavouriteArtistsLoading ? (
+                <div className="cross-sec">
+                    <span className="spinner-border spinner-border-sm"></span>
+                </div>
+              ):(
+                <RxCrossCircled className="cross-sec" onClick={() => {removeFromFavourite(props)}}/>
+              )}
             <div className="avtar-sec">
                 <div className="avtar-img">
                     <img src={props.ArtistProfileImg == "" ? Avtar : props.ArtistProfileImg} alt={props.ArtistName} className="w-100 border-radius-cirlce" />

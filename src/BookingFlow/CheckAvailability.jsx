@@ -13,7 +13,7 @@ import { Navigate, useNavigate  } from 'react-router-dom';
 import { InlineWidget } from "react-calendly";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {fetchAvailSlots} from "../redux/userBookingSlice";
+import {resetToInitialState} from "../redux/userBookingSlice";
 import { useParams } from "react-router-dom";
 import { fetchArtistDetails } from "../redux/artistDetailsSlice";
 
@@ -24,21 +24,22 @@ const CheckAvailability = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {loading, details} = useSelector(state => state.artistDetails);
-    const [selectedSlot, setSelectedSlot] = useState("");
+    const { selectedSlots } = useSelector(state => state.userBooking);
+
     const artistId = atob(params.artistId);
     const userId = atob(params.userId);
-    const selectSlot = (data) => {
-        setSelectedSlot(data);
-    }
-
 
     useEffect(()=>{
+        dispatch(resetToInitialState());
         if(artistId === undefined){
             navigate("/dashboard");
         }
         window.scrollTo(0, 0);
         dispatch(fetchArtistDetails(artistId,userId));
       },[artistId]);  
+    useEffect(()=>{
+        
+      },[selectedSlots]);
 
   return (
     <>
@@ -59,19 +60,20 @@ const CheckAvailability = () => {
                                     loading={loading}
                                     artistDetails={details}
                                     artistId={artistId}
-                                    setSlotForAvailability={selectSlot}
+                                    //setSlotForAvailability={selectSlot}
+                                    selectedSlots={selectedSlots}
                                     ref={childRef} />
                             </Col>
                             <Col xl={5} lg={6} md={12} className="main-checkavailability-right-sec">
                                 <div className="checkavailability-right-sec">
                                     <ArtistInfo loading={loading} artistId={artistId} artistDetails={details}/>
-                                    {selectedSlot === "" ? (
+                                    {selectedSlots === null ? (
                                         <div className="main-value-card-sec align-center">
                                             <ValueCard loading={loading} artistDetails={details}/>
                                         </div>
                                     ):(
                                         <div className="main-billing-details">
-                                            <Billdetail data={selectedSlot} payNow={childRef.current.payNowTrigger}/>
+                                            <Billdetail data={selectedSlots} payNow={() => {childRef.current.payNowTrigger(selectedSlots)}}/>
                                         </div>
                                     )}
                                 </div>

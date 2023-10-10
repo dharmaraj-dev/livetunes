@@ -369,12 +369,14 @@ const SingleArtist = () => {
                                     </div>
                                     <Faq data={details?.selQuestLog}/>
                                 </section> 
+                                {details?.selOtherArtist.length > 0 && (
                                 <section className="main-livetune-details">
                                     <div className="s-heading">
                                         <p className="s-head l-b">Artists you might like</p>
                                     </div>
                                     <ArtistsLikebox data={details?.selOtherArtist}/>            
                                 </section>
+                                )}
                             </div>
                         </Container>
                     )

@@ -7,6 +7,7 @@ const SelectMultiotion = () => {
     const dispatch = useDispatch();
     const { languages } = useSelector(state => state.common);
     const { userSelectedLanguages } = useSelector(state => state.user);
+    const { selectedLanguages } = useSelector(state => state.userSettings);
     console.log(languages)
     const selectLanguage = (selectedList, selectedItem) => {
       dispatch(setLanguages(selectedList));
@@ -33,7 +34,7 @@ const SelectMultiotion = () => {
         displayValue="LanguageName"
         onSelect={selectLanguage}
         onRemove={removeLanguage}
-        selectedValues={userSelectedLanguages}
+        selectedValues={selectedLanguages}
         />
     </>
   )

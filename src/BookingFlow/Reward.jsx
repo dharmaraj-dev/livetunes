@@ -27,7 +27,7 @@ const Reward = () => {
                 <h2>Goodwill & Gratitude Reward</h2>
                 <div className="ico red-color"><BsExclamationCircleFill onClick={handleShow} /></div>
             </div>
-            <Form className="d-flex reward-search">
+            {/*<Form className="d-flex reward-search">
                 <Form.Control
                 type="search"
                 placeholder="Reward Code"
@@ -35,7 +35,7 @@ const Reward = () => {
                 aria-label="Search"
                 />
                 <Button variant="outline-success" className="btnn l-b">Apply</Button>
-            </Form>
+            </Form>*/}
         </div>
 
         <Modal

@@ -118,7 +118,7 @@ const MoveCart = (props) => {
             <>
                 <div className="d-flex">
                     <div className="img-sec">
-                        <img src={Art} alt="" className="w-100"/>
+                        <img src={props.data.ProfileURL != null ? props.data.ProfileURL : Art} alt="" className="w-100"/>
                     </div>
                     <div className="inner-artist-detail">
                         <h4 className="l-sb">{props.data.ArtistName}</h4>

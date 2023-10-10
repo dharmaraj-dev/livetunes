@@ -18,7 +18,7 @@ const slice = createSlice({
     profileDataLoading: false,
     profileDataError: false,
     profileDataSuccess: false,
-    saveProfileDataLoading: true,
+    saveProfileDataLoading: false,
     saveProfileDataError: false,
     saveProfileDataSuccess: false,
     saveProfileDataMessage: null,

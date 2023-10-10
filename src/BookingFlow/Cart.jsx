@@ -51,6 +51,7 @@ const Cart = () => {
   const [selectedSlot, setSelectedSlot] = useState("");
 
   const [selectedCoupon, setNewSelectedCoupon] = useState("");
+  const [selectedReward, setNewSelectedReward] = useState("");
 
   const moveToCart = () => {
     dispatch(moveTransactionToCart({"TransactId":transactId}))
@@ -79,8 +80,14 @@ const Cart = () => {
         
     }
 
-  const setSelectedCoupon = (data) => {
-    setNewSelectedCoupon(data);
+  const setSelectedCoupon = (type, data) => {
+    if(type === "coupons") {
+      setNewSelectedCoupon(data);
+    }
+    if(type === "rewards") {
+      setNewSelectedReward(data);
+    }
+    
     console.log('data', data);
   }
 
@@ -131,13 +138,14 @@ const Cart = () => {
               <div className="main-artists-list">
                 <Row>
                     <Col xl={7} lg={12} md={12}>
+                      {transactionDetails.selBook.UBookingName !== null && (
                         <div className="cart-artist-detail">
-                            <p className="l-sb mb-1 head"><span>Booking for :</span> <span>Atharva Deshpande</span>, <span>9179922675</span></p>
+                            <p className="l-sb mb-1 head"><span>Booking for :</span> <span>{transactionDetails.selBook.UBookingName}</span></p>
                             <Stack direction="horizontal" gap={3}>
-                            <div className="l-r sub-head">name@domain.com</div>
-                            <div className="l-r sub-head">Add: <span>Mumbai, 410210</span></div>
+                            <div className="l-r sub-head">Add: <span>{transactionDetails.selBook.UserAddress}</span></div>
                             </Stack>
                         </div>
+                      )}
                         <div className="cart-details-box postion-r">
                             <div className="d-flex">
                                 <div className="img-sec">
@@ -214,10 +222,11 @@ const Cart = () => {
                                     */}
                                     </Stack>
                                     {transactionDetails.PayStatus === "Success" && (
-                                       <div class="rubber_stamp">BOOKED</div>
+                                       <div className="rubber_stamp">BOOKED</div>
                                     )}
                                 </div>
                             </div>
+                            {transactionDetails.PayStatus !== "Success" && (
                             <div className="cart-footer">
                                 <Stack direction="horizontal" gap={3}>
                                 <div className="">
@@ -233,16 +242,22 @@ const Cart = () => {
                                 </div>
                                 </Stack>
                             </div>
+                            )}
                         </div>
                         
                     </Col>
                     <Col xl={5} lg={12} md={12} className="">
                         <div className="checkavailability-right-sec">
-                          <Coupons data={fetchedCoupons} loading={fetchCouponsLoading} selectCoupon={setSelectedCoupon}/>
-                          <div className="main-reward-sec">
-                            <Reward/>
-                          </div>
-                            <BilldetailSlots data={transactionDetails} coupon={selectedCoupon}/>
+                          {transactionDetails.PayStatus !== "Success" && (
+                            <>
+                              <Coupons data={fetchedCoupons} loading={fetchCouponsLoading} selectCoupon={setSelectedCoupon}/>
+                              <div className="main-reward-sec">
+                                <Reward/>
+                              </div>
+                            </>
+                          )}
+                          
+                            <BilldetailSlots data={transactionDetails} coupon={selectedCoupon} reward={selectedReward}/>
                         </div>
                     </Col>
                 </Row>
