@@ -16,7 +16,7 @@ const WelcomeLoader = () => {
   	//useScript('./WelcomeLoader.js');
 
   	const { isLoggedIn, IsProfileSend, joiningType, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
-  	const { isDefaultSettings } = useSelector(state => state.user);
+  	const { isSettingsSaved } = useSelector(state => state.userSettings);
 
   	 useEffect(() => {
 
@@ -48,10 +48,10 @@ const WelcomeLoader = () => {
 	      } else if(joiningType === 'Judge') {
 	        navigate("/judgment-panel");
 	      } else if(joiningType === 'User'){
-	        if(isDefaultSettings) {
+	        if(isSettingsSaved) {
 	          navigate("/dashboard");
 	        } else {
-	          navigate("/languages");
+	          navigate("/preferred-languages");
 	        }
 	      }
 	    }

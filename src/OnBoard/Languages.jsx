@@ -8,10 +8,18 @@ import Button from 'react-bootstrap/Button';
 import Lang from '../assets/images/lang.png';
 import SelectLanguages from "./SelectLanguages";
 import { Link } from "react-router-dom";
-import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate  } from 'react-router-dom';
 
 const Languages = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {selectedLanguages} = useSelector(state => state.userSettings);
+    const {user} = useSelector(state => state.auth);
+    const proceedToNextPage = () => {
+        navigate('/preferred-location');
+    }
+
   return (
     <>
 
@@ -41,16 +49,19 @@ const Languages = () => {
                                 <Col md={6} lg={5} className="postion-r">
                                     <div className="chosen-right-sec select-multi">
                                         <div className="inner-heading-sec">
-                                            <p className="l-bl head">Don’t see your language? No worries!</p>
-                                            <p className="l-l sub-head">Choose From Below Drop Down</p>
+                                            <p className="l-bl head">Select your preffered languages.</p>
+                                            <p className="l-l sub-head">No worries! You can always change them later.</p>
                                         </div>    
                                         <SelectLanguages/>
                                     </div>
                                 </Col>
+                                <Col md={12} lg={12} >
+                                    <div className="text-right">
+                                        <Button variant="primary" disabled={selectedLanguages.length === 0} onClick={proceedToNextPage} className="l-sb btnn new_next_btn">Next</Button>
+                                     </div>
+                                </Col>
                             </Row>
-                            <Link to="/locationcheck">
-                                <Button variant="primary" disabled={selectedLanguages.length === 0} className="l-sb btnn next-btn">Next</Button>
-                            </Link>
+                            
                         </div>
                     </section>
                 </Container>

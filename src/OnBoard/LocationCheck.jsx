@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import NavBar from "../Layout/NavBar";
 import SideNavBar from "../Layout/SideNavBar";
 import Container from 'react-bootstrap/Container';
@@ -8,56 +8,64 @@ import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from "react-redux";
 import Multiselect from 'multiselect-react-dropdown';
 import { Link } from "react-router-dom";
-import {setUserRequestedCities,setSelectedCities,setUserRequestedCitiesAPI} from '../redux/userSettings';
+import { useNavigate  } from 'react-router-dom';
+import { 
+    setUserRequestedCities,
+    setUserRequestedStates,
+    setUserRequestedCitiesAPI,
+    setSelectedCity,
+    setUserSettings
+} from '../redux/userSettings';
 
 const LocationCheck = () => {
     const dispatch = useDispatch();
-    const { userRequestedCities,selectedCities } = useSelector(state => state.userSettings);
+    let navigate = useNavigate();
+    const { selectedCity, userRequestedCities, userRequestedStates } = useSelector(state => state.userSettings);
     const { cities,states } = useSelector(state => state.common );
     const {user} = useSelector(state => state.auth);
-    const [isStateSelected,setIsStateSelected] = useState(false);
-    const [selectedStateId,setSelectedStateId] = useState(-1);
-    const selectCity = (selectedList, selectedItem) => {
+    
+
+    const selectRequestedState = (selectedList,selectedItem) => {
+        dispatch(setUserRequestedStates(selectedList));
+        dispatch(setUserRequestedCities([]));
+    }
+
+    const removeRequestedState = (selectedList,removedItem) => {
+        dispatch(setUserRequestedStates(selectedList));
+        dispatch(setUserRequestedCities([]));
+    }
+
+    const selectRequestedCity = (selectedList, selectedItem) => {
       dispatch(setUserRequestedCities(selectedList));
     }
 
-    const addRequestedCity = () => {
-        if(userRequestedCities.length > 0){
-            let requestedCities = '';
-            let requestedStates = '';
-            requestedCities = userRequestedCities.map((city)=>city.CityId).join(',');
-            requestedStates = [... new Set(userRequestedCities.map((city) => city.StateId))].join(',');
-            dispatch(setUserRequestedCitiesAPI({"StateId":requestedStates,"CityId":requestedCities,"UserId":user.RegId}));
-        }
-    }
-
-    const removeCity = (selectedList, removedItem) => {
+    const removeRequestedCity = (selectedList, removedItem) => {
         dispatch(setUserRequestedCities(selectedList));
     }
 
-    const selectState = (selectedList,selectedItem) => {
-      setIsStateSelected(true);
-      setSelectedStateId(selectedItem.StateId);
+    
+    const selectPrefferedCity = (cityId, cityName) => {
+        dispatch(setSelectedCity(`${cityId}_${cityName}`))
     }
 
-    const selectAvailableCities = (e,ct) => {
-        console.log(ct);
-        const targetedCity = document.getElementById(e.target.id).parentElement;
-        if(e.target.parentElement.style.backgroundColor === 'rgb(253, 55, 67)'){
-            dispatch(setSelectedCities(selectedCities.filter((city)=>city.CityName
-            !==ct.CityName
-            )));
-            targetedCity.style.backgroundColor = '';
+    const checkIfDisabled = () => {
+        if(selectedCity != "") {
+            return true;
+        } else if(userRequestedStates.length > 0 && userRequestedCities.length > 0) {
+            return true;
+        } else {
+            return false;
         }
-        else{
-            targetedCity.style.backgroundColor = '#FD3743';
-            dispatch(setSelectedCities([...selectedCities,ct]));
-        }
+    }
+
+    const navigateToNextPage = () => {
+        navigate('/preferred-budget');
     }
 
     useEffect(() => {
-        console.log('cities', cities.filter((key) => key.IsLTLive))
-    }, [])
+        console.log('selectedCity', selectedCity)
+    }, [selectedCity, userRequestedStates, userRequestedCities])
+
   return (
     <>
     
@@ -90,22 +98,21 @@ const LocationCheck = () => {
                                             <h1>Are You From Our Top Trending Cities?</h1>
                                             <div className="loco-box">
                                                 {cities?.filter((key) => key.IsLTLive).map((ct,index) => {
-                                                    return (<div className="text-center ">
-                                                            {ct.MImgURL == null ? (
-                                                                <span className="default-city mr-2">
-                                                                    <span>{ct.CityName.charAt(0)}</span>
-                                                                </span>
-                                                            ):(
-                                                                <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`} onClick={(e)=>selectAvailableCities(e,ct)}/>
-                                                            )}
-                                                            <p className="l-m city-name">{ct.CityName}</p>
+                                                    return (
+                                                        <div key={`city_${index}`} className="text-center" onClick={()=>selectPrefferedCity(ct.CityId, ct.CityName)}>
+                                                                {ct.MImgURL == null ? (
+                                                                    <span className="default-city mr-2">
+                                                                        <span>{ct.CityName.charAt(0)}</span>
+                                                                    </span>
+                                                                ):(
+                                                                    <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`}/>
+                                                                )}
+                                                                <p className={`l-m city-name ${`${ct.CityId}_${ct.CityName}` == selectedCity ? 'active_city' : ''}`}>{ct.CityName}</p>
                                                         </div>)
                                                 })}
                                             </div>
                                          </div>
                                     </div>
-                                </Col>
-                                <Col md={12} lg={12} xl={12}>
                                     <div>
                                         <h1>Don’t See Your City</h1>
                                         <p className="l-l sub-head">Then Make It One Of Them</p>
@@ -117,34 +124,41 @@ const LocationCheck = () => {
                                                   showArrow
                                                   placeholder="Select State"
                                                   displayValue="StateName"
-                                                  onSelect={selectState}
+                                                  onSelect={selectRequestedState}
+                                                  onRemove={removeRequestedState}
+                                                  selectedValues={userRequestedStates}
                                                   singleSelect = {true}
+                                                  disable={selectedCity != '' ? true : false}
                                                 />
                                             </Col>
                                             <Col md={6} lg={6} xl={6}>
-                                                {isStateSelected && (
+                                                {userRequestedStates.length > 0 && (
                                                     <Multiselect
                                                       isObject={true}
-                                                      options= { cities?.filter((key) => !key.IsCancelled).filter((city)=>city.StateId === selectedStateId) }
+                                                      options= { cities?.filter((key) => !key.IsCancelled).filter((city)=>city.StateId === userRequestedStates[0]?.StateId) }
                                                       showCheckbox
                                                       showArrow
                                                       className='l-l'
                                                       placeholder="Select City"
                                                       displayValue="CityName"
-                                                      onSelect={selectCity}
-                                                      onRemove={removeCity}
+                                                      onSelect={selectRequestedCity}
+                                                      onRemove={removeRequestedCity}
                                                       selectedValues={userRequestedCities}
+                                                      disable={selectedCity != '' ? true : false}
                                                     />
                                                 )}
                                             </Col>
                                         </Row>
-                                        
                                      </div> 
+                                     {checkIfDisabled() && (
+                                     <div className="text-right">
+                                        <Button className="l-sb btnn new_next_btn" onClick={navigateToNextPage}>Next</Button>
+                                     </div>
+                                     )}
                                 </Col>
+                                
                             </Row>
-                            <Link onClick={()=> addRequestedCity()} to="/budgetmusictype">
-                            <Button variant="primary" className="l-sb btnn next-btn" >Next</Button>
-                            </Link>
+                            
                         </div>
                     </section>
                 </Container>

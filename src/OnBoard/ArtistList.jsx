@@ -83,9 +83,10 @@ const ArtistList = (props) => {
                             {userFilteredArtistsLoading ? (
                                <Skeleton className="l-sb head" width="250px" count={1}  />
                             ):(
-                              <p className="l-sb head">People Also Visit</p>
+                              specialEvents.length > 0 && (
+                                <p className="l-sb head">People Also Visit</p>
+                              )
                             )}
-                            
                         </div>
                         <div>
                             <SlideCard isLoading={homeLoading} data={specialEvents}/>

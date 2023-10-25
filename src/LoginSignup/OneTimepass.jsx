@@ -9,7 +9,7 @@ import ModelSucces from '../assets/images/model-succes.svg';
 import { useDispatch, useSelector } from "react-redux";
 import { successToast, errorToast } from "../services/toast-service";
 import { validateOtp, resendOtp } from "../actions/auth";
-import { Navigate  } from 'react-router-dom';
+import { Navigate, useNavigate  } from 'react-router-dom';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import { logout } from '../actions/auth';
@@ -17,9 +17,10 @@ import { logout } from '../actions/auth';
 const OneTimepass = () => {
   const dispatch = useDispatch();
   const continueButton = useRef();
+  let navigate = useNavigate();
 
   const { isLoggedIn, otpSentTo } = useSelector(state => state.auth);
-  const {isDefaultSettings} = useSelector(state => state.user);
+  const {isSettingsSaved} = useSelector(state => state.userSettings);
   const {joiningType} = useSelector(state => state.auth);
 
   const [show, setShow] = useState(false);
@@ -45,10 +46,10 @@ const OneTimepass = () => {
     return <Navigate to="/artists-profile" />;
   }
   else if(isLoggedIn && joiningType === "User"){
-    if(isDefaultSettings) {
+    if(isSettingsSaved) {
       <Navigate to="/dashboard" />
     } else {
-      <Navigate to="/languages" />
+      <Navigate to="/preferred-languages" />
     }
   }
 
@@ -77,7 +78,8 @@ const OneTimepass = () => {
         if(res.IsSuccess) {
           successToast("OTP verified successfully.");
           setIsOtpValid("");
-          handleShow();
+          //handleShow();
+          navigate("/")
         } else {
           setIsOtpValid(res.Message);
           errorToast(res.Message);

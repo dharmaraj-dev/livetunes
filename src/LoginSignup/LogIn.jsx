@@ -19,7 +19,7 @@ const LogIn = () => {
     
 
     const { isLoggedIn, joiningType } = useSelector(state => state.auth);
-    const {isDefaultSettings} = useSelector(state => state.user);
+    const {isSettingsSaved} = useSelector(state => state.userSettings);
     console.log(joiningType);
     const [phone, setPhone] = useState("");
     const [loading, setLoading] = useState(false);
@@ -79,10 +79,10 @@ const LogIn = () => {
     } else if (isLoggedIn && joiningType == "Judge") {
       return <Navigate to="/judgment-panel" />;
     } else if(isLoggedIn && joiningType === "User"){
-      if(isDefaultSettings) {
+      if(isSettingsSaved) {
         <Navigate to="/dashboard" />
       } else {
-        <Navigate to="/languages" />
+        <Navigate to="/preferred-languages" />
       }
     }
 

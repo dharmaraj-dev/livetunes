@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import MultiRangeSlider from "multi-range-slider-react";
 import Mrange from '../assets/images/mrange.png';
 import { useDispatch, useSelector } from "react-redux";
-import {setBudgetMin,setBudgetMax} from "../actions/user";
+import {setSettingsMinBudget, setSettingsMaxBudget} from '../redux/userSettings';
 
 const RangeSlider = () => {
     const dispatch = useDispatch();
-    const { userMinimumBudget,userMaximumBudget } = useSelector(state => state.user);
+    const { userMinimumBudget, userMaximumBudget} = useSelector(state => state.userSettings);
+    const {user} = useSelector(state => state.auth);
 
     const handleChange = (e) => {
-        dispatch(setBudgetMin(e.minValue));
-        dispatch(setBudgetMax(e.maxValue));
+        console.log('w', e)
+        dispatch(setSettingsMinBudget(e.minValue));
+        dispatch(setSettingsMaxBudget(e.maxValue));
     };
 
   return (

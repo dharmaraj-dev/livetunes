@@ -38,7 +38,7 @@
 .map-box iframe{width: 100%;height: 500px;box-shadow: 5px 5px 10px #00000029;border: 1px solid #DDDDDD;border-radius: 16px;}
 .location-right-sec{padding: 0 0 0 60px;}
 .location-right-sec .head-loco-img .loco-box{display: flex;flex-wrap: wrap;gap: 22px;margin: 36px 0;}
-.location-right-sec .head-loco-img .loco-box img{ width: 100px; border-radius: 50%; height: 100px}
+.location-right-sec .head-loco-img .loco-box img{ width: 100px; border-radius: 50%; height: 100px;margin-bottom: 10px;}
 .location-right-sec .head-loco-img .loco-box .city-name{font-size: 19px;}
 .location-right-sec h1{margin-bottom: 0;}
 .location-right-sec .multiSelectContainer {width: 50%;}
@@ -207,3 +207,13 @@
 .share-icon{position: relative;color: #F13743;font-size: 28px;margin: -4px 0 0; cursor: pointer;}
 .share-btn-icon{list-style: none;padding: 0;margin: 0;display: none;position: absolute;transition: 1s;}
 .share-icon:hover .share-btn-icon{display: block;}  
+
+.active_city {
+    border: 1px solid red;
+}
+
+.new_next_btn {
+    font-size: 22px;
+    padding: 12px 50px;
+    border-radius: 14px;
+}

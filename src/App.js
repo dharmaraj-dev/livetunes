@@ -62,9 +62,11 @@ function App() {
   const params = useParams();
 
   const { isLoggedIn, IsProfileSend, joiningType, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
-  const { isDefaultSettings } = useSelector(state => state.user);
+  const { isSettingsSaved } = useSelector(state => state.userSettings);
 
   useEffect(() => {
+    dispatch(getAllMasters());
+
     if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"){
       dispatch(setJoiningType("User"));
     }
@@ -79,7 +81,7 @@ function App() {
     if(!isLoggedIn) {
       //navigate("/");
     } else {
-      dispatch(getAllMasters());
+      
       // if(joiningType === 'Artist') {
       //   dispatch(getProfileData());
       //   dispatch(getArtistProofData());
@@ -114,9 +116,9 @@ function App() {
         <Route path="/otp" element={<OneTimepass />}/>
         <Route path="/navbar" element={<NavBar/>}/>
         <Route path="/dashboard" element={<HelloScreen/>}/>
-        <Route path="/languages" element={<Languages/>}/>
-        <Route path="/locationcheck" element={<LocationCheck/>}/>
-        <Route path="/budgetmusictype" element={<BudgetMusictype/>}/>
+        <Route path="/preferred-languages" element={<Languages/>}/>
+        <Route path="/preferred-location" element={<LocationCheck/>}/>
+        <Route path="/preferred-budget" element={<BudgetMusictype/>}/>
         <Route path="/artist-List" element={<ArtistList/>}/>
         <Route path="/artist-slots" element={<ArtistAvailSlot/>}/>
         <Route path="/artist-details/:artistName/:artistId/:userId" element={<SingleArtist/>}/>

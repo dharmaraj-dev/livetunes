@@ -31,7 +31,7 @@ const NavBar = () => {
     <>
       <Navbar>
         <Container fluid>
-            <Form className="top-search">
+            <Form className="top-search" style={{"visibility": "hidden"}}>
                 <Form.Control
                 type="search"
                 placeholder="Search"
@@ -51,13 +51,13 @@ const NavBar = () => {
                     </Link>
                   </li>
                   )}
-                  <li className="nav-item">
+                  {/*<li className="nav-item">
                   <DropdownButton align="end" id="dropdown-menu-align-end" className="notification-class dropdown-menu-lg" title={<TfiBell className="white-color bell"/>}>
                     <Dropdown.ItemText>
                       <NotificationSec/>
                     </Dropdown.ItemText>
                   </DropdownButton>
-                  </li>
+                  </li>*/}
                   {(joiningType === "Artist" )&& (
                   <li className="nav-item">
                     <Link to="/my-profile">

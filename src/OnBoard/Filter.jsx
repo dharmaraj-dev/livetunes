@@ -7,6 +7,8 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import Multiselect from 'multiselect-react-dropdown';
 import { useDispatch, useSelector } from "react-redux";
 import { setUserSelectedCategories,setUserSelectedGenres,setUserSelectedEvents,getUserFilteredArtists } from '../actions/user';
+import { setSettingsMinBudget, setSettingsMaxBudget } from "../redux/userSettings";
+
 import { useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton'
 import { useLocation } from 'react-router';
@@ -24,14 +26,10 @@ import './slider.css';
 const Filter = (props) => {
     const dispatch = useDispatch();
     const location = useLocation();
-    console.log(queryString.parse(location.search));
     const { categories,gernes,events } = useSelector(state => state.common );
-    const { userSelectedCategories,userSelectedGenres,userSelectedEvents,userSelectedLanguages,userSelectedCities,userFilteredArtists } = useSelector(state => state.user);
-    const {userMinimumBudget,userMaximumBudget} = useSelector(state=>state.user);
-    const handleChange = (e) => {
-        dispatch(setBudgetMin(e.minValue));
-        dispatch(setBudgetMax(e.maxValue));
-    };
+    const { userSelectedCategories,userSelectedGenres,userSelectedEvents,userSelectedCities,userFilteredArtists } = useSelector(state => state.user);
+    const { selectedLanguages, userMinimumBudget, userMaximumBudget} = useSelector(state => state.userSettings);
+    
     const selectCategory = (selectedList, selectedItem) => {
       dispatch(setUserSelectedCategories(selectedList));
     }
@@ -50,27 +48,23 @@ const Filter = (props) => {
     const removeEvent = (selectedList, removedItem) => {
         dispatch(setUserSelectedEvents(selectedList));
     }
-    const handleDrag = () => {
-        console.log(document.querySelectorAll('.range-slider__thumb'));
-        const thumb = document.querySelectorAll('.range-slider__thumb');
-        const maxVal = Number(thumb[0].ariaValueNow) > Number(thumb[1].ariaValueNow) ? Number(thumb[0].ariaValueNow) : Number(thumb[1].ariaValueNow);
-        const minVal = Number(thumb[0].ariaValueNow) < Number(thumb[1].ariaValueNow) ? Number(thumb[0].ariaValueNow) : Number(thumb[1].ariaValueNow);
-        dispatch(setBudgetMin(minVal));
-        dispatch(setBudgetMax(maxVal));
+    const handleDrag = (e) => {
+        const maxVal = e[1];
+        const minVal = e[0];
+        dispatch(setSettingsMinBudget(minVal));
+        dispatch(setSettingsMaxBudget(maxVal));
         const budgetBox = document.querySelectorAll('.range-slider__thumb');
             if(budgetBox.length > 0){
-                budgetBox[0].innerText = userMinimumBudget;
-                budgetBox[1].innerText = userMaximumBudget;
+                budgetBox[0].innerText = minVal;
+                budgetBox[1].innerText = maxVal;
             }
     }
-    console.log('userSelectedGenres', userSelectedGenres)
 
     const filterArtists = () => {
         const filteringCriteria = {
-            "LanguageId":userSelectedLanguages?.map(a => a.LanguageId)?.join(","),
+            "LanguageId":selectedLanguages?.map(a => a.LanguageId)?.join(","),
             "CategoryId":userSelectedCategories?.map(a => a.CategoryId)?.join(","),
             "GenreId":userSelectedGenres?.map(a => a.GenreId)?.join(","),
-            // "CityId":userSelectedCities?.map(a => a.CityId)?.join(","),
             "FromCharge":userMinimumBudget,
             "ToCharge":userMaximumBudget
         }
@@ -105,19 +99,7 @@ const Filter = (props) => {
             const preSelectedEvents = events.filter((eve)=> {return selectedEvent.split(",").includes(eve.EventsId.toString())});
             dispatch(setUserSelectedEvents(preSelectedEvents));
         }
-        // if(selectedGenre){
-        //     setUserSelectedGenres(gernes.filter((genre)=> {return genre.GenreName === selectedGenre}));
-        // }
-        // const filteringCriteria = {
-        //     "LanguageId":userSelectedLanguages?.map(a => a.LanguageId)?.join(","),
-        //     "CategoryId":userSelectedCategories?.map(a => a.CategoryId)?.join(","),
-        //     "GenreId":userSelectedGenres?.map(a => a.GenreId)?.join(","),
-        //     "CityId":userSelectedCities?.map(a => a.CityId)?.join(","),
-        //     "FromCharge":userMinimumBudget,
-        //     "ToCharge":userMaximumBudget
-        // }
-        // dispatch(getUserFilteredArtists(filteringCriteria));
-    },[userMinimumBudget,userMaximumBudget,userFilteredArtists])
+    },[])
   return (
     <>
         <section className="main-filter-sec">
@@ -189,13 +171,13 @@ const Filter = (props) => {
                                 selectedValues={userSelectedEvents}
                             />
                            <RangeSlider 
-                                min={2000}
+                                min={5000}
                                 max={250000}
                                 step={1000}
-                                defaultValue={[25000,75000]}
+                                defaultValue={[userMinimumBudget, userMaximumBudget]}
                                 id="range-slider-ab"
                                 className=""
-                                onThumbDragEnd = {()=>{handleDrag()}}
+                                onInput = {(e)=>{handleDrag(e)}}
                             />
                         </Col>
                     </Row>

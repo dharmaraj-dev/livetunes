@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "../Layout/NavBar";
 import SideNavBar from "../Layout/SideNavBar";
 import Container from 'react-bootstrap/Container';
@@ -12,42 +12,58 @@ import { Stack } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {setUserSettings} from '../redux/userSettings';
-import {setSelectedCities} from '../redux/userSettings';
+import {updateUserSettings, setSelectedCity} from '../redux/userSettings';
 import Col from "react-bootstrap/Col";
+import { successToast, errorToast } from "../services/toast-service";
 
 
 const Settings = () => {
     const dispatch = useDispatch();
-    const { cities,states } = useSelector(state => state.common );
-    const {userMusicalityTypes} = useSelector(state=> state.user);
-    const {selectedLanguages,selectedCities} = useSelector(state => state.userSettings);
+    const { cities } = useSelector(state => state.common );
+    const {selectedLanguages,selectedCity, userMusicalityTypes, userMinimumBudget, userMaximumBudget, savedUsersSettings, updateSettingsLoading} = useSelector(state => state.userSettings);
     const {user} = useSelector(state => state.auth);
+
     const addUserSettings = () => {
-        let cityId = '';
-        let cityNames = '';
-        let languageId = '';
-        let LanguageName = '';
-        languageId = selectedLanguages.map((language)=>language.LanguageId).join(',');
-        LanguageName = selectedLanguages.map((language)=>language.LanguageName).join(',');
-        cityNames = selectedCities.map((city)=> city.CityName).join(',');
-        cityId = selectedCities.map((city)=> city.CityId).join(',');
-        dispatch(setUserSettings({"LangId":languageId,"LangName":LanguageName,"CityId":cityId,"CityName":cityNames,"RegId":user.RegId}));
-    }
-    const selectAvailableCities = (e,ct) => {
-        console.log(ct);
-        const targetedCity = document.getElementById(e.target.id).parentElement;
-        if(e.target.parentElement.style.backgroundColor === 'rgb(253, 55, 67)'){
-            dispatch(setSelectedCities(selectedCities.filter((city)=>city.CityName
-            !==ct.CityName
-            )));
-            targetedCity.style.backgroundColor = '';
+         let dataToSend = {
+            "USettId": savedUsersSettings[0]?.USettId,
+            "LangId":selectedLanguages.map((language)=>language.LanguageId).join(','),
+            "LangName":selectedLanguages.map((language)=>language.LanguageName).join(','),
+            "MType":userMusicalityTypes.join(','),
+            "MinBudget":userMinimumBudget,
+            "MaxBudget":userMaximumBudget,
+            "RegId":user.RegId
+        };
+
+        if(selectedCity != null) {
+            dataToSend.CityId = selectedCity.split('_')[0];
+            dataToSend.CityName = selectedCity.split('_')[1];
+        } else {
+            dataToSend.CityId = "";
+            dataToSend.CityName = ""
         }
-        else{
-            targetedCity.style.backgroundColor = '#FD3743';
-            dispatch(setSelectedCities([...selectedCities,ct]));
-        }
+       
+        dispatch(updateUserSettings(dataToSend)).then((res) => {
+            if(res.data.IsSuccess) {
+                successToast(res.data.Message)
+            } else {
+                errorToast("Preferrences not updated")
+            }
+            console.log(res);
+        }).catch((err) => {
+            console.log(err);
+            errorToast("Preferrences not updated")
+        })
     }
+    
+
+    const selectPrefferedCity = (cityId, cityName) => {
+        dispatch(setSelectedCity(`${cityId}_${cityName}`))
+    }
+
+    useEffect(() => {
+
+    }, [])
+
   return (
     <>
         <div className="wrapper">
@@ -88,15 +104,15 @@ const Settings = () => {
                                          <div className="head-loco-img">
                                             <div className="loco-box">
                                                 {cities?.filter((key) => key.IsLTLive).map((ct,index) => {
-                                                    return (<div className="text-center ">
+                                                    return (<div key={`city_${index}`} className="text-center" onClick={()=>selectPrefferedCity(ct.CityId, ct.CityName)}>
                                                             {ct.MImgURL == null ? (
                                                                 <span className="default-city mr-2">
                                                                     <span>{ct.CityName.charAt(0)}</span>
                                                                 </span>
                                                             ):(
-                                                                <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`} onClick={(e)=>selectAvailableCities(e,ct)}/>
+                                                                <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`}/>
                                                             )}
-                                                            <p className="l-m city-name">{ct.CityName}</p>
+                                                            <p className={`l-m city-name ${`${ct.CityId}_${ct.CityName}` == selectedCity ? 'active_city' : ''}`}>{ct.CityName}</p>
                                                         </div>)
                                                 })}
                                             </div>
@@ -112,9 +128,15 @@ const Settings = () => {
                                 </div>
                                 <MusictypeSlider />
                             </div>
-                            <Link onClick={()=>addUserSettings()} to="/artist-list">
-                                <Button variant="primary" disabled={userMusicalityTypes.length === 0} className="l-sb btnn " style={{width:"7rem",padding:"0.5rem",fontSize:"1.4rem"}}>Edit</Button>
-                            </Link>
+                            <div className="text-right">
+                                <Button 
+                                    disabled={updateSettingsLoading}
+                                    className="l-sb btnn new_next_btn" onClick={addUserSettings}>
+                                    {updateSettingsLoading && (
+                                      <span className="spinner-border spinner-border-sm"></span>
+                                    )} 
+                                     Update</Button>
+                             </div>
                         </div>    
                     </div>
                 </Container>

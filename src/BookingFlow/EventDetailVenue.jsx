@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
+import React, { useEffect, useState, useImperativeHandle, forwardRef, useCallback } from 'react';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -19,12 +19,15 @@ import {fetchAvailSlots} from "../redux/userBookingSlice";
 import { errorToast, infoToast, successToast } from "../services/toast-service";
 import {setArtistId,setEventData,SelectSlot,saveUserBooking, saveForBooking, payForBooking, setSelectedSlotsToState} from "../redux/userBookingSlice";
 import moment from 'moment/moment';
+import Switch from "react-switch";
+import useRazorpay from "react-razorpay";
 import { useParams } from "react-router-dom";
 
 
 const EventDetailVenue = forwardRef((props, ref) => {
     console.log('props,', props)
     const dispatch = useDispatch();
+    const [Razorpay] = useRazorpay();
     const navigate = useNavigate();
     const params = useParams();
     const artistId = atob(params.artistId);
@@ -32,7 +35,9 @@ const EventDetailVenue = forwardRef((props, ref) => {
     const { events ,states,cities} = useSelector(state => state.common);
     const {user} = useSelector(state => state.auth);
     const {availSlotsLoading, availSlots, availSlotsMsg, transactionId,saveBookingLoading, saveAndPayLoading} = useSelector(state => state.userBooking);
+    const { selectedCity } = useSelector(state => state.userSettings);
 
+    const [changeBookingCity, setChangeBookingCity] = useState(selectedCity != null ? false : true);
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [selectedSlot, setSelectedSlot] = useState("");
@@ -55,6 +60,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
         ref,
         () => ({
             payNowTrigger(stData) {
+                
                 if(eventAddress1 === ""){
                     errorToast("Event Address1 field is missing");
                     return false;
@@ -98,29 +104,58 @@ const EventDetailVenue = forwardRef((props, ref) => {
                     .then((res)=>{
                         if(res.IsSuccess){
                             if(res.TransactionId != null){
-                                const paymentData = {
-                                    "TransactId": res.TransactionId,
-                                    "selBookBill":
-                                    [
-                                        {
-                                            "BillSec":"Total artist rate",
-                                            "BillSecAmt": stData.PerShowRate
-                                        },
-                                        {
-                                            "BillSec":"Food and stay",
-                                            "BillSecAmt": stData.FoodStay
-                                        },
-                                        {
-                                            "BillSec":"Travel fees",
-                                            "BillSecAmt": stData.TravelFees
-                                        },
-                                        {
-                                            "BillSec":"Gst(18%)",
-                                            "BillSecAmt": (stData.PerShowRate + stData.FoodStay + stData.TravelFees)*0.18
+                                const options: RazorpayOptions = {
+                                  key: "rzp_test_yaUjQdG3CL5q4d",
+                                  amount: 4000,
+                                  currency: "INR",
+                                  name: "LiveTunes",
+                                  description: "Test Transaction",
+                                  image: "https://livetunes.ai/logo.png",
+                                  order_id: "order_MsQkfUhryNGW1d",
+                                  handler: (resp) => {
+                                    console.log('res', resp);
+                                    const paymentData = {
+                                        "TransactId": res.TransactionId,
+                                        "selBookBill":
+                                        [
+                                            {
+                                                "BillSec":"Total artist rate",
+                                                "BillSecAmt": stData.PerShowRate
+                                            },
+                                            {
+                                                "BillSec":"Food and stay",
+                                                "BillSecAmt": stData.FoodStay
+                                            },
+                                            {
+                                                "BillSec":"Travel fees",
+                                                "BillSecAmt": stData.TravelFees
+                                            },
+                                            {
+                                                "BillSec":"Gst(18%)",
+                                                "BillSecAmt": (stData.PerShowRate + stData.FoodStay + stData.TravelFees)*0.18
+                                            }
+                                        ]
                                         }
-                                    ]
-                                    }
-                                    dispatch(payForBooking(paymentData));
+                                        dispatch(payForBooking(paymentData));
+                                  },
+                                  error: (err) => {
+                                    console.log('err', err)
+                                  },
+                                  prefill: {
+                                    name: "Test User",
+                                    email: "test@example.com",
+                                    contact: "9999999999",
+                                  },
+                                  notes: {
+                                    address: "Razorpay Corporate Office",
+                                  },
+                                  theme: {
+                                    color: "#3399cc",
+                                  },
+                                };
+
+                                const rzpay = new Razorpay(options);
+                                rzpay.open();
                             } else{
                                 infoToast(res.Message);
                             }
@@ -227,6 +262,83 @@ const EventDetailVenue = forwardRef((props, ref) => {
         }
     }
 
+    const handleLocationChange = nextChecked => {
+        console.log('a',nextChecked, );
+        if(!nextChecked) {
+            const tmpState = cities.filter((ct) => {return (ct.CityName == selectedCity.split('_')[1])});
+            if(tmpState.length > 0) {
+               setState(tmpState[0].StateName); 
+               setCity(selectedCity.split('_')[1]);
+               setIsCheckboxChecked(false);
+                setEventDate("");
+                setSelectedSlot("");
+                setSelectedSlotData([]);
+                dispatch(setSelectedSlotsToState(null))
+            }
+        } else {
+            setState(""); 
+            setCity("");
+            setEventDate("");
+            setSelectedSlot("");
+            setSelectedSlotData([]);
+            setIsCheckboxChecked(false);
+            dispatch(setSelectedSlotsToState(null))
+        }
+        setChangeBookingCity(nextChecked)
+    }
+
+    const removeSlotaData = () => {
+        setCity("");
+        setEventDate("");
+        setSelectedSlot("");
+        setSelectedSlotData([]);
+        setIsCheckboxChecked(false);
+        dispatch(setSelectedSlotsToState(null))
+    }
+
+    // const handlePayment = useCallback(() => {
+
+    //     const options: RazorpayOptions = {
+    //       key: "rzp_test_w8pPC5ridC3umD ",
+    //       amount: "3000",
+    //       currency: "INR",
+    //       name: "LiveTunes India Pvt Ltd",
+    //       description: "Test Transaction",
+    //       image: "https://livetunes.ai/logo.png",
+    //       order_id: order.id,
+    //       handler: (res) => {
+    //         console.log(res);
+    //       },
+    //       prefill: {
+    //         name: "Test User",
+    //         email: "test@example.com",
+    //         contact: "xxxxxxxxxx",
+    //       },
+    //       notes: {
+    //         address: "Razorpay Corporate Office",
+    //       },
+    //       theme: {
+    //         color: "#3399cc",
+    //       },
+    //     };
+
+    //     const rzpay = new Razorpay(options);
+    //     rzpay.open();
+    //   }, [Razorpay]);
+
+
+    useEffect(() => {
+        if(selectedCity != null) {
+            const tmpState = cities.filter((ct) => {return (ct.CityName == selectedCity.split('_')[1])});
+            if(tmpState.length > 0) {
+               setState(tmpState[0].StateName); 
+               setCity(selectedCity.split('_')[1]);
+               setIsCheckboxChecked(false);
+            }
+        }
+    }, [])
+
+    
   return (
     <>
         <section>
@@ -236,8 +348,18 @@ const EventDetailVenue = forwardRef((props, ref) => {
                     <Col lg={5}><h4 className="l-b">Event venue</h4></Col>
                     <Col lg={7} className="d-flex main-left-location-sec">
                         <Stack direction="horizontal" className="left-location-sec">
-                            <div className="location-text l-r" onClick={handleShow}><span className="me-2 green-color"><IoLocationSharp/></span><span>Locate venue on map</span></div>
-                            <div className="location-edit"><FiEdit3/></div>
+                                <span className="some_other_loc" >Book for other location? </span>
+                                <Switch
+                                    onChange={handleLocationChange}
+                                    checked={changeBookingCity}
+                                    className="react-switch"
+                                    disabled={selectedCity == null ? true : false}
+                                  />
+                            {/*<div className="location-text l-r" onClick={handleShow}>
+                                <span className="me-2 green-color"><IoLocationSharp/></span>
+                                <span>Locate venue on map</span>
+                            </div>
+                            <div className="location-edit"><FiEdit3/></div>*/}
                         </Stack>
                     </Col>
                 </Row>
@@ -253,36 +375,45 @@ const EventDetailVenue = forwardRef((props, ref) => {
                 <Col lg={6} md="12" className="mb-4">
                 <Form.Control placeholder="Landmark" type="text" onChange={(e)=>setLandmark(e.target.value)}/>
                 </Col>
-                <Col lg={4} md="12" className="mb-4"> 
-                    <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setState(e.target.value);setDate("");setIsCheckboxChecked(props.artistDetails.selApInfo.StateName != e.target.value ? true : false)}}>
-                        <option>Select state</option>
+                {changeBookingCity ? (
+                    <>
+                        <Col lg={4} md="12" className="mb-4"> 
+                            <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setState(e.target.value);setDate("");setIsCheckboxChecked(props.artistDetails.selApInfo.StateName != e.target.value ? true : false); removeSlotaData()}}>
+                                <option>Select state</option>
+                                {
+                                    states.map((state,index)=><option key={`state_${index}`} value={state.StateName}>{state.StateName}</option>)
+                                }
+                            </Form.Select>
+                        </Col>
                         {
-                            states.map((state,index)=><option key={`state_${index}`} value={state.StateName}>{state.StateName}</option>)
-                        }
-                    </Form.Select>
-                </Col>
-            {
-                state && (
-                <>
-                    <Col lg={4} md="12" className="mb-4">
-                        <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setCity(e.target.value);}}>
-                            <option>Select city</option>
-                            {
-                                cities.filter((city)=>city.StateName === state).map((city,index)=><option key={`city_${index}`} value={city.CityName}>{city.CityName}</option>)
-                            }
-                        </Form.Select>
+                        state && (
+                        <>
+                            <Col lg={4} md="12" className="mb-4">
+                                <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setCity(e.target.value);}}>
+                                    <option>Select city</option>
+                                    {
+                                        cities.filter((city)=>city.StateName === state).map((city,index)=><option key={`city_${index}`} value={city.CityName}>{city.CityName}</option>)
+                                    }
+                                </Form.Select>
+                            </Col>
+                            <Col lg={4} md="12" className="mb-4" onChange={(e)=>SetPincode(e.target.value)}>
+                                <Form.Control placeholder="Pincode" type="number"/>
+                            </Col>
+                        </>
+                        )
+                    }
+                     <Col>
+                        <Form.Group className="l-r" controlId="formBasicCheckbox">
+                            <Form.Check type="checkbox" label="Additional travel, food and stay charges may be applicable according to the venue location" checked={isCheckboxChecked ? true : false} onChange={(e)=>setIsCheckboxChecked(e.target.checked)} disabled/>
+                        </Form.Group>
                     </Col>
+                    </>
+                ):(
                     <Col lg={4} md="12" className="mb-4" onChange={(e)=>SetPincode(e.target.value)}>
                         <Form.Control placeholder="Pincode" type="number"/>
                     </Col>
-                </>
-                )
-            }
-                <Col>
-                    <Form.Group className="l-r" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Additional travel, food and stay charges may be applicable according to the venue location" checked={isCheckboxChecked ? true : false} onChange={(e)=>setIsCheckboxChecked(e.target.checked)} disabled/>
-                    </Form.Group>
-                </Col>
+                )}
+                
             </Row>
              <h4 className="l-b mb-4 mt-4">Event details</h4>
             <Row>

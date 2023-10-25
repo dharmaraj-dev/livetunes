@@ -79,9 +79,9 @@ const SideNavBar = () => {
 					links: "/dashboard"
 				},
 				{
-					text: "TfiMicrophoneAlt",
-					icon: <TfiMicrophoneAlt className="menu-item-icon"/>,
-					links: "/"
+					text:"IoTicketOutline", //
+					icon:<IoTicketOutline className="menu-item-icon"/>,
+					links:`/bookings`
 				},
 				{
 					text: "TfiHeart",
@@ -89,19 +89,9 @@ const SideNavBar = () => {
 					links: "/favourites"
 				},
 				{
-					text:"IoTicketOutline", //
-					icon:<IoTicketOutline className="menu-item-icon"/>,
-					links:`/bookings`
-				},
-				{
 					text: "Settings ",
 					icon: <SlSettings className="menu-item-icon"/>,
 					links: "/settings"
-				},
-				{
-					text:"TfiHeadphoneAlt", //
-					icon:<TfiHeadphoneAlt className="menu-item-icon"/>,
-					links:"/"
 				}
 			]);
 		}
@@ -120,33 +110,25 @@ const SideNavBar = () => {
           showLoaderOnConfirm: true,
           preConfirm: () => {
             return dispatch(logout()).then((response) => {
-                if(response.IsSuccess) {
-                    dispatch({
+            		dispatch({
 			            type: LOGOUT,
 			          });
-									navigate("/login");
-                    return response;
-                } else {
-                    throw new Error(response.data.Message);
-                    Swal.fire(response.data.Message, '', 'error');
-                    navigate("/");
-                }
+			          navigate("/login");
+               
             }).catch((err) => {
-            	navigate("/");
+            	dispatch({
+		            type: LOGOUT,
+		          });
+		          navigate("/login");
             })
           },
           allowOutsideClick: () => false
         }).then((result) => {
           if (result.isConfirmed && result.value) {
-          		dispatch(logout(authToken()));
-          		dispatch({
-		            type: LOGOUT,
-	          	});
-	          	// dispatch({
-		          //   type: STATE_RESET,
-	          	// });
-                Swal.fire('Successfully logout.', '', 'success');
-                navigate("/login");
+          	dispatch({
+	            type: LOGOUT,
+	          });
+            Swal.fire('Successfully logout.', '', 'success');
           }
         })
 		

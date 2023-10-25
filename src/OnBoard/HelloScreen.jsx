@@ -77,12 +77,10 @@ const HelloScreen = () => {
                           {headerBanner.map((ev, i) => {
                               return (
                                 <div key={`headerSlider_${i}`}>
-                                  <section className="hello-header" style={{backgroundImage: "url(" + ev.SEImgURL + ")", marginRight: "15px"}}>
+                                  <section className="hello-header" style={{backgroundImage: "url(" + ev.SEImgURL + ")",border: "1px solid #D8D8D8" , marginRight: `${headerBanner.length > 1 ? '15px' : '0'}`}}>
                                     <Row>
                                         <Col md={8} lg={8}>
                                             <div className="hello-right-text-sec">
-
-
                                                 <h1 className="head text-white">{ev.HeadText}</h1>
                                                 <h2 className="sub-head text-white">{ev.SubText}</h2>
                                                 <p className="l-l para-text text-white">{ev.SubText1}</p>
@@ -108,19 +106,21 @@ const HelloScreen = () => {
                     
                     
                     <section className="look-something-sec">
-                        <div className="heading-sec mb-3">
-                            {homeLoading ? (
-                                <>
-                                    <Skeleton className="l-r head" count={1} width="60%"  />
-                                    <Skeleton className="l-l sub-head" count={1} width="40%" />
-                                </>
+                        {homeLoading ? (
+                            <div className="heading-sec mb-3">
+                                <Skeleton className="l-r head" count={1} width="60%"  />
+                                <Skeleton className="l-l sub-head" count={1} width="40%" />
+                            </div>
                             ):(
+                            specialEvents.length > 0 && (
+                            <div className="heading-sec mb-3">
                                 <>
                                     <p className="l-r head">Looking For Something Else?</p>
                                     <p className="l-l sub-head">We Have A Variety Bro!</p>
                                 </>
-                            )}
-                        </div>
+                            </div>
+                            )
+                        )}
                         <div>
                             <SlideCard isLoading={homeLoading} data={specialEvents} />
                         </div>

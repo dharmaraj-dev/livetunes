@@ -103,7 +103,7 @@ const Bookings = () => {
                                             )}
                                         </Row>
                                     </Tab>
-                                    <Tab eventKey="moved_card" title={renderTitle("Moved to cart", movedToCart.length)}
+                                    <Tab eventKey="moved_card" title={renderTitle("Whishlisted", movedToCart.length)}
                                     >
                                         <Row>
                                             {movedToCart.map((book,index) => {

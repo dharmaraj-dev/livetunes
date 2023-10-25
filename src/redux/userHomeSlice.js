@@ -35,17 +35,25 @@ const slice = createSlice({
     dataSuccess: (state, action) => {
     	console.log('action.payload', action.payload)
 		if(action.payload.IsSuccess) {
-			state.specialEvents = action.payload.output_data.length>0? action.payload.output_data.filter((dt) => {return !dt.IsHeadBanner && !dt.IsSBanner}):action.payload.default_data.filter((dt)=>{return !dt.IsHeadBanner && !dt.IsSBanner});
-			state.headerBanner = action.payload.output_data.length>0 ? action.payload.output_data.filter((dt) => {return dt.IsHeadBanner}) : action.payload.default_data.filter((dt)=> {return dt.IsHeadBanner});
-			state.addBanner = action.payload.output_data.length>0 ? action.payload.output_data.filter((dt) => {return dt.IsSBanner}) : action.payload.default_data.filter((dt)=> {return dt.IsSBanner});
-  		state.homeLoading = false;
+      if(action.payload.default_data.length > 0) {
+        state.headerBanner = action.payload.default_data;
+        state.specialEvents = [];
+        state.addBanner = [];
+      } else if(action.payload.output_data.length > 0) {
+        state.specialEvents = action.payload.output_data.length > 0 ? 
+        action.payload.output_data.filter((dt) => {return !dt.IsHeadBanner && !dt.IsSBanner}):action.payload.default_data.filter((dt)=>{return !dt.IsHeadBanner && !dt.IsSBanner});
+        state.headerBanner = action.payload.output_data.length > 0 ? 
+          action.payload.output_data.filter((dt) => {return dt.IsHeadBanner}) : action.payload.default_data.filter((dt)=> {return dt.IsHeadBanner});
+        state.addBanner = action.payload.output_data.length>0 ? action.payload.output_data.filter((dt) => {return dt.IsSBanner}) : action.payload.default_data.filter((dt)=> {return dt.IsSBanner});
+      }
+			 state.homeLoading = false;
 		} else {
 			state.specialEvents = [];
 			state.headerBanner = [];
 			state.addBanner = [];
   		state.homeLoading = false;
 		}
-		localStorage.setItem('specialEvents', JSON.stringify(state.specialEvents));
+		  localStorage.setItem('specialEvents', JSON.stringify(state.specialEvents));
   		localStorage.setItem('headerBanner', JSON.stringify(state.headerBanner));
   		localStorage.setItem('addBanner', JSON.stringify(state.addBanner));
       

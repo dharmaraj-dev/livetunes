@@ -1140,3 +1140,9 @@ numberInput.input[type=number] {
 .profile_save_button {
   width: 120px;
 }
+
+.some_other_loc {
+    font-size: 14px;
+    margin-right: 5px;
+    color: #707070;
+}

@@ -7,25 +7,39 @@ import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 import MusictypeSlider from "./MusictypeSlider";
 import { useDispatch, useSelector } from "react-redux";
-import {setUserSettings} from '../redux/userSettings';
+import {setUserSettings, setSettingsMinBudget, setSettingsMaxBudget, setSettingsSaveStatus, setUserRequestedCitiesAPI} from '../redux/userSettings';
 import { Dispatch } from "react";
+import { useNavigate  } from 'react-router-dom';
 
 const BudgetMusictype = () => {
     const dispatch = useDispatch();
-    const {userMusicalityTypes} = useSelector(state => state.user);
-    const {selectedLanguages,selectedCities} = useSelector(state => state.userSettings);
+    const navigate = useNavigate();
+    const {selectedLanguages,selectedCity, userRequestedCities, userRequestedStates, selectedCities, userMusicalityTypes, userMinimumBudget, userMaximumBudget} = useSelector(state => state.userSettings);
     const {user} = useSelector(state => state.auth);
-    const addUserSettings = () => {
-        let cityId = '';
-        let cityNames = '';
-        let languageId = '';
-        let LanguageName = '';
-        languageId = selectedLanguages.map((language)=>language.LanguageId).join(',');
-        LanguageName = selectedLanguages.map((language)=>language.LanguageName).join(',');
-        cityNames = selectedCities.map((city)=> city.CityName).join(',');
-        cityId = selectedCities.map((city)=> city.CityId).join(',');
-        dispatch(setUserSettings({"LangId":languageId,"LangName":LanguageName,"CityId":cityId,"CityName":cityNames,"RegId":user.RegId}));
+
+    const proceedToNextPage = () => {
+        let dataToSend = {
+            "LangId":selectedLanguages.map((language)=>language.LanguageId).join(','),
+            "LangName":selectedLanguages.map((language)=>language.LanguageName).join(','),
+            "MType":userMusicalityTypes.join(','),
+            "MinBudget":userMinimumBudget,
+            "MaxBudget":userMaximumBudget,
+            "RegId":user.RegId
+        };
+
+        if(selectedCity != "") {
+            dataToSend.CityId = selectedCity.split('_')[0];
+            dataToSend.CityName = selectedCity.split('_')[1];
+        } 
+        if(userRequestedStates.length > 0 && userRequestedCities.length > 0) {
+            dispatch(setUserRequestedCitiesAPI({"StateId":userRequestedStates[0]?.StateId,"CityId":userRequestedCities[0]?.CityId,"UserId":user.RegId}));
+        }
+
+        dispatch(setUserSettings(dataToSend));
+        dispatch(setSettingsSaveStatus());
+        navigate('/artist-list');
     }
+
   return (
     <>
         <div className="wrapper">
@@ -53,9 +67,9 @@ const BudgetMusictype = () => {
                             </div>
                             <MusictypeSlider/>
                         </div>
-                        <Link onClick={()=>addUserSettings()} to="/artist-list">
-                        <Button variant="primary" disabled={userMusicalityTypes.length === 0} className="l-sb btnn next-btn">Next</Button>
-                        </Link>
+                        <div className="text-right">
+                            <Button disabled={userMusicalityTypes.length === 0} onClick={proceedToNextPage} className="l-sb btnn new_next_btn" >Next</Button>
+                         </div>
                     </section>
                 </Container>
             </div>

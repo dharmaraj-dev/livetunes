@@ -13,8 +13,7 @@ const register = (MobileNo, EmailId,joiningType) => {
     "IsArtist": joiningType === 'Artist' ? true : false,
     "IsUser":joiningType === 'User' ? true : false,
     "IsJudge":false,
-    "IsAdmin":false,
-    IsDummy:true
+    "IsAdmin":false
   }).then((response) => {
       return response.data;
     });

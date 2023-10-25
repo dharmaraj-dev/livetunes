@@ -17,6 +17,7 @@ import {
 import AuthService from "../services/auth.service";
 import CommonService from "../services/common.service";
 import authToken from "../services/auth-header";
+import {setSavedUsersSetting} from '../redux/userSettings';
 
 export const register = (phone, email,joiningType) => (dispatch) => {
   return AuthService.register(phone, email,joiningType).then(
@@ -277,7 +278,7 @@ export const validateOtp = (phone, otp) => (dispatch) => {
         
         localStorage.removeItem('tmpUser')
         localStorage.setItem('user', JSON.stringify(userData));
-        
+        dispatch(setSavedUsersSetting(data.selUSett));
         dispatch({
           type: OTP_VERIFIED,
           payload: userData,
@@ -318,6 +319,15 @@ export const logout = () => (dispatch) => {
         return Promise.resolve(response);
       },
       (error) => {
+        localStorage.clear();
+        localStorage.setItem("welcomeSeen", true);
+        dispatch({
+          type: LOGOUT,
+        });
+        dispatch({
+          type: STATE_RESET,
+          payload: true,
+        });
         const message =
           (error.response &&
             error.response.data &&
