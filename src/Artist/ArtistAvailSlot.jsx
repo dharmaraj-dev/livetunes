@@ -19,7 +19,7 @@ const mLocalizer = momentLocalizer(moment)
 const ArtistAvailSlot = () => {
   const dispatch = useDispatch();
   const { loading, addUpdateLoading, error, slots } = useSelector(state => state.artistSlots);
-  const { ArtistId } = useSelector(state => state.auth);
+  const { ArtistId } = useSelector(state => state.userAuth);
 
 
     const [myEvents, setEvents] = useState(slots)

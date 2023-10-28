@@ -6,7 +6,6 @@ import LoginSetting from "../LoginSignup/LoginSetting";
 import Payments from "./Payments";
 import NotificationSettings from "../Notification/NotificationSettings";
 import SelectMultiotion from "../OnBoard/SelectLanguages";
-import SelectCity from "../OnBoard/SelectCity";
 import MusictypeSlider from "../OnBoard/MusictypeSlider";
 import { Stack } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -21,7 +20,7 @@ const Settings = () => {
     const dispatch = useDispatch();
     const { cities } = useSelector(state => state.common );
     const {selectedLanguages,selectedCity, userMusicalityTypes, userMinimumBudget, userMaximumBudget, savedUsersSettings, updateSettingsLoading} = useSelector(state => state.userSettings);
-    const {user} = useSelector(state => state.auth);
+    const { user } = useSelector(state => state.userAuth);
 
     const addUserSettings = () => {
          let dataToSend = {

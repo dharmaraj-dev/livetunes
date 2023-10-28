@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
-import {TfiDashboard } from "react-icons/tfi";
+import {TfiDashboard, TfiAgenda } from "react-icons/tfi";
 import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
 import { SlCalender, SlSettings } from "react-icons/sl";
@@ -14,19 +14,21 @@ import { Link } from "react-router-dom";
 import { logout } from "../actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate  } from 'react-router-dom';
-import { LOGOUT, STATE_RESET } from "../actions/types";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { authToken } from "../services/auth-header";
 import { useLocation } from 'react-router-dom';
+import useLoginCheck from "../hooks/useLoginCheck";
+import { setLogout } from "../redux/userAuth";
 
 const SideNavBar = () => {
 	const dispatch = useDispatch();
 	let navigate = useNavigate();
 	const location = useLocation();
 	const MySwal = withReactContent(Swal);
-	const { joiningType } = useSelector((state) => state.auth);
-	const { userId } = useSelector((state) => state.user);
+	const { showLoginAlert } = useLoginCheck();
+	const { isLoggedIn, joiningType } = useSelector((state) => state.userAuth);
+
 
 	const audio = new Audio(Gaudio);
 	const [isExpanded, setExpendState] = useState(false);
@@ -48,19 +50,19 @@ const SideNavBar = () => {
 					links: "/artist-dashboard"
 				},
 				{
-					text: "Find Artist",
-					icon: <TfiUser className="menu-item-icon"/>,
+					text: "Artist Profile",
+					icon: <TfiAgenda className="menu-item-icon"/>,
 					links: "/artists-profile"
+				},
+				{
+					text:"Availability",
+					icon: <SlCalender className="menu-item-icon" />,
+					links:"/artist-slots"
 				},
 				{
 					text: "Settings ",
 					icon: <SlSettings className="menu-item-icon"/>,
 					links: "/settings"
-				},
-				{
-					text:"calender",
-					icon: <SlCalender className="menu-item-icon" />,
-					links:"/artist-slots"
 				}
 			]);
 		} else if(joiningType ===  "Judge") {
@@ -74,17 +76,17 @@ const SideNavBar = () => {
 		}else{
 			setMenuItemsDynamic([
 				{
-					text: "TfiAlarmClock",
+					text: "Dashboard",
 					icon: <TfiDashboard className="menu-item-icon"/>,
 					links: "/dashboard"
 				},
 				{
-					text:"IoTicketOutline", //
+					text:"Bookings", //
 					icon:<IoTicketOutline className="menu-item-icon"/>,
 					links:`/bookings`
 				},
 				{
-					text: "TfiHeart",
+					text: "Favourites",
 					icon: <TfiHeart className="menu-item-icon"/>,
 					links: "/favourites"
 				},
@@ -110,24 +112,16 @@ const SideNavBar = () => {
           showLoaderOnConfirm: true,
           preConfirm: () => {
             return dispatch(logout()).then((response) => {
-            		dispatch({
-			            type: LOGOUT,
-			          });
 			          navigate("/login");
-               
             }).catch((err) => {
-            	dispatch({
-		            type: LOGOUT,
-		          });
+            	dispatch(setLogout());
 		          navigate("/login");
             })
           },
           allowOutsideClick: () => false
         }).then((result) => {
           if (result.isConfirmed && result.value) {
-          	dispatch({
-	            type: LOGOUT,
-	          });
+          	dispatch(setLogout());
             Swal.fire('Successfully logout.', '', 'success');
           }
         })
@@ -161,15 +155,27 @@ const SideNavBar = () => {
 				</div>
 				<div className="nav-menu">
 					{menuItemsDynamic.map(({ text, icon, links }) => (
-						<Link
-							key={text+'_'+links}
-							className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
-							to={links} 
-						>{/* Add active class */}
-						
-							{icon}
-							{isExpanded && <p className="l-sb">{text}</p>}
-						</Link>
+						!isLoggedIn ? (
+							<Link
+								key={text+'_'+links}
+								onClick={showLoginAlert}
+								className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
+							>{/* Add active class */}
+							
+								{icon}
+								{isExpanded && <p className="l-sb">{text}</p>}
+							</Link>
+						) : (
+							<Link
+								key={text+'_'+links}
+								className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
+								to={links} 
+							>{/* Add active class */}
+							
+								{icon}
+								{isExpanded && <p className="l-sb">{text}</p>}
+							</Link>
+						)
 					))}
 				</div>
 			</div>

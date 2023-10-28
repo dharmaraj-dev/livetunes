@@ -7,8 +7,6 @@ const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 const selectedLanguages = localStorage.getItem('selectedLanguages')
   ? JSON.parse(localStorage.getItem('selectedLanguages')).length > 0 ? JSON.parse(localStorage.getItem('selectedLanguages')) : [] : [];
 
-const selectedCities = localStorage.getItem('selectedCities')
-  ? JSON.parse(localStorage.getItem('selectedCities')).length > 0 ? JSON.parse(localStorage.getItem('selectedCities')) : [] : [];
 
 const selectedCity = localStorage.getItem('selectedCity') != null ? localStorage.getItem('selectedCity') : null;
 
@@ -30,12 +28,16 @@ const isSettingsSaved = localStorage.getItem('isSettingsSaved') != null ? true :
 const savedUsersSettings = (localStorage.getItem('savedUsersSettings') != null && localStorage.getItem('savedUsersSettings') != "null")
   ? JSON.parse(localStorage.getItem('savedUsersSettings')).length > 0 ? JSON.parse(localStorage.getItem('savedUsersSettings')) : [] : [];
 
+const userSelectedCategories = localStorage.getItem("userSelectedCategories") != null ? JSON.parse(localStorage.getItem("userSelectedCategories")) : [];
+
+const userSelectedGenres = localStorage.getItem("userSelectedGenres") != null ? JSON.parse(localStorage.getItem("userSelectedGenres")) : [];
+
+const userSelectedEvents = localStorage.getItem("userSelectedEvents") != null ? JSON.parse(localStorage.getItem("userSelectedEvents")) : [];
 
   const slice = createSlice({
     name:'userSettings',
     initialState:{
         selectedLanguages,
-        selectedCities,
         selectedCity,
         userRequestedStates,
         userRequestedCities,
@@ -44,7 +46,10 @@ const savedUsersSettings = (localStorage.getItem('savedUsersSettings') != null &
         userMusicalityTypes,
         isSettingsSaved,
         savedUsersSettings,
-        updateSettingsLoading: false
+        updateSettingsLoading: false,
+        userSelectedCategories,
+        userSelectedGenres,
+        userSelectedEvents
     },
     reducers: {
         setLanguages : (state,action) => {
@@ -58,10 +63,6 @@ const savedUsersSettings = (localStorage.getItem('savedUsersSettings') != null &
         setUserRequestedCities : (state,action) => {
             state.userRequestedCities = action.payload;
             localStorage.setItem('userRequestedCities',JSON.stringify(state.userRequestedCities));
-        },
-        setSelectedCities : (state,action) => {
-            state.selectedCities = action.payload;
-            localStorage.setItem('selectedCities',JSON.stringify(state.selectedCities));
         },
         setSelectedCity : (state,action) => {
             if(state.selectedCity === action.payload) {
@@ -85,7 +86,7 @@ const savedUsersSettings = (localStorage.getItem('savedUsersSettings') != null &
             localStorage.setItem('userMaximumBudget',state.userMaximumBudget);
         },
         setMusicalityTypes : (state,action) => {
-            if(action.payload.type == "add") {
+            if(action.payload.type && action.payload.type == "add") {
                 state.userMusicalityTypes = [...state.userMusicalityTypes, action.payload.data]
             } else {
                 state.userMusicalityTypes = state.userMusicalityTypes.filter((item) => item !== action.payload.data)
@@ -127,12 +128,24 @@ const savedUsersSettings = (localStorage.getItem('savedUsersSettings') != null &
         stopUpdateSettingsLoading : (state,action) => {
             state.updateSettingsLoading = false;
         },
+        setUserSelectedCategories : (state,action) => {
+            state.userSelectedCategories = action.payload;
+            localStorage.setItem('userSelectedCategories',JSON.stringify(state.userSelectedCategories));
+        },
+        setUserSelectedGenres : (state,action) => {
+            state.userSelectedGenres = action.payload;
+            localStorage.setItem('userSelectedGenres',JSON.stringify(state.userSelectedGenres));
+        },
+        setUserSelectedEvents : (state,action) => {
+            state.userSelectedEvents = action.payload;
+            localStorage.setItem('userSelectedEvents',JSON.stringify(state.userSelectedEvents));
+        }
     }
   });
   
   export default slice.reducer
 
- export const { setLanguages,setSelectedCities,setSelectedCity, setUserRequestedStates, setUserRequestedCities , setSettingsSaveStatus, setSettingsMinBudget, setSettingsMaxBudget, setMusicalityTypes, setSavedUsersSetting, setUpdateSettingsLoading, stopUpdateSettingsLoading} = slice.actions;
+ export const { setLanguages,setSelectedCity, setUserRequestedStates, setUserRequestedCities , setSettingsSaveStatus, setSettingsMinBudget, setSettingsMaxBudget, setMusicalityTypes, setSavedUsersSetting, setUpdateSettingsLoading, stopUpdateSettingsLoading, setUserSelectedCategories, setUserSelectedGenres, setUserSelectedEvents} = slice.actions;
 
 export const setUserRequestedCitiesAPI = (param) => async dispatch => {
     try{

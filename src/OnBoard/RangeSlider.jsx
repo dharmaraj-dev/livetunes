@@ -7,10 +7,9 @@ import {setSettingsMinBudget, setSettingsMaxBudget} from '../redux/userSettings'
 const RangeSlider = () => {
     const dispatch = useDispatch();
     const { userMinimumBudget, userMaximumBudget} = useSelector(state => state.userSettings);
-    const {user} = useSelector(state => state.auth);
+    const {user} = useSelector(state => state.userAuth);
 
     const handleChange = (e) => {
-        console.log('w', e)
         dispatch(setSettingsMinBudget(e.minValue));
         dispatch(setSettingsMaxBudget(e.maxValue));
     };

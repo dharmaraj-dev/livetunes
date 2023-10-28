@@ -14,8 +14,8 @@ import { useNavigate  } from 'react-router-dom';
 const BudgetMusictype = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {selectedLanguages,selectedCity, userRequestedCities, userRequestedStates, selectedCities, userMusicalityTypes, userMinimumBudget, userMaximumBudget} = useSelector(state => state.userSettings);
-    const {user} = useSelector(state => state.auth);
+    const {selectedLanguages,selectedCity, userRequestedCities, userRequestedStates, userMusicalityTypes, userMinimumBudget, userMaximumBudget} = useSelector(state => state.userSettings);
+    const {user} = useSelector(state => state.userAuth);
 
     const proceedToNextPage = () => {
         let dataToSend = {

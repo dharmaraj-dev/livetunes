@@ -21,12 +21,9 @@ import moment from "moment";
 import { getProfileData, submitArtistApplicationTJudge } from "../actions/artist";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import {
-  IS_ARTIST_PROFILE_SEND,
-  ARTIST_IS_PENDING,
-  ARTIST_IS_REJECTED,
-  ARTIST_IS_APPROVED
-} from "../actions/types";
+
+import { setArtistIsPending, setArtistRejected, setArtistIsApproved, setIsArtistProfileSend } from '../redux/userAuth';
+
 import { Navigate, useNavigate  } from 'react-router-dom';
 
 import Loader from './Loader';
@@ -43,10 +40,8 @@ const ArtistsProfile = (props) => {
 
     const { cities, states, categories, gernes, languages, events, eventModes } = useSelector(state => state.common);
     const { artistProfileData } = useSelector(state => state.artist);
-    const { IsProfileSend, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
-    // if(ArtistIsApproved) {
-    //     navigate("/my-profile");
-    // }
+    const { IsProfileSend } = useSelector(state => state.userAuth);
+   
 
     const [pageLoading, setPageLoading] = useState(true);
     const [currentStep, setCurrentStep] = useState(1);
@@ -419,14 +414,8 @@ const ArtistsProfile = (props) => {
                         localStorage.setItem('IsProfileSend', true);
                         localStorage.setItem('is_pending', response.data.IsSuccess);
                         setApplicationStatus(1);
-                        dispatch({
-                            type: IS_ARTIST_PROFILE_SEND,
-                            payload: response.data.IsSuccess,
-                        });
-                        dispatch({
-                            type: ARTIST_IS_PENDING,
-                            payload: response.data.IsSuccess,
-                        });
+                        dispatch(setIsArtistProfileSend(response.data.IsSuccess));
+                        dispatch(setArtistIsPending(response.data.IsSuccess));
                         return response;
                     } else {
                         throw new Error(response.data.Message)
@@ -536,51 +525,26 @@ const ArtistsProfile = (props) => {
                 localStorage.setItem('is_pending', false);
                 localStorage.setItem('is_rejection', false);
                 audio.play();
-                dispatch({
-                    type: ARTIST_IS_APPROVED,
-                    payload: res.data.is_approved,
-                  });
-                dispatch({
-                    type: ARTIST_IS_PENDING,
-                    payload: false,
-                  });
-                dispatch({
-                    type: ARTIST_IS_REJECTED,
-                    payload: false,
-                  });
+                dispatch(setArtistIsApproved(res.data.is_approved));
+                dispatch(setArtistIsPending(false));
+                dispatch(setArtistRejected(false));
+                
             } else if(res.data.is_pending) {
                 localStorage.setItem('is_pending', res.data.is_pending);
                 localStorage.setItem('is_approved', false);
                 localStorage.setItem('is_rejection', false);
-                dispatch({
-                    type: ARTIST_IS_PENDING,
-                    payload: res.data.is_pending,
-                  });
-                dispatch({
-                    type: ARTIST_IS_APPROVED,
-                    payload: false,
-                  });
-                dispatch({
-                    type: ARTIST_IS_REJECTED,
-                    payload: false,
-                  });
+                dispatch(setArtistIsPending(res.data.is_pending));
+                dispatch(setArtistIsApproved(false));
+                dispatch(setArtistRejected(false));
+                
                 setApplicationStatus(1);
             } else if(res.data.is_rejection) {
                 localStorage.setItem('is_rejection', res.data.is_rejection);
                 localStorage.setItem('is_pending', false);
                 localStorage.setItem('is_approved', false);
-                dispatch({
-                    type: ARTIST_IS_REJECTED,
-                    payload: res.data.is_rejection,
-                  });
-                dispatch({
-                    type: ARTIST_IS_PENDING,
-                    payload: false,
-                  });
-                dispatch({
-                    type: ARTIST_IS_APPROVED,
-                    payload: false,
-                  });
+                dispatch(setArtistRejected(res.data.is_rejection));
+                dispatch(setArtistIsPending(false));
+                dispatch(setArtistIsApproved(false));
                 setApplicationStatus(2);
             }
         }).catch((err) => {

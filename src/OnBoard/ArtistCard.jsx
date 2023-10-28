@@ -14,13 +14,13 @@ import Heartlike from "./Heartlike";
 import { useDispatch, useSelector } from "react-redux";
 
 const ArtistCard = (props) => {
-    const { userFilteredArtists } = useSelector(state => state.user);
-    const {user} = useSelector(state => state.auth);
+    const { filteredArtists } = useSelector(state => state.user);
+    const {user} = useSelector(state => state.userAuth);
     console.log(user);
 
     useEffect(() => {
 
-    }, [userFilteredArtists])
+    }, [filteredArtists])
     
     const ArtistCards = props.isLoading ? (
             [...Array(6)].map((e, i) => {
@@ -31,7 +31,7 @@ const ArtistCard = (props) => {
                     </Col>)
             })
         ) : (
-            userFilteredArtists.map((artist, index) =>
+            filteredArtists.map((artist, index) =>
                 <Col xs={12} lg={12} xl={6} key={`artist_${index}`}>
                     <div className="inner-artist-card postion-r">
                         <div className="avtar-sec">
@@ -68,7 +68,7 @@ const ArtistCard = (props) => {
                             <Heartlike props={artist}/>
                         </div>
                         <div className="book-now-btn">
-                            <Link to={`/artist-details/${artist.ArtistName.replace(/ /g,"-")}/${btoa(artist.ArtistId)}/${btoa(user.RegId)}`}>
+                            <Link to={`/artist-details/${artist.ArtistName.replace(/ /g,"-")}/${btoa(artist.ArtistId)}/${btoa(user?.RegId)}`}>
                                 <button type="button" className="l-b wbtnn book-btn btn btn-primary">Book Now</button>
                             </Link>
                         </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 import { useDispatch, useSelector } from "react-redux";
-import {setSelectedCities} from "../actions/user";
 
 const SelectCity = () => {
     const dispatch = useDispatch();
@@ -9,13 +8,10 @@ const SelectCity = () => {
     const [isStateSelected,setIsStateSelected] = useState(false);
     const [selectedStateId,setSelectedStateId] = useState(-1);
     //const [options] =useState(['Nagpur','Pune','Mumbai','Banglore','Hydrabad','Jaipur','Delhi','Lucknow']) ;
-    const { userSelectedCities } = useSelector(state => state.user);
     const selectCity = (selectedList, selectedItem) => {
-      dispatch(setSelectedCities(selectedList));
     }
 
     const removeCity = (selectedList, removedItem) => {
-        dispatch(setSelectedCities(selectedList));
     }
 
     const selectState = (selectedList,selectedItem) => {
@@ -51,7 +47,6 @@ const SelectCity = () => {
               displayValue="CityName"
               onSelect={selectCity}
               onRemove={removeCity}
-              selectedValues={userSelectedCities}
             />
           ) : (
             <>

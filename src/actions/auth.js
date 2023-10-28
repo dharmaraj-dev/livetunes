@@ -1,23 +1,8 @@
-import {
-  LOGOUT,
-  SET_JOINING_TYPE,
-  WELCOME_SEEN,
-  OTP_SENT,
-  OTP_SENT_TO,
-  OTP_VERIFIED,
-  IS_ARTIST_PROFILE_SEND,
-  ARTIST_ID,
-  ARTIST_IS_APPROVED,
-  ARTIST_IS_REJECTED,
-  ARTIST_IS_PENDING,
-  ARTIST_IS_NOT_SUBMITTED,
-  STATE_RESET
-} from "./types";
-
 import AuthService from "../services/auth.service";
 import CommonService from "../services/common.service";
 import authToken from "../services/auth-header";
 import {setSavedUsersSetting} from '../redux/userSettings';
+import { setWelcomeSeen, setArtistRejected, setArtistIsNotSubmitted, setArtistIsPending, setArtistIsApproved, setArtistId, setIsArtistProfileSend, setJoiningType, setOtpSentTo, setIsLoggedIn, setOtpSent, setLogout } from '../redux/userAuth';
 
 export const register = (phone, email,joiningType) => (dispatch) => {
   return AuthService.register(phone, email,joiningType).then(
@@ -31,49 +16,18 @@ export const register = (phone, email,joiningType) => (dispatch) => {
           localStorage.setItem('is_not_submitted', response.is_not_submitted);
           localStorage.setItem('is_rejection', response.is_rejection);
           localStorage.setItem('IsProfileSend', response.IsProfileSend);
-
-          dispatch({
-            type: OTP_SENT,
-            payload: true,
-          });
-          dispatch({
-            type: OTP_SENT_TO,
-            payload: phone,
-          });
-          dispatch({
-            type: ARTIST_ID,
-            payload: response.RegId,
-          });
-          dispatch({
-            type: ARTIST_IS_APPROVED,
-            payload: response.is_approved,
-          });
-          dispatch({
-            type: ARTIST_IS_REJECTED,
-            payload: response.is_rejection,
-          });
-          dispatch({
-            type: ARTIST_IS_PENDING,
-            payload: response.is_pending,
-          });
-          dispatch({
-            type: ARTIST_IS_NOT_SUBMITTED,
-            payload: response.is_not_submitted,
-          });
-          dispatch({
-            type: IS_ARTIST_PROFILE_SEND,
-            payload: response.IsProfileSend,
-          });
+          dispatch(setOtpSent(true));
+          dispatch(setOtpSentTo(phone));
+          dispatch(setArtistId(response.RegId));
+          dispatch(setArtistIsApproved(response.is_approved));
+          dispatch(setArtistRejected(response.is_rejection));
+          dispatch(setArtistIsPending(response.is_pending));
+          dispatch(setArtistIsNotSubmitted(response.is_not_submitted));
+          dispatch(setIsArtistProfileSend(response.IsProfileSend));
         }
         else {
-          dispatch({
-            type: OTP_SENT,
-            payload: false,
-          });
-          dispatch({
-            type: OTP_SENT_TO,
-            payload: phone,
-          });
+          dispatch(setOtpSent(false));
+          dispatch(setOtpSentTo(phone));
         }
 
       return Promise.resolve(response);
@@ -103,49 +57,18 @@ export const login = (phone) => (dispatch) => {
         localStorage.setItem('is_not_submitted', data.is_not_submitted);
         localStorage.setItem('is_rejection', data.is_rejection);
         localStorage.setItem('IsProfileSend', data.IsProfileSend);
-
-        dispatch({
-          type: OTP_SENT,
-          payload: true,
-        });
-        dispatch({
-          type: OTP_SENT_TO,
-          payload: phone,
-        });
-        dispatch({
-          type: ARTIST_ID,
-          payload: data.RegId,
-        });
-        dispatch({
-          type: ARTIST_IS_APPROVED,
-          payload: data.is_approved,
-        });
-        dispatch({
-          type: ARTIST_IS_REJECTED,
-          payload: data.is_rejection,
-        });
-        dispatch({
-          type: ARTIST_IS_PENDING,
-          payload: data.is_pending,
-        });
-        dispatch({
-          type: ARTIST_IS_NOT_SUBMITTED,
-          payload: data.is_not_submitted,
-        });
-        dispatch({
-          type: IS_ARTIST_PROFILE_SEND,
-          payload: data.IsProfileSend,
-        });
+        dispatch(setOtpSent(true));
+        dispatch(setOtpSentTo(phone));
+        dispatch(setArtistId(data.RegId));
+        dispatch(setArtistIsApproved(data.is_approved));
+        dispatch(setArtistRejected(data.is_rejection));
+        dispatch(setArtistIsPending(data.is_pending));
+        dispatch(setArtistIsNotSubmitted(data.is_not_submitted));
+        dispatch(setIsArtistProfileSend(data.IsProfileSend));
       }
       else {
-        dispatch({
-          type: OTP_SENT,
-          payload: false,
-        });
-        dispatch({
-          type: OTP_SENT_TO,
-          payload: phone,
-        });
+        dispatch(setOtpSent(false));
+        dispatch(setOtpSentTo(phone));
       }
       return Promise.resolve(data);
     },
@@ -173,49 +96,18 @@ export const dummyLogin = (phone) => (dispatch) => {
         localStorage.setItem('is_not_submitted', data.is_not_submitted);
         localStorage.setItem('is_rejection', data.is_rejection);
         localStorage.setItem('IsProfileSend', data.IsProfileSend);
-
-        dispatch({
-          type: OTP_SENT,
-          payload: true,
-        });
-        dispatch({
-          type: OTP_SENT_TO,
-          payload: phone,
-        });
-        dispatch({
-          type: ARTIST_ID,
-          payload: data.RegId,
-        });
-        dispatch({
-          type: ARTIST_IS_APPROVED,
-          payload: data.is_approved,
-        });
-        dispatch({
-          type: ARTIST_IS_REJECTED,
-          payload: data.is_rejection,
-        });
-        dispatch({
-          type: ARTIST_IS_PENDING,
-          payload: data.is_pending,
-        });
-        dispatch({
-          type: ARTIST_IS_NOT_SUBMITTED,
-          payload: data.is_not_submitted,
-        });
-        dispatch({
-          type: IS_ARTIST_PROFILE_SEND,
-          payload: data.IsProfileSend,
-        });
+        dispatch(setOtpSent(true));
+        dispatch(setOtpSentTo(phone));
+        dispatch(setArtistId(data.RegId));
+        dispatch(setArtistIsApproved(data.is_approved));
+        dispatch(setArtistRejected(data.is_rejection));
+        dispatch(setArtistIsPending(data.is_pending));
+        dispatch(setArtistIsNotSubmitted(data.is_not_submitted));
+        dispatch(setIsArtistProfileSend(data.IsProfileSend));
       }
       else {
-        dispatch({
-          type: OTP_SENT,
-          payload: false,
-        });
-        dispatch({
-          type: OTP_SENT_TO,
-          payload: phone,
-        });
+        dispatch(setOtpSent(false));
+        dispatch(setOtpSentTo(phone));
       }
       return Promise.resolve(data);
     },
@@ -236,24 +128,12 @@ export const resendOtp = (phone) => (dispatch) => {
     (data) => {
       if(data.IsSuccess) {
         localStorage.setItem('tmpUser', btoa(JSON.stringify(data)));
-        dispatch({
-          type: OTP_SENT,
-          payload: true,
-        });
-        dispatch({
-          type: OTP_SENT_TO,
-          payload: phone,
-        });
+        dispatch(setOtpSent(true));
+        dispatch(setOtpSentTo(phone));
       }
       else {
-        dispatch({
-          type: OTP_SENT,
-          payload: false,
-        });
-        dispatch({
-          type: OTP_SENT_TO,
-          payload: phone,
-        });
+        dispatch(setOtpSent(false));
+        dispatch(setOtpSentTo(phone));
       }
       return Promise.resolve(data);
     },
@@ -279,14 +159,8 @@ export const validateOtp = (phone, otp) => (dispatch) => {
         localStorage.removeItem('tmpUser')
         localStorage.setItem('user', JSON.stringify(userData));
         dispatch(setSavedUsersSetting(data.selUSett));
-        dispatch({
-          type: OTP_VERIFIED,
-          payload: userData,
-        });
-        dispatch({
-          type: IS_ARTIST_PROFILE_SEND,
-          payload: userData.IsProfileSend,
-        });
+        dispatch(setIsLoggedIn(userData));
+        dispatch(setIsArtistProfileSend(userData.IsProfileSend));
       }
       return Promise.resolve(data);
     },
@@ -309,25 +183,15 @@ export const logout = () => (dispatch) => {
       (response) => {
           localStorage.clear();
           localStorage.setItem("welcomeSeen", true);
-          dispatch({
-            type: LOGOUT,
-          });
-          dispatch({
-            type: STATE_RESET,
-            payload: true,
-          });
+          dispatch(setLogout());
+          
+          
         return Promise.resolve(response);
       },
       (error) => {
         localStorage.clear();
         localStorage.setItem("welcomeSeen", true);
-        dispatch({
-          type: LOGOUT,
-        });
-        dispatch({
-          type: STATE_RESET,
-          payload: true,
-        });
+        dispatch(setLogout());
         const message =
           (error.response &&
             error.response.data &&
@@ -338,24 +202,14 @@ export const logout = () => (dispatch) => {
       }
     );
   } else {
+    localStorage.clear();
+    localStorage.setItem("welcomeSeen", true);
+    dispatch(setLogout());
     return {};
   }
 };
 
 export const welcomeSeen = (data) => (dispatch) => {
   AuthService.welcomeSeen(data);
-
-  dispatch({
-    type: WELCOME_SEEN,
-    payload: data,
-  });
-};
-
-export const setJoiningType = (data) => (dispatch) => {
-  AuthService.joiningType(data);
-
-  dispatch({
-    type: SET_JOINING_TYPE,
-    payload: data,
-  });
+  dispatch(setWelcomeSeen(data))
 };

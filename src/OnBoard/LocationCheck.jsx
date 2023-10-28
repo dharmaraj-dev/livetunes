@@ -22,7 +22,7 @@ const LocationCheck = () => {
     let navigate = useNavigate();
     const { selectedCity, userRequestedCities, userRequestedStates } = useSelector(state => state.userSettings);
     const { cities,states } = useSelector(state => state.common );
-    const {user} = useSelector(state => state.auth);
+    const {user} = useSelector(state => state.userAuth);
     
 
     const selectRequestedState = (selectedList,selectedItem) => {

@@ -1,24 +1,26 @@
 import { combineReducers } from "redux";
-import auth from "./auth";
+//import auth from "./auth";
 import common from "./common";
 import artist from "./artist";
 import judge from "./judge";
 import judgeApplications from "../redux/judgeApplicationsSlice";
 import artistDetails from "../redux/artistDetailsSlice";
 import userSettings from "../redux/userSettings";
-import user from './user';
+//import user from './user';
 import userHome from "../redux/userHomeSlice";
 import artistSlots from "../redux/artistSlotsSlice";
 import userBooking from "../redux/userBookingSlice";
 import userBookings from "../redux/userBookingsSlice";
 import userProfile from "../redux/userProfileSlice";
+import userAuth from "../redux/userAuth";
+import user from "../redux/userSlice";
 
 const rootReducer = combineReducers({
-    auth,
+    //auth,
     common,
     artist,
     judge,
-    user,
+    //user,
     judgeApplications,
     artistDetails,
     userSettings,
@@ -26,7 +28,9 @@ const rootReducer = combineReducers({
     artistSlots,
     userBooking,
     userBookings,
-    userProfile
+    userProfile,
+    userAuth,
+    user
 });
 
 export default (state, action) =>

@@ -33,7 +33,7 @@ function onWheel(apiObj, ev) {
 
 const Home = () => {
 
-  const { isLoggedIn, welcomeSeen, joiningType } = useSelector((state) => state.auth);
+  const { welcomeSeen, isLoggedIn, joiningType } = useSelector(state => state.userAuth);
 
   const [items, setItems] = useState(welcomeSeen ? [{id: 8}] : getItems);
   const { disableScroll, enableScroll } = usePreventBodyScroll();

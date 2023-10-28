@@ -38,10 +38,11 @@ import Client2 from "../assets/images/client2.png";
 import Client3 from "../assets/images/client3.png";
 import { BsFillStarFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { welcomeSeen, setJoiningType } from "../actions/auth";
+import { setJoiningType, setWelcomeSeen } from '../redux/userAuth';
 
 export function SlideView({ title, itemId, children }) {
   const dispatch = useDispatch();
+
   const {
     isFirstItemVisible,
     scrollPrev,
@@ -76,7 +77,7 @@ export function SlideView({ title, itemId, children }) {
   const [activeStep, setActiveStep] = useState(1);
 
   const joinAs = (joiningFor) => {
-    dispatch(welcomeSeen(true));
+    dispatch(setWelcomeSeen(true));
     dispatch(setJoiningType(joiningFor));
   }
 

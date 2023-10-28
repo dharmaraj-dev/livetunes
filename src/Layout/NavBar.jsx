@@ -12,11 +12,12 @@ import { SlSettings } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import DefaultProfile from "../assets/images/default_profile.jpeg";
 import { useDispatch, useSelector } from "react-redux";
+import useLoginCheck from "../hooks/useLoginCheck";
 
 const NavBar = () => {
-  
+  const { showLoginAlert } = useLoginCheck();
   const { artistProfileData } = useSelector(state => state.artist);
-  const { joiningType } = useSelector((state) => state.auth);
+  const { isLoggedIn, joiningType } = useSelector((state) => state.userAuth);
   const { profileData, profileDataLoading} = useSelector(state => state.userProfile);
 
   const [profilePic, setProfilePic] = useState(DefaultProfile);
@@ -44,11 +45,19 @@ const NavBar = () => {
                 <ul className="navbar-nav">
                   {joiningType === "User" && (
                   <li className="nav-item">
-                    <Link to="/settings">
-                      <div className="setting-ico cursor-pointer">
-                          <SlSettings/>
-                      </div>
-                    </Link>
+                    {!isLoggedIn ? (
+                      <Link onClick={showLoginAlert}>
+                        <div className="setting-ico cursor-pointer">
+                            <SlSettings/>
+                        </div>
+                      </Link>
+                    ):(
+                      <Link to="/settings">
+                        <div className="setting-ico cursor-pointer">
+                            <SlSettings/>
+                        </div>
+                      </Link>
+                    )}
                   </li>
                   )}
                   {/*<li className="nav-item">
@@ -60,24 +69,44 @@ const NavBar = () => {
                   </li>*/}
                   {(joiningType === "Artist" )&& (
                   <li className="nav-item">
-                    <Link to="/my-profile">
-                    <div className="profile-class">
-                      <img src={profilePic} alt="" />
-                    </div>
-                    </Link>
+                    {!isLoggedIn ? (
+                      <Link onClick={showLoginAlert}>
+                        <div className="profile-class">
+                          <img src={profilePic} alt="" />
+                        </div>
+                      </Link>
+                    ):(
+                      <Link to="/my-profile">
+                        <div className="profile-class">
+                          <img src={profilePic} alt="" />
+                        </div>
+                      </Link>
+                    )}
                   </li>
                   )}
                   {(joiningType === "User" )&& (
                   <li className="nav-item">
-                    <Link to="/profile">
-                    <div className="profile-class">
-                      {profileDataLoading ? (
-                        <span className="spinner-border spinner-border-sm"></span>
-                      ):(
-                        <img src={profileData.profileImg != "" ? profileData.profileImg : profilePic} alt="" />
-                      )}
-                    </div>
-                    </Link>
+                    {!isLoggedIn ? (
+                      <Link onClick={showLoginAlert}>
+                        <div className="profile-class">
+                          {profileDataLoading ? (
+                            <span className="spinner-border spinner-border-sm"></span>
+                          ):(
+                            <img src={profileData.profileImg != "" ? profileData.profileImg : profilePic} alt="" />
+                          )}
+                        </div>
+                      </Link>
+                    ):(
+                      <Link to="/profile">
+                        <div className="profile-class">
+                          {profileDataLoading ? (
+                            <span className="spinner-border spinner-border-sm"></span>
+                          ):(
+                            <img src={profileData.profileImg != "" ? profileData.profileImg : profilePic} alt="" />
+                          )}
+                        </div>
+                      </Link>
+                    )}
                   </li>
                   )}
                 </ul>

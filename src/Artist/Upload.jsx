@@ -24,11 +24,10 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, F
 const Upload = () => {
     const dispatch = useDispatch();
     const MySwal = withReactContent(Swal)
-    const {ArtistIsApproved} = useSelector(state => state.auth);
+    const {ArtistIsApproved} = useSelector(state => state.userAuth);
 
 
     const { artistProfileData } = useSelector(state => state.artist);
-    const { ProfileStatus, IsProfileSend } = useSelector(state => state.auth);
 
 
     const [profilePic, setProfilePic] = useState([])

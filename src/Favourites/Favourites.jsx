@@ -10,13 +10,12 @@ import Badge from 'react-bootstrap/Badge';
 import MoveCart from "./MoveCart";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch,useSelector } from "react-redux";
-import { getUserFavoriteArtists } from "../actions/user";
 import { fetchFavArtists } from "../redux/userBookingsSlice";
 
 
 const Favourites = () => {
   const dispatch = useDispatch();
-  const {user} = useSelector(state => state.auth);
+  const {user} = useSelector(state => state.userAuth);
   const { favouriteArtists, favouriteArtistsLoading, removeFavouriteArtistsLoading } = useSelector(state => state.userBookings);
 
   useEffect(()=>{

@@ -15,7 +15,7 @@ const Languages = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {selectedLanguages} = useSelector(state => state.userSettings);
-    const {user} = useSelector(state => state.auth);
+    const {user} = useSelector(state => state.userAuth);
     const proceedToNextPage = () => {
         navigate('/preferred-location');
     }

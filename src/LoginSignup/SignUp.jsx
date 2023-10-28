@@ -12,7 +12,7 @@ const SignUp = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isLoggedIn,joiningType } = useSelector(state => state.auth);
+  const { isLoggedIn, joiningType } = useSelector(state => state.userAuth);
 
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");

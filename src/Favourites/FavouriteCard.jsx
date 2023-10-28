@@ -14,7 +14,7 @@ import { removeFavArtists } from "../redux/userBookingsSlice";
 
 const FavouriteCard = ({props}) => {
     const dispatch = useDispatch();
-    const {user} = useSelector(state => state.auth);
+    const {user} = useSelector(state => state.userAuth);
     const { removeFavouriteArtistsLoading } = useSelector(state => state.userBookings);
 
     const removeFromFavourite = (dt) => {

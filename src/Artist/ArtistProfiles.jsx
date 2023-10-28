@@ -30,7 +30,7 @@ const ArtistProfiles = () => {
     const [pageLoading, setPageLoading] = useState(true);
     const { cities, states, categories, gernes, languages, events, eventModes, citiesOfState } = useSelector(state => state.common);
     const { artistProfileData } = useSelector(state => state.artist);
-    const { joiningType, IsProfileSend, ArtistIsApproved } = useSelector(state => state.auth);
+    const { joiningType, IsProfileSend, ArtistIsApproved } = useSelector(state => state.userAuth);
 
     if(joiningType === "Judge") {
         navigate("/judgment-panel");

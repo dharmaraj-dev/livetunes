@@ -19,9 +19,8 @@ const OneTimepass = () => {
   const continueButton = useRef();
   let navigate = useNavigate();
 
-  const { isLoggedIn, otpSentTo } = useSelector(state => state.auth);
+  const { isLoggedIn, otpSentTo, joiningType } = useSelector(state => state.userAuth);
   const {isSettingsSaved} = useSelector(state => state.userSettings);
-  const {joiningType} = useSelector(state => state.auth);
 
   const [show, setShow] = useState(false);
   const [isOtpValid, setIsOtpValid] = useState("");

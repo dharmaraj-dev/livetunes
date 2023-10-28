@@ -38,14 +38,15 @@ import ArtistInfo from "./ArtistInfo";
 import { useLocation } from 'react-router-dom';
 import { Navigate, useNavigate  } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { getArtistInfo } from "../actions/user";
 import { useParams } from 'react-router';
 import Octicons from '../assets/images/octicons.png';
 import { useState } from "react";
 import ThreeDotLoader from "../Artist/ThreeDotLoader";
 import Skeleton from "react-loading-skeleton";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content';
 import { fetchArtistDetails } from "../redux/artistDetailsSlice";
-
+import useLoginCheck from "../hooks/useLoginCheck";
 
 
 
@@ -53,9 +54,32 @@ const SingleArtist = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params= useParams();
+  const MySwal = withReactContent(Swal);
+  const { showLoginAlert } = useLoginCheck();
   const { details, loading, error } = useSelector(state => state.artistDetails);
+  const { profileData } = useSelector(state => state.userProfile);
+  const { isLoggedIn } = useSelector(state => state.userAuth);
   const artistId = atob(params.artistId);
   const userId = atob(params.userId);
+
+  const showAlert = async () => {
+        MySwal.fire({
+          title: '<strong>Incomplete Profile!!</strong>',
+          icon: 'warning',
+          html:
+            'Please complete your profile to check availability & bookings.',
+          showDenyButton: true,
+          confirmButtonText: 'Go To Profile',
+          denyButtonText: `No`,
+          showLoaderOnConfirm: false,
+          allowOutsideClick: () => false
+        }).then((result) => {
+            if(result.isConfirmed) {
+                navigate('/profile')
+            }
+        })
+    }
+
   useEffect(()=>{
     if(artistId === undefined){
         navigate("/dashboard");
@@ -114,9 +138,17 @@ const SingleArtist = () => {
                                             <div className="share-icon"><FiShare2/>
                                             <SocialIcon/>
                                             </div>
-                                            <Link to={`/check-availability/${btoa(artistId)}/${btoa(userId)}`}>
-                                                <button type="button" className="l-b btnn check-btn btn btn-primary">Check Availability</button>
-                                            </Link>
+                                            {!isLoggedIn ? (
+                                                <button onClick={showLoginAlert} type="button" className="l-b btnn check-btn btn btn-primary">Check Availability</button>
+                                            ):(
+                                                profileData.firstName != "" && profileData.firstName != null ? (
+                                                    <Link to={`/check-availability/${btoa(artistId)}/${btoa(userId)}`}>
+                                                        <button type="button" className="l-b btnn check-btn btn btn-primary">Check Availability</button>
+                                                    </Link>
+                                                ) : (
+                                                    <button onClick={showAlert} type="button" className="l-b btnn check-btn btn btn-primary">Check Availability</button>
+                                                )
+                                            )}
                                         </div>
                                     </div>
                                 </section>

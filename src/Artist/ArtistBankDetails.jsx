@@ -40,7 +40,7 @@ const ArtistBankDetails = () => {
 
     const { banks, branches, cities, states, idProofs, addressProofs } = useSelector(state => state.common);
     const { artistProofData } = useSelector(state => state.artist);
-    const { ArtistIsApproved } = useSelector(state => state.auth);
+    const { ArtistIsApproved } = useSelector(state => state.userAuth);
 
     const [pageLoading, setPageLoading] = useState(true);
     const [currentStep, setCurrentStep] = useState(1);

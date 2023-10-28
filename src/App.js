@@ -46,12 +46,10 @@ import 'filepond/dist/filepond.min.css'
 import 'react-range-slider-input/dist/style.css';
 import { Navigate, useNavigate  } from 'react-router-dom';
 import {
-  ARTIST_PROFILE_STATUS,
-  IS_ARTIST_PROFILE_SEND
+  ARTIST_PROFILE_STATUS
 } from "./actions/types";
-import { welcomeSeen } from './actions/auth';
 import 'react-loading-skeleton/dist/skeleton.css'
-import { setJoiningType } from './actions/auth';
+import { setJoiningType } from './redux/userAuth';
 import ArtistAvailSlot from './Artist/ArtistAvailSlot';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useParams } from 'react-router-dom';
@@ -61,45 +59,14 @@ function App() {
   let navigate = useNavigate();
   const params = useParams();
 
-  const { isLoggedIn, IsProfileSend, joiningType, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
   const { isSettingsSaved } = useSelector(state => state.userSettings);
+  const { isLoggedIn, joiningType } = useSelector(state => state.userAuth);
 
   useEffect(() => {
     dispatch(getAllMasters());
 
     if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"){
       dispatch(setJoiningType("User"));
-    }
-
-    //artist-detail/id/id
-    // console.log(params);
-    // if(params.artistId && params.userId){
-    //   navigate(`/artist-details/${btoa(params.artistId)}/${btoa(params.userId)}`);
-    //   return false;
-    // }
-
-    if(!isLoggedIn) {
-      //navigate("/");
-    } else {
-      
-      // if(joiningType === 'Artist') {
-      //   dispatch(getProfileData());
-      //   dispatch(getArtistProofData());
-      //   if(ArtistIsNotSubmitted) {
-      //     navigate("/artists-profile");
-      //   } else {
-      //     navigate("/artist-dashboard");
-      //   }
-      // } else if(joiningType === 'Judge') {
-      //   navigate("/judgment-panel");
-      // } else if(joiningType === 'User'){
-      //   if(isDefaultSettings) {
-      //     navigate("/dashboard");
-      //   } else {
-      //     navigate("/languages");
-      //   }
-        
-      // }
     }
   }, [isLoggedIn])
 

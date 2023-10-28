@@ -6,14 +6,13 @@ import Badge from 'react-bootstrap/Badge';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Multiselect from 'multiselect-react-dropdown';
 import { useDispatch, useSelector } from "react-redux";
-import { setUserSelectedCategories,setUserSelectedGenres,setUserSelectedEvents,getUserFilteredArtists } from '../actions/user';
-import { setSettingsMinBudget, setSettingsMaxBudget } from "../redux/userSettings";
-
+import { setSettingsMinBudget, setSettingsMaxBudget, setUserSelectedCategories, setUserSelectedGenres, setUserSelectedEvents } from "../redux/userSettings";
+import { getArtists } from '../redux/userSlice';
 import { useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton'
-import { useLocation } from 'react-router';
+import { useLocation, useParams } from 'react-router';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 import queryString from 'query-string';
-import {setBudgetMin,setBudgetMax} from "../actions/user";
 import RangeSlider from 'react-range-slider-input';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -25,10 +24,12 @@ import './slider.css';
 
 const Filter = (props) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const location = useLocation();
+    const params = useParams();
     const { categories,gernes,events } = useSelector(state => state.common );
-    const { userSelectedCategories,userSelectedGenres,userSelectedEvents,userSelectedCities,userFilteredArtists } = useSelector(state => state.user);
-    const { selectedLanguages, userMinimumBudget, userMaximumBudget} = useSelector(state => state.userSettings);
+    const { artistLoading, filteredArtists } = useSelector(state => state.user);
+    const { selectedLanguages, userMinimumBudget, userMaximumBudget, userSelectedGenres, userSelectedEvents, userSelectedCategories} = useSelector(state => state.userSettings);
     
     const selectCategory = (selectedList, selectedItem) => {
       dispatch(setUserSelectedCategories(selectedList));
@@ -68,38 +69,31 @@ const Filter = (props) => {
             "FromCharge":userMinimumBudget,
             "ToCharge":userMaximumBudget
         }
-        dispatch(getUserFilteredArtists(filteringCriteria));
+        dispatch(getArtists(filteringCriteria));
+        const updatedParams = {
+          genre: userSelectedGenres.length == 0 ? null : userSelectedGenres?.map(a => a.GenreId)?.join(","),
+          event: userSelectedEvents.length == 0 ? null : userSelectedEvents?.map(a => a.GenreId)?.join(",")
+        };
+        const url = new URL(window.location.href);
+        const options = {
+          pathname: location.pathname,
+          search: `?${createSearchParams(updatedParams)}`,
+        };
+        navigate(options, { replace: true });
+    }
+
+    const diplayRangePrice = () => {
+        const budgetBox = document.querySelectorAll('.range-slider__thumb');
+
+        if(budgetBox.length > 0){
+            budgetBox[0].innerText = userMinimumBudget;
+            budgetBox[1].innerText = userMaximumBudget;
+        }
     }
 
     useEffect(()=>{
-        const selectedGenre = new URLSearchParams(location.search).get('genre');
-        const selectedEvent = new URLSearchParams(location.search).get('event');
-
-        // setting the minimum and maximum value of budget
-        setTimeout(() => {
-            const budgetBox = document.querySelectorAll('.range-slider__thumb');
-            if(budgetBox.length > 0){
-                budgetBox[0].innerText = userMinimumBudget;
-                budgetBox[1].innerText = userMaximumBudget;
-            }
-        }, 500);
-        setTimeout(() => {
-            const budgetBox = document.querySelectorAll('.range-slider__thumb');
-            if(budgetBox.length > 0){
-                budgetBox[0].innerText = userMinimumBudget;
-                budgetBox[1].innerText = userMaximumBudget;
-            }
-        }, 3000);
-
-        if(selectedGenre !== null){
-            const preSelectedGenres = gernes.filter((genre)=> {return selectedGenre.split(",").includes(genre.GenreId.toString())});
-            dispatch(setUserSelectedGenres(preSelectedGenres));
-        }
-        if(selectedEvent !== null){
-            const preSelectedEvents = events.filter((eve)=> {return selectedEvent.split(",").includes(eve.EventsId.toString())});
-            dispatch(setUserSelectedEvents(preSelectedEvents));
-        }
-    },[])
+            diplayRangePrice();
+    },[artistLoading])
   return (
     <>
         <section className="main-filter-sec">
@@ -126,7 +120,7 @@ const Filter = (props) => {
                             <h2 className="">Filter</h2>
                         </div>
                         <div className=" ms-auto">
-                            <Button variant="primary" className="l-b wbtnn view-all-btn" onClick={filterArtists}>View all</Button>
+                            <Button variant="primary" className="l-b wbtnn view-all-btn" onClick={filterArtists}>Find</Button>
                         </div>
                     </Stack>
                     <Row>

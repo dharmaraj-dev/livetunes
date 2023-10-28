@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 const ArtistsLikebox = (props) => {
   const params = useParams();
   console.log(params);
-  const {user} = useSelector(state => state.auth);
+  const {user} = useSelector(state => state.userAuth);
   const userId = user?.RegId ? btoa(user?.RegId) : params.userId;
   
   return (

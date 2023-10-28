@@ -9,16 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, useLocation  } from 'react-router-dom';
 import { dummyLogin } from "../actions/auth";
 import { successToast, errorToast } from "../services/toast-service";
-import { setJoiningType } from "../actions/auth";
+import { setJoiningType } from '../redux/userAuth';
 
 const TestLogIn = () => {
     let navigate = useNavigate();
     let loc = useLocation();
     const dispatch = useDispatch();
 
-    
-
-    const { isLoggedIn, joiningType } = useSelector(state => state.auth);
+    const { isLoggedIn, joiningType } = useSelector(state => state.userAuth);
     console.log(joiningType);
     const [phone, setPhone] = useState("");
     const [loading, setLoading] = useState(false);

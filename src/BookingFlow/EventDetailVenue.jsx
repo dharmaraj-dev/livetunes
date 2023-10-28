@@ -33,7 +33,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
     const artistId = atob(params.artistId);
     const {details} = useSelector(state => state.artistDetails);
     const { events ,states,cities} = useSelector(state => state.common);
-    const {user} = useSelector(state => state.auth);
+    const {user} = useSelector(state => state.userAuth);
     const {availSlotsLoading, availSlots, availSlotsMsg, transactionId,saveBookingLoading, saveAndPayLoading} = useSelector(state => state.userBooking);
     const { selectedCity } = useSelector(state => state.userSettings);
 

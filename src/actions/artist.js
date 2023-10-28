@@ -11,14 +11,11 @@ import {
   REMOVE_ARTIST_MEDIA,
   ARTIST_APPLICATION_SUBMIT,
   ARTIST_PROFILE_STATUS,
-  IS_ARTIST_PROFILE_SEND,
-  ARTIST_IS_APPROVED,
-  ARTIST_IS_REJECTED,
-  ARTIST_IS_PENDING,
-  ARTIST_IS_NOT_SUBMITTED
+  ARTIST_IS_REJECTED
 } from "./types";
 
 import ArtistService from "../services/artist.service";
+import { setArtistIsNotSubmitted, setArtistIsPending, setArtistIsApproved, setIsArtistProfileSend } from '../redux/userAuth';
 
 export const getProfileData = () => (dispatch) => {
   return ArtistService.getProfileData().then(
@@ -38,26 +35,14 @@ export const getProfileData = () => (dispatch) => {
             type: GET_ARTIST_PROFILE_DATA_STATUS,
             payload: response.Message,
           });
-          dispatch({
-            type: IS_ARTIST_PROFILE_SEND,
-            payload: response.data.IsProfileSend,
-          });
-          dispatch({
-            type: ARTIST_IS_APPROVED,
-            payload: response.data.is_approved,
-          });
+          dispatch(setIsArtistProfileSend(response.data.IsProfileSend));
+          dispatch(setArtistIsApproved(response.data.is_approved));
           dispatch({
             type: ARTIST_IS_REJECTED,
             payload: response.data.is_rejection,
           });
-          dispatch({
-            type: ARTIST_IS_PENDING,
-            payload: response.data.is_pending,
-          });
-          dispatch({
-            type: ARTIST_IS_NOT_SUBMITTED,
-            payload: response.data.is_not_submitted,
-          });
+          dispatch(setArtistIsPending(response.data.is_pending));
+          dispatch(setArtistIsNotSubmitted(response.data.is_not_submitted))
         }
         else {
           dispatch({

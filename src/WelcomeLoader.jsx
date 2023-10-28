@@ -4,18 +4,18 @@ import useScript from './hooks/useScript';
 import { Navigate, useNavigate  } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMasters } from "./actions/common";
-import { welcomeSeen, setJoiningType } from './actions/auth';
+import { setJoiningType } from './redux/userAuth';
 
 import { getProfileData, getArtistProofData } from "./actions/artist";
+import { fetchUserProfile } from "./redux/userProfileSlice";
 import { useParams } from 'react-router-dom';
 
 const WelcomeLoader = () => {
 	const dispatch = useDispatch();
   	let navigate = useNavigate();
 	const params = useParams();
-  	//useScript('./WelcomeLoader.js');
 
-  	const { isLoggedIn, IsProfileSend, joiningType, ArtistIsApproved, ArtistIsPending, ArtistIsNotSubmitted, ArtistIsRejected } = useSelector(state => state.auth);
+  	const { isLoggedIn, joiningType, ArtistIsNotSubmitted } = useSelector(state => state.userAuth);
   	const { isSettingsSaved } = useSelector(state => state.userSettings);
 
   	 useEffect(() => {
@@ -37,6 +37,7 @@ const WelcomeLoader = () => {
 	      },7000)
 	    } else {
 	      dispatch(getAllMasters());
+	      dispatch(fetchUserProfile());
 	      if(joiningType === 'Artist') {
 	        dispatch(getProfileData());
 	        dispatch(getArtistProofData());
