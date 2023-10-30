@@ -99,11 +99,7 @@ const NavBar = () => {
                     ):(
                       <Link to="/profile">
                         <div className="profile-class">
-                          {profileDataLoading ? (
-                            <span className="spinner-border spinner-border-sm"></span>
-                          ):(
-                            <img src={profileData.profileImg != "" ? profileData.profileImg : profilePic} alt="" />
-                          )}
+                          <img src={profileData.profileImg != "" ? profileData.profileImg : profilePic} alt="" />
                         </div>
                       </Link>
                     )}

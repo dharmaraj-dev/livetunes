@@ -15,7 +15,8 @@ import { Button, Form } from "react-bootstrap";
 import { TfiThumbUp, TfiThumbDown, TfiCheck, TfiClose, TfiStar } from "react-icons/tfi";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getArtistApplicationFeedLogs, saveArtistReview, getApplications } from "../actions/judge";
+import { getArtistApplicationFeedLogs, saveArtistReview } from "../actions/judge";
+import { fetchApplications } from "../redux/judgeApplicationsSlice";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Loader from '../Artist/Loader';
@@ -131,7 +132,7 @@ const Review = () => {
       if (result.isConfirmed && result.value) {
         if(result.value.data.IsSuccess) {
           Swal.fire('Review published successfylly.', '', 'success');
-          dispatch(getApplications());
+          dispatch(fetchApplications());
           navigate('/judgment-panel');
         } else {
           Swal.fire('Review not published.', '', 'error');

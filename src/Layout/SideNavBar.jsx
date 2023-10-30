@@ -41,6 +41,13 @@ const SideNavBar = () => {
 				}
 			]);
 
+	const showPopupAlert = (text) => {
+		console.log(text)
+		if(text == 'Support') {
+			Swal.fire('Comming Soon.', '', 'info');
+		}
+	}
+
 	useEffect(() => {
 		if(joiningType ===  "Artist") {
 			setMenuItemsDynamic([
@@ -50,8 +57,8 @@ const SideNavBar = () => {
 					links: "/artist-dashboard"
 				},
 				{
-					text: "Artist Profile",
-					icon: <TfiAgenda className="menu-item-icon"/>,
+					text: "Profile",
+					icon: <TfiUser className="menu-item-icon"/>,
 					links: "/artists-profile"
 				},
 				{
@@ -60,7 +67,7 @@ const SideNavBar = () => {
 					links:"/artist-slots"
 				},
 				{
-					text: "Settings ",
+					text: "Settings",
 					icon: <SlSettings className="menu-item-icon"/>,
 					links: "/settings"
 				}
@@ -81,6 +88,11 @@ const SideNavBar = () => {
 					links: "/dashboard"
 				},
 				{
+					text: "Profile",
+					icon: <TfiUser className="menu-item-icon"/>,
+					links: "/profile"
+				},
+				{
 					text:"Bookings", //
 					icon:<IoTicketOutline className="menu-item-icon"/>,
 					links:`/bookings`
@@ -94,6 +106,11 @@ const SideNavBar = () => {
 					text: "Settings ",
 					icon: <SlSettings className="menu-item-icon"/>,
 					links: "/settings"
+				},
+				{
+					text: "Support",
+					icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
+					links: "#"
 				}
 			]);
 		}
@@ -168,10 +185,10 @@ const SideNavBar = () => {
 						) : (
 							<Link
 								key={text+'_'+links}
+								onClick={() => showPopupAlert(text)}
 								className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
 								to={links} 
-							>{/* Add active class */}
-							
+							>
 								{icon}
 								{isExpanded && <p className="l-sb">{text}</p>}
 							</Link>
