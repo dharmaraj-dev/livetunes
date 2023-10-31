@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import Skeleton from 'react-loading-skeleton'
 import { IoLocationSharp } from "react-icons/io5";
-import { FiEdit3 } from "react-icons/fi";
+import { FiEdit3, FiInfo } from "react-icons/fi";
 import { HiOutlineSearch } from "react-icons/hi";
 import { MdMyLocation } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ import Sademoji from "../components/sademoji.json";
 import { useDispatch, useSelector } from "react-redux";
 import {fetchAvailSlots} from "../redux/userBookingSlice";
 import { errorToast, infoToast, successToast } from "../services/toast-service";
-import {setArtistId,setEventData,SelectSlot,saveUserBooking, saveForBooking, payForBooking, setSelectedSlotsToState} from "../redux/userBookingSlice";
+import {setArtistId,setEventData,SelectSlot,saveUserBooking, saveForBooking, payForBooking, setSelectedSlotsToState, setExMiscCharges} from "../redux/userBookingSlice";
 import moment from 'moment/moment';
 import Switch from "react-switch";
 import useRazorpay from "react-razorpay";
@@ -53,7 +53,13 @@ const EventDetailVenue = forwardRef((props, ref) => {
     const [state,setState] = useState("");
     const [city,setCity] = useState("");
     const [pincode,SetPincode] = useState("");
-    const [isCheckboxChecked,setIsCheckboxChecked] = useState(false);
+    const [isCheckboxChecked,setIsCheckboxChecked] = useState(true);
+    const [ExMisCharges,setMisCharges] = useState(false);
+
+    const setMiscCharges = (isChecked) => {
+        setMisCharges(isChecked);
+        dispatch(setExMiscCharges(isChecked))
+    }
 
 
     useImperativeHandle(
@@ -99,6 +105,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
                         "ASlotId":stData.ASlotId,
                         "EventLat":eventLatitude,
                         "EventLoc":eventLongitude,
+                        "ExMiscCharges": ExMisCharges
                     }
                     dispatch(saveForBooking(sData))
                     .then((res)=>{
@@ -246,7 +253,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
             }
             dispatch(setEventData(data));
             dispatch(SelectSlot(availSlots.filter((slot) => slot.ASlotId == selectedSlot)[0]));
-            dispatch(saveUserBooking({...data,"ArtistId":artistId,"ASlotId":selectedSlot,"EventLat":eventLatitude,"EventLoc":eventLongitude}))
+            dispatch(saveUserBooking({...data,"ArtistId":artistId,"ASlotId":selectedSlot,"EventLat":eventLatitude,"EventLoc":eventLongitude, "ExMiscCharges": ExMisCharges}))
             .then((res)=>{
                 if(res.IsSuccess){
                     if(res.TransactionId != null){
@@ -269,7 +276,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
             if(tmpState.length > 0) {
                setState(tmpState[0].StateName); 
                setCity(selectedCity.split('_')[1]);
-               setIsCheckboxChecked(false);
+               //setIsCheckboxChecked(false);
                 setEventDate("");
                 setSelectedSlot("");
                 setSelectedSlotData([]);
@@ -281,7 +288,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
             setEventDate("");
             setSelectedSlot("");
             setSelectedSlotData([]);
-            setIsCheckboxChecked(false);
+            //setIsCheckboxChecked(true);
             dispatch(setSelectedSlotsToState(null))
         }
         setChangeBookingCity(nextChecked)
@@ -378,7 +385,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
                 {changeBookingCity ? (
                     <>
                         <Col lg={4} md="12" className="mb-4"> 
-                            <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setState(e.target.value);setDate("");setIsCheckboxChecked(props.artistDetails.selApInfo.StateName != e.target.value ? true : false); removeSlotaData()}}>
+                            <Form.Select aria-label="Default select example" className="form-control" onChange={(e)=>{setState(e.target.value);setDate("");removeSlotaData()}}>
                                 <option>Select state</option>
                                 {
                                     states.map((state,index)=><option key={`state_${index}`} value={state.StateName}>{state.StateName}</option>)
@@ -403,9 +410,10 @@ const EventDetailVenue = forwardRef((props, ref) => {
                         )
                     }
                      <Col>
-                        <Form.Group className="l-r" controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" label="Additional travel, food and stay charges may be applicable according to the venue location" checked={isCheckboxChecked ? true : false} onChange={(e)=>setIsCheckboxChecked(e.target.checked)} disabled/>
-                        </Form.Group>
+                        <div className="booking-warning">
+                            <FiInfo title="Additional travel, food and stay charges may be applicable according to the venue location"/> 
+                            <label>Additional travel, food and stay charges may be applicable according to the venue location </label>
+                        </div>
                     </Col>
                     </>
                 ):(
@@ -428,7 +436,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
                     </Form.Select>
                 </Col>
                 <Col lg={6} md="12" className="mb-4">
-                    <Form.Control disabled={state == "" ? true : false} value={eventDate} placeholder="Event date - " min={moment().format("YYYY-MM-DD")} type="date" onChange={(e)=>setDate(e)}/>
+                    <Form.Control disabled={(state == "" || city == "") ? true : false} value={eventDate} placeholder="Event date - " min={moment().format("YYYY-MM-DD")} type="date" onChange={(e)=>setDate(e)}/>
                 </Col>
                 {availSlotsLoading ? (
                     <ul className="slots-list">
@@ -455,13 +463,19 @@ const EventDetailVenue = forwardRef((props, ref) => {
                             </Col>
                         ) : (
                             <>
-                                <p className="info-text">{availSlotsMsg !== null ? availSlotsMsg : 'Slots not available for this date and state'}</p>
+                                <p className="info-text red-color">{availSlotsMsg !== null ? availSlotsMsg : 'Slots not available for this date and state'}</p>
                             </>
                         )
                     )
                 )}
                 
+                <Col>
+                    <Form.Group className="l-r mt-2" controlId="formMisBasicCheckbox">
+                        <Form.Check type="checkbox" label="Check if you will be availing food, stay and travel for the artist" checked={ExMisCharges ? true : false} onChange={(e)=>setMiscCharges(e.target.checked)}/>
+                    </Form.Group>
+                </Col>
             </Row>
+
             <section className="event-check-button-sec">
                 <Row>
                     <Col lg="6">

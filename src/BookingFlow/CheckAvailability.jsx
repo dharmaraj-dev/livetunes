@@ -11,9 +11,7 @@ import ValueCard from "./ValueCard";
 import Billdetail from "./Billdetail";
 import { Navigate, useNavigate  } from 'react-router-dom';
 import { InlineWidget } from "react-calendly";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import {resetToInitialState} from "../redux/userBookingSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchArtistDetails } from "../redux/artistDetailsSlice";
 
@@ -24,13 +22,12 @@ const CheckAvailability = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {loading, details} = useSelector(state => state.artistDetails);
-    const { selectedSlots } = useSelector(state => state.userBooking);
+    const { selectedSlots, ExMiscCharges } = useSelector(state => state.userBooking);
 
     const artistId = atob(params.artistId);
     const userId = atob(params.userId);
 
     useEffect(()=>{
-        dispatch(resetToInitialState());
         if(artistId === undefined){
             navigate("/dashboard");
         }
@@ -73,7 +70,7 @@ const CheckAvailability = () => {
                                         </div>
                                     ):(
                                         <div className="main-billing-details">
-                                            <Billdetail data={selectedSlots} payNow={() => {childRef.current.payNowTrigger(selectedSlots)}}/>
+                                            <Billdetail data={selectedSlots} payNow={() => {childRef.current.payNowTrigger(selectedSlots)}} ExMiscCharges={ExMiscCharges}/>
                                         </div>
                                     )}
                                 </div>

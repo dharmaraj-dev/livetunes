@@ -21,6 +21,9 @@ const WelcomeLoader = () => {
   	 useEffect(() => {
 
 		if(params.artistId && params.userId){
+			// if(isLoggedIn && joiningType == "User") {
+			// 	dispatch(fetchUserProfile());
+			// }
 		  navigate(`/artist-details/${params.ArtistName.replace(/ /g,"-")}/${btoa(params.artistId)}/${btoa(params.userId)}`);
 		  return false;
 		}

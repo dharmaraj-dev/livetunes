@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import { useParams } from 'react-router-dom';
 import './App.css';
 import {Routes, Route} from 'react-router-dom';
 import WelcomeLoader from './WelcomeLoader';
@@ -52,7 +53,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { setJoiningType } from './redux/userAuth';
 import ArtistAvailSlot from './Artist/ArtistAvailSlot';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useParams } from 'react-router-dom';
+import { fetchUserProfile } from "./redux/userProfileSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -65,6 +66,9 @@ function App() {
   useEffect(() => {
     dispatch(getAllMasters());
 
+    if(isLoggedIn && joiningType == "User") {
+      dispatch(fetchUserProfile());
+    }
     if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"){
       dispatch(setJoiningType("User"));
     }

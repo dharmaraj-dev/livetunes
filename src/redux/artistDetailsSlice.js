@@ -48,3 +48,15 @@ export const fetchArtistDetails = (artistId,userId) => async dispatch => {
    dispatch(hasError(e.message))
   }
 };
+
+export const getArtistDetails = () => async dispatch => {
+  dispatch(startLoading());
+  try {
+    await axios
+      .post(API_URL + `ArtistProfile/GetArtistProfile` ,{}, {headers:authHeader()})
+      .then(response => dispatch(setData(response.data)));
+  } catch (e) {
+   dispatch(hasError(e.message))
+  }
+};
+

@@ -119,3 +119,7 @@
 
 .give-feedback-sec .modal-body{padding: 20px;}
 .slot-box{display: inline-block;width: 100%;text-align: center;}
+.info-text {
+	text-align: center;
+    font-size: 14px;
+}

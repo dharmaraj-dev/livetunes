@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import authHeader from "../services/auth-header";
 const API_URL = "https://livetunesapi.azurewebsites.net/api/";
+
 
 const slice = createSlice({
     name: 'userBooking',
@@ -40,7 +43,8 @@ const slice = createSlice({
       fetchedCoupons: [],
       fetchCouponsSuccess: false,
       fetchCouponsError: false,
-      fetchCouponsMessage: null
+      fetchCouponsMessage: null,
+      ExMiscCharges: false,
     },
     reducers: {
       startSlotsLoading:(state,action)=>{
@@ -76,6 +80,7 @@ const slice = createSlice({
             state.availSlotsLoading = false;
             state.availSlotsMsg = action.payload.Message;
         } else {
+          Swal.fire('', action.payload.Message, 'info');
           state.availSlotsLoading = false;
           state.availSlots = [];
           state.availSlotsMsg = action.payload.Message;
@@ -176,20 +181,26 @@ const slice = createSlice({
       resetState:(state,action)=>{
         state = state.initialState;
       },
+      setExMiscCharges:(state,action)=>{
+        state.ExMiscCharges = action.payload;
+      },
     }
   });
   
   export default slice.reducer
   
   
-  export const {startSlotsLoading, startTransactionDetailsLoading, setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails, startPayNowLoading, startSaveAndPayLoading, setSaveAndPayDetails, stopSaveAndPayLoading, saveAndPaySuccessError, startPayFromCartLoading, payFromCartSuccessError, startMoveToWishlistLoading, moveToWishListSuccessError, startRemoveFromWishlistLoading, removeFromWishListSuccessError, fetchUserCouponSuccessErrror, startFetchCouponsLoading, resetState } = slice.actions;
+  export const {startSlotsLoading, startTransactionDetailsLoading, setAvailSlots,setTransactionId,setArtistId,setEventData,SelectSlot,startBookingLoading,setTransactionDetails, startPayNowLoading, startSaveAndPayLoading, setSaveAndPayDetails, stopSaveAndPayLoading, saveAndPaySuccessError, startPayFromCartLoading, payFromCartSuccessError, startMoveToWishlistLoading, moveToWishListSuccessError, startRemoveFromWishlistLoading, removeFromWishListSuccessError, fetchUserCouponSuccessErrror, startFetchCouponsLoading, resetState, setExMiscCharges } = slice.actions;
   
   export const fetchAvailSlots = (body) => async dispatch => {
     dispatch(startSlotsLoading());
     try{
         await axios
             .post(API_URL + 'UBooking/GetAvailableSlot',body,{headers:authHeader()})
-            .then(response => dispatch(setAvailSlots(response.data)));
+            .then(response => 
+              {
+                dispatch(setAvailSlots(response.data));
+              });
     } catch (e){
         console.log(e);
     }

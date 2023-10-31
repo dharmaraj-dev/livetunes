@@ -42,17 +42,17 @@ const BilldetailSlots = (props) => {
                 },
                 {
                     "BillSec":"Food and stay",
-                    "BillSecAmt": props.data.selBook.FoodStay,
+                    "BillSecAmt": props.data.selBook.ExMiscCharges ? 0 : props.data.selBook.FoodStay,
                     "BillSecType":"DR"
                 },
                 {
                     "BillSec":"Travel fees",
-                    "BillSecAmt": props.data.selBook.TravelFees,
+                    "BillSecAmt":  props.data.selBook.ExMiscCharges ? 0 : props.data.selBook.TravelFees,
                     "BillSecType":"DR"
                 },
                 {
                     "BillSec":"Gst(18%)",
-                    "BillSecAmt": ((props.data.selBook.PerShowRate + props.data.selBook.FoodStay + props.data.selBook.TravelFees)*0.18).toFixed(),
+                    "BillSecAmt": ((props.data.selBook.PerShowRate +  (props.data.selBook.ExMiscCharges ? 0 : props.data.selBook.FoodStay) +  (props.data.selBook.ExMiscCharges ? 0 : props.data.selBook.TravelFees))*0.18).toFixed(),
                     "BillSecType":"DR"
                 }
             ],
@@ -96,9 +96,8 @@ const BilldetailSlots = (props) => {
     }
 
     const calculateTotalAmount = () => {
-        let amt = props.data.selBook.PerShowRate + props.data.selBook.FoodStay + props.data.selBook.TravelFees;
+        let amt = props.data.selBook.PerShowRate +  (props.data.selBook.ExMiscCharges ? 0 : props.data.selBook.FoodStay) +  (props.data.selBook.ExMiscCharges ? 0 : props.data.selBook.TravelFees);
         amt = amt * 1.18;
-        console.log(amt, props.coupon);
         if(props.coupon) {
             console.log(amt, props.coupon);
             amt = amt - props.coupon.VoucherStackAmt;
@@ -123,7 +122,6 @@ const BilldetailSlots = (props) => {
     }
 
     useEffect(() => {
-        console.log(payFromCartSuccess, payFromCartError)
         if(payFromCartSuccess || payFromCartError) {
             setShowDialogue(true);
         }
@@ -169,15 +167,15 @@ const BilldetailSlots = (props) => {
                     </Stack>
                     <Stack direction="horizontal" gap={3}>
                         <div className="bill-text l-r">Food and stay</div>
-                        <div className="bill-text l-r ms-auto">Rs.{props.data.selBook.FoodStay}</div>
+                        <div className="bill-text l-r ms-auto">Rs.{ props.data.selBook.ExMiscCharges ? 0 : props.data.selBook.FoodStay}</div>
                     </Stack>
                     <Stack direction="horizontal" gap={3}>
                         <div className="bill-text l-r">Travel fees</div>
-                        <div className="bill-text l-r ms-auto">Rs.{props.data.selBook.TravelFees}</div>
+                        <div className="bill-text l-r ms-auto">Rs.{ props.data.selBook.ExMiscCharges ? 0 : props.data.selBook.TravelFees}</div>
                     </Stack>
                     <Stack direction="horizontal" gap={3}>
                         <div className="bill-text l-r">Gst (18%)</div>
-                        <div className="bill-text l-r ms-auto">Rs.{((props.data.selBook.PerShowRate+props.data.selBook.FoodStay+props.data.selBook.TravelFees)*0.18).toFixed()}</div>
+                        <div className="bill-text l-r ms-auto">Rs.{((props.data.selBook.PerShowRate+ (props.data.selBook.ExMiscCharges ? 0 : props.data.selBook.FoodStay)+  (props.data.selBook.ExMiscCharges ? 0 : props.data.selBook.TravelFees) )*0.18).toFixed()}</div>
                     </Stack>
                     {props.coupon != "" && (
                         <Stack direction="horizontal" gap={3}>
@@ -197,6 +195,7 @@ const BilldetailSlots = (props) => {
                             <div className="bill-text l-b red-color ms-auto">Rs. {calculateTotalAmount()}
                             </div>
                         </Stack>
+                        <span className="red-color info-text">Note: You have opted to avail food, stay and travel for the artist.</span>
                     </div>
                     <button disabled={payFromCartLoading} type="button" className="l-b btnn pay-button btn btn-primary w-100"
                             onClick={() => makePayment(props.data?.selBook.TransactId)}

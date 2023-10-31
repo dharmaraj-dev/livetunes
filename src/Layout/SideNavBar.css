@@ -26,6 +26,6 @@
 .menu-item:hover {background-color: #ffffff;color: #000;}
 .menu-item:hover p{font-weight: bold;}
 .menu-item img {width: 70px;padding: 0 20px;}
-.menu-item p{display: inline;margin: 5px 0 0 14px;}
+.menu-item p{display: inline;margin: 5px 0 0 14px;text-transform: none;}
 .nav-footer {width: 100%;position: absolute;bottom: 0;text-align: center;margin: 15px auto;}
 .logout-icon {margin: 0 auto;}

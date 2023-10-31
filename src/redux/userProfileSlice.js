@@ -25,13 +25,12 @@ const slice = createSlice({
   },
   reducers: {
     startLoading: state => {
-      state.profileDataLoading = true;
+      state.profileDataLoading = state.profileData.profileImg != "" ? false : true;
     },
     startSaveProfileDataLoading: state => {
       state.saveProfileDataLoading = true;
     },
     setData: (state, action) => {
-      console.log(action.payload.selApInfo.length)
       state.profileDataLoading = false;
   		if(action.payload.IsSuccess) {
         if(action.payload.selApInfo.length > 0) {
@@ -86,7 +85,6 @@ export const fetchUserProfile = (artistId,userId) => async dispatch => {
       .get(API_URL + `UserProfile/GetUserProfile` , {headers:authHeader()})
       .then(response => dispatch(setData(response.data)));
   } catch (e) {
-    console.log(e);
   }
 };
 
@@ -97,6 +95,5 @@ export const saveProfileData = (data) => async dispatch => {
       .post(API_URL + `UserProfile/SaveUProfile`, data , {headers:authHeader()})
       .then(response => dispatch(saveProfileDataSuccessError(response.data)));
   } catch (e) {
-    console.log(e);
   }
 };

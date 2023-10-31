@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const Billdetail = (props) => {
+    console.log('props', props)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -34,6 +35,31 @@ const Billdetail = (props) => {
         }
     }
 
+    const calculateGst = () => {
+        return (
+            props.data.PerShowRate
+            +
+            (props.ExMiscCharges ? 0 : props.data.FoodStay)
+            +
+            (props.ExMiscCharges ? 0 : props.data.TravelFees)
+            )
+            *
+            0.18;
+    }
+
+    const calculateTotal = () => {
+        return (
+                    (
+                    props.data.PerShowRate
+                    +
+                    (props.ExMiscCharges ? 0 : props.data.FoodStay)
+                    +
+                    (props.ExMiscCharges ? 0 : props.data.TravelFees)
+                    )
+                    *1.18
+                ).toFixed();
+    }
+
 
     useEffect(() => {
         if(saveAndPaySucess || saveAndPayError) {
@@ -51,20 +77,20 @@ const Billdetail = (props) => {
             </Stack>
             <Stack direction="horizontal" gap={3}>
                 <div className="bill-text l-r">Food and stay</div>
-                <div className="bill-text l-r ms-auto">Rs.{props.data.FoodStay}</div>
+                <div className="bill-text l-r ms-auto">Rs.{props.ExMiscCharges ? 0 : props.data.FoodStay}</div>
             </Stack>
             <Stack direction="horizontal" gap={3}>
                 <div className="bill-text l-r">Travel fees</div>
-                <div className="bill-text l-r ms-auto">Rs.{props.data.TravelFees}</div>
+                <div className="bill-text l-r ms-auto">Rs.{props.ExMiscCharges ? 0 :props.data.TravelFees}</div>
             </Stack>
             <Stack direction="horizontal" gap={3}>
                 <div className="bill-text l-r">Gst (18%)</div>
-                <div className="bill-text l-r ms-auto">Rs.{(props.data.PerShowRate+props.data.FoodStay+props.data.TravelFees)*0.18}</div>
+                <div className="bill-text l-r ms-auto">Rs.{calculateGst()}</div>
             </Stack>
             <div className="total-value">
                 <Stack direction="horizontal" gap={3}>
                     <div className=""><span className="bill-text l-b red-color">Total payable</span> <span>(inclusive taxes)</span></div>
-                    <div className="bill-text l-b red-color ms-auto">Rs.{((props.data.PerShowRate+props.data.FoodStay+props.data.TravelFees)*1.18).toFixed()}</div>
+                    <div className="bill-text l-b red-color ms-auto">Rs.{calculateTotal()}</div>
                 </Stack>
             </div>
             <button

@@ -1146,3 +1146,12 @@ numberInput.input[type=number] {
     margin-right: 5px;
     color: #707070;
 }
+
+.booking-warning {
+    font-size: 14px;
+    color: #9E9E9E;
+}
+
+.booking-warning label {
+    vertical-align: middle;
+}

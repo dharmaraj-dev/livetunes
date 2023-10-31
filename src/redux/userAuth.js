@@ -35,6 +35,7 @@ const slice = createSlice({
       state.isLoggedIn = true;
       state.welcomeSeen = true;
       state.user = action.payload;
+      localStorage.setItem('user', btoa(JSON.stringify(state.user)));
     },
     setOtpSent: (state, action) => {
       state.otpSent = action.payload;
@@ -52,21 +53,27 @@ const slice = createSlice({
     },
     setIsArtistProfileSend: (state, action) => {
       state.IsProfileSend = action.payload;
+      localStorage.setItem('IsProfileSend', state.IsProfileSend);
     },
     setArtistId: (state, action) => {
       state.ArtistId = action.payload;
+      localStorage.setItem('ArtistId', state.ArtistId);
     },
     setArtistIsApproved: (state, action) => {
       state.ArtistIsApproved = action.payload;
+      localStorage.setItem('is_approved', state.ArtistIsApproved);
     },
     setArtistIsPending: (state, action) => {
       state.ArtistIsPending = action.payload;
+      localStorage.setItem('is_pending', state.ArtistIsPending);
     },
     setArtistIsNotSubmitted: (state, action) => {
       state.ArtistIsNotSubmitted = action.payload;
+      localStorage.setItem('is_not_submitted', state.ArtistIsNotSubmitted);
     },
     setArtistRejected: (state, action) => {
       state.ArtistIsRejected = action.payload;
+      localStorage.setItem('is_rejection', state.ArtistIsRejected);
     },
     setLogout: (state, action) => {
       state.welcomeSeen = true;

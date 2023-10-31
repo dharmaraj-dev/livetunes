@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import NavBar from "../Layout/NavBar";
 import SideNavBar from "../Layout/SideNavBar";
 import Container from 'react-bootstrap/Container';
@@ -16,8 +16,18 @@ import Dpray from '../assets/images/noun-pray.png';
 import Dfestival from '../assets/images/noun-festival.png';
 import Dbirthday from '../assets/images/noun-birthday.png';
 import { Link } from "react-router-dom";
+import { useDispatch ,useSelector } from "react-redux";
+import { getArtistDetails } from "../redux/artistDetailsSlice";
 
 const ArtistDashboard = () => {
+    const dispatch = useDispatch();
+    const {loading, details} = useSelector(state => state.artistDetails);
+    const { ArtistId } = useSelector(state => state.userAuth);
+    useEffect(()=>{
+        window.scrollTo(0, 0);
+
+        dispatch(getArtistDetails());
+      },[ArtistId]);  
   return (
     <>
         <div className="wrapper">
@@ -146,7 +156,7 @@ const ArtistDashboard = () => {
                             </Col>
                             <Col xl={4} lg={6} md={12}>
                                 <div className="artist-dashboard-artist-info-sec">
-                                    <ArtistInfo/>
+                                    <ArtistInfo loading={loading} artistId={ArtistId} artistDetails={details}/>
                                 </div>
                                 <div className="main-artist-transacation">
                                     <div className="header-sec">

@@ -230,7 +230,7 @@ const Cart = () => {
                             <div className="cart-footer">
                                 <Stack direction="horizontal" gap={3}>
                                 <div className="">
-                                    <button type="button" className="l-b wbtnn btn btn-primary w-100">REMOVE</button>
+                                    {/*<button type="button" className="l-b wbtnn btn btn-primary w-100">REMOVE</button>*/}
                                 </div>
                                 <div className="ms-auto">
                                     <button type="button" className="l-b wbtnn btn btn-primary w-100" onClick={()=>moveToCart()}>
