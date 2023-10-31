@@ -3,29 +3,28 @@ import { Navigate, useNavigate  } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
 
-const useLoginCheck = () => {
+const useApplicationStatusCheck = () => {
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
 
-  const showLoginAlert = async () =>{
+  const showApplicationAlert = async (title, desc) =>{
         MySwal.fire({
-          title: '<strong>Not Logged In!!</strong>',
+          title: '<strong>'+title+'</strong>',
           icon: 'warning',
-          html:
-            'Please login to proceed further.',
+          html: desc,
           showDenyButton: true,
-          confirmButtonText: 'Login',
+          confirmButtonText: 'Okey',
           denyButtonText: `No`,
           showLoaderOnConfirm: false,
           allowOutsideClick: () => false
         }).then((result) => {
             if(result.isConfirmed) {
-                navigate('/welcome')
+                navigate('/')
             }
         })
     };
-  return { showLoginAlert };
+  return { showApplicationAlert };
 };
 
-export default useLoginCheck;
+export default useApplicationStatusCheck;
 

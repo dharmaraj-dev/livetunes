@@ -893,7 +893,7 @@ const ArtistsProfile = (props) => {
                                             <Form.Select aria-label="Default select example" className="form-control" value={cityId} onChange={(e) => {setCityId(e.target.value); assignCityStateName(stateId)}}
                                             onFocus={(e)=> handleStateCityFocus(e)} onBlur={(e)=> handleStateCityBlur(e)}>
                                                 <option>Select city</option>
-                                                {filteredCities?.filter((key) => !key.IsCancelled).map((city, index) => {
+                                                {filteredCities?.filter((key) => !key.IsCancelled && key.IsLTLive).map((city, index) => {
                                                     return (<option key={`${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
                                                 })}
                                             </Form.Select>

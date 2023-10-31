@@ -52,7 +52,7 @@ const slice = createSlice({
     favArtistSuccessError: (state, action) => {
       state.favouriteArtistsLoading = false;
       if(action.payload.IsSuccess) {
-        state.favouriteArtists = action.payload.output_data;
+        state.favouriteArtists = action.payload.output_data != null ? action.payload.output_dat : [];
         state.favouriteArtistsError = false;
         state.favouriteArtistsSuccess = true;
         

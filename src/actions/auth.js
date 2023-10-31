@@ -140,9 +140,9 @@ export const validateOtp = (phone, otp) => (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-   const user = JSON.parse(localStorage.getItem('user'));
-   if (user && user.AuthToken) {
-    return CommonService.logout(user.AuthToken).then(
+  const token = localStorage.getItem(btoa('token'));
+   if (token) {
+    return CommonService.logout(token).then(
       (response) => {
           localStorage.clear();
           localStorage.setItem("welcomeSeen", true);

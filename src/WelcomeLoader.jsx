@@ -15,7 +15,7 @@ const WelcomeLoader = () => {
   	let navigate = useNavigate();
 	const params = useParams();
 
-  	const { isLoggedIn, joiningType, ArtistIsNotSubmitted } = useSelector(state => state.userAuth);
+  	const { isLoggedIn, joiningType, ArtistIsNotSubmitted, ArtistIsPending } = useSelector(state => state.userAuth);
   	const { isSettingsSaved } = useSelector(state => state.userSettings);
 
   	 useEffect(() => {
@@ -46,6 +46,8 @@ const WelcomeLoader = () => {
 	        dispatch(getArtistProofData());
 	        if(ArtistIsNotSubmitted) {
 	          navigate("/artists-profile");
+	        }else if(ArtistIsPending) {
+	          navigate("/application-status");
 	        } else {
 	          navigate("/artist-dashboard");
 	        }

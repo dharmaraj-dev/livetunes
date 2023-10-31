@@ -19,6 +19,7 @@ import withReactContent from 'sweetalert2-react-content'
 import { authToken } from "../services/auth-header";
 import { useLocation } from 'react-router-dom';
 import useLoginCheck from "../hooks/useLoginCheck";
+import useApplicationStatusCheck from "../hooks/useApplicationStatusCheck";
 import { setLogout } from "../redux/userAuth";
 
 const SideNavBar = () => {
@@ -27,8 +28,19 @@ const SideNavBar = () => {
 	const location = useLocation();
 	const MySwal = withReactContent(Swal);
 	const { showLoginAlert } = useLoginCheck();
-	const { isLoggedIn, joiningType } = useSelector((state) => state.userAuth);
+	const { showApplicationAlert } = useApplicationStatusCheck();
+	const { isLoggedIn, joiningType, ArtistIsNotSubmitted, ArtistIsPending } = useSelector((state) => state.userAuth);
 
+	let alertTitle = '';
+  let alertDesc = '';
+  if(ArtistIsNotSubmitted) {
+    alertTitle = 'Application Not Submitted';
+    alertDesc = 'Please approve your application first.';
+  }
+  if(ArtistIsPending) {
+    alertTitle = 'Application Review Pending';
+    alertDesc = 'Please application is in review.';
+  }
 
 	const audio = new Audio(Gaudio);
 	const [isExpanded, setExpendState] = useState(false);
@@ -41,8 +53,7 @@ const SideNavBar = () => {
 				}
 			]);
 
-	const showPopupAlert = (text) => {
-		console.log(text)
+	const showPopupAlert = (text, linkToNavigate) => {
 		if(text == 'Support') {
 			Swal.fire('Comming Soon.', '', 'info');
 		}
@@ -59,18 +70,18 @@ const SideNavBar = () => {
 				{
 					text: "Profile",
 					icon: <TfiUser className="menu-item-icon"/>,
-					links: "/artists-profile"
+					links: "/my-profile"
 				},
 				{
 					text:"Availability",
 					icon: <SlCalender className="menu-item-icon" />,
 					links:"/artist-slots"
 				},
-				{
-					text: "Settings",
-					icon: <SlSettings className="menu-item-icon"/>,
-					links: "/settings"
-				}
+				// {
+				// 	text: "Settings",
+				// 	icon: <SlSettings className="menu-item-icon"/>,
+				// 	links: "/settings"
+				// }
 			]);
 		} else if(joiningType ===  "Judge") {
 			setMenuItemsDynamic([
@@ -177,21 +188,31 @@ const SideNavBar = () => {
 								key={text+'_'+links}
 								onClick={showLoginAlert}
 								className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
-							>{/* Add active class */}
-							
-								{icon}
-								{isExpanded && <p className="l-sb">{text}</p>}
-							</Link>
-						) : (
-							<Link
-								key={text+'_'+links}
-								onClick={() => showPopupAlert(text)}
-								className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
-								to={links} 
 							>
 								{icon}
 								{isExpanded && <p className="l-sb">{text}</p>}
 							</Link>
+						) : (
+							(joiningType ===  "Artist" && (ArtistIsNotSubmitted || ArtistIsPending)) ? (
+								<Link
+									key={text+'_'+links}
+									onClick={() => showApplicationAlert(alertTitle, alertDesc)}
+									className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
+								>
+									{icon}
+									{isExpanded && <p className="l-sb">{text}</p>}
+								</Link>
+							):(
+							<Link
+								key={text+'_'+links}
+								onClick={() => showPopupAlert(text, links)}
+								to={links}
+								className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
+							>
+								{icon}
+								{isExpanded && <p className="l-sb">{text}</p>}
+							</Link>
+							)
 						)
 					))}
 				</div>

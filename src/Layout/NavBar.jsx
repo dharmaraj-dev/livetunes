@@ -13,14 +13,28 @@ import { Link } from "react-router-dom";
 import DefaultProfile from "../assets/images/default_profile.jpeg";
 import { useDispatch, useSelector } from "react-redux";
 import useLoginCheck from "../hooks/useLoginCheck";
+import useApplicationStatusCheck from "../hooks/useApplicationStatusCheck";
 
 const NavBar = () => {
   const { showLoginAlert } = useLoginCheck();
+  const { showApplicationAlert } = useApplicationStatusCheck();
+
   const { artistProfileData } = useSelector(state => state.artist);
-  const { isLoggedIn, joiningType } = useSelector((state) => state.userAuth);
+  const { isLoggedIn, joiningType, ArtistIsNotSubmitted, ArtistIsPending } = useSelector((state) => state.userAuth);
   const { profileData, profileDataLoading} = useSelector(state => state.userProfile);
 
   const [profilePic, setProfilePic] = useState(DefaultProfile);
+
+  let alertTitle = '';
+  let alertDesc = '';
+  if(ArtistIsNotSubmitted) {
+    alertTitle = 'Application Not Submitted';
+    alertDesc = 'Please approve your application first.';
+  }
+  if(ArtistIsPending) {
+    alertTitle = 'Application Review Pending';
+    alertDesc = 'Please application is in review.';
+  }
 
   useEffect(() => {
     if(artistProfileData?.selProfileImage?.length > 0) {
@@ -76,11 +90,19 @@ const NavBar = () => {
                         </div>
                       </Link>
                     ):(
+                      (ArtistIsNotSubmitted || ArtistIsPending) ? (
+                        <Link onClick={()=> {showApplicationAlert(alertTitle, alertDesc)}}>
+                          <div className="profile-class">
+                            <img src={profilePic} alt="" />
+                          </div>
+                        </Link>
+                      ) : (
                       <Link to="/my-profile">
                         <div className="profile-class">
                           <img src={profilePic} alt="" />
                         </div>
                       </Link>
+                      )
                     )}
                   </li>
                   )}

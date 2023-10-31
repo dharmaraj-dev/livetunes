@@ -1155,3 +1155,131 @@ numberInput.input[type=number] {
 .booking-warning label {
     vertical-align: middle;
 }
+
+.piano_section {
+    padding: 0px 15px;
+    width: 80% !important;
+    display: block !important;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.piano_title {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.piano_sub_text {
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+
+.status_icon {
+    font-size: 4rem;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+.status_label {
+    font-size: 0.7rem;
+}
+
+.application_status_slider .slick-arrow {
+    background: #b5b5b5;
+    width: 100px;
+    height: 100px;
+    z-index: 9999;
+}
+
+.facts_slider_section{
+    width: 475px;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    background: #333333;
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.fact_heading{
+    font-size: 1rem;
+    margin-bottom: 25px;
+}
+
+.fact_heading_icon {
+    margin-right: 8px;
+}
+
+.fact_desc {
+    font-size: 0.8rem;
+}
+
+.facts_slider_section .slick-dots {
+    margin-bottom: 1rem;
+}
+
+.facts_slider_section .slick-dots li.slick-active button:before {
+  color: #FD3743;
+  font-size: 10px;
+}
+
+.facts_slider_section .slick-dots li button:before {
+  color: white;
+  opacity: 1;
+  font-size: 10px;
+}
+
+.quiz_section {
+  text-align: center;
+}
+
+.quiz_result_dot {
+  font-size: 3rem;
+  color: darkgray;
+}
+
+.quiz_result_dot_ans_correct {
+  color: green;
+}
+
+.quiz_result_dot_ans_wrong {
+  color: #FD3743;
+}
+
+.question_head {
+  font-size: 1.1rem;
+}
+
+.current_que{
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.total_que{
+  font-size: 0.9rem;
+}
+
+.question_title{
+   font-size: 0.9rem;
+}
+
+.question_ans {
+    list-style: none;
+    padding: 0;
+}
+
+.question_ans .ans {
+  display: block;
+  border: 1px solid gray;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}

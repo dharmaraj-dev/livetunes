@@ -12,7 +12,7 @@ export default function authHeader() {
 export function authToken() {
   const token = localStorage.getItem(btoa('token'));
   if (token != null) {
-    return token;
+    return atob(token);
   } else {
     return {};
   }

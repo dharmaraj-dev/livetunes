@@ -52,6 +52,13 @@ const Favourites = () => {
                                             >
                                                <Row>
                                                     {favouriteArtists.map((artist, index) => <Col key={`fav_${index}`} xl={3} md={6}><FavouriteCard props={artist}/></Col>)}
+                                                    {favouriteArtists.length === 0 && (
+                                                        <Col xs={12}>
+                                                            <div>
+                                                                <h3 className="no_bookings">No favourites added.</h3>
+                                                            </div>
+                                                        </Col>
+                                                    )}
                                                 </Row>
                                             </Tab>
                                     </Tabs>
