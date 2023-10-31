@@ -111,6 +111,7 @@ export const resendOtp = (phone) => (dispatch) => {
 export const validateOtp = (phone, otp) => (dispatch) => {
   return AuthService.validateOtp(phone, otp).then(
     (data) => {
+      
       if(data.IsSuccess) {
         localStorage.setItem(btoa('token'), btoa(data.AuthToken));
         dispatch(setArtistId(data.RegId));

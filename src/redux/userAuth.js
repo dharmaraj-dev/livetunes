@@ -4,7 +4,7 @@ import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
 const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 
-const user = localStorage.getItem("user") != null ? JSON.parse(localStorage.getItem("user")) : null;
+const user = localStorage.getItem("user") != null ? JSON.parse(atob(localStorage.getItem("user"))) : null;
 const welcomeSeen = localStorage.getItem("welcomeSeen") === "true" ? true : false;
 const joiningType = localStorage.getItem("joiningFor");
 const IsProfileSend = localStorage.getItem("IsProfileSend") === "true" ? true : false;
