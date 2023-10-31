@@ -25,7 +25,6 @@ const Cart = () => {
   const navigate = useNavigate();
   const params = useParams();
   const transactId = atob(params.transactionId);
-  const {user} = useSelector(state => state.userAuth);
   const {
       transactionDetailsLoading,
       transactionDetails,

@@ -1,8 +1,8 @@
 export default function authHeader() {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const token = localStorage.getItem(btoa('token'));
 
-  if (user && user.AuthToken) {
-    return { Authorization: user.AuthToken };
+  if (token != null) {
+    return { Authorization: atob(token) };
   } else {
     return {};
   }
@@ -10,9 +10,9 @@ export default function authHeader() {
 
 
 export function authToken() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  if (user && user.AuthToken) {
-    return user.AuthToken;
+  const token = localStorage.getItem(btoa('token'));
+  if (token != null) {
+    return token;
   } else {
     return {};
   }

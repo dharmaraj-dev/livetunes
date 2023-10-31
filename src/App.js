@@ -30,6 +30,7 @@ import BankDetails from './Artist/BankDetails';
 import PhotoId from './Artist/PhotoId';
 import AddressProof from './Artist/AddressProof';
 import ArtistDashboard from './Artist/ArtistDashboard';
+import ArtistApplicationStatus from './Artist/ArtistApplicationStatus';
 import ArtistProfiles from './Artist/ArtistProfiles';
 import BillingInvoice from './Artist/BillingInvoice';
 import Home from './Webpage/Home';
@@ -119,6 +120,7 @@ function App() {
         <Route path="/artists-bank-details" element={<ArtistBankDetails/>}/>
         <Route path="/judge-login" element={<LogIn/>}/>
         <Route path="/judge-test-login" element={<TestLogIn/>}/>
+        <Route path="/application-status" element={<ArtistApplicationStatus/>}/>
      
 
       </Routes>
