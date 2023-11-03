@@ -1,22 +1,13 @@
 import {
-  GET_ARTIST_PROFILE_DATA,
-  GET_ARTIST_PROFILE_DATA_STATUS,
-  SET_ARTIST_PROFILE_DATA,
-  SET_ARTIST_PROFILE_DATA_STATUS,
-  SET_ARTIST_BANK_DETAILS,
-  SET_ARTIST_PHOTO_ID_PROOF,
-  SET_ARTIST_ADDRESS_PROOF,
-  SET_ARTIST_REFERENCES,
-  GET_ARTIST_PROOF_DATA,
-  REMOVE_ARTIST_MEDIA,
   ARTIST_APPLICATION_SUBMIT,
   ARTIST_PROFILE_STATUS,
   ARTIST_IS_REJECTED
 } from "./types";
 
 import ArtistService from "../services/artist.service";
-import { setArtistIsNotSubmitted, setArtistIsPending, setArtistIsApproved, setIsArtistProfileSend } from '../redux/userAuth';
-
+import { setArtistIsNotSubmitted, setArtistIsPending, setArtistIsApproved, setArtistRejected, setIsArtistProfileSend } from '../redux/userAuth';
+import { setArtistProfileData, setArtistProfileDataStatus, setArtistProofData } from '../redux/artistSlice';
+  
 export const getProfileData = () => (dispatch) => {
   return ArtistService.getProfileData().then(
     (response) => {
@@ -27,32 +18,15 @@ export const getProfileData = () => (dispatch) => {
           localStorage.setItem('is_not_submitted', response.data.is_not_submitted);
           localStorage.setItem('is_rejection', response.data.is_rejection);
           localStorage.setItem('is_approved', response.data.is_approved);
-          dispatch({
-            type: GET_ARTIST_PROFILE_DATA,
-            payload: response.data,
-          });
-          dispatch({
-            type: GET_ARTIST_PROFILE_DATA_STATUS,
-            payload: response.Message,
-          });
+          dispatch(setArtistProfileData(response.data));
           dispatch(setIsArtistProfileSend(response.data.IsProfileSend));
           dispatch(setArtistIsApproved(response.data.is_approved));
-          dispatch({
-            type: ARTIST_IS_REJECTED,
-            payload: response.data.is_rejection,
-          });
+          dispatch(setArtistRejected(response.data.is_rejection));
           dispatch(setArtistIsPending(response.data.is_pending));
           dispatch(setArtistIsNotSubmitted(response.data.is_not_submitted))
         }
         else {
-          dispatch({
-            type: GET_ARTIST_PROFILE_DATA,
-            payload: {},
-          });
-          dispatch({
-            type: GET_ARTIST_PROFILE_DATA_STATUS,
-            payload: response.Message,
-          });
+          dispatch(setArtistProfileData([]));
         }
 
       return Promise.resolve(response);
@@ -73,24 +47,11 @@ export const setProfileData = (data) => (dispatch) => {
   return ArtistService.setProfileData(data).then(
     (response) => {
        if(response.IsSuccess) {
-          dispatch({
-            type: SET_ARTIST_PROFILE_DATA,
-            payload: response,
-          });
-          dispatch({
-            type: SET_ARTIST_PROFILE_DATA_STATUS,
-            payload: response.Message,
-          });
+        console.log(response);
+          dispatch(setArtistProfileData(response));
         }
         else {
-          dispatch({
-            type: SET_ARTIST_PROFILE_DATA,
-            payload: {},
-          });
-          dispatch({
-            type: SET_ARTIST_PROFILE_DATA_STATUS,
-            payload: response.Message,
-          });
+          dispatch(setArtistProfileData([]));
         }
 
       return Promise.resolve(response);
@@ -110,19 +71,6 @@ export const setProfileData = (data) => (dispatch) => {
 export const setBankDetails = (data) => (dispatch) => {
   return ArtistService.setBankDetails(data).then(
     (response) => {
-       if(response.IsSuccess) {
-          dispatch({
-            type: SET_ARTIST_BANK_DETAILS,
-            payload: response,
-          });
-        }
-        else {
-          dispatch({
-            type: SET_ARTIST_PROFILE_DATA,
-            payload: {},
-          });
-        }
-
       return Promise.resolve(response);
     },
     (error) => {
@@ -140,19 +88,6 @@ export const setBankDetails = (data) => (dispatch) => {
 export const setPhotoIdProof = (data) => (dispatch) => {
   return ArtistService.setPhotoIdProof(data).then(
     (response) => {
-       if(response.IsSuccess) {
-          dispatch({
-            type: SET_ARTIST_PHOTO_ID_PROOF,
-            payload: response,
-          });
-        }
-        else {
-          dispatch({
-            type: SET_ARTIST_PHOTO_ID_PROOF,
-            payload: {},
-          });
-        }
-
       return Promise.resolve(response);
     },
     (error) => {
@@ -170,19 +105,6 @@ export const setPhotoIdProof = (data) => (dispatch) => {
 export const setAddressProof = (data) => (dispatch) => {
   return ArtistService.setAddressProof(data).then(
     (response) => {
-       if(response.IsSuccess) {
-          dispatch({
-            type: SET_ARTIST_ADDRESS_PROOF,
-            payload: response,
-          });
-        }
-        else {
-          dispatch({
-            type: SET_ARTIST_ADDRESS_PROOF,
-            payload: {},
-          });
-        }
-
       return Promise.resolve(response);
     },
     (error) => {
@@ -200,19 +122,6 @@ export const setAddressProof = (data) => (dispatch) => {
 export const setReferences = (data) => (dispatch) => {
   return ArtistService.setReferences(data).then(
     (response) => {
-       if(response.IsSuccess) {
-          dispatch({
-            type: SET_ARTIST_REFERENCES,
-            payload: response,
-          });
-        }
-        else {
-          dispatch({
-            type: SET_ARTIST_REFERENCES,
-            payload: {},
-          });
-        }
-
       return Promise.resolve(response);
     },
     (error) => {
@@ -233,16 +142,10 @@ export const getArtistProofData = (data) => (dispatch) => {
       console.log(response);
        if(response.data.IsSuccess) {
           localStorage.setItem('artistProofData', JSON.stringify(response.data));
-          dispatch({
-            type: GET_ARTIST_PROOF_DATA,
-            payload: response.data,
-          });
+          dispatch(setArtistProofData(response.data))
         }
         else {
-          dispatch({
-            type: GET_ARTIST_PROOF_DATA,
-            payload: [],
-          });
+          dispatch(setArtistProofData([]))
         }
 
       return Promise.resolve(response);
@@ -263,19 +166,6 @@ export const removeArtistAttachment = (data) => (dispatch) => {
   return ArtistService.removeArtistAttachment(data).then(
     (response) => {
       console.log(response);
-       if(response.data.IsSuccess) {
-          dispatch({
-            type: REMOVE_ARTIST_MEDIA,
-            payload: response.data,
-          });
-        }
-        else {
-          dispatch({
-            type: REMOVE_ARTIST_MEDIA,
-            payload: [],
-          });
-        }
-
       return Promise.resolve(response);
     },
     (error) => {
@@ -293,20 +183,6 @@ export const removeArtistAttachment = (data) => (dispatch) => {
 export const submitArtistApplicationTJudge = () => (dispatch) => {
   return ArtistService.submitArtistApplicationTJudge().then(
     (response) => {
-      console.log(response);
-       if(response.data.IsSuccess) {
-          dispatch({
-            type: ARTIST_APPLICATION_SUBMIT,
-            payload: response.data,
-          });
-        }
-        else {
-          dispatch({
-            type: ARTIST_APPLICATION_SUBMIT,
-            payload: null,
-          });
-        }
-
       return Promise.resolve(response);
     },
     (error) => {

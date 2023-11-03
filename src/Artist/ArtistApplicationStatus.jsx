@@ -14,12 +14,13 @@ import DimensionsProvider from '../hooks/DimensionsProvider';
 import SoundfontProvider from '../hooks/SoundfontProvider';
 import { RxClipboard, RxClipboardCopy, RxComponent2, RxMagicWand, RxDotFilled } from "react-icons/rx";
 import { Navigate, useNavigate  } from 'react-router-dom';
-import { getProfileData } from "../actions/artist";
+import { getArtistsApplicationStatusQuotes, getArtistsApplicationStatusQuizes } from "../redux/artistSlice";
 
 const ArtistApplicationStatus = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { joiningType, ArtistIsNotSubmitted, ArtistIsPending, ArtistIsApproved, ArtistIsRejected } = useSelector(state => state.userAuth);
+    const { artistApplicationStatusQuotesLoading, artistApplicationQuotes, artistApplicationQuizes } = useSelector(state => state.artist);
 
     
 
@@ -116,7 +117,8 @@ const ArtistApplicationStatus = (props) => {
         if(ArtistIsNotSubmitted) {
             navigate("/");
         }
-        dispatch(getProfileData());
+        dispatch(getArtistsApplicationStatusQuotes());
+        dispatch(getArtistsApplicationStatusQuizes());
       },[]);  
   return (
     <>
@@ -159,33 +161,34 @@ const ArtistApplicationStatus = (props) => {
                           <div className="facts_section">
                               <h3 className="piano_title">Know some astonishing facts</h3>
                               <div className="facts_slider_section">
-                                  <Slider {...factsSettings} className="facts_slider">
-                                    <div>
-                                        <h3 className="fact_heading"> <RxMagicWand className="fact_heading_icon" /> Did you know?</h3>
-                                        <p className="fact_desc">Indian classical is going on since 3000 years. Only India is a country in which we are having two variations of music one is classical music & the second is Carnatic music. If we have to see which one came earlier then, it’s obviously classical music.
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <h3 className="fact_heading"> <RxMagicWand className="fact_heading_icon" /> Did you know?</h3>
-                                        <p className="fact_desc">Indian classical is going on since 3000 years. Only India is a country in which we are having two variations of music one is classical music & the second is Carnatic music. If we have to see which one came earlier then, it’s obviously classical music.
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <h3 className="fact_heading"> <RxMagicWand className="fact_heading_icon" /> Did you know?</h3>
-                                        <p className="fact_desc">Indian classical is going on since 3000 years. Only India is a country in which we are having two variations of music one is classical music & the second is Carnatic music. If we have to see which one came earlier then, it’s obviously classical music.
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <h3 className="fact_heading"> <RxMagicWand className="fact_heading_icon" /> Did you know?</h3>
-                                        <p className="fact_desc">Indian classical is going on since 3000 years. Only India is a country in which we are having two variations of music one is classical music & the second is Carnatic music. If we have to see which one came earlier then, it’s obviously classical music.
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <h3 className="fact_heading"> <RxMagicWand className="fact_heading_icon" /> Did you know?</h3>
-                                        <p className="fact_desc">Indian classical is going on since 3000 years. Only India is a country in which we are having two variations of music one is classical music & the second is Carnatic music. If we have to see which one came earlier then, it’s obviously classical music.
-                                        </p>
-                                    </div>
-                                  </Slider>
+                                {artistApplicationStatusQuotesLoading ? (
+                                    <Slider {...factsSettings} className="facts_slider">
+                                      {
+                                        [...Array(6)].map((e, i) => {
+                                          return (
+                                            <div key={`slider_${i}`}>
+                                                <p className="mb-4">Fetching ....</p>
+                                            </div>
+                                          )
+                                        })
+                                      }
+                                    </Slider>
+                                  ):(
+                                    <Slider {...factsSettings} className="facts_slider">
+                                      {
+                                        artistApplicationQuotes.map((quote,index) => {
+                                          return (
+                                            <div key={`quote_${index}`}>
+                                              <h3 className="fact_heading"> <RxMagicWand className="fact_heading_icon" /> {quote.HeadText}</h3>
+                                              <p className="fact_desc">{quote.SubText}
+                                              </p>
+                                          </div>
+                                            )
+                                        })
+                                      }
+                                    </Slider>
+                                  )}
+                                  
                               </div>
                                 
                           </div>
@@ -193,28 +196,35 @@ const ArtistApplicationStatus = (props) => {
                               <h3 className="piano_title">Let's play a Musical quiz</h3>
                               <div className="quiz_section">
                                   <div>
-                                      <RxDotFilled className="quiz_result_dot quiz_result_dot_ans_correct" />
-                                      <RxDotFilled className="quiz_result_dot quiz_result_dot_ans_wrong" />
+                                    {artistApplicationQuizes.map((quiz,index) => {
+                                      return (
+                                          <RxDotFilled key={`top_dots_${index}`} className="quiz_result_dot quiz_result_dot" />
+                                        )
+                                    })}
+                                      
+                                      {/*<RxDotFilled className="quiz_result_dot quiz_result_dot_ans_wrong" />
                                       <RxDotFilled className="quiz_result_dot" />
                                       <RxDotFilled className="quiz_result_dot" />
-                                      <RxDotFilled className="quiz_result_dot" />
+                                      <RxDotFilled className="quiz_result_dot" />*/}
                                   </div>
-                                  <h3 className="question_head">Question <span className="current_que">03</span>/<span className="total_que">05</span></h3>
-                                  <p className="question_title">With which song did Lata Mangeshkar do her first Hindi playback ?</p>
-                                  <Row className="question_ans">
-                                      <Col lg={6} md="6">
-                                          <span className="ans">Natai Chaitrachi Navalai</span>
-                                      </Col>
-                                      <Col lg={6} md="6">
-                                          <span className="ans">Pa Lagoon Kar Jori Re Shyam</span>
-                                      </Col>
-                                      <Col lg={6} md="6">
-                                          <span className="ans">Janani Janam Bhoomi</span>
-                                      </Col>
-                                      <Col lg={6} md="6">
-                                          <span className="ans">Main Khili khili Phulvari</span>
-                                      </Col>
-                                  </Row>
+                                  <h3 className="question_head">Question <span className="current_que">{artistApplicationQuizes.length}</span>/<span className="total_que">{artistApplicationQuizes.length}</span></h3>
+                                  {artistApplicationQuizes.map((quiz,index) => {
+                                    return (
+                                        <div key={`quiz_${index}`}>
+                                          <p className="question_title">{quiz.QuizName}</p>
+                                          <Row className="question_ans">
+                                              {quiz.selQuizOpt.map((opt,indx) => {
+                                                return (
+                                                  <Col lg={6} md="6" key={`otp_${indx}`}>
+                                                    <span className="ans">{opt.QuizOptName}</span>
+                                                </Col>
+                                                  )
+                                              })}
+                                          </Row>
+                                        </div>
+                                      )
+                                  })}
+                                  
                                  
                               </div>
                           </div>

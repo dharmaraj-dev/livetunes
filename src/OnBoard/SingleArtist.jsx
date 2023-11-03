@@ -45,7 +45,7 @@ import ThreeDotLoader from "../Artist/ThreeDotLoader";
 import Skeleton from "react-loading-skeleton";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
-import { fetchArtistDetails } from "../redux/artistDetailsSlice";
+import { fetchArtistDetails } from "../redux/artistSlice";
 import useLoginCheck from "../hooks/useLoginCheck";
 
 
@@ -56,7 +56,7 @@ const SingleArtist = () => {
   const params= useParams();
   const MySwal = withReactContent(Swal);
   const { showLoginAlert } = useLoginCheck();
-  const { details, loading, error } = useSelector(state => state.artistDetails);
+  const { artistDetails, artistDetailsLoading } = useSelector(state => state.artist);
   const { profileData } = useSelector(state => state.userProfile);
   const { isLoggedIn } = useSelector(state => state.userAuth);
   const artistId = atob(params.artistId);
@@ -99,7 +99,7 @@ const SingleArtist = () => {
             </div>
             <div className="main-content">
                 {
-                    loading ? (
+                    artistDetailsLoading ? (
                         <>
                             <Skeleton className="l-sb head mb-2" width="160px" count={1}  />
                             <Skeleton className="l-l sub-head mb-2" width="240px" count={1}  />
@@ -117,11 +117,11 @@ const SingleArtist = () => {
                                     <div className="inner-artist-info postion-r">
                                     <div className="inner-artist-info postion-r">
                                         <div className="avtar-img">
-                                        <img src={details?.selProfileImage[0]?.LTMediaURL} alt="" className="w-100" />
+                                        <img src={artistDetails?.selProfileImage[0]?.LTMediaURL} alt="" className="w-100" />
                                         </div>
                                             <div className="s-artist-detail">
-                                                <p className="name l-b">{details?.selApInfo?.FullName} <span><img src={Octicons} alt="" style={{width:26}} /></span></p>
-                                                <p className="l-r locotion">{details?.selApInfo?.CityName}, {details?.selAPDetails
+                                                <p className="name l-b">{artistDetails?.selApInfo?.FullName} <span><img src={Octicons} alt="" style={{width:26}} /></span></p>
+                                                <p className="l-r locotion">{artistDetails?.selApInfo?.CityName}, {artistDetails?.selAPDetails
                                     ?.OtherStateName}</p>
                                                 <Stack direction="horizontal" gap={2} className="d-inline-flex">
                                                     <div className="star-rate-sec l-r">
@@ -158,17 +158,17 @@ const SingleArtist = () => {
                                             <p className="s-head l-b">Videos and images</p>
                                         </div>
                                         <Tabs
-                                        defaultActiveKey={details?.selLtMedia.filter((photo) => { return !photo.LTMediaLogName.endsWith('.mp4')}).length > 0 ? "photos" : "videos"}
+                                        defaultActiveKey={artistDetails?.selLtMedia.filter((photo) => { return !photo.LTMediaLogName.endsWith('.mp4')}).length > 0 ? "photos" : "videos"}
                                         id="uncontrolled-tab-example"
                                         className="mb-3 justify-content-end video-photos-sec"
                                         >
-                                            {details?.selLtMedia.filter((photo) => { return !photo.LTMediaLogName.endsWith('.mp4')}).length > 0 && (
+                                            {artistDetails?.selLtMedia.filter((photo) => { return !photo.LTMediaLogName.endsWith('.mp4')}).length > 0 && (
                                                 <Tab eventKey="photos" title="Photos">
-                                                    <Gallery data={details}/>
+                                                    <Gallery data={artistDetails}/>
                                                 </Tab>
                                             )}
                                             <Tab eventKey="videos" title="Videos">
-                                                <Videos data={details}/>
+                                                <Videos data={artistDetails}/>
                                             </Tab>
                                         </Tabs>
                                     </section>
@@ -182,7 +182,7 @@ const SingleArtist = () => {
                                                 </div>
                                                 <div className="right-text-sec">
                                                     <h2>About me</h2>
-                                                    <p className="l-r">{details?.selAPDetails?.BriefIntro}</p>
+                                                    <p className="l-r">{artistDetails?.selAPDetails?.BriefIntro}</p>
                                                 </div>
                                             </div>
                                             <div className="left-text-sec">
@@ -193,7 +193,7 @@ const SingleArtist = () => {
                                                     <h2>Performance Languages</h2>
                                                     <div className="per-lang">
                                                         {
-                                                           details?.selAPDetails.LanguageName ? details?.selAPDetails?.LanguageName.split(",").map((language,index) => {
+                                                           artistDetails?.selAPDetails.LanguageName ? artistDetails?.selAPDetails?.LanguageName.split(",").map((language,index) => {
                                                                 return <div key={`lang_${index}`} className="inner-per-lang l-sb">{language}</div>
                                                             }) : <></>
                                                         }
@@ -208,7 +208,7 @@ const SingleArtist = () => {
                                                     <h2>Performance Gernes</h2>
                                                     <div className="per-lang">
                                                         {
-                                                            details?.selAPDetails?.GenreName
+                                                            artistDetails?.selAPDetails?.GenreName
                                                             .split(",").map((genre,index) => {
                                                                 return <div key={`gen_${index}`} className="inner-per-lang l-sb">{genre}</div>
                                                             })
@@ -399,14 +399,14 @@ const SingleArtist = () => {
                                     <div className="s-heading">
                                         <p className="s-head l-b">Frequently asked questions</p>
                                     </div>
-                                    <Faq data={details?.selQuestLog}/>
+                                    <Faq data={artistDetails?.selQuestLog}/>
                                 </section> 
-                                {details?.selOtherArtist.length > 0 && (
+                                {artistDetails?.selOtherArtist.length > 0 && (
                                 <section className="main-livetune-details">
                                     <div className="s-heading">
                                         <p className="s-head l-b">Artists you might like</p>
                                     </div>
-                                    <ArtistsLikebox data={details?.selOtherArtist}/>            
+                                    <ArtistsLikebox data={artistDetails?.selOtherArtist}/>            
                                 </section>
                                 )}
                             </div>

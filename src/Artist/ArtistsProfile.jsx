@@ -15,7 +15,6 @@ import Expert from '../assets/images/like-img.png';
 import PhoneInput from "react-phone-input-2";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfileData } from "../actions/artist";
-import { getCities, getStates, getCategories, getGernes, getLanguages, getEvents, getEventModes } from "../actions/common";
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import moment from "moment";
 import { getProfileData, submitArtistApplicationTJudge } from "../actions/artist";

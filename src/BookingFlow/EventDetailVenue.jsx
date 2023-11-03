@@ -31,7 +31,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
     const navigate = useNavigate();
     const params = useParams();
     const artistId = atob(params.artistId);
-    const {details} = useSelector(state => state.artistDetails);
+    const {artistDetails} = useSelector(state => state.artist);
     const { events ,states,cities} = useSelector(state => state.common);
     const {user} = useSelector(state => state.userAuth);
     const {availSlotsLoading, availSlots, availSlotsMsg, transactionId,saveBookingLoading, saveAndPayLoading} = useSelector(state => state.userBooking);
@@ -479,7 +479,7 @@ const EventDetailVenue = forwardRef((props, ref) => {
             <section className="event-check-button-sec">
                 <Row>
                     <Col lg="6">
-                        <Link to={`/artist-details/${details.selApInfo.FullName?.replace(/ /g,"-")}/${btoa(artistId)}/${btoa(user.RegId)}`}>
+                        <Link to={`/artist-details/${artistDetails.selApInfo.FullName?.replace(/ /g,"-")}/${btoa(artistId)}/${btoa(user.RegId)}`}>
                         <button type="button" className="l-b wbtnn back-btn btn btn-primary w-100">Back</button>
                         </Link>
                     </Col>

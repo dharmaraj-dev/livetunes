@@ -27,7 +27,7 @@ const slice = createSlice({
     
     addUpdateFavArtists: (state, action) => {
       const updateList = state.filteredArtists.map((artList) => {
-        if(artList.AFavId == action.payload.AFavId) {
+        if(artList.ArtistId == action.payload.ArtId) {
             return { ...artList, IsFavArtist: action.payload.likeState };
         }
         return artList;
@@ -67,23 +67,11 @@ export const getArtists = (data) => async dispatch => {
 };
 
 export const addFavArtist = (data) => async dispatch => {
+  dispatch(addUpdateFavArtists(data))
     try{
        return await axios 
             .post(API_URL + "AFav/Insert",data, {headers:authHeader()})
             .then((response) => {
-              let artistToUpdate;
-              if(response.data.IsSuccess) {
-                artistToUpdate = {
-                  "AFavId": data.AFavId,
-                  "likeState": data.likeState
-                }
-              } else {
-                artistToUpdate = {
-                  "AFavId": data.AFavId,
-                  "likeState": data.likeState
-                }
-              }
-              dispatch(addUpdateFavArtists(data))
               return response;
             });
     } catch (e) {
@@ -93,23 +81,11 @@ export const addFavArtist = (data) => async dispatch => {
 };
 
 export const removeFavArtist = (data) => async dispatch => {
+  dispatch(addUpdateFavArtists(data))
     try{
        return await axios 
             .post(API_URL + "AFav/Delete",data, {headers:authHeader()})
             .then((response) => {
-              let artistToUpdate;
-              if(response.data.IsSuccess) {
-                artistToUpdate = {
-                  "AFavId": data.AFavId,
-                  "likeState": data.likeState
-                }
-              } else {
-                artistToUpdate = {
-                  "AFavId": data.AFavId,
-                  "likeState": data.likeState
-                }
-              }
-              dispatch(addUpdateFavArtists(data))
               return response;
             });
     } catch (e) {

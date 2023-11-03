@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import NavBar from '../Layout/NavBar'
 import SideNavBar from '../Layout/SideNavBar'
 import moment from "moment";
-import { getSlots, addArtistSlot, updateArtistSlot } from "../redux/artistSlotsSlice";
+import { getSlots, addArtistSlot, updateArtistSlot } from "../redux/artistSlice";
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar'
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import { Modal } from 'react-bootstrap';
@@ -18,11 +18,11 @@ const mLocalizer = momentLocalizer(moment)
 
 const ArtistAvailSlot = () => {
   const dispatch = useDispatch();
-  const { loading, addUpdateLoading, error, slots } = useSelector(state => state.artistSlots);
+  const { artistSlotsloading, artistSlotsAddUpdateLoading, artistSlotsError, artistSlots } = useSelector(state => state.artist);
   const { ArtistId } = useSelector(state => state.userAuth);
 
 
-    const [myEvents, setEvents] = useState(slots)
+    const [myEvents, setEvents] = useState(artistSlots)
     const [show, setShow] = useState(false);
     const [slotPrice,setSlotPrice] = useState("");
     const [travelPrice,setTravelPrice] = useState("");
@@ -33,7 +33,7 @@ const ArtistAvailSlot = () => {
     const [slotBooked, setSlotBooked] = useState(false);
     const [editedSlotId,setEditedSlotId] = useState(0);
 
-    const events = slots.map((slt)=>{
+    const events = artistSlots.map((slt)=>{
         return {
           id: slt.ASlotId,
           title: "Price: "+slt.PerShowRate,
@@ -83,10 +83,10 @@ const ArtistAvailSlot = () => {
       if(editedSlotId === 0) {
         //add
         dispatch(addArtistSlot(data)).then((res) => {
-            if(!addUpdateLoading) {
+            if(!artistSlotsAddUpdateLoading) {
               handleClose();
               successToast("Slot added.")
-            } else if(error) {
+            } else if(artistSlotsError) {
               alert('api error');
             }
         });
@@ -94,11 +94,11 @@ const ArtistAvailSlot = () => {
         //update
         data[0].aslotid = editedSlotId;
         dispatch(updateArtistSlot(data)).then((res) => {
-            if(!addUpdateLoading) {
+            if(!artistSlotsAddUpdateLoading) {
               handleClose();
               setEditedSlotId(0);
               successToast("Slot updated.");
-            } else if(error) {
+            } else if(artistSlotsError) {
               alert('api error');
             }
         });
@@ -197,7 +197,7 @@ const ArtistAvailSlot = () => {
                   <NavBar />
               </div>
               <div className="main-content">
-                {loading ? (
+                {artistSlotsloading ? (
                   <Row>
                     <Col xl={3} lg={3} md={4} sm={12}>
                       <Skeleton className="mr-1" width="32%" inline={true} height="30px" />
@@ -273,7 +273,7 @@ const ArtistAvailSlot = () => {
                       </div>
                   </div>
                   <div className="expert-panel-sec">
-                    {addUpdateLoading ? (
+                    {artistSlotsAddUpdateLoading ? (
                       <ThreeDotLoader />
                     ):(                    
                       <Form onSubmit={handleSubmit}>

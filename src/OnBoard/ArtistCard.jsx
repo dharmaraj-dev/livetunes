@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 const ArtistCard = (props) => {
     const { filteredArtists } = useSelector(state => state.user);
     const {user} = useSelector(state => state.userAuth);
-    console.log(user);
 
     useEffect(() => {
 
@@ -41,28 +40,30 @@ const ArtistCard = (props) => {
                             <StarRate />
                         </div>
                         <div className="music-detail">
-                            <p className="name l-sb">{artist.ArtistName}</p>
-                            <Stack direction="horizontal" gap={2} className="from-select-filter">
-                                <div className="inner-from-select-filter">First item</div>
-                                <div className="inner-from-select-filter">Second item</div>
-                                <div className="inner-from-select-filter">Third item</div>
-                            </Stack>
-                            <div className="music-short-detail">
-                                <Stack direction="vertical" className="">
-                                    <div className="">
-                                        <span className="ico-sec"><BiTime className="red-color" /></span> <span>{artist.ArtistTimeDur}</span>
-                                    </div>
-                                    <div className="">
-                                        <span className="ico-sec"><TbMessageLanguage className="red-color" /></span> <span>{artist.ArtistLanguage}</span>
-                                    </div>
-                                    <div className="">
-                                        <span className="ico-sec"><IoLocationOutline className="red-color" /></span> <span>{artist.ArtistCity}</span>
-                                    </div>
-                                    <div className="">
-                                        <span className="ico-sec"><TbCurrencyRupee className="red-color" /></span> <span className="price red-color l-sb">{artist.ArtistCharges}</span>
-                                    </div>
+                            <Link to={`/artist-details/${artist.ArtistName.replace(/ /g,"-")}/${btoa(artist.ArtistId)}/${btoa(user?.RegId)}`}>
+                                <p className="name l-sb">{artist.ArtistName}</p>
+                                <Stack direction="horizontal" gap={2} className="from-select-filter">
+                                    {artist?.MulVariety.split(',').map((mulVar,index) => {
+                                        return (<div key={`mulVar_${index}`} className="inner-from-select-filter">{mulVar}</div>)
+                                    })}
                                 </Stack>
-                            </div>
+                                <div className="music-short-detail">
+                                    <Stack direction="vertical" className="">
+                                        <div className="">
+                                            <span className="ico-sec"><BiTime className="red-color" /></span> <span>{artist.ArtistTimeDur}</span>
+                                        </div>
+                                        <div className="">
+                                            <span className="ico-sec"><TbMessageLanguage className="red-color" /></span> <span>{artist.ArtistLanguage}</span>
+                                        </div>
+                                        <div className="">
+                                            <span className="ico-sec"><IoLocationOutline className="red-color" /></span> <span>{artist.ArtistCity}</span>
+                                        </div>
+                                        <div className="">
+                                            <span className="ico-sec"><TbCurrencyRupee className="red-color" /></span> <span className="price red-color l-sb">{artist.ArtistCharges}</span>
+                                        </div>
+                                    </Stack>
+                                </div>
+                            </Link>
                         </div>
                         <div className="artist-list-like">
                             <Heartlike props={artist}/>

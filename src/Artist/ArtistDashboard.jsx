@@ -17,11 +17,11 @@ import Dfestival from '../assets/images/noun-festival.png';
 import Dbirthday from '../assets/images/noun-birthday.png';
 import { Link } from "react-router-dom";
 import { useDispatch ,useSelector } from "react-redux";
-import { getArtistDetails } from "../redux/artistDetailsSlice";
+import { getArtistDetails } from "../redux/artistSlice";
 
 const ArtistDashboard = () => {
     const dispatch = useDispatch();
-    const {loading, details} = useSelector(state => state.artistDetails);
+    const {artistDetailsLoading, artistDetails} = useSelector(state => state.artist);
     const { ArtistId } = useSelector(state => state.userAuth);
     useEffect(()=>{
         window.scrollTo(0, 0);
@@ -156,7 +156,7 @@ const ArtistDashboard = () => {
                             </Col>
                             <Col xl={4} lg={6} md={12}>
                                 <div className="artist-dashboard-artist-info-sec">
-                                    <ArtistInfo loading={loading} artistId={ArtistId} artistDetails={details}/>
+                                    <ArtistInfo loading={artistDetailsLoading} artistId={ArtistId} artistDetails={artistDetails}/>
                                 </div>
                                 <div className="main-artist-transacation">
                                     <div className="header-sec">

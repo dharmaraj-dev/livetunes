@@ -114,14 +114,14 @@ const SideNavBar = () => {
 					links: "/favourites"
 				},
 				{
-					text: "Settings ",
-					icon: <SlSettings className="menu-item-icon"/>,
-					links: "/settings"
-				},
-				{
 					text: "Support",
 					icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
 					links: "#"
+				},
+				{
+					text: "Settings ",
+					icon: <SlSettings className="menu-item-icon"/>,
+					links: "/settings"
 				}
 			]);
 		}

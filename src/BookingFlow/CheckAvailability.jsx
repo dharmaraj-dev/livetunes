@@ -13,7 +13,7 @@ import { Navigate, useNavigate  } from 'react-router-dom';
 import { InlineWidget } from "react-calendly";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchArtistDetails } from "../redux/artistDetailsSlice";
+import { fetchArtistDetails } from "../redux/artistSlice";
 
 
 const CheckAvailability = () => {
@@ -21,7 +21,7 @@ const CheckAvailability = () => {
     const childRef = useRef();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {loading, details} = useSelector(state => state.artistDetails);
+    const {artistDetailsLoading, artistDetails} = useSelector(state => state.artist);
     const { selectedSlots, ExMiscCharges } = useSelector(state => state.userBooking);
 
     const artistId = atob(params.artistId);
@@ -54,8 +54,8 @@ const CheckAvailability = () => {
                         <Row>
                             <Col className="booking-venue-form-section" xl={7} lg={6} md={12}>
                                 <EventDetailVenue 
-                                    loading={loading}
-                                    artistDetails={details}
+                                    loading={artistDetailsLoading}
+                                    artistDetails={artistDetails}
                                     artistId={artistId}
                                     //setSlotForAvailability={selectSlot}
                                     selectedSlots={selectedSlots}
@@ -63,10 +63,10 @@ const CheckAvailability = () => {
                             </Col>
                             <Col xl={5} lg={6} md={12} className="main-checkavailability-right-sec">
                                 <div className="checkavailability-right-sec">
-                                    <ArtistInfo loading={loading} artistId={artistId} artistDetails={details}/>
+                                    <ArtistInfo loading={artistDetailsLoading} artistId={artistId} artistDetails={artistDetails}/>
                                     {selectedSlots === null ? (
                                         <div className="main-value-card-sec align-center">
-                                            <ValueCard loading={loading} artistDetails={details}/>
+                                            <ValueCard loading={artistDetailsLoading} artistDetails={artistDetails}/>
                                         </div>
                                     ):(
                                         <div className="main-billing-details">

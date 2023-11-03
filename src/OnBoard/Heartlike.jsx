@@ -16,6 +16,7 @@ const Heartlike = ({props}) => {
       if(props?.IsFavArtist) {
         const data = {
           "AFavId": props?.AFavId,
+          "ArtId":props?.ArtistId,
           "likeState": false
         }
         dispatch(removeFavArtist(data));

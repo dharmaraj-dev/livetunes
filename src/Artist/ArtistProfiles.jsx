@@ -12,7 +12,6 @@ import Stack from 'react-bootstrap/Stack';
 import PhoneInput from "react-phone-input-2";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfileData } from "../actions/artist";
-import { getCitiesOfState } from "../actions/common";
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import moment from "moment";
 import { getProfileData } from "../actions/artist";
@@ -28,7 +27,7 @@ const ArtistProfiles = () => {
     let navigate = useNavigate();
 
     const [pageLoading, setPageLoading] = useState(true);
-    const { cities, states, categories, gernes, languages, events, eventModes, citiesOfState } = useSelector(state => state.common);
+    const { cities, states, categories, gernes, languages, events, eventModes } = useSelector(state => state.common);
     const { artistProfileData } = useSelector(state => state.artist);
     const { joiningType, IsProfileSend, ArtistIsApproved } = useSelector(state => state.userAuth);
 
@@ -77,12 +76,6 @@ const ArtistProfiles = () => {
     const [options4] =useState(['Weddings','Religious','Café Gigs','Music Festivals','Private Parties']) ;
     const [options5] =useState(['Valentines day','Mothers day','Fathers day','Propasal special','Independence day']) ;
     const [options6] =useState(['Google meets','zoom','discord']) ;
-
-    const selectStateAndGetItsCities = (stateId) => {
-        if(stateId !== "" && stateId !== null && stateId !== undefined) {
-            dispatch(getCitiesOfState(stateId));
-        }
-    }
 
     const selectCategory = (selectedList, selectedItem) => {
         setSelCategories(selectedList);
@@ -260,7 +253,6 @@ const ArtistProfiles = () => {
             setContactNo(artistProfileData?.selApInfo?.ContactNo);
             setEmail(artistProfileData?.selApInfo?.EmailId);
             setStateId(artistProfileData?.selApInfo?.StateId);
-            selectStateAndGetItsCities(artistProfileData?.selApInfo?.StateId);
             setCityId(artistProfileData?.selApInfo?.CityId);
             setAboutMe(artistProfileData?.selAPDetails?.BriefIntro);
 
@@ -407,7 +399,6 @@ const ArtistProfiles = () => {
             setContactNo(artistProfileData?.selApInfo?.ContactNo);
             setEmail(artistProfileData?.selApInfo?.EmailId);
             setStateId(artistProfileData?.selApInfo?.StateId);
-            selectStateAndGetItsCities(artistProfileData?.selApInfo?.StateId);
             setCityId(artistProfileData?.selApInfo?.CityId);
             setAboutMe(artistProfileData?.selAPDetails?.BriefIntro);
 
@@ -684,7 +675,7 @@ const ArtistProfiles = () => {
                                     <Col lg={6} md="12" className="mb-4">
                                         <Form.Label className="l-sb">City:
                                             <p className="l-r sub-head">
-                                                {citiesOfState?.filter((key) => !key.IsCancelled && key.CityId === cityId).map((city, index) => {
+                                                {cities?.filter((key) => !key.IsCancelled && key.CityId === cityId).map((city, index) => {
                                                     return (city.CityName)
                                                 })}
                                             </p>
