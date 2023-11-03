@@ -12,6 +12,8 @@ import { TbCurrencyRupee } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import Heartlike from "./Heartlike";
 import { useDispatch, useSelector } from "react-redux";
+import { Rating } from 'react-simple-star-rating'
+
 
 const ArtistCard = (props) => {
     const { filteredArtists } = useSelector(state => state.user);
@@ -37,7 +39,12 @@ const ArtistCard = (props) => {
                             <div className="avtar-img">
                                 <img src={artist.ArtistProfileImg} alt="" className="w-100" />
                             </div>
-                            <StarRate />
+                            <Rating 
+                              size={27}
+                              initialValue={4}
+                              fillColor="#fd3743"
+                              readonly={true}
+                            />
                         </div>
                         <div className="music-detail">
                             <Link to={`/artist-details/${artist.ArtistName.replace(/ /g,"-")}/${btoa(artist.ArtistId)}/${btoa(user?.RegId)}`}>

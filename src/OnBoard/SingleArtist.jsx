@@ -158,7 +158,9 @@ const SingleArtist = () => {
                                             <p className="s-head l-b">Videos and images</p>
                                         </div>
                                         <Tabs
-                                        defaultActiveKey={artistDetails?.selLtMedia.filter((photo) => { return !photo.LTMediaLogName.endsWith('.mp4')}).length > 0 ? "photos" : "videos"}
+                                        defaultActiveKey={
+                                            artistDetails?.selLtMedia.filter((photo) => { return !photo.LTMediaLogName.endsWith('.mp4')}).length > 0 ? "photos" : "videos"
+                                        }
                                         id="uncontrolled-tab-example"
                                         className="mb-3 justify-content-end video-photos-sec"
                                         >
@@ -167,9 +169,11 @@ const SingleArtist = () => {
                                                     <Gallery data={artistDetails}/>
                                                 </Tab>
                                             )}
-                                            <Tab eventKey="videos" title="Videos">
-                                                <Videos data={artistDetails}/>
-                                            </Tab>
+                                            {artistDetails?.selLtMedia.filter((photo) => { return photo.LTMediaLogName.endsWith('.mp4')}).length > 0 && (
+                                                <Tab eventKey="videos" title="Videos">
+                                                    <Videos data={artistDetails}/>
+                                                </Tab>
+                                            )}
                                         </Tabs>
                                     </section>
                                 </section>
@@ -401,7 +405,7 @@ const SingleArtist = () => {
                                     </div>
                                     <Faq data={artistDetails?.selQuestLog}/>
                                 </section> 
-                                {artistDetails?.selOtherArtist.length > 0 && (
+                                {artistDetails?.selOtherArtist?.length > 0 && (
                                 <section className="main-livetune-details">
                                     <div className="s-heading">
                                         <p className="s-head l-b">Artists you might like</p>

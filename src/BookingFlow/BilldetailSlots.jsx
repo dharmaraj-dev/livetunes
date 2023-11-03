@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 
 
 const BilldetailSlots = (props) => {
-    console.log('props.coupon', props.coupon)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -122,9 +121,9 @@ const BilldetailSlots = (props) => {
     }
 
     useEffect(() => {
-        if(payFromCartSuccess || payFromCartError) {
-            setShowDialogue(true);
-        }
+        // if(payFromCartSuccess || payFromCartError) {
+        //     setShowDialogue(true);
+        // }
     }, [payFromCartSuccess, payFromCartError])
 
   return (

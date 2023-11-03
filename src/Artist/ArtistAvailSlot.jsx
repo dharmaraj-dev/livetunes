@@ -138,7 +138,6 @@ const ArtistAvailSlot = () => {
     
       const handleSelectEvent = useCallback(
         (event) => {
-          console.log(moment(event.start).isBefore())
           if(moment(event.start).isBefore()) {
             setSlotDisabled(true);
           }

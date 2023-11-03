@@ -7,6 +7,7 @@ import { MdOutlineDateRange } from "react-icons/md";
 import { CgToday } from "react-icons/cg";
 import moment from 'moment';
 import {Link} from "react-router-dom";
+import { Rating } from 'react-simple-star-rating'
 
 
 const UpcomeBookings = (props) => {
@@ -28,7 +29,7 @@ const UpcomeBookings = (props) => {
             <div className="inner-artist-detail">
               <h4 className="l-sb">{props.data.ArtistName}</h4>
               <div className="value-sec l-b">
-                <span>Rs {props.data.PerShowRate}</span>
+                <span>{props.data.BillAmt}</span>
               </div>
               <Stack direction="horizontal" gap={2}>
                 <div className="red-color"><IoLocationSharp/></div>
@@ -55,8 +56,18 @@ const UpcomeBookings = (props) => {
             </div>
           </div>
           <div className="cart-footer">
-            
-          </div>
+          <Stack direction="horizontal" gap={3}>
+            <div className="d-flex gap-2">
+               <Rating 
+                  size={27}
+                  initialValue={4}
+                  fillColor="#fd3743"
+                  readonly={true}
+                />
+               <h5 className="l-r">(overall ratings)</h5>
+            </div>
+          </Stack>
+        </div>
         </div>
     </>
   )

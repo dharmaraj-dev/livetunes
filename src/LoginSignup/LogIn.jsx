@@ -20,7 +20,6 @@ const LogIn = () => {
 
     const { isLoggedIn, joiningType } = useSelector(state => state.userAuth);
     const {isSettingsSaved} = useSelector(state => state.userSettings);
-    console.log(joiningType);
     const [phone, setPhone] = useState("");
     const [loading, setLoading] = useState(false);
     const [displayMessage, setDisplayMessage] = useState("");
@@ -48,7 +47,6 @@ const LogIn = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log('err', err);
         errorToast(err.message);
         setDisplayMessage(err.message)
         setLoading(false);

@@ -6,54 +6,11 @@ import {
 
 import ArtistService from "../services/artist.service";
 import { setArtistIsNotSubmitted, setArtistIsPending, setArtistIsApproved, setArtistRejected, setIsArtistProfileSend } from '../redux/userAuth';
-import { setArtistProfileData, setArtistProfileDataStatus, setArtistProofData } from '../redux/artistSlice';
-  
-export const getProfileData = () => (dispatch) => {
-  return ArtistService.getProfileData().then(
-    (response) => {
-       if(response.data.IsSuccess) {
-          localStorage.setItem('artistProfileData', JSON.stringify(response.data));
-          localStorage.setItem('IsProfileSend', response.data.IsProfileSend);
-          localStorage.setItem('is_pending', response.data.is_pending);
-          localStorage.setItem('is_not_submitted', response.data.is_not_submitted);
-          localStorage.setItem('is_rejection', response.data.is_rejection);
-          localStorage.setItem('is_approved', response.data.is_approved);
-          dispatch(setArtistProfileData(response.data));
-          dispatch(setIsArtistProfileSend(response.data.IsProfileSend));
-          dispatch(setArtistIsApproved(response.data.is_approved));
-          dispatch(setArtistRejected(response.data.is_rejection));
-          dispatch(setArtistIsPending(response.data.is_pending));
-          dispatch(setArtistIsNotSubmitted(response.data.is_not_submitted))
-        }
-        else {
-          dispatch(setArtistProfileData([]));
-        }
-
-      return Promise.resolve(response);
-    },
-    (error) => {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return Promise.reject(error);
-    }
-  );
-};
+import { setArtistProofData } from '../redux/artistSlice';
 
 export const setProfileData = (data) => (dispatch) => {
   return ArtistService.setProfileData(data).then(
     (response) => {
-       if(response.IsSuccess) {
-        console.log(response);
-          dispatch(setArtistProfileData(response));
-        }
-        else {
-          dispatch(setArtistProfileData([]));
-        }
-
       return Promise.resolve(response);
     },
     (error) => {
@@ -139,7 +96,6 @@ export const setReferences = (data) => (dispatch) => {
 export const getArtistProofData = (data) => (dispatch) => {
   return ArtistService.getArtistProofData(data).then(
     (response) => {
-      console.log(response);
        if(response.data.IsSuccess) {
           localStorage.setItem('artistProofData', JSON.stringify(response.data));
           dispatch(setArtistProofData(response.data))
@@ -165,7 +121,6 @@ export const getArtistProofData = (data) => (dispatch) => {
 export const removeArtistAttachment = (data) => (dispatch) => {
   return ArtistService.removeArtistAttachment(data).then(
     (response) => {
-      console.log(response);
       return Promise.resolve(response);
     },
     (error) => {
@@ -200,7 +155,6 @@ export const submitArtistApplicationTJudge = () => (dispatch) => {
 export const updateMediaDescription = (data) => (dispatch) => {
   return ArtistService.updateMediaDescription(data).then(
     (response) => {
-      console.log(response);
       return Promise.resolve(response);
     },
     (error) => {

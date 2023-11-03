@@ -3,11 +3,11 @@ import "./WelcomeLoader.css";
 import useScript from './hooks/useScript';
 import { Navigate, useNavigate  } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { getAllMasters } from "./actions/common";
 import { setJoiningType } from './redux/userAuth';
 
-import { getProfileData, getArtistProofData } from "./actions/artist";
+import { getArtistProofData } from "./actions/artist";
 import { fetchUserProfile } from "./redux/userProfileSlice";
+
 import { useParams } from 'react-router-dom';
 
 const WelcomeLoader = () => {
@@ -39,10 +39,7 @@ const WelcomeLoader = () => {
 	      	navigate("/welcome");
 	      },7000)
 	    } else {
-	      dispatch(getAllMasters());
-	      dispatch(fetchUserProfile());
 	      if(joiningType === 'Artist') {
-	        dispatch(getProfileData());
 	        dispatch(getArtistProofData());
 	        if(ArtistIsNotSubmitted) {
 	          navigate("/artists-profile");
@@ -55,6 +52,7 @@ const WelcomeLoader = () => {
 	        navigate("/judgment-panel");
 	      } else if(joiningType === 'User'){
 	        if(isSettingsSaved) {
+	        	dispatch(fetchUserProfile());
 	          navigate("/dashboard");
 	        } else {
 	          navigate("/preferred-languages");
@@ -65,11 +63,10 @@ const WelcomeLoader = () => {
 
   return (
    <div className="logo-wrap">
-  <svg x="0px" y="0px" viewBox="0 0 945 150" id="Слой_1" xmlns="http://www.w3.org/2000/svg"  >
-    <text transform="matrix(1 0 0 1 0 125.5508)" className="st0 st1 st2">LIVETUNES</text>
-  </svg>
-
-</div>
+	  <svg x="0px" y="0px" viewBox="0 0 945 150" id="Слой_1" xmlns="http://www.w3.org/2000/svg"  >
+	    <text transform="matrix(1 0 0 1 0 125.5508)" className="st0 st1 st2">LIVETUNES</text>
+	  </svg>
+	</div>
   )
 }
 

@@ -63,7 +63,6 @@ const LocationCheck = () => {
     }
 
     useEffect(() => {
-        console.log('selectedCity', selectedCity)
     }, [selectedCity, userRequestedStates, userRequestedCities])
 
   return (

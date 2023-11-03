@@ -22,12 +22,11 @@ import { getArtistDetails } from "../redux/artistSlice";
 const ArtistDashboard = () => {
     const dispatch = useDispatch();
     const {artistDetailsLoading, artistDetails} = useSelector(state => state.artist);
-    const { ArtistId } = useSelector(state => state.userAuth);
+    //const { ArtistId } = useSelector(state => state.userAuth);
     useEffect(()=>{
         window.scrollTo(0, 0);
-
         dispatch(getArtistDetails());
-      },[ArtistId]);  
+      },[]);  
   return (
     <>
         <div className="wrapper">
@@ -53,7 +52,7 @@ const ArtistDashboard = () => {
                                             </div>
                                             <div className="">
                                                 <p className="mb-0 sub-head fs-5">Total Earned</p>
-                                                <p className="l-bl fs-2 m-0 head">₹ 56,830/-</p>
+                                                <p className="l-bl fs-2 m-0 head">₹ 0/-</p>
                                             </div>
                                         </Stack>
                                     </div>
@@ -65,7 +64,7 @@ const ArtistDashboard = () => {
                                             </div>
                                             <div className="">
                                                 <p className="mb-0 sub-head fs-5">Total rewards earned</p>
-                                                <p className="l-bl fs-2 m-0 head">₹ 56,830/-</p>
+                                                <p className="l-bl fs-2 m-0 head">₹ 0/-</p>
                                             </div>
                                         </Stack>
                                     </div>
@@ -80,7 +79,7 @@ const ArtistDashboard = () => {
                                                     </div>
                                                     <div className="">
                                                         <p className="mb-0 sub-head fs-6">Wedding events</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 20,000/-</p>
+                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
                                                     </div>
                                                 </Stack>
                                             </div>
@@ -93,7 +92,7 @@ const ArtistDashboard = () => {
                                                     </div>
                                                     <div className="">
                                                         <p className="mb-0 sub-head fs-6">Private Parties</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 20,000/-</p>
+                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
                                                     </div>
                                                 </Stack>
                                             </div>
@@ -106,7 +105,7 @@ const ArtistDashboard = () => {
                                                     </div>
                                                     <div className="">
                                                         <p className="mb-0 sub-head fs-6">Café Gigs</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 20,000/-</p>
+                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
                                                     </div>
                                                 </Stack>
                                             </div>
@@ -119,7 +118,7 @@ const ArtistDashboard = () => {
                                                     </div>
                                                     <div className="">
                                                         <p className="mb-0 sub-head fs-6">Religious Events</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 20,000/-</p>
+                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
                                                     </div>
                                                 </Stack>
                                             </div>
@@ -132,7 +131,7 @@ const ArtistDashboard = () => {
                                                     </div>
                                                     <div className="">
                                                         <p className="mb-0 sub-head fs-6">College Fests</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 20,000/-</p>
+                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
                                                     </div>
                                                 </Stack>
                                             </div>
@@ -145,7 +144,7 @@ const ArtistDashboard = () => {
                                                     </div>
                                                     <div className="">
                                                         <p className="mb-0 sub-head fs-6">Kids Shows</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 20,000/-</p>
+                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
                                                     </div>
                                                 </Stack>
                                             </div>
@@ -156,7 +155,7 @@ const ArtistDashboard = () => {
                             </Col>
                             <Col xl={4} lg={6} md={12}>
                                 <div className="artist-dashboard-artist-info-sec">
-                                    <ArtistInfo loading={artistDetailsLoading} artistId={ArtistId} artistDetails={artistDetails}/>
+                                    <ArtistInfo loading={artistDetailsLoading} artistDetails={artistDetails}/>
                                 </div>
                                 <div className="main-artist-transacation">
                                     <div className="header-sec">

@@ -81,9 +81,9 @@ const HelloScreen = () => {
                                     <Row>
                                         <Col md={8} lg={8}>
                                             <div className="hello-right-text-sec">
-                                                <h1 className="head text-white">{ev.HeadText}</h1>
-                                                <h2 className="sub-head text-white">{ev.SubText}</h2>
-                                                <p className="l-l para-text text-white">{ev.SubText1}</p>
+                                                <h1 className={`${specialEvents.length == 0 ? 'black-color' : 'text-white'} head`}>{ev.HeadText}</h1>
+                                                <h2 className={`${specialEvents.length == 0 ? 'black-color' : 'text-white'} sub-head`}>{ev.SubText}</h2>
+                                                <p className={`${specialEvents.length == 0 ? 'black-color' : 'text-white'} l-l para-text`}>{ev.SubText1}</p>
                                             </div>
                                         </Col>
                                         <Col md={4} lg={4} className="postion-r">

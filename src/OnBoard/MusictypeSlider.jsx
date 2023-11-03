@@ -70,7 +70,6 @@ const MusictypeSlider = () => {
     }
 
     function handleChange(e){
-      console.log(e.target.checked);
       if(e.target.checked){
         if(e.target.name === "electronic" && !userMusicalityTypes.includes("Electronic Music")){
           dispatch(setMusicalityTypes({type: "add", data: "Electronic Music"}));

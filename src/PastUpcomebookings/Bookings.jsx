@@ -19,6 +19,7 @@ import {resetToInitialState} from "../redux/userBookingSlice";
 const Bookings = () => {
     const dispatch = useDispatch();
     const { loading, error, message, movedToCart, pastBookings, postBookings } = useSelector(state => state.userBookings);
+    const { feedLogs } = useSelector(state => state.user);
 
 
     const renderTitle = (txt,ct) => {
@@ -70,7 +71,7 @@ const Bookings = () => {
                                                 return (
                                                     <Col xs={12} key={`past_${index}`} className="mb-4">
                                                         <BookingFor data={book.selBook} />
-                                                        <PastBookings data={book.selBook}/>
+                                                        <PastBookings data={book.selBook} feedLogs={feedLogs}/>
                                                     </Col>
                                                 )
                                             })}

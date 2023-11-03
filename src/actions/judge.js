@@ -72,7 +72,6 @@ export const getArtistProfileForJudge = (applicationId) => (dispatch) => {
 export const getArtistApplicationFeedLogs = (applicationId) => (dispatch) => {
   return JudgeService.getArtistApplicationFeedLogs(applicationId).then(
     (response) => {
-      console.log('response', response);
        if(response.data.IsSuccess) {
           localStorage.setItem('feedLogs', JSON.stringify(response.data.output_data));
           dispatch({
@@ -103,7 +102,6 @@ export const getArtistApplicationFeedLogs = (applicationId) => (dispatch) => {
 export const saveArtistReview = (data) => (dispatch) => {
   return JudgeService.saveArtistReview(data).then(
     (response) => {
-      console.log('response', response);
       return Promise.resolve(response);
     },
     (error) => {

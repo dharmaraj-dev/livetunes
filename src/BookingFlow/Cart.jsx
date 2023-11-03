@@ -86,8 +86,6 @@ const Cart = () => {
     if(type === "rewards") {
       setNewSelectedReward(data);
     }
-    
-    console.log('data', data);
   }
 
   useEffect(()=>{

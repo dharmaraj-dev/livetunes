@@ -72,7 +72,6 @@ const OneTimepass = () => {
           dispatch(logout());
           return;
         }
-        console.log('res', res);
         setOtpVerifyLoading(false);
         if(res.IsSuccess) {
           successToast("OTP verified successfully.");
@@ -86,7 +85,6 @@ const OneTimepass = () => {
       })
       .catch((err) => {
         setOtpVerifyLoading(false);
-        console.log('err', err);
         errorToast(err.message);
       });
     } else {
@@ -100,7 +98,6 @@ const OneTimepass = () => {
 
     dispatch(resendOtp(otpSentTo))
     .then((res) => {
-      console.log('res', res);
       if(res.IsSuccess) {
         setInput1("");
         setInput2("");
@@ -115,7 +112,6 @@ const OneTimepass = () => {
       setLoading(false);
     })
     .catch((err) => {
-      console.log('err', err);
       errorToast(err.message);
       setLoading(false);
     });
@@ -125,7 +121,6 @@ const OneTimepass = () => {
     setCanResendOtp(false);
     let countDown = 30;
     const resetOtpTimer = setInterval(() => {
-      console.log('countDown', countDown);
       countDown -= 1;
       if(countDown > 0) {
         setOtpTimer(countDown)

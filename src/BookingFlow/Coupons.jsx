@@ -9,7 +9,6 @@ import Suce from "../components/suce.json";
 import { Tabs, Tab} from "react-bootstrap";
 
 const Coupons = (props) => {
-  console.log(props)
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
   const [selectedCouponData, setSelectedCouponData] = useState("");

@@ -288,7 +288,6 @@ export const getBanks = () => (dispatch) => {
 export const getBranchesByBank = (BankId) => (dispatch) => {
   return CommonService.getBranchesByBank(BankId).then(
     (response) => {
-      console.log('response', response);
       if(response.data.IsSuccess) {
         dispatch({
           type: GET_BRANCHES,

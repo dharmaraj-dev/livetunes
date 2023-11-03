@@ -7,7 +7,7 @@ import { BsFillStarFill } from "react-icons/bs";
 import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
 import { useDispatch } from 'react-redux';
 
-const ArtistInfo = ({loading, artistId, artistDetails}) => {
+const ArtistInfo = ({loading, artistDetails}) => {
   const dispatch = useDispatch();
   
   useEffect(()=>{

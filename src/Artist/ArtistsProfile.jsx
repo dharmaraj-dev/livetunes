@@ -17,7 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProfileData } from "../actions/artist";
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import moment from "moment";
-import { getProfileData, submitArtistApplicationTJudge } from "../actions/artist";
+//import { submitArtistApplicationTJudge } from "../actions/artist";
+import { getArtistDetails, submitArtistApplicationTJudge } from "../redux/artistSlice";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
@@ -38,7 +39,7 @@ const ArtistsProfile = (props) => {
     const audio = new Audio(DhanTeNan);
 
     const { cities, states, categories, gernes, languages, events, eventModes } = useSelector(state => state.common);
-    const { artistProfileData } = useSelector(state => state.artist);
+    const { artistDetails } = useSelector(state => state.artist);
     const { IsProfileSend } = useSelector(state => state.userAuth);
    
 
@@ -142,14 +143,14 @@ const ArtistsProfile = (props) => {
             } else {
 
                 if(
-                    firstName === artistProfileData?.selApInfo?.FirstName &&
-                    lastName === artistProfileData?.selApInfo?.LastName &&
-                    contactNo === artistProfileData?.selApInfo?.ContactNo &&
-                    email === artistProfileData?.selApInfo?.EmailId &&
-                    stateId === artistProfileData?.selApInfo?.StateId && 
-                    cityId === artistProfileData?.selApInfo?.CityId &&
-                    dob === moment(artistProfileData?.selApInfo?.DateOfBirth).format("YYYY-MM-DD") &&
-                    gender === artistProfileData?.selApInfo?.Gender
+                    firstName === artistDetails?.selApInfo?.FirstName &&
+                    lastName === artistDetails?.selApInfo?.LastName &&
+                    contactNo === artistDetails?.selApInfo?.ContactNo &&
+                    email === artistDetails?.selApInfo?.EmailId &&
+                    stateId === artistDetails?.selApInfo?.StateId && 
+                    cityId === artistDetails?.selApInfo?.CityId &&
+                    dob === moment(artistDetails?.selApInfo?.DateOfBirth).format("YYYY-MM-DD") &&
+                    gender === artistDetails?.selApInfo?.Gender
                 ) {
                     infoToast('Nothing new to save...');
                     setCurrentStep(step);
@@ -177,7 +178,7 @@ const ArtistsProfile = (props) => {
                     if(response.data.IsSuccess) {
                         successToast(response.data.Message);
                         setCurrentStep(step);
-                        dispatch(getProfileData());
+                        dispatch(getArtistDetails());
                     } else {
                         errorToast(response.data.Message);
                     }
@@ -229,49 +230,49 @@ const ArtistsProfile = (props) => {
             }
             else {
                 if(
-                    selCategories.map(a => a.CategoryId)?.join(",") === artistProfileData?.selAPDetails?.CategoryId &&
-                    selCategories.map(a => a.CategoryName)?.join(",") === artistProfileData?.selAPDetails?.CategoryName &&
-                    selGernes.map(a => a.GenreId)?.join(",") === artistProfileData?.selAPDetails?.GenreId &&
-                    selGernes.map(a => a.GenreName)?.join(",") === artistProfileData?.selAPDetails?.GenreName &&
-                    selLanguages.map(a => a.LanguageId)?.join(",") === artistProfileData?.selAPDetails?.LanguageId && 
-                    selLanguages.map(a => a.LanguageName)?.join(",")=== artistProfileData?.selAPDetails?.LanguageName && 
-                    selPrefEvents.map(a => a.EventsId)?.join(",") === artistProfileData?.selAPDetails?.EventsId &&
-                    selPrefEvents.map(a => a.EventsName)?.join(",") === artistProfileData?.selAPDetails?.EventsName &&
+                    selCategories.map(a => a.CategoryId)?.join(",") === artistDetails?.selAPDetails?.CategoryId &&
+                    selCategories.map(a => a.CategoryName)?.join(",") === artistDetails?.selAPDetails?.CategoryName &&
+                    selGernes.map(a => a.GenreId)?.join(",") === artistDetails?.selAPDetails?.GenreId &&
+                    selGernes.map(a => a.GenreName)?.join(",") === artistDetails?.selAPDetails?.GenreName &&
+                    selLanguages.map(a => a.LanguageId)?.join(",") === artistDetails?.selAPDetails?.LanguageId && 
+                    selLanguages.map(a => a.LanguageName)?.join(",")=== artistDetails?.selAPDetails?.LanguageName && 
+                    selPrefEvents.map(a => a.EventsId)?.join(",") === artistDetails?.selAPDetails?.EventsId &&
+                    selPrefEvents.map(a => a.EventsName)?.join(",") === artistDetails?.selAPDetails?.EventsName &&
 
-                    expInYears === artistProfileData?.selAPDetails?.PExperience &&
+                    expInYears === artistDetails?.selAPDetails?.PExperience &&
 
-                    (selWillingToTravel === 1 ? true : false) === artistProfileData?.selAPDetails?.YesOtherState &&
-                    (selWillingToTravel === 0 ? true : false) === artistProfileData?.selAPDetails?.NoOtherState &&
-                    (selWillingToTravel === 2 ? true : false) === artistProfileData?.selAPDetails?.IsOtherState &&
-
-
-                    selExpState.map(a => a.StateId)?.join(",") === artistProfileData?.selAPDetails?.OtherStateId &&
-                    selExpState.map(a => a.StateName)?.join(",") === artistProfileData?.selAPDetails?.OtherStateName &&
-
-                    (selPerfDuration === 1 ? true : false) === artistProfileData?.selAPDetails?.PDuration1Hr &&
-                    (selPerfDuration === 2 ? true : false) === artistProfileData?.selAPDetails?.PDuration2Hr &&
-                    (selPerfDuration > 2 ? true : false) === artistProfileData?.selAPDetails?.PDurationM2Hr &&
-                    (selPerfDuration > 2 ? selPerfDuration : null) === artistProfileData?.selAPDetails?.DurationRemark &&
-                    (selChargesType === 1 ? true : false) === artistProfileData?.selAPDetails?.IsPerShow &&
-
-                    (selChargesType === 0 ? true : false) === artistProfileData?.selAPDetails?.IsPerHr &&
+                    (selWillingToTravel === 1 ? true : false) === artistDetails?.selAPDetails?.YesOtherState &&
+                    (selWillingToTravel === 0 ? true : false) === artistDetails?.selAPDetails?.NoOtherState &&
+                    (selWillingToTravel === 2 ? true : false) === artistDetails?.selAPDetails?.IsOtherState &&
 
 
-                    selChargesFrom === artistProfileData?.selAPDetails?.FromCharge &&
-                    selChargesTo === artistProfileData?.selAPDetails?.ToCharge &&
+                    selExpState.map(a => a.StateId)?.join(",") === artistDetails?.selAPDetails?.OtherStateId &&
+                    selExpState.map(a => a.StateName)?.join(",") === artistDetails?.selAPDetails?.OtherStateName &&
 
-                    (selPrivSurpEvent === 1 ? true : false) === artistProfileData?.selAPDetails?.YesPEvents &&
-                    (!selPrivSurpEvent === 0 ? true : false) === artistProfileData?.selAPDetails?.NoPEvents &&
+                    (selPerfDuration === 1 ? true : false) === artistDetails?.selAPDetails?.PDuration1Hr &&
+                    (selPerfDuration === 2 ? true : false) === artistDetails?.selAPDetails?.PDuration2Hr &&
+                    (selPerfDuration > 2 ? true : false) === artistDetails?.selAPDetails?.PDurationM2Hr &&
+                    (selPerfDuration > 2 ? selPerfDuration : null) === artistDetails?.selAPDetails?.DurationRemark &&
+                    (selChargesType === 1 ? true : false) === artistDetails?.selAPDetails?.IsPerShow &&
 
-                    selPrivSurpEventMode.map(a => a.EventModeId)?.join(",") === artistProfileData?.selAPDetails?.ModeId &&
-                    selPrivSurpEventMode.map(a => a.EventModeName)?.join(",") === artistProfileData?.selAPDetails?.ModeName &&
+                    (selChargesType === 0 ? true : false) === artistDetails?.selAPDetails?.IsPerHr &&
 
-                    (selAvailVirtualEvent === 1 ? true : false) === artistProfileData?.selAPDetails?.YesVEvents &&
-                    (!selAvailVirtualEvent === 0 ? true : false) === artistProfileData?.selAPDetails?.NoVEvents &&
 
-                    selAvailVirtualEventType.map(a => a.EventsId)?.join(",") === artistProfileData?.selAPDetails?.EventTypeId  &&
-                    selAvailVirtualEventType.map(a => a.EventsName)?.join(",") === artistProfileData?.selAPDetails?.EventTypeName  &&
-                    selAboutArtist === artistProfileData?.selAPDetails?.BriefIntro
+                    selChargesFrom === artistDetails?.selAPDetails?.FromCharge &&
+                    selChargesTo === artistDetails?.selAPDetails?.ToCharge &&
+
+                    (selPrivSurpEvent === 1 ? true : false) === artistDetails?.selAPDetails?.YesPEvents &&
+                    (!selPrivSurpEvent === 0 ? true : false) === artistDetails?.selAPDetails?.NoPEvents &&
+
+                    selPrivSurpEventMode.map(a => a.EventModeId)?.join(",") === artistDetails?.selAPDetails?.ModeId &&
+                    selPrivSurpEventMode.map(a => a.EventModeName)?.join(",") === artistDetails?.selAPDetails?.ModeName &&
+
+                    (selAvailVirtualEvent === 1 ? true : false) === artistDetails?.selAPDetails?.YesVEvents &&
+                    (!selAvailVirtualEvent === 0 ? true : false) === artistDetails?.selAPDetails?.NoVEvents &&
+
+                    selAvailVirtualEventType.map(a => a.EventsId)?.join(",") === artistDetails?.selAPDetails?.EventTypeId  &&
+                    selAvailVirtualEventType.map(a => a.EventsName)?.join(",") === artistDetails?.selAPDetails?.EventTypeName  &&
+                    selAboutArtist === artistDetails?.selAPDetails?.BriefIntro
                 ) {
                     infoToast('Nothing new to save...');
                     setCurrentStep(step);
@@ -319,7 +320,7 @@ const ArtistsProfile = (props) => {
                     if(response.data.IsSuccess) {
                         successToast(response.data.Message);
                         setCurrentStep(step);
-                        dispatch(getProfileData());
+                        dispatch(getArtistDetails());
                     } else {
                         errorToast(response.data.Message);
                     }
@@ -334,10 +335,10 @@ const ArtistsProfile = (props) => {
             if(fbUrl !=  ("" || undefined) || instaUrl !=  ("" || undefined) || youtubeUrl != ("" || undefined) || websiteUrl != ("" || undefined)) {
 
                 if(
-                    fbUrl === artistProfileData?.selASDetails?.FacebookLink &&
-                    instaUrl === artistProfileData?.selASDetails?.InstagramLink &&
-                    youtubeUrl === artistProfileData?.selASDetails?.YouTubeLink &&
-                    websiteUrl === artistProfileData?.selASDetails?.OtherLink 
+                    fbUrl === artistDetails?.selASDetails?.FacebookLink &&
+                    instaUrl === artistDetails?.selASDetails?.InstagramLink &&
+                    youtubeUrl === artistDetails?.selASDetails?.YouTubeLink &&
+                    websiteUrl === artistDetails?.selASDetails?.OtherLink 
                 ) {
                     infoToast('Nothing new to save...');
                     setCurrentStep(step);
@@ -357,7 +358,7 @@ const ArtistsProfile = (props) => {
                     if(response.data.IsSuccess) {
                         successToast(response.data.Message);
                         setCurrentStep(step);
-                        dispatch(getProfileData());
+                        dispatch(getArtistDetails());
                     } else {
                         errorToast(response.data.Message);
                     }
@@ -384,13 +385,13 @@ const ArtistsProfile = (props) => {
 
     const submbitForReview = () => {
         let atLeastOneVideo = false;
-        artistProfileData?.selLtMedia?.filter((key) => key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
+        artistDetails?.selLtMedia?.filter((key) => key.LTMediaURL.includes(".mp4")).map((eveFile, index) => {
             atLeastOneVideo = true;
         });
-        if(artistProfileData?.selProfileImage.length == 0) {
+        if(artistDetails?.selProfileImage.length == 0) {
             errorToast("Profile picture is required.");
             return false;
-        }else if(artistProfileData?.selLtMedia?.length < 2) {
+        }else if(artistDetails?.selLtMedia?.length < 2) {
             errorToast("Min 2 attachments are required with atleast 1 video file.");
             return false;
         }else if(!atLeastOneVideo) {
@@ -444,7 +445,6 @@ const ArtistsProfile = (props) => {
 
     const assignCityStateName = (id) => {
         const data = cities.filter((cts)=>cts.StateId == id);
-        console.log('data', data)
         if(data.length > 0) {
             setStateName(data[0].StateName);
             setCityName(data[0].CityName);
@@ -452,8 +452,6 @@ const ArtistsProfile = (props) => {
             setStateName("");
             setCityName("");
         }
-
-        console.log(stateName, cityName);
     }
 
     const selectCategory = (selectedList, selectedItem) => {
@@ -514,8 +512,7 @@ const ArtistsProfile = (props) => {
 
     const refreshStatus = () => {
         setCheckStatus(true);
-        dispatch(getProfileData()).then((res) => {
-            console.log('res', res)
+        dispatch(getArtistDetails()).then((res) => {
             successToast(res.data.ProfileStatus);
             setCheckStatus(false);
             if(res.data.is_approved) {
@@ -556,7 +553,7 @@ const ArtistsProfile = (props) => {
     }
 
     useEffect(() => {
-            dispatch(getProfileData()).then((res) => {
+            dispatch(getArtistDetails()).then((res) => {
                 setPageLoading(false);
                 if(res.data?.selApInfo?.FirstName !== null) {
                     setFirstName(res.data?.selApInfo?.FirstName);
@@ -714,7 +711,6 @@ const ArtistsProfile = (props) => {
                     setShow(true);
                 }
             }).catch((err) => {
-                console.log(err)
                 navigate('/')
             })
     }, [])
@@ -733,7 +729,6 @@ const ArtistsProfile = (props) => {
         if(e.key=="Tab"){
             e.preventDefault();
             const nextfield = document.querySelector(`select[name=state]`);
-            console.log(nextfield);
             nextfield.focus();
           }
     }

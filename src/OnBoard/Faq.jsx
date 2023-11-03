@@ -4,7 +4,7 @@ import Accordion from 'react-bootstrap/Accordion';
 const Faq = (props) => {
   return (
     <Accordion>
-        {props?.data.map((faqData,index) => {
+        {props?.data?.map((faqData,index) => {
             return (
                 <Accordion.Item eventKey={index} key={`faq_${index}`}>
                     <Accordion.Header>{faqData.QuestName}</Accordion.Header>

@@ -33,7 +33,6 @@ const slice = createSlice({
       state.homeLoading = false;
     },
     dataSuccess: (state, action) => {
-    	console.log('action.payload', action.payload)
 		if(action.payload.IsSuccess) {
       if(action.payload.default_data.length > 0) {
         state.headerBanner = action.payload.default_data;

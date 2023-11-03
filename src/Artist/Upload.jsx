@@ -13,7 +13,8 @@ import { successToast, errorToast, infoToast } from "../services/toast-service";
 import { useDispatch, useSelector } from "react-redux";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { getProfileData, removeArtistAttachment, updateMediaDescription } from "../actions/artist";
+import { removeArtistAttachment, updateMediaDescription } from "../actions/artist";
+import { getArtistDetails } from "../redux/artistSlice";
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -27,7 +28,7 @@ const Upload = () => {
     const {ArtistIsApproved} = useSelector(state => state.userAuth);
 
 
-    const { artistProfileData } = useSelector(state => state.artist);
+    const { artistDetails } = useSelector(state => state.artist);
 
 
     const [profilePic, setProfilePic] = useState([])
@@ -42,12 +43,10 @@ const Upload = () => {
 
     const [file, setFile] = useState();
     function handleChange(e) {
-        console.log(e.target.files);
         setFile(URL.createObjectURL(e.target.files[0]));
     }
 
     const handleInit = () => {
-        console.log("FilePond instance has initialised", profilePic);
     }
 
     const handleUpdate = (fileItems) => {
@@ -69,7 +68,7 @@ const Upload = () => {
           preConfirm: () => {
             return dispatch(removeArtistAttachment(mediaId)).then((response) => {
                 if(response.data.IsSuccess) {
-                    return dispatch(getProfileData()).then((res) => {
+                    return dispatch(getArtistDetails()).then((res) => {
                         setAlreadyAddedEventsFiles(res.data.selLtMedia);
                         setMaxAllowedFiles( 5 - res.data.selLtMedia.length);
                         return res;
@@ -81,7 +80,6 @@ const Upload = () => {
           },
           allowOutsideClick: () => false
         }).then((result) => {
-            console.log('result', result);  
           if (result.isConfirmed && result.value) {
                 Swal.fire('File deleted successfully!', '', 'success');
           } else {
@@ -110,22 +108,19 @@ const Upload = () => {
 
 
     useEffect(() => {
-        console.log(ArtistIsApproved);
-        if(artistProfileData) {
-             if(artistProfileData?.selLtMedia?.length > 0){
-                setAlreadyAddedEventsFiles(artistProfileData?.selLtMedia);
-                setMaxAllowedFiles( 5 - artistProfileData?.selLtMedia?.length);
+        if(artistDetails) {
+             if(artistDetails?.selLtMedia?.length > 0){
+                setAlreadyAddedEventsFiles(artistDetails?.selLtMedia);
+                setMaxAllowedFiles( 5 - artistDetails?.selLtMedia?.length);
              } else {
                 setMaxAllowedFiles(5);
              }
-            if(artistProfileData?.selProfileImage?.length > 0) {
-                setProfilePicPrev(artistProfileData?.selProfileImage[0].LTMediaURL);
+            if(artistDetails?.selProfileImage?.length > 0) {
+                setProfilePicPrev(artistDetails?.selProfileImage[0].LTMediaURL);
             }
 
         }
-        console.log(maxAllowedFiles);
-        console.log(artistProfileData?.selLtMedia?.length);
-    }, [artistProfileData])
+    }, [artistDetails])
 
 
   return (
@@ -152,15 +147,12 @@ const Upload = () => {
                             allowRevert={false}
                             allowRemove={false}
                             oninit={() => {handleInit()}}
-                            onremovefile={() => {console.log('removed')}}
-                            onprocessfileprogress={(e) => {console.log('e', e)}}
                             onupdatefiles={(fileItems,e) => {
                                 setProfilePic(fileItems);
                                 handleUpdate(fileItems)
                             }}
                             server={ {
                                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
-                                    console.log('fileItems,e', fieldName)
                                     // fieldName is the name of the input field
                                     // file is the actual file object to send
                                     const formData = new FormData();
@@ -175,7 +167,6 @@ const Upload = () => {
                                     // Should call the progress method to update the progress to 100% before calling load
                                     // Setting computable to false switches the loading indicator to infinite mode
                                     request.upload.onprogress = (e) => {
-                                        console.log(e.lengthComputable, e.loaded, e.total);
                                         progress(e.lengthComputable, e.loaded, e.total);
                                     };
 
@@ -187,7 +178,7 @@ const Upload = () => {
                                             if(JSON.parse(request.response)?.IsSuccess) {
                                                 successToast('Profile image uploaded successfully.');
                                                 setProfilePic([]);
-                                                dispatch(getProfileData());
+                                                dispatch(getArtistDetails());
                                             }
                                             else {
                                                 successToast(JSON.parse(request.response)?.Message);
@@ -306,10 +297,9 @@ const Upload = () => {
 
                         request.onload = function () {
                             if (request.status >= 200 && request.status < 300) {
-                                console.log(JSON.parse(request.response),request.status);
                                 if(JSON.parse(request.response)?.IsSuccess) {
                                     successToast('Event file uploaded successfully.');
-                                    dispatch(getProfileData());
+                                    dispatch(getArtistDetails());
                                     setEventFiles([]);
                                 }
                                 else {

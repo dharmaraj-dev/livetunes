@@ -102,7 +102,6 @@ const ArtistBankDetails = () => {
     const [phone, setPhone] = useState("");
     const [file, setFile] = useState();
     function handleChange(e) {
-        console.log(e.target.files);
         setFile(URL.createObjectURL(e.target.files[0]));
     }
 
@@ -194,7 +193,6 @@ const ArtistBankDetails = () => {
                     return false;
                 }
             }
-            console.log('uploadedPhotoIdProofs', uploadedPhotoIdProofs);
             if(uploadedPhotoIdProofs?.length !== 2) {
                 errorToast("Min 2 attachments are required.");
                 return false;
@@ -384,7 +382,6 @@ const ArtistBankDetails = () => {
           },
           allowOutsideClick: () => false
         }).then((result) => {
-            console.log('result', result);  
           if (result.isConfirmed && result.value) {
                 Swal.fire('File deleted successfully!', '', 'success');
           } else {
@@ -798,7 +795,8 @@ const ArtistBankDetails = () => {
                                                             imageCropAspectRatio={'1:1'}
                                                             acceptedFileTypes={["application/pdf", "image/jpeg"]}
                                                             name="file"
-                                                            oninit={() => {console.log(filePhotoProof)}}
+                                                            oninit={() => {
+                                                            }}
                                                             onwarning={(e) => {
                                                                 if(e.type === "warning" && e.body === "Max files") {
                                                                     infoToast(`Maximum upload limit exceeds, available limit is ${uploadedPhotoIdProofs?.length >= 2 ? 0 : 2 - uploadedPhotoIdProofs?.length}`)
@@ -806,12 +804,10 @@ const ArtistBankDetails = () => {
                                                             }}
                                                             allowRevert={false}
                                                             allowRemove={false}
-                                                            onremovefile={() => {console.log('removed')}}
-                                                            onprocessfileprogress={(e) => {console.log('e', e)}}
+                                                            
+                                                            
                                                             onupdatefiles={(fileItems,e) => {
-                                                                console.log(fileItems);
                                                                 setFilePhotoFront(fileItems);
-                                                                //handleUpdate(fileItems)
                                                             }}
                                                             server={ {
                                                                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
@@ -822,7 +818,6 @@ const ArtistBankDetails = () => {
                                                                     request.open('POST', 'https://livetunesapi.azurewebsites.net/api/LTMedia/uploadp-proof?proof_name='+photoIdProofTypeName);
                                                                     request.setRequestHeader("Authorization", authToken());
                                                                     request.upload.onprogress = (e) => {
-                                                                        console.log(e.lengthComputable, e.loaded, e.total);
                                                                         progress(e.lengthComputable, e.loaded, e.total);
                                                                     };
                                                                     request.onload = function () {
@@ -1017,7 +1012,6 @@ const ArtistBankDetails = () => {
                                                             imageCropAspectRatio={'1:1'}
                                                             acceptedFileTypes={["application/pdf", "image/jpeg"]}
                                                             name="file"
-                                                            oninit={() => {console.log(fileAddressProof)}}
                                                             onwarning={(e) => {
                                                                 if(e.type === "warning" && e.body === "Max files") {
                                                                     infoToast(`Maximum upload limit exceeds, available limit is ${1}`)
@@ -1025,12 +1019,8 @@ const ArtistBankDetails = () => {
                                                             }}
                                                             allowRevert={false}
                                                             allowRemove={false}
-                                                            onremovefile={() => {console.log('removed')}}
-                                                            onprocessfileprogress={(e) => {console.log('e', e)}}
                                                             onupdatefiles={(fileItems,e) => {
-                                                                console.log(fileItems);
                                                                 setFileAddressProof(fileItems);
-                                                                //handleUpdate(fileItems)
                                                             }}
                                                             server={ {
                                                                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
@@ -1042,7 +1032,6 @@ const ArtistBankDetails = () => {
                                                                     request.open('POST', 'https://livetunesapi.azurewebsites.net/api/LTMedia/uploada-proof?proof_name='+addressProofName);
                                                                     request.setRequestHeader("Authorization", authToken());
                                                                     request.upload.onprogress = (e) => {
-                                                                        console.log(e.lengthComputable, e.loaded, e.total);
                                                                         progress(e.lengthComputable, e.loaded, e.total);
                                                                     };
                                                                     request.onload = function () {

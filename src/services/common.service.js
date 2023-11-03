@@ -58,7 +58,6 @@ const getAllMasters = () => {
 };
 
 const logout = (token) => {
-  console.log(token)
   return axios
     .post(API_URL + "LogMethods/Logout", {}, { headers: { "Authorization": token } })
     .then((response) => {

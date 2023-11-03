@@ -128,12 +128,6 @@ const Profile = () => {
                                                     name="file"
                                                     allowRevert={false}
                                                     allowRemove={false}
-                                                    //oninit={() => {handleInit()}}
-                                                    onremovefile={() => {
-                                                    //console.log('removed')
-                                                    }}
-                                                    onprocessfileprogress={(e) => {//console.log('e', e)
-                                                    }}
                                                     onupdatefiles={(fileItems,e) => {
                                                         setProfilePic(fileItems);
                                                         handleUpdate(fileItems)

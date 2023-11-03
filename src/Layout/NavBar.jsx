@@ -19,10 +19,9 @@ const NavBar = () => {
   const { showLoginAlert } = useLoginCheck();
   const { showApplicationAlert } = useApplicationStatusCheck();
 
-  const { artistProfileData } = useSelector(state => state.artist);
+  const { artistDetails } = useSelector(state => state.artist);
   const { isLoggedIn, joiningType, ArtistIsNotSubmitted, ArtistIsPending } = useSelector((state) => state.userAuth);
   const { profileData, profileDataLoading} = useSelector(state => state.userProfile);
-
   const [profilePic, setProfilePic] = useState(DefaultProfile);
 
   let alertTitle = '';
@@ -37,10 +36,10 @@ const NavBar = () => {
   }
 
   useEffect(() => {
-    if(artistProfileData?.selProfileImage?.length > 0) {
-        setProfilePic(artistProfileData?.selProfileImage[0].LTMediaURL);
+    if(artistDetails?.selProfileImage?.length > 0) {
+        setProfilePic(artistDetails?.selProfileImage[0].LTMediaURL);
     }
-  }, [artistProfileData])
+  }, [artistDetails])
 
   return (
     <>

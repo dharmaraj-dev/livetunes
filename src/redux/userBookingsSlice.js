@@ -52,7 +52,7 @@ const slice = createSlice({
     favArtistSuccessError: (state, action) => {
       state.favouriteArtistsLoading = false;
       if(action.payload.IsSuccess) {
-        state.favouriteArtists = action.payload.output_data != null ? action.payload.output_dat : [];
+        state.favouriteArtists = action.payload.output_data != null ? action.payload.output_data : [];
         state.favouriteArtistsError = false;
         state.favouriteArtistsSuccess = true;
         
@@ -95,7 +95,9 @@ export const fetchFavArtists = (userId) => async dispatch => {
   try {
     await axios
       .get(API_URL + `AFav/ByUserId/${userId}` , {headers:authHeader()})
-      .then(response => dispatch(favArtistSuccessError(response.data)));
+      .then(response => {
+        dispatch(favArtistSuccessError(response.data));
+      });
   } catch (e) {
    dispatch(hasError(e.message))
   }

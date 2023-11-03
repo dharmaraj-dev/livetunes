@@ -4,14 +4,12 @@ import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
 const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 
-const artistProfileData = localStorage.getItem("artistProfileData") != null ? JSON.parse(localStorage.getItem("artistProfileData")) : [];
 const artistProofData = localStorage.getItem("artistProofData") != null ? JSON.parse(localStorage.getItem("artistProofData")) : [];
 const artistDetails = localStorage.getItem("artistDetails") != null ? JSON.parse(localStorage.getItem("artistDetails")) : [];
 
 const slice = createSlice({
   name: 'artist',
   initialState: {
-    artistProfileData,
     artistProofData,
     artistDetails,
     artistDetailsLoading: true,
@@ -25,9 +23,6 @@ const slice = createSlice({
     artistApplicationStatusQuotesLoading: false
   },
   reducers: {
-    setArtistProfileData: (state, action) => {
-      state.artistProfileData = action.payload;
-    },
     setArtistProofData: (state, action) => {
       state.artistProofData = action.payload;
     },
@@ -65,11 +60,11 @@ const slice = createSlice({
     },
     getSlotsSuccess: (state, action) => {
       if(action.payload.IsSuccess) {
-        state.slots = action.payload.output_data;
+        state.artistSlots = action.payload.output_data;
         state.artistSlotsloading = false;
         state.artistSlotsError = false;
       } else {
-        state.slots = [];
+        state.artistSlots = [];
         state.artistSlotsloading = false;
         state.artistSlotsError = false;
       }      
@@ -111,7 +106,6 @@ export default slice.reducer
 
 
 export const { 
-  setArtistProfileData,
   setArtistPhotoIdProof,
   setArtistProofData,
   startArtistDetailsLoading,
@@ -144,7 +138,10 @@ export const getArtistDetails = () => async dispatch => {
   try {
     await axios
       .post(API_URL + `ArtistProfile/GetArtistProfile` ,{}, {headers:authHeader()})
-      .then(response => dispatch(setArtistDetailsData(response.data)));
+      .then(response => {
+        dispatch(setArtistDetailsData(response.data));
+        return response;
+      });
   } catch (e) {
    dispatch(hasArtistDetailsError(e.message))
   }
@@ -201,3 +198,16 @@ export const getArtistsApplicationStatusQuizes  = (data) => async dispatch => {
   } catch (e) {
   }
 };
+
+export const submitArtistApplicationTJudge = () => async dispatch => {
+  try {
+    await axios
+      .post(API_URL + `ArtistProfile/ArtistPayStatus` ,{}, {headers:authHeader()})
+      .then(response => {
+        return response;
+      });
+  } catch (e) {
+   console.log('application submit error',e);
+  }
+};
+

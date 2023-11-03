@@ -44,7 +44,7 @@ const Favourites = () => {
                             <div className="main-artists-list">
                              <div className="main-favourite-sec">
                                 <div className="head-sec">
-                                     <h1 className="l-b">Favourites <Badge className="fav-badge">{favouriteArtists.length}</Badge></h1>
+                                     <h1 className="l-b">Favourites <Badge className="fav-badge">{favouriteArtists?.length}</Badge></h1>
                                 </div>
                                 <div className="favourite-tab-sec">
                                     <Tabs defaultActiveKey="all" id="uncontrolled-tab-example" className="mb-1 justify-content-end">
@@ -52,7 +52,7 @@ const Favourites = () => {
                                             >
                                                <Row>
                                                     {favouriteArtists.map((artist, index) => <Col key={`fav_${index}`} xl={3} md={6}><FavouriteCard props={artist}/></Col>)}
-                                                    {favouriteArtists.length === 0 && (
+                                                    {favouriteArtists?.length === 0 && (
                                                         <Col xs={12}>
                                                             <div>
                                                                 <h3 className="no_bookings">No favourites added.</h3>

@@ -98,7 +98,6 @@ const slice = createSlice({
         state.eventData = action.payload;
       },
       SelectSlot:(state,action) => {
-        console.log('action', action);
         state.selectedSlots = action.payload;
       },
       setTransactionDetails:(state,action) => {
@@ -107,7 +106,6 @@ const slice = createSlice({
       },
       setSaveAndPayDetails:(state,action) => {
         state.saveAndPayLoading = false;
-        console.log(action.payload);
         state.saveAndPayError = action.payload
         state.saveAndPaySucess = action.payload;
       },
@@ -281,6 +279,11 @@ const slice = createSlice({
             .then(response => {
               dispatch(stopSaveAndPayLoading(response.data));
               dispatch(saveAndPaySuccessError(response.data));
+              if(response.data.IsSuccess) {
+                Swal.fire('', response.data.Message, 'success');
+              } else {
+                Swal.fire('', response.data.Message, 'info');
+              }
               return response.data
             });
     } catch (e){
@@ -294,7 +297,15 @@ const slice = createSlice({
     try{
       return await axios 
             .post(API_URL+'UBooking/MoveForPay',body,{headers:authHeader()})
-            .then(response => { dispatch(payFromCartSuccessError(response.data)); return response.data});
+            .then(response => { 
+              if(response.data.IsSuccess) {
+                Swal.fire('', response.data.Message, 'success');
+              } else {
+                Swal.fire('', response.data.Message, 'info');
+              }
+              dispatch(payFromCartSuccessError(response.data)); 
+              return response.data
+            });
     } catch (e){
         console.log(e);
         return e;

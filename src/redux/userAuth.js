@@ -35,7 +35,6 @@ const slice = createSlice({
       state.isLoggedIn = true;
       state.welcomeSeen = true;
       state.user = action.payload;
-      console.log(action.payload);
       localStorage.setItem('user', btoa(JSON.stringify(state.user)));
     },
     setOtpSent: (state, action) => {
@@ -80,6 +79,8 @@ const slice = createSlice({
       state.welcomeSeen = true;
       state.isLoggedIn = false;
       state.user = null;
+      localStorage.clear();
+      localStorage.setItem("welcomeSeen", true);
     },
   }
 });

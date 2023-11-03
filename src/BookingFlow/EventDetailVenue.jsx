@@ -25,7 +25,6 @@ import { useParams } from "react-router-dom";
 
 
 const EventDetailVenue = forwardRef((props, ref) => {
-    console.log('props,', props)
     const dispatch = useDispatch();
     const [Razorpay] = useRazorpay();
     const navigate = useNavigate();
@@ -120,7 +119,6 @@ const EventDetailVenue = forwardRef((props, ref) => {
                                   image: "https://livetunes.ai/logo.png",
                                   order_id: "order_MsQkfUhryNGW1d",
                                   handler: (resp) => {
-                                    console.log('res', resp);
                                     const paymentData = {
                                         "TransactId": res.TransactionId,
                                         "selBookBill":
@@ -146,7 +144,6 @@ const EventDetailVenue = forwardRef((props, ref) => {
                                         dispatch(payForBooking(paymentData));
                                   },
                                   error: (err) => {
-                                    console.log('err', err)
                                   },
                                   prefill: {
                                     name: "Test User",
@@ -270,7 +267,6 @@ const EventDetailVenue = forwardRef((props, ref) => {
     }
 
     const handleLocationChange = nextChecked => {
-        console.log('a',nextChecked, );
         if(!nextChecked) {
             const tmpState = cities.filter((ct) => {return (ct.CityName == selectedCity.split('_')[1])});
             if(tmpState.length > 0) {
@@ -314,7 +310,6 @@ const EventDetailVenue = forwardRef((props, ref) => {
     //       image: "https://livetunes.ai/logo.png",
     //       order_id: order.id,
     //       handler: (res) => {
-    //         console.log(res);
     //       },
     //       prefill: {
     //         name: "Test User",

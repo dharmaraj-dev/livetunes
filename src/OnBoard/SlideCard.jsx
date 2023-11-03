@@ -11,7 +11,6 @@ import ThreeDotLoader from "../Artist/ThreeDotLoader";
 import Skeleton from 'react-loading-skeleton'
 
 const SlideCard = (props) => {
-  console.log('props', props);
         const dispatch = useDispatch();
         const settings = {
           dots: false,

@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 
 const Billdetail = (props) => {
-    console.log('props', props)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -62,9 +61,9 @@ const Billdetail = (props) => {
 
 
     useEffect(() => {
-        if(saveAndPaySucess || saveAndPayError) {
-            setShowDialogue(true);
-        }
+        // if(saveAndPaySucess || saveAndPayError) {
+        //     setShowDialogue(true);
+        // }
     }, [saveAndPaySucess, saveAndPayError])
 
   return (

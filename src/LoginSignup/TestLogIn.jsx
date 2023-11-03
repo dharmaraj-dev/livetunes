@@ -17,7 +17,6 @@ const TestLogIn = () => {
     const dispatch = useDispatch();
 
     const { isLoggedIn, joiningType } = useSelector(state => state.userAuth);
-    console.log(joiningType);
     const [phone, setPhone] = useState("");
     const [loading, setLoading] = useState(false);
     const [displayMessage, setDisplayMessage] = useState("");
@@ -45,7 +44,6 @@ const TestLogIn = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log('err', err);
         errorToast(err.message);
         setDisplayMessage(err.message)
         setLoading(false);

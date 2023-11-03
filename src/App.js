@@ -43,7 +43,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMasters } from "./actions/common";
-import { getProfileData, getArtistProofData } from "./actions/artist";
 import 'filepond/dist/filepond.min.css'
 import 'react-range-slider-input/dist/style.css';
 import { Navigate, useNavigate  } from 'react-router-dom';
@@ -55,6 +54,7 @@ import { setJoiningType } from './redux/userAuth';
 import ArtistAvailSlot from './Artist/ArtistAvailSlot';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { fetchUserProfile } from "./redux/userProfileSlice";
+import { getFeedLogs } from "./redux/userSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -69,6 +69,7 @@ function App() {
 
     if(isLoggedIn && joiningType == "User") {
       dispatch(fetchUserProfile());
+      dispatch(getFeedLogs());
     }
     if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"){
       dispatch(setJoiningType("User"));

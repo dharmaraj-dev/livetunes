@@ -97,14 +97,11 @@ const userSelectedEvents = localStorage.getItem("userSelectedEvents") != null ? 
         setSavedUsersSetting : (state,action) => {
             if(action.payload.length > 0) {
                 let allLangs = localStorage.getItem("languages") != null ? JSON.parse(localStorage.getItem("languages")) : [];
-                console.log(allLangs);
-
                 let selLngs = [];
                 for(let i in action.payload[0].LangId?.split(',')) {
                     for(let k in allLangs.filter((lng) => {return (lng.LanguageId == action.payload[0].LangId?.split(',')[i])})) {
                         selLngs.push(allLangs.filter((lng) => {return (lng.LanguageId == action.payload[0].LangId?.split(',')[i])})[k])
                     }
-                    console.log(selLngs);
                 }   
                 state.selectedLanguages = selLngs;
                 state.selectedCity = `${action.payload[0].CityId}_${action.payload[0].CityName}`;
@@ -117,7 +114,7 @@ const userSelectedEvents = localStorage.getItem("userSelectedEvents") != null ? 
                 localStorage.setItem('isSettingsSaved',state.isSettingsSaved);
             } else {
                 state.savedUsersSettings = [];
-                state.isSettingsSaved = null;
+                state.isSettingsSaved = false;
                 localStorage.setItem('savedUsersSettings',null);
                 localStorage.setItem('isSettingsSaved',state.isSettingsSaved);
             }
@@ -152,7 +149,6 @@ export const setUserRequestedCitiesAPI = (param) => async dispatch => {
         await axios
             .post(API_URL+"UWishList/Insert",param,{headers:authHeader()})
             .then((response)=>{
-                console.log(response);
             })
     } catch (e) {
         console.log('settings error',e);
@@ -164,7 +160,6 @@ export const setUserSettings = (param) => async dispatch => {
         await axios 
             .post(API_URL + "USett/Insert",param,{headers:authHeader()})
             .then((response) => {
-                console.log(response);
                 if(response.IsSuccess){
                     return true;
                 }
@@ -183,7 +178,6 @@ export const updateUserSettings = (param) => async dispatch => {
        return await axios 
             .post(API_URL + "USett/Update",param,{headers:authHeader()})
             .then((response) => {
-                console.log(response);
                 dispatch(stopUpdateSettingsLoading());
                 return response;
             });
@@ -192,17 +186,3 @@ export const updateUserSettings = (param) => async dispatch => {
         return e;
     }
 };
-
-// export const getUserSettings = () => async dispatch => {
-//     try{
-//         await axios 
-//               .post(API_URL + "USett/ByUserId/47" ,{headers:authHeader()})
-//               .then((response)=>{
-//                 dispatch(setLanguages(response.data.output_data.LangName));
-//                 dispatch(setUserRequestedCities(response.data.output_data.CityName));
-//                 // if(selectedLanguages)
-//               })
-//     } catch(e){
-//         console.log('get setting error',e);
-//     }
-// };

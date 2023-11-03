@@ -3,10 +3,6 @@ import authHeader from "./auth-header";
 
 const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 
-const getProfileData = () => {
-  return axios.post(API_URL + "ArtistProfile/GetArtistProfile", {}, { headers: authHeader() });
-};
-
 const setProfileData = (data) => {
   return axios.post(API_URL + "ArtistProfile/SaveAProfile", data, { headers: authHeader() });
 };
@@ -54,7 +50,6 @@ const updateMediaDescription = (data) => {
 
 
 export default {
-  getProfileData,
   setProfileData,
   setArtistProfilePicture,
   setArtistEventsAttachments,

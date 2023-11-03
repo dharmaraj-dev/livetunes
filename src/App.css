@@ -157,7 +157,7 @@ body.modal-open .App{filter: blur(6px);}
 
 
 
-
+ .hello-header{height: 400px}
 @media (max-width:1800px){
     .inner-sign-white-sec {padding: 28px 44px;margin: 18% 0 14%;}
     .top-login-link{position: absolute;top: 3%;right: 7%;}
@@ -185,7 +185,7 @@ body.modal-open .App{filter: blur(6px);}
     .hello-header .hello-right-text-sec .head { font-size: 66px; margin-bottom: 26px; }
     .hello-header .hello-right-text-sec .sub-head {font-size: 32px;}
     .hello-header .hello-right-text-sec .para-text {font-size: 20px;}
-    .hello-header{padding: 105px 90px 0 116px;height: 363px;}
+    .hello-header{padding: 105px 90px 0 116px;}
     .look-slide-sec .inner-look-slide{margin-bottom: -158px;}
     /* Language */
     .main-language-sec .heading-sec .head, .main-language-sec .chosen-sec .chosen-left-sec .inner-head {font-size: 30px;}
@@ -334,7 +334,7 @@ body.modal-open .App{filter: blur(6px);}
     .otp-field input{min-height: 61px;font-size: 30px;}
     .top-search {width: 40%;}
     .top-search-button {top: 8px;right: 8px;}
-    .hello-header {padding: 13px 20px 0px 46px;border-radius: 0 46px 0 46px !important;height: auto;}
+    .hello-header {padding: 13px 20px 0px 46px;border-radius: 0 46px 0 46px !important;}
     .next-btn{position: initial;float: right;}
     .main-language-sec .chosen-sec .chosen-right-sec .multiSelectContainer li {padding: 5px 15px;font-size: 16px;}
     .map-box iframe {height: 250px;}

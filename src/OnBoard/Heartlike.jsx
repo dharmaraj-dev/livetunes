@@ -10,7 +10,6 @@ const Heartlike = ({props}) => {
     const [active, setActive] = useState(props?.IsFavArtist);
     const [showHeart,setShowHeart] = useState(true);
 
-    console.log('props', props);
     function addFavorite(){
       setShowHeart(false);
       if(props?.IsFavArtist) {

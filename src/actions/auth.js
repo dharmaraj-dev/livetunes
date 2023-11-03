@@ -7,7 +7,6 @@ import { setWelcomeSeen, setArtistRejected, setArtistIsNotSubmitted, setArtistIs
 export const register = (phone, email,joiningType) => (dispatch) => {
   return AuthService.register(phone, email,joiningType).then(
     (response) => {
-      console.log(response)
        if(response.IsSuccess) {
           dispatch(setOtpSent(true));
           dispatch(setOtpSentTo(phone));
@@ -34,7 +33,6 @@ export const register = (phone, email,joiningType) => (dispatch) => {
 export const login = (phone) => (dispatch) => {
   return AuthService.login(phone).then(
     (data) => {
-      console.log(data)
       if(data.IsSuccess) {
         dispatch(setOtpSent(true));
         dispatch(setOtpSentTo(phone));
@@ -140,18 +138,14 @@ export const validateOtp = (phone, otp) => (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  const token = localStorage.getItem(btoa('token'));
+  const token = atob(localStorage.getItem(btoa('token')));
    if (token) {
     return CommonService.logout(token).then(
       (response) => {
-          localStorage.clear();
-          localStorage.setItem("welcomeSeen", true);
-          dispatch(setLogout());
+        dispatch(setLogout());
         return Promise.resolve(response);
       },
       (error) => {
-        localStorage.clear();
-        localStorage.setItem("welcomeSeen", true);
         dispatch(setLogout());
         const message =
           (error.response &&
@@ -163,8 +157,6 @@ export const logout = () => (dispatch) => {
       }
     );
   } else {
-    localStorage.clear();
-    localStorage.setItem("welcomeSeen", true);
     dispatch(setLogout());
     return {};
   }

@@ -32,7 +32,6 @@ const Review = () => {
   let navigate = useNavigate();
   const params= useParams();
 
-  console.log('params', params);
   //LTMediaURL
 
   const applicationId = atob(params.id);
@@ -69,7 +68,6 @@ const Review = () => {
     });
 
     const actualScore = (badgeScore/totalScore)*100;
-    console.log('actualScore', actualScore);
     if(actualScore < 65) {
       setBadgeType("Beginner");
     }
@@ -118,7 +116,6 @@ const Review = () => {
             selFeedBLog
           };
         return dispatch(saveArtistReview(data)).then((response) => {
-            console.log('response', response);
             if(response.data.IsSuccess) {
                   return response;
               } else {
@@ -128,7 +125,6 @@ const Review = () => {
       },
       allowOutsideClick: () => false
     }).then((result) => {
-        console.log('result', result);  
       if (result.isConfirmed && result.value) {
         if(result.value.data.IsSuccess) {
           Swal.fire('Review published successfylly.', '', 'success');

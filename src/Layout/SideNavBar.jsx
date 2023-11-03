@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
 import {TfiDashboard, TfiAgenda } from "react-icons/tfi";
-import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock } from "react-icons/tfi";
+import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock, TfiMedallAlt } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
 import { SlCalender, SlSettings } from "react-icons/sl";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
@@ -77,11 +77,16 @@ const SideNavBar = () => {
 					icon: <SlCalender className="menu-item-icon" />,
 					links:"/artist-slots"
 				},
-				// {
-				// 	text: "Settings",
-				// 	icon: <SlSettings className="menu-item-icon"/>,
-				// 	links: "/settings"
-				// }
+				{
+					text:"Bank Details",
+					icon: <TfiMedallAlt className="menu-item-icon" />,
+					links:"/artists-bank-details"
+				},
+				{
+					text: "Settings",
+					icon: <SlSettings className="menu-item-icon"/>,
+					links: "/settings"
+				}
 			]);
 		} else if(joiningType ===  "Judge") {
 			setMenuItemsDynamic([

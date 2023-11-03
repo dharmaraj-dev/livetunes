@@ -63,7 +63,7 @@ const CheckAvailability = () => {
                             </Col>
                             <Col xl={5} lg={6} md={12} className="main-checkavailability-right-sec">
                                 <div className="checkavailability-right-sec">
-                                    <ArtistInfo loading={artistDetailsLoading} artistId={artistId} artistDetails={artistDetails}/>
+                                    <ArtistInfo loading={artistDetailsLoading} artistDetails={artistDetails}/>
                                     {selectedSlots === null ? (
                                         <div className="main-value-card-sec align-center">
                                             <ValueCard loading={artistDetailsLoading} artistDetails={artistDetails}/>

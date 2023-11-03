@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProfileData } from "../actions/artist";
 import { successToast, errorToast, infoToast } from "../services/toast-service";
 import moment from "moment";
-import { getProfileData } from "../actions/artist";
+import { getArtistDetails } from "../redux/artistSlice";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { Navigate, useNavigate  } from 'react-router-dom';
@@ -28,7 +28,7 @@ const ArtistProfiles = () => {
 
     const [pageLoading, setPageLoading] = useState(true);
     const { cities, states, categories, gernes, languages, events, eventModes } = useSelector(state => state.common);
-    const { artistProfileData } = useSelector(state => state.artist);
+    const { artistDetails } = useSelector(state => state.artist);
     const { joiningType, IsProfileSend, ArtistIsApproved } = useSelector(state => state.userAuth);
 
     if(joiningType === "Judge") {
@@ -111,7 +111,6 @@ const ArtistProfiles = () => {
     }
 
     const selectEventMode = (selectedList, selectedItem) => {
-        console.log(selectedList);
         setSelPrivSurpEventMode(selectedList);
     }
 
@@ -120,7 +119,6 @@ const ArtistProfiles = () => {
     }
 
     const selectEventVirtual = (selectedList, selectedItem) => {
-        console.log(selectedList);
         setSelVirtualEventType(selectedList);
     }
 
@@ -130,7 +128,6 @@ const ArtistProfiles = () => {
 
     const selectWillingExceptionStates = (selectedList, selectedItem) => {
         setSelExpState(selectedList);
-        console.log(selectedList);
     }
 
     const removeWillingExceptionStates = (selectedList, removedItem) => {
@@ -242,135 +239,135 @@ const ArtistProfiles = () => {
         setEnableStep2(false);
         setEnableStep3(false);
         infoToast("Changes discarded...");
-        dispatch(getProfileData());
+        dispatch(getArtistDetails());
         updateStateOnDiscard();
     }
 
     const updateStateOnDiscard = () => {
-        if(artistProfileData) {
-            setFirstName(artistProfileData?.selApInfo?.FirstName);
-            setLastName(artistProfileData?.selApInfo?.LastName);
-            setContactNo(artistProfileData?.selApInfo?.ContactNo);
-            setEmail(artistProfileData?.selApInfo?.EmailId);
-            setStateId(artistProfileData?.selApInfo?.StateId);
-            setCityId(artistProfileData?.selApInfo?.CityId);
-            setAboutMe(artistProfileData?.selAPDetails?.BriefIntro);
+        if(artistDetails) {
+            setFirstName(artistDetails?.selApInfo?.FirstName);
+            setLastName(artistDetails?.selApInfo?.LastName);
+            setContactNo(artistDetails?.selApInfo?.ContactNo);
+            setEmail(artistDetails?.selApInfo?.EmailId);
+            setStateId(artistDetails?.selApInfo?.StateId);
+            setCityId(artistDetails?.selApInfo?.CityId);
+            setAboutMe(artistDetails?.selAPDetails?.BriefIntro);
 
 
-            setFbUrl(artistProfileData?.selASDetails?.FacebookLink);
-            setInstaUrl(artistProfileData?.selASDetails?.InstagramLink);
-            setYoutubeUrl(artistProfileData?.selASDetails?.YouTubeLink);
-            setWebsiteUrl(artistProfileData?.selASDetails?.OtherLink);
+            setFbUrl(artistDetails?.selASDetails?.FacebookLink);
+            setInstaUrl(artistDetails?.selASDetails?.InstagramLink);
+            setYoutubeUrl(artistDetails?.selASDetails?.YouTubeLink);
+            setWebsiteUrl(artistDetails?.selASDetails?.OtherLink);
 
-            if(artistProfileData?.selAPDetails?.CategoryId !== null && artistProfileData?.selAPDetails?.CategoryId.split(",")) {
+            if(artistDetails?.selAPDetails?.CategoryId !== null && artistDetails?.selAPDetails?.CategoryId.split(",")) {
                 const tmpSelCategories = [];
-                for (let i in artistProfileData?.selAPDetails?.CategoryId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.CategoryId.split(",")) {
                     tmpSelCategories.push(
                         {
-                            CategoryId: artistProfileData?.selAPDetails?.CategoryId.split(",")[i],
-                            CategoryName: artistProfileData?.selAPDetails?.CategoryName.split(",")[i]
+                            CategoryId: artistDetails?.selAPDetails?.CategoryId.split(",")[i],
+                            CategoryName: artistDetails?.selAPDetails?.CategoryName.split(",")[i]
                         }
                     )
                 }
                 setSelCategories(tmpSelCategories);
             }
 
-            if(artistProfileData?.selAPDetails?.GenreId !== null && artistProfileData?.selAPDetails?.GenreId.split(",")) {
+            if(artistDetails?.selAPDetails?.GenreId !== null && artistDetails?.selAPDetails?.GenreId.split(",")) {
                 const tmpSelGernes = [];
-                for (let i in artistProfileData?.selAPDetails?.GenreId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.GenreId.split(",")) {
                     tmpSelGernes.push(
                         {
-                            GenreId: artistProfileData?.selAPDetails?.GenreId.split(",")[i],
-                            GenreName: artistProfileData?.selAPDetails?.GenreName.split(",")[i]
+                            GenreId: artistDetails?.selAPDetails?.GenreId.split(",")[i],
+                            GenreName: artistDetails?.selAPDetails?.GenreName.split(",")[i]
                         }
                     )
                 }
                 setSelGernes(tmpSelGernes);
             }
 
-            if(artistProfileData?.selAPDetails?.LanguageId !== null && artistProfileData?.selAPDetails?.LanguageId.split(",")) {
+            if(artistDetails?.selAPDetails?.LanguageId !== null && artistDetails?.selAPDetails?.LanguageId.split(",")) {
                 const tmpSelLanguages = [];
-                for (let i in artistProfileData?.selAPDetails?.LanguageId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.LanguageId.split(",")) {
                     tmpSelLanguages.push(
                         {
-                            LanguageId: artistProfileData?.selAPDetails?.LanguageId.split(",")[i],
-                            LanguageName: artistProfileData?.selAPDetails?.LanguageName.split(",")[i]
+                            LanguageId: artistDetails?.selAPDetails?.LanguageId.split(",")[i],
+                            LanguageName: artistDetails?.selAPDetails?.LanguageName.split(",")[i]
                         }
                     )
                 }
                 setSelLanguages(tmpSelLanguages);
             }
             
-            setSelExpInYears(artistProfileData?.selAPDetails?.PExperience);
+            setSelExpInYears(artistDetails?.selAPDetails?.PExperience);
 
-            if(artistProfileData?.selAPDetails?.EventsId != null && artistProfileData?.selAPDetails?.EventsId.split(",")) {
+            if(artistDetails?.selAPDetails?.EventsId != null && artistDetails?.selAPDetails?.EventsId.split(",")) {
                 const tmpSelPrefEvents = [];
-                for (let i in artistProfileData?.selAPDetails?.EventsId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.EventsId.split(",")) {
                     tmpSelPrefEvents.push(
                         {
-                            EventsId: artistProfileData?.selAPDetails?.EventsId.split(",")[i],
-                            EventsName: artistProfileData?.selAPDetails?.EventsName.split(",")[i]
+                            EventsId: artistDetails?.selAPDetails?.EventsId.split(",")[i],
+                            EventsName: artistDetails?.selAPDetails?.EventsName.split(",")[i]
                         }
                     )
                 }
                 setSelPrefEvents(tmpSelPrefEvents);
             }
 
-            if(artistProfileData?.selAPDetails?.YesOtherState) {
+            if(artistDetails?.selAPDetails?.YesOtherState) {
                 setSelWillingToTravel(1);
-            } else if(artistProfileData?.selAPDetails?.NoOtherState) {
+            } else if(artistDetails?.selAPDetails?.NoOtherState) {
                 setSelWillingToTravel(0);
-            }  else if(artistProfileData?.selAPDetails?.IsOtherState) {
+            }  else if(artistDetails?.selAPDetails?.IsOtherState) {
                 setSelWillingToTravel(2);
             }
 
-            if(artistProfileData?.selAPDetails?.OtherStateId !== null && artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
+            if(artistDetails?.selAPDetails?.OtherStateId !== null && artistDetails?.selAPDetails?.OtherStateId.split(",")) {
                 const tmpSelExpStates = [];
-                for (let i in artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.OtherStateId.split(",")) {
                     tmpSelExpStates.push(
                         {
-                            StateId: artistProfileData?.selAPDetails?.OtherStateId.split(",")[i],
-                            StateName: artistProfileData?.selAPDetails?.OtherStateName.split(",")[i]
+                            StateId: artistDetails?.selAPDetails?.OtherStateId.split(",")[i],
+                            StateName: artistDetails?.selAPDetails?.OtherStateName.split(",")[i]
                         }
                     )
                 }
                 setSelExpState(tmpSelExpStates);
             }
 
-            if (artistProfileData?.selAPDetails?.PDuration1Hr) {
+            if (artistDetails?.selAPDetails?.PDuration1Hr) {
                 setSelPerfDuration(1);
-            } else if (artistProfileData?.selAPDetails?.PDuration2Hr) {
+            } else if (artistDetails?.selAPDetails?.PDuration2Hr) {
                 setSelPerfDuration(2);
-            } else if (artistProfileData?.selAPDetails?.DurationRemark != null) {
-                setSelPerfDuration(artistProfileData?.selAPDetails?.DurationRemark);
+            } else if (artistDetails?.selAPDetails?.DurationRemark != null) {
+                setSelPerfDuration(artistDetails?.selAPDetails?.DurationRemark);
             }
-            setSelChargesType(artistProfileData?.selAPDetails?.IsPerShow ? 1 : 2);
-            setSelChargesFrom(artistProfileData?.selAPDetails?.FromCharge);
-            setSelChargesTo(artistProfileData?.selAPDetails?.ToCharge);
-            setSelPrivSurpEvent(artistProfileData?.selAPDetails?.YesPEvents ? 1 : 0);
+            setSelChargesType(artistDetails?.selAPDetails?.IsPerShow ? 1 : 2);
+            setSelChargesFrom(artistDetails?.selAPDetails?.FromCharge);
+            setSelChargesTo(artistDetails?.selAPDetails?.ToCharge);
+            setSelPrivSurpEvent(artistDetails?.selAPDetails?.YesPEvents ? 1 : 0);
 
-            if(artistProfileData?.selAPDetails?.ModeId !== null && artistProfileData?.selAPDetails?.ModeId.split(",")) {
+            if(artistDetails?.selAPDetails?.ModeId !== null && artistDetails?.selAPDetails?.ModeId.split(",")) {
                 const tmpSelSurpMode = [];
-                for (let i in artistProfileData?.selAPDetails?.ModeId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.ModeId.split(",")) {
                     tmpSelSurpMode.push(
                         {
-                            EventModeId: artistProfileData?.selAPDetails?.ModeId.split(",")[i],
-                            EventModeName: artistProfileData?.selAPDetails?.ModeName.split(",")[i]
+                            EventModeId: artistDetails?.selAPDetails?.ModeId.split(",")[i],
+                            EventModeName: artistDetails?.selAPDetails?.ModeName.split(",")[i]
                         }
                     )
                 }
                 setSelPrivSurpEventMode(tmpSelSurpMode);
             }
 
-            setSelVirtualEvent(artistProfileData?.selAPDetails?.YesVEvents ? 1 : 0);
+            setSelVirtualEvent(artistDetails?.selAPDetails?.YesVEvents ? 1 : 0);
 
-            if(artistProfileData?.selAPDetails?.EventTypeId !== null && artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
+            if(artistDetails?.selAPDetails?.EventTypeId !== null && artistDetails?.selAPDetails?.EventTypeId.split(",")) {
                 const tmpSelVirtualEventTypes = [];
-                for (let i in artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.EventTypeId.split(",")) {
                     tmpSelVirtualEventTypes.push(
                         {
-                            EventsId: artistProfileData?.selAPDetails?.EventTypeId.split(",")[i],
-                            EventsName: artistProfileData?.selAPDetails?.EventTypeName.split(",")[i]
+                            EventsId: artistDetails?.selAPDetails?.EventTypeId.split(",")[i],
+                            EventsName: artistDetails?.selAPDetails?.EventTypeName.split(",")[i]
                         }
                     )
                 }
@@ -381,10 +378,10 @@ const ArtistProfiles = () => {
 
     useEffect(() => {
         if(IsProfileSend) {
-            if(artistProfileData.IsSuccess) {
+            if(artistDetails.IsSuccess) {
                 setPageLoading(false);
             } else {
-                dispatch(getProfileData()).then((res) => {
+                dispatch(getArtistDetails()).then((res) => {
                     setPageLoading(false);
                 }).catch((err) => {
                     navigate('/')
@@ -393,130 +390,130 @@ const ArtistProfiles = () => {
         } else {
             setPageLoading(false);
         }
-        if(artistProfileData) {
-            setFirstName(artistProfileData?.selApInfo?.FirstName);
-            setLastName(artistProfileData?.selApInfo?.LastName);
-            setContactNo(artistProfileData?.selApInfo?.ContactNo);
-            setEmail(artistProfileData?.selApInfo?.EmailId);
-            setStateId(artistProfileData?.selApInfo?.StateId);
-            setCityId(artistProfileData?.selApInfo?.CityId);
-            setAboutMe(artistProfileData?.selAPDetails?.BriefIntro);
+        if(artistDetails) {
+            setFirstName(artistDetails?.selApInfo?.FirstName);
+            setLastName(artistDetails?.selApInfo?.LastName);
+            setContactNo(artistDetails?.selApInfo?.ContactNo);
+            setEmail(artistDetails?.selApInfo?.EmailId);
+            setStateId(artistDetails?.selApInfo?.StateId);
+            setCityId(artistDetails?.selApInfo?.CityId);
+            setAboutMe(artistDetails?.selAPDetails?.BriefIntro);
 
 
-            setFbUrl(artistProfileData?.selASDetails?.FacebookLink);
-            setInstaUrl(artistProfileData?.selASDetails?.InstagramLink);
-            setYoutubeUrl(artistProfileData?.selASDetails?.YouTubeLink);
-            setWebsiteUrl(artistProfileData?.selASDetails?.OtherLink);
+            setFbUrl(artistDetails?.selASDetails?.FacebookLink);
+            setInstaUrl(artistDetails?.selASDetails?.InstagramLink);
+            setYoutubeUrl(artistDetails?.selASDetails?.YouTubeLink);
+            setWebsiteUrl(artistDetails?.selASDetails?.OtherLink);
 
-            if(artistProfileData?.selAPDetails?.CategoryId !== null && artistProfileData?.selAPDetails?.CategoryId.split(",")) {
+            if(artistDetails?.selAPDetails?.CategoryId !== null && artistDetails?.selAPDetails?.CategoryId.split(",")) {
                 const tmpSelCategories = [];
-                for (let i in artistProfileData?.selAPDetails?.CategoryId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.CategoryId.split(",")) {
                     tmpSelCategories.push(
                         {
-                            CategoryId: artistProfileData?.selAPDetails?.CategoryId.split(",")[i],
-                            CategoryName: artistProfileData?.selAPDetails?.CategoryName.split(",")[i]
+                            CategoryId: artistDetails?.selAPDetails?.CategoryId.split(",")[i],
+                            CategoryName: artistDetails?.selAPDetails?.CategoryName.split(",")[i]
                         }
                     )
                 }
                 setSelCategories(tmpSelCategories);
             }
 
-            if(artistProfileData?.selAPDetails?.GenreId !== null && artistProfileData?.selAPDetails?.GenreId.split(",")) {
+            if(artistDetails?.selAPDetails?.GenreId !== null && artistDetails?.selAPDetails?.GenreId.split(",")) {
                 const tmpSelGernes = [];
-                for (let i in artistProfileData?.selAPDetails?.GenreId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.GenreId.split(",")) {
                     tmpSelGernes.push(
                         {
-                            GenreId: artistProfileData?.selAPDetails?.GenreId.split(",")[i],
-                            GenreName: artistProfileData?.selAPDetails?.GenreName.split(",")[i]
+                            GenreId: artistDetails?.selAPDetails?.GenreId.split(",")[i],
+                            GenreName: artistDetails?.selAPDetails?.GenreName.split(",")[i]
                         }
                     )
                 }
                 setSelGernes(tmpSelGernes);
             }
 
-            if(artistProfileData?.selAPDetails?.LanguageId !== null && artistProfileData?.selAPDetails?.LanguageId.split(",")) {
+            if(artistDetails?.selAPDetails?.LanguageId !== null && artistDetails?.selAPDetails?.LanguageId.split(",")) {
                 const tmpSelLanguages = [];
-                for (let i in artistProfileData?.selAPDetails?.LanguageId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.LanguageId.split(",")) {
                     tmpSelLanguages.push(
                         {
-                            LanguageId: artistProfileData?.selAPDetails?.LanguageId.split(",")[i],
-                            LanguageName: artistProfileData?.selAPDetails?.LanguageName.split(",")[i]
+                            LanguageId: artistDetails?.selAPDetails?.LanguageId.split(",")[i],
+                            LanguageName: artistDetails?.selAPDetails?.LanguageName.split(",")[i]
                         }
                     )
                 }
                 setSelLanguages(tmpSelLanguages);
             }
             
-            setSelExpInYears(artistProfileData?.selAPDetails?.PExperience);
+            setSelExpInYears(artistDetails?.selAPDetails?.PExperience);
 
-            if(artistProfileData?.selAPDetails?.EventsId !== null && artistProfileData?.selAPDetails?.EventsId.split(",")) {
+            if(artistDetails?.selAPDetails?.EventsId !== null && artistDetails?.selAPDetails?.EventsId.split(",")) {
                 const tmpSelPrefEvents = [];
-                for (let i in artistProfileData?.selAPDetails?.EventsId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.EventsId.split(",")) {
                     tmpSelPrefEvents.push(
                         {
-                            EventsId: artistProfileData?.selAPDetails?.EventsId.split(",")[i],
-                            EventsName: artistProfileData?.selAPDetails?.EventsName.split(",")[i]
+                            EventsId: artistDetails?.selAPDetails?.EventsId.split(",")[i],
+                            EventsName: artistDetails?.selAPDetails?.EventsName.split(",")[i]
                         }
                     )
                 }
                 setSelPrefEvents(tmpSelPrefEvents);
             }
 
-            if(artistProfileData?.selAPDetails?.YesOtherState) {
+            if(artistDetails?.selAPDetails?.YesOtherState) {
                 setSelWillingToTravel(1);
-            } else if(artistProfileData?.selAPDetails?.NoOtherState) {
+            } else if(artistDetails?.selAPDetails?.NoOtherState) {
                 setSelWillingToTravel(0);
-            }  else if(artistProfileData?.selAPDetails?.IsOtherState) {
+            }  else if(artistDetails?.selAPDetails?.IsOtherState) {
                 setSelWillingToTravel(2);
             }
 
-            if(artistProfileData?.selAPDetails?.OtherStateId !== null && artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
+            if(artistDetails?.selAPDetails?.OtherStateId !== null && artistDetails?.selAPDetails?.OtherStateId.split(",")) {
                 const tmpSelExpStates = [];
-                for (let i in artistProfileData?.selAPDetails?.OtherStateId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.OtherStateId.split(",")) {
                     tmpSelExpStates.push(
                         {
-                            StateId: artistProfileData?.selAPDetails?.OtherStateId.split(",")[i],
-                            StateName: artistProfileData?.selAPDetails?.OtherStateName.split(",")[i]
+                            StateId: artistDetails?.selAPDetails?.OtherStateId.split(",")[i],
+                            StateName: artistDetails?.selAPDetails?.OtherStateName.split(",")[i]
                         }
                     )
                 }
                 setSelExpState(tmpSelExpStates);
             }
 
-            if (artistProfileData?.selAPDetails?.PDuration1Hr) {
+            if (artistDetails?.selAPDetails?.PDuration1Hr) {
                 setSelPerfDuration(1);
-            } else if (artistProfileData?.selAPDetails?.PDuration2Hr) {
+            } else if (artistDetails?.selAPDetails?.PDuration2Hr) {
                 setSelPerfDuration(2);
-            } else if (artistProfileData?.selAPDetails?.DurationRemark != null) {
-                setSelPerfDuration(artistProfileData?.selAPDetails?.DurationRemark);
+            } else if (artistDetails?.selAPDetails?.DurationRemark != null) {
+                setSelPerfDuration(artistDetails?.selAPDetails?.DurationRemark);
             }
-            setSelChargesType(artistProfileData?.selAPDetails?.IsPerShow ? 1 : 2);
-            setSelChargesFrom(artistProfileData?.selAPDetails?.FromCharge);
-            setSelChargesTo(artistProfileData?.selAPDetails?.ToCharge);
-            setSelPrivSurpEvent(artistProfileData?.selAPDetails?.YesPEvents ? 1 : 0);
+            setSelChargesType(artistDetails?.selAPDetails?.IsPerShow ? 1 : 2);
+            setSelChargesFrom(artistDetails?.selAPDetails?.FromCharge);
+            setSelChargesTo(artistDetails?.selAPDetails?.ToCharge);
+            setSelPrivSurpEvent(artistDetails?.selAPDetails?.YesPEvents ? 1 : 0);
 
-            if(artistProfileData?.selAPDetails?.ModeId !== null && artistProfileData?.selAPDetails?.ModeId.split(",")) {
+            if(artistDetails?.selAPDetails?.ModeId !== null && artistDetails?.selAPDetails?.ModeId.split(",")) {
                 const tmpSelSurpMode = [];
-                for (let i in artistProfileData?.selAPDetails?.ModeId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.ModeId.split(",")) {
                     tmpSelSurpMode.push(
                         {
-                            EventModeId: artistProfileData?.selAPDetails?.ModeId.split(",")[i],
-                            EventModeName: artistProfileData?.selAPDetails?.ModeName.split(",")[i]
+                            EventModeId: artistDetails?.selAPDetails?.ModeId.split(",")[i],
+                            EventModeName: artistDetails?.selAPDetails?.ModeName.split(",")[i]
                         }
                     )
                 }
                 setSelPrivSurpEventMode(tmpSelSurpMode);
             }
 
-            setSelVirtualEvent(artistProfileData?.selAPDetails?.YesVEvents ? 1 : 0);
+            setSelVirtualEvent(artistDetails?.selAPDetails?.YesVEvents ? 1 : 0);
 
-            if(artistProfileData?.selAPDetails?.EventTypeId !== null && artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
+            if(artistDetails?.selAPDetails?.EventTypeId !== null && artistDetails?.selAPDetails?.EventTypeId.split(",")) {
                 const tmpSelVirtualEventTypes = [];
-                for (let i in artistProfileData?.selAPDetails?.EventTypeId.split(",")) {
+                for (let i in artistDetails?.selAPDetails?.EventTypeId.split(",")) {
                     tmpSelVirtualEventTypes.push(
                         {
-                            EventsId: artistProfileData?.selAPDetails?.EventTypeId.split(",")[i],
-                            EventsName: artistProfileData?.selAPDetails?.EventTypeName.split(",")[i]
+                            EventsId: artistDetails?.selAPDetails?.EventTypeId.split(",")[i],
+                            EventsName: artistDetails?.selAPDetails?.EventTypeName.split(",")[i]
                         }
                     )
                 }

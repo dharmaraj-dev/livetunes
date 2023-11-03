@@ -64,7 +64,6 @@ export function SlideView({ title, itemId, children }) {
     }
   }, [isFirstItemVisible, visibleElements]);
 
-  // console.log({ isLastItemVisible });
   const [disabledNext, setDisabledNext] = React.useState(
     !visibleElements.length && isLastItemVisible
   );

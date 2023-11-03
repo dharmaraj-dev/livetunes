@@ -20,7 +20,7 @@ const Settings = () => {
     const dispatch = useDispatch();
     const { cities } = useSelector(state => state.common );
     const {selectedLanguages,selectedCity, userMusicalityTypes, userMinimumBudget, userMaximumBudget, savedUsersSettings, updateSettingsLoading} = useSelector(state => state.userSettings);
-    const { user } = useSelector(state => state.userAuth);
+    const { user, joiningType } = useSelector(state => state.userAuth);
 
     const addUserSettings = () => {
          let dataToSend = {
@@ -47,9 +47,7 @@ const Settings = () => {
             } else {
                 errorToast("Preferrences not updated")
             }
-            console.log(res);
         }).catch((err) => {
-            console.log(err);
             errorToast("Preferrences not updated")
         })
     }
@@ -80,62 +78,68 @@ const Settings = () => {
                             <div className="head-sec">
                                 <h1 className="l-b" style={{marginBottom:'2rem'}}>Edit Settings</h1>
                             </div>
-
-                            {/* <LoginSetting/>
-                            <Payments/>
-                            <NotificationSettings/> */}
+                            {joiningType == "Artist" ? (
+                                <>
+                                <LoginSetting/>
+                                <Payments/>
+                                <NotificationSettings/> 
+                                </>
+                            ):(
+                                <>
                                 <div className="cart-details-box  login-setting-cart">
-                                <div className="cart-header">
-                                    <Stack direction="horizontal" gap={5}>
-                                        <h4 className="l-sb">Select Language</h4>
-                                    </Stack>
-                                </div>
+                                    <div className="cart-header">
+                                        <Stack direction="horizontal" gap={5}>
+                                            <h4 className="l-sb">Select Language</h4>
+                                        </Stack>
+                                    </div>
                                     <SelectMultiotion />
                                 </div>
                                 <div className="cart-details-box  login-setting-cart">
-                                <div className="cart-header">
-                                    <Stack direction="horizontal" gap={5}>
-                                        <h4 className="l-sb">Select City</h4>
-                                    </Stack>
-                                </div>
-                                    <Col md={12} lg={7} xl={7}>
-                                    <div className="location-right-sec select-multi">
-                                         <div className="head-loco-img">
-                                            <div className="loco-box">
-                                                {cities?.filter((key) => key.IsLTLive).map((ct,index) => {
-                                                    return (<div key={`city_${index}`} className="text-center" onClick={()=>selectPrefferedCity(ct.CityId, ct.CityName)}>
-                                                            {ct.MImgURL == null ? (
-                                                                <span className="default-city mr-2">
-                                                                    <span>{ct.CityName.charAt(0)}</span>
-                                                                </span>
-                                                            ):(
-                                                                <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`}/>
-                                                            )}
-                                                            <p className={`l-m city-name ${`${ct.CityId}_${ct.CityName}` == selectedCity ? 'active_city' : ''}`}>{ct.CityName}</p>
-                                                        </div>)
-                                                })}
-                                            </div>
-                                         </div>
+                                    <div className="cart-header">
+                                        <Stack direction="horizontal" gap={5}>
+                                            <h4 className="l-sb">Select City</h4>
+                                        </Stack>
                                     </div>
-                                </Col>
+                                    <Col md={12} lg={7} xl={7}>
+                                        <div className="location-right-sec select-multi">
+                                             <div className="head-loco-img">
+                                                <div className="loco-box">
+                                                    {cities?.filter((key) => key.IsLTLive).map((ct,index) => {
+                                                        return (<div key={`city_${index}`} className="text-center" onClick={()=>selectPrefferedCity(ct.CityId, ct.CityName)}>
+                                                                {ct.MImgURL == null ? (
+                                                                    <span className="default-city mr-2">
+                                                                        <span>{ct.CityName.charAt(0)}</span>
+                                                                    </span>
+                                                                ):(
+                                                                    <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`}/>
+                                                                )}
+                                                                <p className={`l-m city-name ${`${ct.CityId}_${ct.CityName}` == selectedCity ? 'active_city' : ''}`}>{ct.CityName}</p>
+                                                            </div>)
+                                                    })}
+                                                </div>
+                                             </div>
+                                        </div>
+                                    </Col>
                                 </div>
-                            <div className="cart-details-box  login-setting-cart">
-                                <div className="cart-header">
-                                    <Stack direction="horizontal" gap={5}>
-                                        <h4 className="l-sb">Select Musicality Type</h4>
-                                    </Stack>
+                                <div className="cart-details-box  login-setting-cart">
+                                    <div className="cart-header">
+                                        <Stack direction="horizontal" gap={5}>
+                                            <h4 className="l-sb">Select Musicality Type</h4>
+                                        </Stack>
+                                    </div>
+                                    <MusictypeSlider />
                                 </div>
-                                <MusictypeSlider />
-                            </div>
-                            <div className="text-right">
-                                <Button 
-                                    disabled={updateSettingsLoading}
-                                    className="l-sb btnn new_next_btn" onClick={addUserSettings}>
-                                    {updateSettingsLoading && (
-                                      <span className="spinner-border spinner-border-sm"></span>
-                                    )} 
-                                     Update</Button>
-                             </div>
+                                <div className="text-right">
+                                    <Button 
+                                        disabled={updateSettingsLoading}
+                                        className="l-sb btnn new_next_btn" onClick={addUserSettings}>
+                                        {updateSettingsLoading && (
+                                          <span className="spinner-border spinner-border-sm"></span>
+                                        )} 
+                                         Update</Button>
+                                 </div>
+                                </>
+                            )}
                         </div>    
                     </div>
                 </Container>

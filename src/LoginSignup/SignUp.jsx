@@ -25,11 +25,9 @@ const SignUp = () => {
       e.preventDefault();
       if (!phone.match(/^\+?[0-9]{2}-?[0-9]{6,12}$/) || phone.length !== 12) {
          setIsPhoneValid(false);
-         console.log('invalid phone')
         return false;
       } else if (email !== "" && email.match(/^\S+@\S+\.\S+$/) === null) {
         setIsEmailValid(false);
-        console.log('invalid email')
         return false;
       }
       else {
@@ -52,7 +50,6 @@ const SignUp = () => {
           setLoading(false);
         })
         .catch((err) => {
-          console.log('err', err);
           errorToast(err.message);
           setDisplayMessage(err.message)
           setLoading(false);
