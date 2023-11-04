@@ -94,6 +94,41 @@ const ArtistApplicationStatus = (props) => {
       ]
     };
 
+    const quizSettings = {
+      dots: true,
+      arrows: false,
+      infinite: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: false,
+      speed: 4000,
+      autoplaySpeed: 3000,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            initialSlide: 1
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+      ]
+    };
+
     // webkitAudioContext fallback needed to support Safari
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
@@ -193,37 +228,43 @@ const ArtistApplicationStatus = (props) => {
                                 
                           </div>
                           <div className="piano_section">
-                              <h3 className="piano_title">Let's play a Musical quiz</h3>
+                            <div className="quiz_section">
+                                <h3 className="piano_title">Let's play a Musical quiz</h3>
+                                <Slider {...quizSettings} className="facts_slider">
+                                    {artistApplicationQuizes.map((quiz,index) => {
+                                        return (
+                                            <div key={`quiz_${index}`}>
+                                              <p className="question_title">{quiz.QuizName}</p>
+                                              <Row className="question_ans">
+                                                  {quiz.selQuizOpt.map((opt,indx) => {
+                                                    return (
+                                                      <Col lg={6} md="6" key={`otp_${indx}`}>
+                                                        <span className="ans">{opt.QuizOptName}</span>
+                                                    </Col>
+                                                      )
+                                                  })}
+                                              </Row>
+                                            </div>
+                                          )
+                                      })}
+
+                              </Slider>
+                              </div>
                               <div className="quiz_section">
                                   <div>
-                                    {artistApplicationQuizes.map((quiz,index) => {
+                                    {/*{artistApplicationQuizes.map((quiz,index) => {
                                       return (
                                           <RxDotFilled key={`top_dots_${index}`} className="quiz_result_dot quiz_result_dot" />
                                         )
-                                    })}
-                                      
+                                    })}*/}
+                                        {/*<h3 className="question_head">Question <span className="current_que">{artistApplicationQuizes.length}</span>/<span className="total_que">{artistApplicationQuizes.length}</span></h3>*/}
                                       {/*<RxDotFilled className="quiz_result_dot quiz_result_dot_ans_wrong" />
                                       <RxDotFilled className="quiz_result_dot" />
                                       <RxDotFilled className="quiz_result_dot" />
                                       <RxDotFilled className="quiz_result_dot" />*/}
                                   </div>
-                                  <h3 className="question_head">Question <span className="current_que">{artistApplicationQuizes.length}</span>/<span className="total_que">{artistApplicationQuizes.length}</span></h3>
-                                  {artistApplicationQuizes.map((quiz,index) => {
-                                    return (
-                                        <div key={`quiz_${index}`}>
-                                          <p className="question_title">{quiz.QuizName}</p>
-                                          <Row className="question_ans">
-                                              {quiz.selQuizOpt.map((opt,indx) => {
-                                                return (
-                                                  <Col lg={6} md="6" key={`otp_${indx}`}>
-                                                    <span className="ans">{opt.QuizOptName}</span>
-                                                </Col>
-                                                  )
-                                              })}
-                                          </Row>
-                                        </div>
-                                      )
-                                  })}
+                                  
+                                  
                                   
                                  
                               </div>

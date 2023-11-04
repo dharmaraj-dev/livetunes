@@ -1237,6 +1237,10 @@ numberInput.input[type=number] {
   font-size: 10px;
 }
 
+.quiz_section .slick-dots li button:before {
+  font-size: 10px;
+}
+
 .quiz_section {
   text-align: center;
 }
