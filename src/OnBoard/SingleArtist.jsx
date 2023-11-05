@@ -126,11 +126,11 @@ const SingleArtist = () => {
                                                 <Stack direction="horizontal" gap={2} className="d-inline-flex">
                                                     <div className="star-rate-sec l-r">
                                                     <span><BsFillStarFill className="star-class"/></span>
-                                                    <span>4</span>
+                                                    <span>{artistDetails?.Rating != "" ? artistDetails?.Rating : 0}</span>
                                                     <span>/</span>
                                                     <span>5</span>
                                                     </div>
-                                                    <div className="count-review l-r cursor-pointer">2 Reviews</div>
+                                                    <div className="count-review l-r cursor-pointer">{artistDetails.selArtistReview?.length} Reviews</div>
                                                 </Stack>
                                             </div>
                                         </div>
@@ -352,49 +352,42 @@ const SingleArtist = () => {
                                         <Col lg={4}>
                                             <div className="rating-sec">
                                                 <div className="star-sec red-color l-b">
-                                                    <span>4</span>
+                                                    <span>{artistDetails?.Rating != "" ? artistDetails?.Rating : 0}</span>
                                                     <span>/</span>
                                                     <span>5</span>
                                                     <span><BsFillStarFill className="star-class"/></span>
                                                 </div>
-                                                <h2 className="l-b red-color">Wonderful</h2>
-                                                <p className="sub-head l-r">Based on 2 verified users reviews</p>
+                                                {artistDetails?.selArtistReview?.length > 0 && (
+                                                    <>
+                                                        <h2 className="l-b red-color">{artistDetails?.Rating > 3 ? "Wonderful" : "Average"}</h2>
+                                                        <p className="sub-head l-r">{artistDetails?.ReviewNarration}</p>
+                                                    </>
+                                                )}
+                                                
                                             </div>
                                         </Col>
                                         <Col lg={8}>
                                             <div className="reviews-sec">
-                                                <div className="reviews-box">
-                                                    <div className="ico-img">
-                                                        <img src={Revieimg} alt="" />
-                                                    </div>
-                                                    <div className="reviews-detail-sec">
-                                                        <Stack direction="horizontal" gap={3}>
-                                                            <div className="l-b name">Roshni Rao</div>
-                                                            <div className="l-r date">17 Jun 2022</div>
-                                                        </Stack>
-                                                        <Stack direction="horizontal" gap={5}>
-                                                            <div className="l-sb like-text"><AiFillLike className="red-color"/> awesome song selection.</div>
-                                                            <div className="l-sb like-text"><AiFillDislike className="red-color"/> N.A.</div>
-                                                        </Stack>
-                                                        <p className="l-r">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
-                                                    </div>
-                                                </div>
-                                                <div className="reviews-box">
-                                                    <div className="ico-img">
-                                                        <img src={Revieimg} alt="" />
-                                                    </div>
-                                                    <div className="reviews-detail-sec">
-                                                        <Stack direction="horizontal" gap={3}>
-                                                            <div className="l-b name">Roshni Rao</div>
-                                                            <div className="l-r date">17 Jun 2022</div>
-                                                        </Stack>
-                                                        <Stack direction="horizontal" gap={5}>
-                                                            <div className="l-sb like-text"><AiFillLike className="red-color"/> awesome song selection.</div>
-                                                            <div className="l-sb like-text"><AiFillDislike className="red-color"/> N.A.</div>
-                                                        </Stack>
-                                                        <p className="l-r">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
-                                                    </div>
-                                                </div>
+                                                {artistDetails?.selArtistReview?.map((rev,index) => {
+                                                    return (
+                                                        <div key={`review_${index}`} className="reviews-box">
+                                                            <div className="ico-img">
+                                                                <img src={rev.ProfileImg} alt="" />
+                                                            </div>
+                                                            <div className="reviews-detail-sec">
+                                                                <Stack direction="horizontal" gap={3}>
+                                                                    <div className="l-b name">{rev.UserName}</div>
+                                                                    <div className="l-r date">{rev.FeedbackDate}</div>
+                                                                </Stack>
+                                                                <Stack direction="horizontal" gap={5}>
+                                                                    <div className="l-sb like-text"><AiFillLike className="red-color"/> {rev.LikeRemark == "" ? "NA" : rev.LikeRemark}</div>
+                                                                    <div className="l-sb like-text"><AiFillDislike className="red-color"/> {rev.DisLikeRemark == "" ? "NA" : rev.DisLikeRemark}</div>
+                                                                </Stack>
+                                                                <p className="l-r">{rev.ExtraRemark == "" ? "NA" : rev.ExtraRemark}</p>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })}
                                             </div>
                                         </Col>
                                     </Row>

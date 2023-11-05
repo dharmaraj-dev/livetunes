@@ -41,7 +41,8 @@ const ArtistCard = (props) => {
                             </div>
                             <Rating 
                               size={27}
-                              initialValue={4}
+                              initialValue={artist.Rating != "" ? artist.Rating : 0}
+                              allowFraction={true}
                               fillColor="#fd3743"
                               readonly={true}
                             />

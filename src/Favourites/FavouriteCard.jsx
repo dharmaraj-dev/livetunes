@@ -9,6 +9,7 @@ import StarRate from '../OnBoard/StarRate';
 import { RxCrossCircled } from "react-icons/rx";
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
+import { Rating } from 'react-simple-star-rating'
 import { removeFavoriteArtists } from "../actions/user";
 import { removeFavArtists } from "../redux/userBookingsSlice";
 
@@ -40,7 +41,13 @@ const FavouriteCard = ({props}) => {
                 <div className="avtar-img">
                     <img src={props.ArtistProfileImg == "" ? Avtar : props.ArtistProfileImg} alt={props.ArtistName} className="w-100 border-radius-cirlce" />
                 </div>
-                <StarRate/>   
+                <Rating 
+                  size={27}
+                  allowFraction={true}
+                  initialValue={props?.Rating}
+                  fillColor="#fd3743"
+                  readonly={true}
+                />
             </div>
             <div className="music-detail">
                 <p className="name l-sb">{props.ArtistName}</p>

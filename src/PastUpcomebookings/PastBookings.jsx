@@ -139,15 +139,19 @@ const PastBookings = (props) => {
             <div className="d-flex gap-2">
                <Rating 
                   size={27}
-                  initialValue={4}
+                  allowFraction={true}
+                  initialValue={props.data?.Rating}
                   fillColor="#fd3743"
                   readonly={true}
                 />
                <h5 className="l-r">(overall ratings)</h5>
             </div>
-            <div className="ms-auto">
-                <h5 className="l-b red-color"><a className="text-reset cursor-pointer"  onClick={handleShow}>Give Feedback</a></h5>
-            </div>
+            {props?.selBookFeedback?.length == 0 && (
+              <div className="ms-auto">
+                  <h5 className="l-b red-color"><a className="text-reset cursor-pointer"  onClick={handleShow}>Give Feedback</a></h5>
+              </div>
+            )}
+            
           </Stack>
         </div>
 

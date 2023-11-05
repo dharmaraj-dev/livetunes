@@ -43,11 +43,11 @@ const ArtistInfo = ({loading, artistDetails}) => {
             <Stack direction="horizontal" gap={2} className="d-inline-flex">
                 <div className="star-rate-sec l-r">
                 <span><BsFillStarFill className="star-class"/></span>
-                <span>4</span>
+                <span>{(artistDetails?.Rating != "" && artistDetails?.Rating != null) ? artistDetails?.Rating : 0}</span>
                 <span>/</span>
                 <span>5</span>
                 </div>
-                <div className="count-review l-r cursor-pointer">2 Reviews</div>
+                <div className="count-review l-r cursor-pointer">{artistDetails?.selArtistReview?.length} Reviews</div>
             </Stack>
         </div>
         </>

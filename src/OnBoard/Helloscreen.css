@@ -150,6 +150,10 @@
 .reviews-sec{padding: 0 80px;}
 .reviews-sec .reviews-box{display: flex;margin: 0 0 34px;}
 .reviews-sec .reviews-box .ico-img {margin: 0 22px 0 0;}
+.reviews-sec .reviews-box .ico-img img {
+    width: 64px;
+    border-radius: 50%;
+}
 .reviews-detail-sec .name,.reviews-detail-sec .date{font-size: 18px;}
 .reviews-detail-sec .like-text{font-size: 21px;margin: 10px 0 10px;}
 .main-rate-review-sec{border-bottom: 2px solid #444444;}
