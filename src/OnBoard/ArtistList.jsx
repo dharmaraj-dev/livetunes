@@ -47,7 +47,7 @@ const ArtistList = (props) => {
           "LanguageId":selectedLanguages?.map(a => a.LanguageId)?.join(","),
           "CategoryId":userSelectedCategories?.map(a => a.CategoryId)?.join(","),
           "GenreId":preSelectedGenres != null ? preSelectedGenres.map(a => a.GenreId)?.join(",") : userSelectedGenres?.map(a => a.GenreId)?.join(","),
-          "EventId":preSelectedEvents != null ? preSelectedEvents.map(a => a.EventsId)?.join(",") : setUserSelectedEvents?.map(a => a.EventsId)?.join(","),
+          "EventId":preSelectedEvents != null ? preSelectedEvents.map(a => a.EventsId)?.join(",") : userSelectedEvents?.map(a => a.EventsId)?.join(","),
           "FromCharge":userMinimumBudget,
           "ToCharge":userMaximumBudget
       }

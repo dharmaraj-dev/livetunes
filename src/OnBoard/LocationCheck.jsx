@@ -127,7 +127,7 @@ const LocationCheck = () => {
                                                   onRemove={removeRequestedState}
                                                   selectedValues={userRequestedStates}
                                                   singleSelect = {true}
-                                                  disable={selectedCity != '' ? true : false}
+                                                  disable={(selectedCity != '' && selectedCity != null) ? true : false}
                                                 />
                                             </Col>
                                             <Col md={6} lg={6} xl={6}>
@@ -143,7 +143,7 @@ const LocationCheck = () => {
                                                       onSelect={selectRequestedCity}
                                                       onRemove={removeRequestedCity}
                                                       selectedValues={userRequestedCities}
-                                                      disable={selectedCity != '' ? true : false}
+                                                      disable={(selectedCity != '' && selectedCity != null) ? true : false}
                                                     />
                                                 )}
                                             </Col>
