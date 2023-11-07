@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
+import { setArtistIsNotSubmitted, setArtistRejected, setArtistIsPending, setArtistIsApproved } from "./userAuth";
 const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 
 const artistProofData = localStorage.getItem("artistProofData") != null ? JSON.parse(localStorage.getItem("artistProofData")) : [];
@@ -43,6 +44,7 @@ const slice = createSlice({
         state.artistDetailsError = "error";
         state.artistDetailsLoading = false;
       }
+      
     },
     startArtistsSlotsLoading: state => {
       state.artistSlotsloading = true;
@@ -136,9 +138,15 @@ export const fetchArtistDetails = (artistId,userId) => async dispatch => {
 export const getArtistDetails = () => async dispatch => {
   dispatch(startArtistDetailsLoading());
   try {
-    await axios
+   return await axios
       .post(API_URL + `ArtistProfile/GetArtistProfile` ,{}, {headers:authHeader()})
       .then(response => {
+        if(response.data.IsSuccess) {
+          dispatch(setArtistIsNotSubmitted(response.data.is_not_submitted));
+          dispatch(setArtistRejected(response.data.is_rejection));
+          dispatch(setArtistIsPending(response.data.is_pending));
+          dispatch(setArtistIsApproved(response.data.is_approved));
+        }
         dispatch(setArtistDetailsData(response.data));
         return response;
       });
@@ -201,7 +209,7 @@ export const getArtistsApplicationStatusQuizes  = (data) => async dispatch => {
 
 export const submitArtistApplicationTJudge = () => async dispatch => {
   try {
-    await axios
+   return await axios
       .post(API_URL + `ArtistProfile/ArtistPayStatus` ,{}, {headers:authHeader()})
       .then(response => {
         return response;

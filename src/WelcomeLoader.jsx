@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./WelcomeLoader.css";
-import useScript from './hooks/useScript';
-import { Navigate, useNavigate  } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { setJoiningType } from './redux/userAuth';
 
@@ -21,9 +20,6 @@ const WelcomeLoader = () => {
   	 useEffect(() => {
 
 		if(params.artistId && params.userId){
-			// if(isLoggedIn && joiningType == "User") {
-			// 	dispatch(fetchUserProfile());
-			// }
 		  navigate(`/artist-details/${params.ArtistName.replace(/ /g,"-")}/${btoa(params.artistId)}/${btoa(params.userId)}`);
 		  return false;
 		}
@@ -40,12 +36,13 @@ const WelcomeLoader = () => {
 	      },7000)
 	    } else {
 	      if(joiningType === 'Artist') {
-	        dispatch(getArtistProofData());
 	        if(ArtistIsNotSubmitted) {
+	        	console.log('aaaaa')
 	          navigate("/artists-profile");
 	        }else if(ArtistIsPending) {
 	          navigate("/application-status");
 	        } else {
+    		  dispatch(getArtistProofData());
 	          navigate("/artist-dashboard");
 	        }
 	      } else if(joiningType === 'Judge') {

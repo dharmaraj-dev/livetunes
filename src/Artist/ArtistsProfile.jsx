@@ -32,7 +32,7 @@ import DhanTeNan from '../assets/music/dhan_te_nan.mp3';
 import './Artist.css'
 import Skeleton from 'react-loading-skeleton'
 
-const ArtistsProfile = (props) => {
+const ArtistsProfile = () => {
     const dispatch = useDispatch();
     const MySwal = withReactContent(Swal);
     let navigate = useNavigate();

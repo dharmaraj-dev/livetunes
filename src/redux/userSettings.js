@@ -157,7 +157,7 @@ export const setUserRequestedCitiesAPI = (param) => async dispatch => {
 
 export const setUserSettings = (param) => async dispatch => {
     try{
-        await axios 
+      return  await axios 
             .post(API_URL + "USett/Insert",param,{headers:authHeader()})
             .then((response) => {
                 if(response.IsSuccess){

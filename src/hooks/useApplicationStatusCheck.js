@@ -12,7 +12,7 @@ const useApplicationStatusCheck = () => {
           title: '<strong>'+title+'</strong>',
           icon: 'warning',
           html: desc,
-          showDenyButton: true,
+          showDenyButton: false,
           confirmButtonText: 'Okey',
           denyButtonText: `No`,
           showLoaderOnConfirm: false,
