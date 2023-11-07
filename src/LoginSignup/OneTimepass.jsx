@@ -188,11 +188,11 @@ const OneTimepass = () => {
               <div>
                  <Form className="otp-field"> {/*otp-invalid class */}
                   <div className="otp-box d-flex">   
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b active" name="field-1" value={input1} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => { setInput1(event.target.value); handleChange(event) } } /> 
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-2" value={input2} onKeyDown={(e)=>handleClick(e)}  onChange = { (event) => { setInput2(event.target.value) ; handleChange(event)} } />
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-3" value={input3} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => { setInput3(event.target.value); handleChange(event) } } />
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-4" value={input4} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => { setInput4(event.target.value); handleChange(event)  } } />
-                    <Form.Control size="lg" type="text" pattern="[0-9]" maxLength="1" className="l-b" name="field-5" value={input5} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => {setInput5(event.target.value); handleChange(event)  } } />
+                    <Form.Control size="lg" type="tel" pattern="[0-9]" maxLength="1" className="l-b active" name="field-1" value={input1} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => { setInput1(event.target.value); handleChange(event) } } /> 
+                    <Form.Control size="lg" type="tel" pattern="[0-9]" maxLength="1" className="l-b" name="field-2" value={input2} onKeyDown={(e)=>handleClick(e)}  onChange = { (event) => { setInput2(event.target.value) ; handleChange(event)} } />
+                    <Form.Control size="lg" type="tel" pattern="[0-9]" maxLength="1" className="l-b" name="field-3" value={input3} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => { setInput3(event.target.value); handleChange(event) } } />
+                    <Form.Control size="lg" type="tel" pattern="[0-9]" maxLength="1" className="l-b" name="field-4" value={input4} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => { setInput4(event.target.value); handleChange(event)  } } />
+                    <Form.Control size="lg" type="tel" pattern="[0-9]" maxLength="1" className="l-b" name="field-5" value={input5} onKeyDown={(e)=>handleClick(e)} onChange = { (event) => {setInput5(event.target.value); handleChange(event)  } } />
                   </div>
                   <div className="invalid-expire-text clearfix">
                     {isOtpValid !== "" && (

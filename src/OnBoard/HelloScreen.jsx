@@ -86,7 +86,7 @@ const HelloScreen = () => {
                                                 <p className={`${specialEvents.length == 0 ? 'black-color' : 'text-white'} l-l para-text`}>{ev.SubText1}</p>
                                             </div>
                                         </Col>
-                                        <Col md={4} lg={4} className="postion-r">
+                                        <Col md={4} lg={4} className="dashboard_lets_go_box">
                                             <div className="hello-left-btn-sec">
                                                 <Link to={{
                                                     pathname: '/artist-list',

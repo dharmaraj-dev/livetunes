@@ -44,8 +44,8 @@ const NavBar = () => {
   return (
     <>
       <Navbar>
-        <Container fluid>
-            <Form className="top-search" style={{"visibility": "hidden"}}>
+        <Container fluid className="justify-content-end">
+            {/*<Form className="top-search" style={{"visibility": "hidden"}}>
                 <Form.Control
                 type="search"
                 placeholder="Search"
@@ -53,7 +53,7 @@ const NavBar = () => {
                 aria-label="Search"
                 />
                 <Button  variant="outline-success" className="top-search-button"><IoSearchOutline/></Button>
-            </Form>
+            </Form>*/}
             <div className="justify-content-end d-flex top-right-menu">
                 <ul className="navbar-nav">
                   {joiningType === "User" && (

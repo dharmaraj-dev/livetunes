@@ -25,8 +25,7 @@ const LoginSetting = () => {
                 <h5 className="l-sb mb-1 head">Email Address | Phone Number</h5>
                 <Stack direction="horizontal" gap={1}>
                 <div className="l-r sub-head fs-6">xyz@gmail.com,</div>
-                <div className="l-r sub-head fs-6">+91-XXXXXXX932</div>
-                <div className="l-r sub-head fs-6">(These are your registered contact details)</div>
+                <div className="l-r sub-head fs-6" title="This is your registered contact detail">+91-XXXXXXX932</div>
                 </Stack>
             </div>
           </div>

@@ -1,0 +1,31 @@
+.side-nav-container .nav-menu{
+  display: block;
+}
+
+.side-nav-container.side-nav-container-NX {
+    height: 100vh;
+}
+
+.main {
+    margin: 0 0 0 85px;
+}
+
+@media screen and (max-width: 768px) {
+  .side-nav-container.side-nav-container-NX {
+      height: 72px;
+  }
+  .side-nav-container-NX .nav-menu{
+    display: none;
+  }
+  .main {
+    margin: 0;
+  }
+
+  .side-nav-container-NX .nav-footer {
+    display: none !important;
+  }
+
+  .side-nav-container .nav-footer {
+    display: block;
+  }
+}

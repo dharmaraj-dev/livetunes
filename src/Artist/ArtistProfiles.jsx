@@ -610,17 +610,17 @@ const ArtistProfiles = () => {
                     <div className="artist-main-profile-tophead mb-5">
                         <Stack direction="horizontal" gap={3}>
                         <p className="l-sb head fs-3 mb-0">General Settings</p>
-                        <div className="ms-auto">
-                            <button type="button" className="l-sb wbtnn back-btn btn btn-primary red-color" onClick={cancelChanges}>Cancel</button>
+                        <div className="ms-auto profile_action_buttons">
+                            <button type="button" className="l-sb wbtnn back-btn btn btn-primary red-color mr-2" onClick={cancelChanges}>Cancel</button>
                             <button
                                 type="button"
-                                className={`l-sb wbtnn back-btn btn btn-primary red-color ms-3 ${enableStep2 || enableStep3 ? '' : 'bg-disabled'}`}
+                                className={`l-sb wbtnn back-btn btn btn-primary red-color ${enableStep2 || enableStep3 ? '' : 'bg-disabled'}`}
                                 onClick={saveChanges}
                                 disabled={loading}
                             >
                             {loading && (
                               <span className="spinner-border spinner-border-sm"></span>
-                            )} Save changes</button>
+                            )} Save</button>
                         </div>
                         </Stack>
                         <hr className="mt-2 mb-2"/>

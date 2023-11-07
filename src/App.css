@@ -363,7 +363,7 @@ body.modal-open .App{filter: blur(6px);}
     .main-left-location-sec{justify-content: flex-start;margin: 7px 0 14px;}
     .main-checkavailability-right-sec{order: -1!important;margin: 0 0 24px;}
     .checkavailability-right-sec {padding: 0 0 0 0;}
-    .steps{width: 64%;}
+    .steps{width: 100%;}
     .reward-model-sec .modal-dialog{max-width: 90%;}
     .inner-reward-sec {padding: 0 20px 13px;}
     .main-coupons-sucess-sec .modal-dialog {max-width: 90%;}

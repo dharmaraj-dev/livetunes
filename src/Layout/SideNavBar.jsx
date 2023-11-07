@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
 import {TfiDashboard, TfiAgenda } from "react-icons/tfi";
-import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock, TfiMedallAlt } from "react-icons/tfi";
+import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock, TfiMedallAlt, TfiMenu } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
 import { SlCalender, SlSettings } from "react-icons/sl";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
@@ -21,6 +21,7 @@ import { useLocation } from 'react-router-dom';
 import useLoginCheck from "../hooks/useLoginCheck";
 import useApplicationStatusCheck from "../hooks/useApplicationStatusCheck";
 import { setLogout } from "../redux/userAuth";
+import "./Sidemenu.css";
 
 const SideNavBar = () => {
 	const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const SideNavBar = () => {
 	const { showLoginAlert } = useLoginCheck();
 	const { showApplicationAlert } = useApplicationStatusCheck();
 	const { isLoggedIn, joiningType, ArtistIsNotSubmitted, ArtistIsPending } = useSelector((state) => state.userAuth);
+
 
 	let alertTitle = '';
   let alertDesc = '';
@@ -134,6 +136,7 @@ const SideNavBar = () => {
 
 
 	const handleLogout = () => {
+		setExpendState(false);
 		MySwal.fire({
           title: '<strong>Are you sure!!</strong>',
           icon: 'warning',
@@ -174,7 +177,9 @@ const SideNavBar = () => {
 							<img className="side-minilogo d-none" src={Minisitelogo} alt="" />
 						</div>
 					
-						<span onClick={() => {audio.play();}}>
+						<span 
+						onClick={() => {audio.play();}}
+							>
 							<button
 								className={
 									isExpanded ? "hamburger hamburger-in" : "hamburger hamburger-out"

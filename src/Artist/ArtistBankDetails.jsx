@@ -588,13 +588,13 @@ const ArtistBankDetails = () => {
                              Bank details
                             </li>
                             <li className={`step ${currentStep > 2 ? 'is-active' : ''} ${currentStep === 2 ? 'active' : ''}`} data-step="2">
-                             Photo Id proof
+                            Id proof
                             </li>
                             <li className={`step ${currentStep > 3 ? 'is-active' : ''} ${currentStep === 3 ? 'active' : ''}`} data-step="3">
                              Address proof
                             </li>
                             <li className={`step ${currentStep > 4 ? 'is-active' : ''} ${currentStep === 4 ? 'active' : ''}`} data-step="4">
-                             Add References
+                            References
                             </li>
                         </ol>
                     </section>

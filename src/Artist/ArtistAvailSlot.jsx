@@ -116,6 +116,7 @@ const ArtistAvailSlot = () => {
 
     const handleSelectSlot = useCallback(
         ({ start, end }) => {
+          console.log(start, end);
             if ( start.getTime() > new Date().getTime()) {
               // handleShow({start,end });
               setStartDate(moment(start).format("YYYY-MM-DD HH:mm:ss"));
@@ -220,6 +221,7 @@ const ArtistAvailSlot = () => {
                   </Row>
                 ):(
                   <Calendar
+                      longPressThreshold={1}
                       defaultDate={defaultDate}
                       defaultView={Views.WEEK}
                       components={{event: (ev) => <EventComponent eventData={ev} />}}
@@ -248,7 +250,7 @@ const ArtistAvailSlot = () => {
                         const color = 'white';
                         return { style: { backgroundColor ,color, "border": "0"} }
                       }}
-                      onSelecting = {slot => false}
+                      //onSelecting = {slot => false}
                       minDate={new Date()}
                   />
                 )}

@@ -9,7 +9,6 @@ export default function ThreeDotLoader() {
 	        <div></div>
 	        <div></div>
 	        <div></div>
-	        <div></div>
 	    </div>
     )
 }

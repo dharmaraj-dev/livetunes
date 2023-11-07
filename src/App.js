@@ -46,15 +46,13 @@ import { getAllMasters } from "./actions/common";
 import 'filepond/dist/filepond.min.css'
 import 'react-range-slider-input/dist/style.css';
 import { Navigate, useNavigate  } from 'react-router-dom';
-import {
-  ARTIST_PROFILE_STATUS
-} from "./actions/types";
 import 'react-loading-skeleton/dist/skeleton.css'
 import { setJoiningType } from './redux/userAuth';
 import ArtistAvailSlot from './Artist/ArtistAvailSlot';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { fetchUserProfile } from "./redux/userProfileSlice";
 import { getFeedLogs } from "./redux/userSlice";
+import './responsive.css';
 
 function App() {
   const dispatch = useDispatch();
