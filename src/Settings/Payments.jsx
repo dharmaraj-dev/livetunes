@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Stack from "react-bootstrap/Stack";
 import Accordion from 'react-bootstrap/Accordion';
 import Row from 'react-bootstrap/Row';
@@ -10,8 +10,69 @@ import Paysvgrepo from '../assets/images/credit-cards-svgrepo-com.png';
 import MailBox from '../assets/images/mail-box.png';
 import PayCard from './PayCard';
 import SaveAddress from './SaveAddress';
-
+import { useDispatch, useSelector } from "react-redux";
+import { successToast, errorToast } from "../services/toast-service";
+import { addNewCard } from "../redux/commonSlice";
 const Payments = () => {
+  const dispatch = useDispatch();
+
+  const [cardNo, setCardNo] = useState("");
+  const [cardName, setCardName] = useState("");
+  const [cardExpDate, setCardExpDate] = useState("");
+  const [cardCvv, setCardCvv] = useState("");
+  const [isCardNoValid, setIsCardNoValid] = useState(true);
+
+  const { addNewCardLoading } = useSelector(state => state.commonStates);
+
+
+  const setAndValidateCardNo = (e) => {
+    let ccNum = e.target.value;
+    var visaPattern = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+    var mastPattern = /^(?:5[1-5][0-9]{14})$/;
+    var amexPattern = /^(?:3[47][0-9]{13})$/;
+    var discPattern = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/; 
+
+    var isVisa = visaPattern.test( ccNum ) === true;
+    var isMast = mastPattern.test( ccNum ) === true;
+    var isAmex = amexPattern.test( ccNum ) === true;
+    var isDisc = discPattern.test( ccNum ) === true;
+
+    setCardNo(ccNum)
+
+    if( isVisa || isMast || isAmex || isDisc ) {
+      setIsCardNoValid(true)
+    } else {
+      setIsCardNoValid(false)
+    }
+  }
+
+
+  const addCard = (e) => {
+    e.preventDefault();
+    if(!isCardNoValid) {
+      errorToast("Invalid or Missing Card No.")
+      return false;
+    } else if(cardName == "") {
+      errorToast("Enter Card Holder Name.")
+      return false;
+    } else if(cardExpDate == "") {
+      errorToast("Enter Card Expiry Date.")
+      return false;
+    } else if(cardCvv == "") {
+      errorToast("Enter Card CVV.")
+      return false;
+    }
+
+    let dataToSend = {
+      "CardNo": cardNo,
+      "CardName": cardName,
+      "ExpiryNo": cardExpDate,
+      "CVV": cardCvv
+    }
+    dispatch(addNewCard(dataToSend));
+
+  }
+
   return (
     <>
         <div className="cart-details-box  login-setting-cart">
@@ -37,20 +98,25 @@ const Payments = () => {
                     <Accordion.Body>
                     <div className="main-inner-setting-sec">
                         <Row>
-                          <Col lg={6} className="col-sec-1">
+                          {/*<Col lg={6} className="col-sec-1">
                             <div className="inner-setting-sec">
                               <PayCard/>
                             </div>
-                          </Col>
+                          </Col>*/}
                           <Col lg={6} className="col-sec-2">
                             <div className="inner-setting-sec">
-                              <Form>
+                              <Form onSubmit={(e) => {addCard(e)}} method="post">
                                 <Form.Group as={Row} className="mb-3" controlId="">
                                   <Form.Label column sm={3} className="l-sb fs-6">
                                   Card no.
                                   </Form.Label>
                                   <Col sm={9}>
-                                    <Form.Control type="text" placeholder="" />
+                                    <Form.Control type="number" value={cardNo} onChange={(e) => {setAndValidateCardNo(e)}} required />
+                                    {!isCardNoValid && (
+                                    <Form.Label column sm={12} className="red-color status_label">
+                                      Invalid Card Number
+                                    </Form.Label>
+                                    )}
                                   </Col>
                                 </Form.Group>
 
@@ -59,7 +125,7 @@ const Payments = () => {
                                   Name
                                   </Form.Label>
                                   <Col sm={9}>
-                                    <Form.Control type="text" placeholder="" />
+                                    <Form.Control type="text" value={cardName} onChange={(e) => {setCardName(e.target.value)}}  required/>
                                   </Col>
                                 </Form.Group>
                           
@@ -70,7 +136,7 @@ const Payments = () => {
                                        Expiry date
                                       </Form.Label>
                                       <Col sm={6}>
-                                        <Form.Control type="text" placeholder="" />
+                                        <Form.Control type="date" value={cardExpDate} onChange={(e) => {setCardExpDate(e.target.value)}}  required/>
                                       </Col>
                                     </Form.Group>
                                   </Col>
@@ -80,17 +146,24 @@ const Payments = () => {
                                         CVV
                                       </Form.Label>
                                       <Col sm={6}>
-                                        <Form.Control type="text" placeholder="" />
+                                        <Form.Control type="number" value={cardCvv} onChange={(e) => {setCardCvv(e.target.value)}} required/>
                                       </Col>
                                     </Form.Group>
                                   </Col>
                                 </Row>
                                 <Form.Group as={Row} className="text-center inner-setting-button">
                                   <Col>
-                                    <button type="button" className="l-b btnn btn btn-primary border-radius-36">Save changes</button>
+                                    <button
+                                      type="submit"
+                                      className="l-b btnn btn btn-primary border-radius-36"
+                                      disabled={addNewCardLoading}
+                                    >
+                                      {addNewCardLoading && (
+                                          <span className="spinner-border spinner-border-sm"></span> 
+                                        )} 
+                                       Save changes</button>
                                   </Col>
                                 </Form.Group>
-
                               </Form>
                             </div>
                           </Col>

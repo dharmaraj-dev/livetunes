@@ -1190,10 +1190,14 @@ numberInput.input[type=number] {
 }
 
 .application_status_slider .slick-arrow {
-    background: #b5b5b5;
+    /*background: #b5b5b5;
     width: 100px;
     height: 100px;
-    z-index: 9999;
+    z-index: 9999;*/
+}
+
+.slick-prev:before, .slick-next:before {
+  color: #FD3743;
 }
 
 .facts_slider_section{
@@ -1243,6 +1247,14 @@ numberInput.input[type=number] {
 
 .quiz_section {
   text-align: center;
+}
+
+.quiz_section .slick-list{
+    margin-top: 3rem;
+}
+
+.quiz_section .slick-dots{
+    top: -2.5rem;
 }
 
 .quiz_result_dot {

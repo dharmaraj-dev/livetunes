@@ -8,7 +8,7 @@ import { FiEdit } from "react-icons/fi";
 import { RxCrossCircled } from "react-icons/rx";
 import Svgrepo from '../assets/images/devices-svgrepo-com.png';
 
-const LoginSetting = () => {
+const LoginSetting = (props) => {
   return (
     <>
         <div className="cart-details-box  login-setting-cart">
@@ -24,8 +24,8 @@ const LoginSetting = () => {
             <div className="">
                 <h5 className="l-sb mb-1 head">Email Address | Phone Number</h5>
                 <Stack direction="horizontal" gap={1}>
-                <div className="l-r sub-head fs-6">xyz@gmail.com,</div>
-                <div className="l-r sub-head fs-6" title="This is your registered contact detail">+91-XXXXXXX932</div>
+                <div className="l-r sub-head fs-6">{props?.mail},</div>
+                <div className="l-r sub-head fs-6" title="This is your registered contact detail">+{props?.phone}</div>
                 </Stack>
             </div>
           </div>

@@ -40,7 +40,7 @@ const ArtistsProfile = () => {
 
     const { cities, states, categories, gernes, languages, events, eventModes } = useSelector(state => state.common);
     const { artistDetails } = useSelector(state => state.artist);
-    const { IsProfileSend } = useSelector(state => state.userAuth);
+    const { IsProfileSend, otpSentTo } = useSelector(state => state.userAuth);
    
 
     const [pageLoading, setPageLoading] = useState(true);
@@ -862,9 +862,10 @@ const ArtistsProfile = () => {
                                                 country={"in"}
                                                 enableSearch={true}
                                                 placeholder={9999999999}
-                                                value={contactNo} 
-                                                onChange={(phone) => {setContactNo(phone)}}
-                                                onKeyDown={(e)=>handleKeyDownPhone(e)}
+                                                value={otpSentTo} 
+                                                disabled
+                                                // onChange={(phone) => {setContactNo(phone)}}
+                                                // onKeyDown={(e)=>handleKeyDownPhone(e)}
                                               />
                                         </Col>
                                         <Col lg={6} md="12" className="mb-4">

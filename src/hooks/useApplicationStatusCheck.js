@@ -19,7 +19,7 @@ const useApplicationStatusCheck = () => {
           allowOutsideClick: () => false
         }).then((result) => {
             if(result.isConfirmed) {
-                navigate('/')
+                //navigate('/')
             }
         })
     };

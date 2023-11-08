@@ -30,9 +30,9 @@ const ArtistApplicationStatus = (props) => {
       infinite: true,
       slidesToShow: 1,
       slidesToScroll: 1,
-      autoplay: false,
-      speed: 4000,
-      autoplaySpeed: 3000,
+      autoplay: true,
+      speed: 3000,
+      autoplaySpeed: 5000,
       responsive: [
         {
           breakpoint: 1024,
@@ -65,9 +65,9 @@ const ArtistApplicationStatus = (props) => {
       infinite: true,
       slidesToShow: 1,
       slidesToScroll: 1,
-      autoplay: false,
+      autoplay: true,
       speed: 4000,
-      autoplaySpeed: 3000,
+      autoplaySpeed: 5000,
       responsive: [
         {
           breakpoint: 1024,
@@ -225,11 +225,11 @@ const ArtistApplicationStatus = (props) => {
                                   )}
                                   
                               </div>
-                                
                           </div>
                           <div className="piano_section">
                             <div className="quiz_section">
                                 <h3 className="piano_title">Let's play a Musical quiz</h3>
+                                <h3 className="question_head">Question <span className="current_que">{1}</span>/<span className="total_que">{artistApplicationQuizes.length}</span></h3>
                                 <Slider {...quizSettings} className="facts_slider">
                                     {artistApplicationQuizes.map((quiz,index) => {
                                         return (

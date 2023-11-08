@@ -21,6 +21,7 @@ const Settings = () => {
     const { cities } = useSelector(state => state.common );
     const {selectedLanguages,selectedCity, userMusicalityTypes, userMinimumBudget, userMaximumBudget, savedUsersSettings, updateSettingsLoading} = useSelector(state => state.userSettings);
     const { user, joiningType } = useSelector(state => state.userAuth);
+    const { artistDetails } = useSelector(state => state.artist);
 
     const addUserSettings = () => {
          let dataToSend = {
@@ -80,12 +81,15 @@ const Settings = () => {
                             </div>
                             {joiningType == "Artist" ? (
                                 <>
-                                <LoginSetting/>
+                                <LoginSetting mail={artistDetails.selApInfo.EmailId} phone={artistDetails.selApInfo.ContactNo} />
                                 <Payments/>
                                 <NotificationSettings/> 
                                 </>
                             ):(
                                 <>
+                                <LoginSetting mail={"abc@mail.com"} phone={"99999999"} />
+                                <Payments/>
+                                <NotificationSettings/> 
                                 <div className="cart-details-box  login-setting-cart">
                                     <div className="cart-header">
                                         <Stack direction="horizontal" gap={5}>

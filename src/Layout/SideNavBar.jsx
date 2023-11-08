@@ -85,6 +85,16 @@ const SideNavBar = () => {
 					links:"/artists-bank-details"
 				},
 				{
+					text:"Bookings",
+					icon:<IoTicketOutline className="menu-item-icon"/>,
+					links:`/bookings`
+				},
+				{
+					text: "Support",
+					icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
+					links: "#"
+				},
+				{
 					text: "Settings",
 					icon: <SlSettings className="menu-item-icon"/>,
 					links: "/settings"
