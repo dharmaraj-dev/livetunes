@@ -12,7 +12,7 @@ import PayCard from './PayCard';
 import SaveAddress from './SaveAddress';
 import { useDispatch, useSelector } from "react-redux";
 import { successToast, errorToast } from "../services/toast-service";
-import { addNewCard } from "../redux/commonSlice";
+import { addCard, saveAddress } from "../redux/commonSlice";
 const Payments = () => {
   const dispatch = useDispatch();
 
@@ -22,7 +22,30 @@ const Payments = () => {
   const [cardCvv, setCardCvv] = useState("");
   const [isCardNoValid, setIsCardNoValid] = useState(true);
 
-  const { addNewCardLoading } = useSelector(state => state.commonStates);
+  const [addressLine, setAddressLine] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [filteredCities,setFilteredCities] = useState([]);
+
+  const { addCardLoading, addAddressLoading } = useSelector(state => state.commonStates);
+  const { cities, states} = useSelector(state => state.common);
+
+
+  const selectStateAndGetItsCities = (stateId) => {
+    console.log(stateId.split("_")[0])
+      if(stateId !== "") {
+          const data = cities.filter((cts)=>cts.StateId == stateId.split("_")[0]);
+          setFilteredCities(data)
+      }
+      else{
+          setFilteredCities([])
+      }
+  }
+
+  function validatePIN (pin) {
+      return /^(\d{4}|\d{6})$/.test(pin);
+  }
 
 
   const setAndValidateCardNo = (e) => {
@@ -47,7 +70,7 @@ const Payments = () => {
   }
 
 
-  const addCard = (e) => {
+  const saveCard = (e) => {
     e.preventDefault();
     if(!isCardNoValid) {
       errorToast("Invalid or Missing Card No.")
@@ -69,8 +92,24 @@ const Payments = () => {
       "ExpiryNo": cardExpDate,
       "CVV": cardCvv
     }
-    dispatch(addNewCard(dataToSend));
+    dispatch(addCard(dataToSend));
+  }
 
+  const saveAddressDetails = (e) => {
+    e.preventDefault();
+    if(!validatePIN(pincode)) {
+      errorToast("Invalid Pincode");
+      return false;
+    }
+    let dataToSend = {
+      "Address1":"IT Park Nagpur",
+      "CityId": city.split('_')[0],
+      "CityName": city.split('_')[1],
+      "StateId": state.split('_')[0],
+      "StateName": state.split('_')[1],
+      "PinCode": pincode
+    }
+    dispatch(saveAddress(dataToSend));
   }
 
   return (
@@ -105,7 +144,7 @@ const Payments = () => {
                           </Col>*/}
                           <Col lg={6} className="col-sec-2">
                             <div className="inner-setting-sec">
-                              <Form onSubmit={(e) => {addCard(e)}} method="post">
+                              <Form onSubmit={(e) => {saveCard(e)}} method="post">
                                 <Form.Group as={Row} className="mb-3" controlId="">
                                   <Form.Label column sm={3} className="l-sb fs-6">
                                   Card no.
@@ -156,9 +195,9 @@ const Payments = () => {
                                     <button
                                       type="submit"
                                       className="l-b btnn btn btn-primary border-radius-36"
-                                      disabled={addNewCardLoading}
+                                      disabled={addCardLoading}
                                     >
-                                      {addNewCardLoading && (
+                                      {addCardLoading && (
                                           <span className="spinner-border spinner-border-sm"></span> 
                                         )} 
                                        Save changes</button>
@@ -181,7 +220,7 @@ const Payments = () => {
                 <div className="">
                     <h5 className="l-sb mb-1 head">Saved address</h5>
                     <Stack direction="horizontal" gap={1}>
-                    <div className="l-r sub-head fs-6">Your registered address where we can communicate with you personally</div>
+                    <div className="l-r sub-head fs-6">Your registered address where we can communicate <br /> with you personally</div>
                     </Stack>
                 </div>
               </div>
@@ -207,50 +246,89 @@ const Payments = () => {
                             </Col>
                             <Col lg={6} className="col-sec-2">
                               <div className="inner-setting-sec">
-                                <Form>
+                                <Form method="post" onSubmit={(e) => {saveAddressDetails(e)}}>
                                   <Form.Group as={Row} className="mb-3" controlId="">
                                     <Form.Label column sm={3} className="l-sb fs-6">
                                     Address line*
                                     </Form.Label>
                                     <Col sm={9}>
-                                      <Form.Control type="text" placeholder="" />
+                                      <Form.Control type="text" value={addressLine} onChange={(e) => {setAddressLine(e.target.value)}} required/>
                                     </Col>
                                   </Form.Group>
-
+                                  <Form.Group as={Row} className="mb-3 l-sb fs-6" controlId="">
+                                    <Form.Label column sm={3}>
+                                    State*
+                                    </Form.Label>
+                                    <Col sm={9}>
+                                      <Form.Select 
+                                        name="state" 
+                                        className="form-control"
+                                        value={state}
+                                        onChange={(e) => {
+                                            selectStateAndGetItsCities(e.target.value);
+                                            setState(e.target.value);
+                                            setCity("");
+                                          }
+                                        }
+                                        required
+                                        >
+                                            <option value="">Select state</option>
+                                            {states?.filter((key) => !key.IsCancelled).map((state, index) => {
+                                                return (
+                                                    <option key={`${state.StateId}_${state.StateName}`}
+                                                    value={`${state.StateId}_${state.StateName}`}
+                                                    >
+                                                    {state.StateName}
+                                                    </option>)
+                                            })}
+                                        </Form.Select>
+                                    </Col>
+                                  </Form.Group>
                                   <Form.Group as={Row} className="mb-3 l-sb fs-6" controlId="">
                                     <Form.Label column sm={3}>
                                     City*
                                     </Form.Label>
                                     <Col sm={9}>
-                                      <Form.Control type="text" placeholder="" />
+                                      <Form.Select 
+                                      className="form-control"
+                                      value={city}
+                                      onChange={(e) => {setCity(e.target.value)}
+                                      }
+                                      required
+                                      >
+                                            <option>Select city</option>
+                                            {filteredCities?.filter((key) => !key.IsCancelled).map((city, index) => {
+                                                return (
+                                                  <option
+                                                    key={`${city.CityId}_${city.CityName}`}
+                                                    value={`${city.CityId}_${city.CityName}`}
+                                                  >
+                                                    {city.CityName}
+                                                  </option>)
+                                            })}
+                                        </Form.Select>
                                     </Col>
                                   </Form.Group>
-
-                                  <Form.Group as={Row} className="mb-3 l-sb fs-6" controlId="">
-                                    <Form.Label column sm={3}>
-                                    State
-                                    </Form.Label>
-                                    <Col sm={9}>
-                                      <Form.Control type="text" placeholder="" />
-                                    </Col>
-                                  </Form.Group>
-
                                   <Form.Group as={Row} className="mb-3 l-sb fs-6" controlId="">
                                     <Form.Label column sm={3}>
                                     Pincode*
                                     </Form.Label>
                                     <Col sm={9}>
-                                      <Form.Control type="text" placeholder="" />
+                                      <Form.Control type="number" value={pincode} onChange={(e) => {setPincode(e.target.value)}} required />
                                     </Col>
                                   </Form.Group>
-                            
-                                 
                                   <Form.Group as={Row} className="text-center inner-setting-button">
                                     <Col>
-                                      <button type="button" className="l-b btnn btn btn-primary border-radius-36">Save changes</button>
+                                      <button
+                                        type="submit"
+                                        className="l-b btnn btn btn-primary border-radius-36"
+                                        disabled={addAddressLoading}
+                                      >
+                                        {addAddressLoading && (
+                                          <span className="spinner-border spinner-border-sm"></span> 
+                                        )} Save</button>
                                     </Col>
                                   </Form.Group>
-
                                 </Form>
                               </div>
                             </Col>

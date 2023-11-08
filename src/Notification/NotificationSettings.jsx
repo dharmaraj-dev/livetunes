@@ -4,20 +4,41 @@ import Accordion from 'react-bootstrap/Accordion';
 import Switch from "react-switch";
 import { RxCrossCircled } from "react-icons/rx";
 import Notifiimg from '../assets/images/notifiimg.png';
+import { useDispatch, useSelector } from "react-redux";
+import { saveNotificationSettings } from "../redux/commonSlice";
 
 const NotificationSettings = () => {
-  const [checked, setChecked] = useState(false);
-  const [checked2, setChecked2] = useState(false);
-  const [checked3, setChecked3] = useState(false);
+  const dispatch = useDispatch();
+  const [BookRequest, setChecked] = useState(false);
+  const [ConnectionRequest, setChecked2] = useState(false);
+  const [UpcomingEvents, setChecked3] = useState(false);
 
   const handleChange = nextChecked => {
     setChecked(nextChecked);
+    let dataToSend = {
+      "BookRequest": nextChecked,
+      ConnectionRequest,
+      UpcomingEvents
+    }
+    dispatch(saveNotificationSettings(dataToSend));
   };
   const handleChange2 = nextChecked => {
     setChecked2(nextChecked);
+    let dataToSend = {
+      BookRequest,
+      "ConnectionRequest": nextChecked,
+      UpcomingEvents
+    }
+    dispatch(saveNotificationSettings(dataToSend));
   };
   const handleChange3 = nextChecked => {
     setChecked3(nextChecked);
+    let dataToSend = {
+      BookRequest,
+      ConnectionRequest,
+      "UpcomingEvents": nextChecked
+    }
+    dispatch(saveNotificationSettings(dataToSend));
   };
 
   return (
@@ -50,7 +71,7 @@ const NotificationSettings = () => {
                             <div className="ms-auto">
                               <Switch
                                 onChange={handleChange}
-                                checked={checked}
+                                checked={BookRequest}
                                 className="react-switch"
                               />
                             </div>
@@ -63,7 +84,7 @@ const NotificationSettings = () => {
                             <div className="ms-auto">
                               <Switch
                                 onChange={handleChange2}
-                                checked={checked2}
+                                checked={ConnectionRequest}
                                 className="react-switch"
                               />
                             </div>
@@ -76,7 +97,7 @@ const NotificationSettings = () => {
                             <div className="ms-auto">
                               <Switch
                                 onChange={handleChange3}
-                                checked={checked3}
+                                checked={UpcomingEvents}
                                 className="react-switch"
                               />
                             </div>
