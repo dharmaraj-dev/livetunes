@@ -3,7 +3,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
-const AtmCard = () => {
+const AtmCard = (props) => {
+
   return (
     <>
         <div className="inner-paycard">
@@ -14,7 +15,7 @@ const AtmCard = () => {
                     </Form.Label>
                     <Col sm={9}>
                     <Form.Label column sm={9}>
-                    <h5 className="l-r">12345678901233</h5>
+                    <h5 className="l-r">{props?.cardData?.CardNo}</h5>
                     </Form.Label>
                     </Col>
                 </Form.Group>
@@ -25,7 +26,7 @@ const AtmCard = () => {
                     </Form.Label>
                     <Col sm={9}>
                     <Form.Label column sm={9}>
-                    <h5 className="l-r">Rahul roy</h5>
+                    <h5 className="l-r">{props?.cardData?.CardName}</h5>
                     </Form.Label>
                     </Col>
                 </Form.Group>
@@ -33,26 +34,25 @@ const AtmCard = () => {
                 <Row>
                     <Col sm={6}>
                     <Form.Group as={Row} className="mb-3 l-sb fs-6" controlId="">
-                        <Form.Label column sm={6}>
+                        <Form.Label column sm={5}>
                         Expiry date
                         </Form.Label>
-                        <Col sm={6}>
-                        <h5 className="l-r mt-2">07/34</h5>
+                        <Col sm={7}>
+                        <h5 className="l-r mt-2">{props?.cardData?.ExpiryNo}</h5>
                         </Col>
                     </Form.Group>
                     </Col>
                     <Col sm={6}>
                     <Form.Group as={Row} className="mb-3 l-sb fs-6" controlId="">
-                        <Form.Label column sm={6} className="text-end">
+                        <Form.Label column sm={4} className="text-end">
                         CVV
                         </Form.Label>
-                        <Col sm={6}>
+                        <Col sm={8}>
                         <h5 className="l-r mt-1">xxx</h5>
                         </Col>
                     </Form.Group>
                     </Col>
                 </Row>
-
             </Form>
         </div>
     </>

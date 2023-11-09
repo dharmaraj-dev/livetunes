@@ -13,7 +13,7 @@ import SaveAddress from './SaveAddress';
 import { useDispatch, useSelector } from "react-redux";
 import { successToast, errorToast } from "../services/toast-service";
 import { addCard, saveAddress } from "../redux/commonSlice";
-const Payments = () => {
+const Payments = (props) => {
   const dispatch = useDispatch();
 
   const [cardNo, setCardNo] = useState("");
@@ -92,7 +92,15 @@ const Payments = () => {
       "ExpiryNo": cardExpDate,
       "CVV": cardCvv
     }
-    dispatch(addCard(dataToSend));
+    dispatch(addCard(dataToSend)).then((res) => {
+      console.log(res);
+      if(res.data.IsSuccess){
+        setCardNo("");
+        setCardName("");
+        setCardExpDate("");
+        setCardCvv("");
+      }
+    })
   }
 
   const saveAddressDetails = (e) => {
@@ -102,14 +110,22 @@ const Payments = () => {
       return false;
     }
     let dataToSend = {
-      "Address1":"IT Park Nagpur",
+      "Address1": addressLine,
       "CityId": city.split('_')[0],
       "CityName": city.split('_')[1],
       "StateId": state.split('_')[0],
       "StateName": state.split('_')[1],
       "PinCode": pincode
     }
-    dispatch(saveAddress(dataToSend));
+    dispatch(saveAddress(dataToSend)).then((res) => {
+      console.log(res);
+      if(res.data.IsSuccess){
+        setAddressLine("");
+        setCity("");
+        setState("");
+        setPincode("");
+      }
+    })
   }
 
   return (
@@ -137,11 +153,14 @@ const Payments = () => {
                     <Accordion.Body>
                     <div className="main-inner-setting-sec">
                         <Row>
-                          {/*<Col lg={6} className="col-sec-1">
+                          <Col lg={6} className="col-sec-1">
                             <div className="inner-setting-sec">
-                              <PayCard/>
+                              <Form.Label column sm={12} className="l-sb fs-6">
+                                Current Card:
+                              </Form.Label>
+                              <PayCard preSavedCard={props?.preSavedCard}/>
                             </div>
-                          </Col>*/}
+                          </Col>
                           <Col lg={6} className="col-sec-2">
                             <div className="inner-setting-sec">
                               <Form onSubmit={(e) => {saveCard(e)}} method="post">
@@ -185,7 +204,7 @@ const Payments = () => {
                                         CVV
                                       </Form.Label>
                                       <Col sm={6}>
-                                        <Form.Control type="number" value={cardCvv} onChange={(e) => {setCardCvv(e.target.value)}} required/>
+                                        <Form.Control type="password" value={cardCvv} onChange={(e) => {setCardCvv(e.target.value)}} required/>
                                       </Col>
                                     </Form.Group>
                                   </Col>
@@ -200,7 +219,7 @@ const Payments = () => {
                                       {addCardLoading && (
                                           <span className="spinner-border spinner-border-sm"></span> 
                                         )} 
-                                       Save changes</button>
+                                       Add New Card</button>
                                   </Col>
                                 </Form.Group>
                               </Form>
@@ -235,10 +254,10 @@ const Payments = () => {
                                 <Form>
                                     <Form.Group as={Row} className="mb-3" controlId="">
                                       <Form.Label column sm={12} className="l-sb fs-6">
-                                      Current Address
+                                      Current Address:
                                       </Form.Label>
                                       <Col sm={12}>
-                                        <SaveAddress/>
+                                        <SaveAddress preSavedAddress={props?.preSavedAddress}/>
                                       </Col>
                                     </Form.Group>
                                   </Form>

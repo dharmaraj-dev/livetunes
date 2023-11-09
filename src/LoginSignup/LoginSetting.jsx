@@ -24,7 +24,7 @@ const LoginSetting = (props) => {
             <div className="">
                 <h5 className="l-sb mb-1 head">Email Address | Phone Number</h5>
                 <Stack direction="horizontal" gap={1}>
-                <div className="l-r sub-head fs-6">{props?.mail},</div>
+                <div className="l-r sub-head fs-6">{props?.mail ? props?.mail : 'Email: NA'},</div>
                 <div className="l-r sub-head fs-6" title="This is your registered contact detail">+{props?.phone}</div>
                 </Stack>
             </div>

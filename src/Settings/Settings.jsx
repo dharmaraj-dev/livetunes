@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {updateUserSettings, setSelectedCity} from '../redux/userSettings';
 import Col from "react-bootstrap/Col";
 import { successToast, errorToast } from "../services/toast-service";
+import { getGeneralSettings } from '../redux/commonSlice';
+import Skeleton from 'react-loading-skeleton'
 
 
 const Settings = () => {
@@ -22,6 +24,7 @@ const Settings = () => {
     const {selectedLanguages,selectedCity, userMusicalityTypes, userMinimumBudget, userMaximumBudget, savedUsersSettings, updateSettingsLoading} = useSelector(state => state.userSettings);
     const { user, joiningType } = useSelector(state => state.userAuth);
     const { artistDetails } = useSelector(state => state.artist);
+    const { getGeneralSettingsLoading, generalSettings } = useSelector(state => state.commonStates);
 
     const addUserSettings = () => {
          let dataToSend = {
@@ -59,7 +62,7 @@ const Settings = () => {
     }
 
     useEffect(() => {
-
+        dispatch(getGeneralSettings());
     }, [])
 
   return (
@@ -76,73 +79,84 @@ const Settings = () => {
                 <Container fluid>
                     <div className="main-artists-list">
                         <div className="main-settings-sec">
-                            <div className="head-sec">
-                                <h1 className="l-b" style={{marginBottom:'2rem'}}>Edit Settings</h1>
-                            </div>
-                            {joiningType == "Artist" ? (
-                                <>
-                                <LoginSetting mail={artistDetails.selApInfo.EmailId} phone={artistDetails.selApInfo.ContactNo} />
-                                <Payments/>
-                                <NotificationSettings/> 
-                                </>
+                            {getGeneralSettingsLoading ? (
+                                <div className="head-sec">
+                                    <Skeleton className="l-sb head mb-2" width="200px" height="45px" count={1}  />
+                                    <Skeleton className="l-sb head mb-2" height="100px" count={1}  />
+                                    <Skeleton className="l-sb head mb-2" height="200px" count={1}  />
+                                    <Skeleton className="l-sb head mb-2" height="100px" count={1}  />
+                                </div>
                             ):(
-                                <>
-                                <LoginSetting mail={"abc@mail.com"} phone={"99999999"} />
-                                <Payments/>
-                                <NotificationSettings/> 
-                                <div className="cart-details-box  login-setting-cart">
-                                    <div className="cart-header">
-                                        <Stack direction="horizontal" gap={5}>
-                                            <h4 className="l-sb">Select Language</h4>
-                                        </Stack>
-                                    </div>
-                                    <SelectMultiotion />
+                            <>
+                                <div className="head-sec">
+                                    <h1 className="l-b" style={{marginBottom:'2rem'}}>Edit Settings</h1>
                                 </div>
-                                <div className="cart-details-box  login-setting-cart">
-                                    <div className="cart-header">
-                                        <Stack direction="horizontal" gap={5}>
-                                            <h4 className="l-sb">Select City</h4>
-                                        </Stack>
-                                    </div>
-                                    <Col md={12} lg={7} xl={7}>
-                                        <div className="location-right-sec select-multi">
-                                             <div className="head-loco-img">
-                                                <div className="loco-box">
-                                                    {cities?.filter((key) => key.IsLTLive).map((ct,index) => {
-                                                        return (<div key={`city_${index}`} className="text-center" onClick={()=>selectPrefferedCity(ct.CityId, ct.CityName)}>
-                                                                {ct.MImgURL == null ? (
-                                                                    <span className="default-city mr-2">
-                                                                        <span>{ct.CityName.charAt(0)}</span>
-                                                                    </span>
-                                                                ):(
-                                                                    <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`}/>
-                                                                )}
-                                                                <p className={`l-m city-name ${`${ct.CityId}_${ct.CityName}` == selectedCity ? 'active_city' : ''}`}>{ct.CityName}</p>
-                                                            </div>)
-                                                    })}
-                                                </div>
-                                             </div>
+                                {joiningType == "Artist" ? (
+                                    <>
+                                    <LoginSetting mail={generalSettings?.CurrentEmailId} phone={generalSettings?.CurrentMobileNo} />
+                                    <Payments preSavedCard={generalSettings?.lstCarddetails} preSavedAddress={generalSettings?.lstAddressProof}/>
+                                     <NotificationSettings preSavedNotificationsSettings={generalSettings?.lstNotSettings} /> 
+                                    </>
+                                ):(
+                                    <>
+                                    <LoginSetting mail={generalSettings?.CurrentEmailId} phone={generalSettings?.CurrentMobileNo} />
+                                    <Payments preSavedCard={generalSettings?.lstCarddetails} preSavedAddress={generalSettings?.lstAddressProof}/>
+                                    {/*<NotificationSettings preSavedNotificationsSettings={generalSettings?.lstNotSettings} /> */}
+                                    <div className="cart-details-box  login-setting-cart">
+                                        <div className="cart-header">
+                                            <Stack direction="horizontal" gap={5}>
+                                                <h4 className="l-sb">Select Language</h4>
+                                            </Stack>
                                         </div>
-                                    </Col>
-                                </div>
-                                <div className="cart-details-box  login-setting-cart">
-                                    <div className="cart-header">
-                                        <Stack direction="horizontal" gap={5}>
-                                            <h4 className="l-sb">Select Musicality Type</h4>
-                                        </Stack>
+                                        <SelectMultiotion />
                                     </div>
-                                    <MusictypeSlider />
-                                </div>
-                                <div className="text-right">
-                                    <Button 
-                                        disabled={updateSettingsLoading}
-                                        className="l-sb btnn new_next_btn" onClick={addUserSettings}>
-                                        {updateSettingsLoading && (
-                                          <span className="spinner-border spinner-border-sm"></span>
-                                        )} 
-                                         Update</Button>
-                                 </div>
-                                </>
+                                    <div className="cart-details-box  login-setting-cart">
+                                        <div className="cart-header">
+                                            <Stack direction="horizontal" gap={5}>
+                                                <h4 className="l-sb">Select City</h4>
+                                            </Stack>
+                                        </div>
+                                        <Col md={12} lg={7} xl={7}>
+                                            <div className="location-right-sec select-multi">
+                                                 <div className="head-loco-img">
+                                                    <div className="loco-box">
+                                                        {cities?.filter((key) => key.IsLTLive).map((ct,index) => {
+                                                            return (<div key={`city_${index}`} className="text-center" onClick={()=>selectPrefferedCity(ct.CityId, ct.CityName)}>
+                                                                    {ct.MImgURL == null ? (
+                                                                        <span className="default-city mr-2">
+                                                                            <span>{ct.CityName.charAt(0)}</span>
+                                                                        </span>
+                                                                    ):(
+                                                                        <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`}/>
+                                                                    )}
+                                                                    <p className={`l-m city-name ${`${ct.CityId}_${ct.CityName}` == selectedCity ? 'active_city' : ''}`}>{ct.CityName}</p>
+                                                                </div>)
+                                                        })}
+                                                    </div>
+                                                 </div>
+                                            </div>
+                                        </Col>
+                                    </div>
+                                    <div className="cart-details-box  login-setting-cart">
+                                        <div className="cart-header">
+                                            <Stack direction="horizontal" gap={5}>
+                                                <h4 className="l-sb">Select Musicality Type</h4>
+                                            </Stack>
+                                        </div>
+                                        <MusictypeSlider />
+                                    </div>
+                                    <div className="text-right">
+                                        <Button 
+                                            disabled={updateSettingsLoading}
+                                            className="l-sb btnn new_next_btn" onClick={addUserSettings}>
+                                            {updateSettingsLoading && (
+                                              <span className="spinner-border spinner-border-sm"></span>
+                                            )} 
+                                             Update</Button>
+                                     </div>
+                                    </>
+                                )}
+                            </>
                             )}
                         </div>    
                     </div>

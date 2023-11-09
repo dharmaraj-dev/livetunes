@@ -1299,3 +1299,13 @@ numberInput.input[type=number] {
   margin-bottom: 10px;
   cursor: pointer;
 }
+
+.address_pre_box {
+    border: 0.5px solid #707070;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.address_pre_box p {
+    margin-bottom: 5px;
+}

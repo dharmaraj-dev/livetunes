@@ -5,13 +5,27 @@ import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
 const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 
+const generalSettings = localStorage.getItem('generalSettings') != null ? JSON.parse(localStorage.getItem("generalSettings")) : null
+
 const slice = createSlice({
   name: 'commonStates',
   initialState: {
+    getGeneralSettingsLoading: false,
     addCardLoading: false,
-    addAddressLoading: false
+    addAddressLoading: false,
+    generalSettings
   },
   reducers: {
+    setGeneralSettingsLoading: (state, action) => {
+      state.getGeneralSettingsLoading = true;
+    },
+    stopGeneralSettingsLoading: (state, action) => {
+      state.getGeneralSettingsLoading = false;
+    },
+    storeGeneralSettings: (state, action) => {
+      state.generalSettings = action.payload;
+      localStorage.setItem('generalSettings', JSON.stringify(state.generalSettings))
+    },
     setAddCardLoading: (state, action) => {
       state.addCardLoading = true;
     },
@@ -23,6 +37,23 @@ const slice = createSlice({
     },
     stopAddAddressLoading: (state, action) => {
       state.addAddressLoading = false;
+    },
+    updateGeneralSettings: (state, action) => {
+      if(action.payload.type == "card") {
+        if(action.payload.status == "add") {
+          state.generalSettings.lstCarddetails = action.payload.data;
+        } else {
+            state.generalSettings.lstCarddetails = state.generalSettings?.lstCarddetails?.filter((item) => item.ACardDetailsId !== action.payload.data)
+        }
+      }
+      if(action.payload.type == "address") {
+        if(action.payload.status == "add") {
+            state.generalSettings.lstAddressProof = action.payload.data;
+        } else {
+            state.generalSettings.lstAddressProof = state.generalSettings?.lstAddressProof?.filter((item) => item.AAddressProofId !== action.payload.data)
+        }
+      }
+      localStorage.setItem('generalSettings', JSON.stringify(state.generalSettings))
     }
   }
 });
@@ -31,11 +62,31 @@ export default slice.reducer
 
 
 export const { 
+  setGeneralSettingsLoading,
+  stopGeneralSettingsLoading,
+  storeGeneralSettings,
   setAddCardLoading,
   stopAddCardLoading,
   setAddAddressLoading,
-  stopAddAddressLoading
+  stopAddAddressLoading,
+  updateGeneralSettings
 } = slice.actions;
+
+export const getGeneralSettings = (data) => async dispatch => {
+  dispatch(setGeneralSettingsLoading())
+  try {
+   return await axios
+      .post(API_URL + `ArtistGeneral/GetAllGeneral` ,data, {headers:authHeader()})
+      .then(response => {
+        dispatch(stopGeneralSettingsLoading())
+        dispatch(storeGeneralSettings(response.data))
+        return response;
+      });
+  } catch (e) {
+    dispatch(stopGeneralSettingsLoading())
+  }
+};
+
 
 export const addCard = (data) => async dispatch => {
   dispatch(setAddCardLoading());
@@ -45,6 +96,7 @@ export const addCard = (data) => async dispatch => {
       .then(response => {
         dispatch(stopAddCardLoading());
         if(response.data.IsSuccess) {
+          dispatch(updateGeneralSettings({"type": "card", "data": response.data.lstCarddetails, "status": "add"}))
           successToast(response.data.Message)
         } else {
           errorToast(response.data.Message)
@@ -80,6 +132,8 @@ export const saveAddress = (data) => async dispatch => {
       .then(response => {
         dispatch(stopAddAddressLoading())
         if(response.data.IsSuccess) {
+          dispatch(updateGeneralSettings({"type": "address", "data": response.data.lstAddressProof, "status": "add"}))
+          //lstAddressProof
           successToast(response.data.Message)
         } else {
           errorToast(response.data.Message)
@@ -92,6 +146,7 @@ export const saveAddress = (data) => async dispatch => {
 };
 
 export const deleteCard = (data) => async dispatch => {
+  dispatch(updateGeneralSettings({"type": "card", "data": data.ACardDetailsId, "status": "remove"}))
   try {
    return await axios
       .post(API_URL + `ArtistCard/DeleteCard` ,data, {headers:authHeader()})
@@ -108,6 +163,7 @@ export const deleteCard = (data) => async dispatch => {
 };
 
 export const deleteAddress = (data) => async dispatch => {
+  dispatch(updateGeneralSettings({"type": "address", "data": data.AAddressProofId, "status": "remove"}))
   try {
    return await axios
       .post(API_URL + `ArtistAddProof/DeleteAddress` ,data, {headers:authHeader()})
@@ -122,4 +178,3 @@ export const deleteAddress = (data) => async dispatch => {
   } catch (e) {
   }
 };
-
