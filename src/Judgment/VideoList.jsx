@@ -13,8 +13,8 @@ const VideoList = (props) => {
             <div className="left-video-sec">
                 <video width="100%" height="400px" src={props.videoData?.filter((key) => key.LTMediaURL.includes(".mp4"))[0]?.LTMediaURL} controls={true}></video>
                 <div className="video-tile-date">
-                    <p className="l-r fs-4 mb-1">{props.videoData[0].MediaDesc != null ? props.videoData[0].MediaDesc : 'NA'}</p>
-                    <p className="l-r fs-5">Date: {moment(props.videoData[0].AddDate).format("DD/MM/YYYY")}</p>
+                    <p className="l-r fs-4 mb-1">{props.videoData[0]?.MediaDesc != null ? props.videoData[0]?.MediaDesc : 'NA'}</p>
+                    <p className="l-r fs-5">Date: {moment(props.videoData[0]?.AddDate).format("DD/MM/YYYY")}</p>
                 </div>
             </div>
         </Col>
@@ -29,7 +29,7 @@ const VideoList = (props) => {
                                 </div>
                                 <div className="video-sub-list">
                                     <p className="l-sb head-title mb-2">{`${vid.MediaDesc != null ? vid.MediaDesc : 'NA'}`}</p>
-                                    <p className="l-r date-title">Date: {moment(vid.AddDate).format("DD/MM/YYYY")}</p>
+                                    <p className="l-r date-title">Date: {moment(vid?.AddDate).format("DD/MM/YYYY")}</p>
                                 </div>
                             </Stack>
                         </div>
@@ -43,8 +43,8 @@ const VideoList = (props) => {
                                     <img width="100%" height="120" src={vid?.LTMediaURL} />
                                 </div>
                                    <div className="video-sub-list">
-                                        <p className="l-sb head-title mb-2">{`${vid.MediaDesc != null ? vid.MediaDesc : 'NA'}`}</p>
-                                        <p className="l-r date-title">Date: {moment(vid.AddDate).format("DD/MM/YYYY")}</p>
+                                        <p className="l-sb head-title mb-2">{`${vid?.MediaDesc != null ? vid?.MediaDesc : 'NA'}`}</p>
+                                        <p className="l-r date-title">Date: {moment(vid?.AddDate).format("DD/MM/YYYY")}</p>
                                     </div>
                                 
                             </Stack>
