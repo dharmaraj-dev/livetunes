@@ -640,49 +640,43 @@ const ArtistProfiles = () => {
 
                                 <Row className="align-items-center">
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">First Name:
-                                            <p className="l-r sub-head">{firstName}</p>
-                                        </Form.Label>
+                                        <Form.Label className="l-sb">First Name</Form.Label>
+                                        <Form.Control placeholder="First name" type="url" value={firstName} disabled title="Contact support to update this field."/>
                                     </Col>
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">Last Name: 
-                                            <p className="l-r sub-head">{lastName}</p>
-                                        </Form.Label>
+                                        <Form.Label className="l-sb">Last Name</Form.Label>
+                                        <Form.Control placeholder="Last name" type="url" value={lastName} disabled title="Contact support to update this field."/>
                                     </Col>
 
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">Contact no.:
-                                            <p className="l-r sub-head">{contactNo}</p>
-                                        </Form.Label>
+                                        <Form.Label className="l-sb">Contact no.</Form.Label>
+                                        <Form.Control placeholder="Contact no" type="url" value={contactNo} disabled title="Contact support to update this field."/>
                                     </Col>
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">Email:
-                                            <p className="l-r sub-head">{email}</p>
-                                        </Form.Label>
+                                        <Form.Label className="l-sb">Email</Form.Label>
+                                        <Form.Control placeholder="Email" type="url" value={email} disabled title="Contact support to update this field."/>
                                     </Col>
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">State:
-                                            <p className="l-r sub-head">
-                                                {states?.filter((key) => !key.IsCancelled && key.StateId === stateId).map((state, index) => {
-                                                    return (state.StateName)
-                                                })}
-                                            </p>
-                                        </Form.Label>
+                                        <Form.Label className="l-sb">State<sup className="red-color">*</sup></Form.Label>
+                                        <Form.Select name="state" aria-label="State" className="form-control" value={stateId} disabled>
+                                            {states?.filter((key) => !key.IsCancelled).map((state, index) => {
+                                                return (<option selected={state.StateId === stateId ? true : false} key={`${state.StateId}'_'${state.StateName}`} value={state.StateId}>{state.StateName}</option>)
+                                            })}
+                                        </Form.Select>
                                     </Col>
                                     <Col lg={6} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">City:
-                                            <p className="l-r sub-head">
-                                                {cities?.filter((key) => !key.IsCancelled && key.CityId === cityId).map((city, index) => {
-                                                    return (city.CityName)
-                                                })}
-                                            </p>
-                                        </Form.Label>
+                                        <Form.Label className="l-sb">City<sup className="red-color">*</sup></Form.Label>
+                                        <Form.Select name="state" aria-label="City" className="form-control" value={cityId} disabled>
+                                            {cities?.filter((key) => !key.IsCancelled).map((city, index) => {
+                                                return (<option selected={city.CityId === cityId ? true : false} key={`${city.CityId}'_'${city.CityName}`} value={city.CityId}>{city.CityName}</option>)
+                                            })}
+                                        </Form.Select>
                                     </Col>
                                     
                                     <Col lg={12} md="12" className="mb-4">
-                                        <Form.Label className="l-sb">About me: <p className="l-r sub-head">{aboutMe}</p>
-                                        </Form.Label>
-                                    </Col>
+                                        <Form.Label className="l-sb">About me</Form.Label>
+                                        <Form.Control type="textarea" placeholder="Email" type="url" value={aboutMe} disabled title="Contact support to update this field."/>
+                                  </Col>
                                     
                                 </Row>
                             </div>
@@ -738,7 +732,7 @@ const ArtistProfiles = () => {
                                         onSelect={selectCategory}
                                         onRemove={removeCategory}
                                         selectedValues={selCategories}
-                                        disabled={!enableStep3}
+                                        disable={!enableStep3}
                                     />
                                     </Col>
                                     <Col lg={6} md="12" className="mb-4">
@@ -754,7 +748,7 @@ const ArtistProfiles = () => {
                                         onSelect={selectGenres}
                                         onRemove={removeGenres}
                                         selectedValues={selGernes}
-                                        disabled={!enableStep3}
+                                        disable={!enableStep3}
                                     />
                                     </Col>
                                     <Col lg={6} md="12" className="mb-4">
@@ -770,7 +764,7 @@ const ArtistProfiles = () => {
                                             onSelect={selectLanguage}
                                             onRemove={removeLanguage}
                                             selectedValues={selLanguages}
-                                            disabled={!enableStep3}
+                                            disable={!enableStep3}
                                         />
                                     </Col>
 
@@ -792,7 +786,7 @@ const ArtistProfiles = () => {
                                             onSelect={selectEvent}
                                             onRemove={removeEvent}
                                             selectedValues={selPrefEvents}
-                                            disabled={!enableStep3}
+                                            disable={!enableStep3}
                                         />
                                     </Col>
                                    
@@ -832,7 +826,7 @@ const ArtistProfiles = () => {
                                             onSelect={selectWillingExceptionStates}
                                             onRemove={removeWillingExceptionStates}
                                             selectedValues={selExpState}
-                                            disabled={!enableStep3}
+                                            disable={!enableStep3}
                                         />
                                     )}
                                     </Col>
@@ -918,7 +912,7 @@ const ArtistProfiles = () => {
                                             onSelect={selectEventMode}
                                             onRemove={removeEventMode}
                                             selectedValues={selPrivSurpEventMode}
-                                            disabled={!enableStep3}
+                                            disable={!enableStep3}
                                         />
                                     )}
                                     </Col>
@@ -952,7 +946,7 @@ const ArtistProfiles = () => {
                                             onSelect={selectEventVirtual}
                                             onRemove={removeEventVirtual}
                                             selectedValues={selAvailVirtualEventType}
-                                            disabled={!enableStep3}
+                                            disable={!enableStep3}
                                         />
                                     )}
                                     </Col>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { VisibilityContext } from "react-horizontal-scrolling-menu";
 import { Link } from "react-router-dom";
@@ -79,6 +79,20 @@ export function SlideView({ title, itemId, children }) {
     dispatch(setWelcomeSeen(true));
     dispatch(setJoiningType(joiningFor));
   }
+
+  useEffect(() => {
+    if(itemId == 1) {
+      let tmpStep = 1;
+      let activeStepInterval = setInterval(() => {
+        setActiveStep(tmpStep++);
+        if(tmpStep > 5) {
+          setActiveStep(0);
+          clearInterval(activeStepInterval);
+         }
+      },3000);
+     
+    }
+  }, [])
 
   return (
     // <div
@@ -166,9 +180,9 @@ export function SlideView({ title, itemId, children }) {
                 <Col lg={4} xl={3} xs={6}>
                   <div
                     className="main-text-box"
-                    onMouseEnter={() => setActiveStep(1)}
+                    //onMouseEnter={() => setActiveStep(1)}
                   >
-                    <div className="ico-box ico-box-1 animation-circle">
+                    <div className={activeStep === 1 ? "animation-circle ico-box ico-box-1":"ico-box ico-box-1"}>
                       <img src={Musicnotes} alt="" className="" />
                     </div>
                     {activeStep === 1 && (
@@ -183,9 +197,9 @@ export function SlideView({ title, itemId, children }) {
                 <Col lg={4} xl={3} xs={6}>
                   <div
                     className="main-text-box"
-                    onMouseEnter={() => setActiveStep(2)}
+                   // onMouseEnter={() => setActiveStep(2)}
                   >
-                    <div className={activeStep === 1 ? "animation-circle ico-box ico-box-2":"ico-box ico-box-2"}>
+                    <div className={activeStep === 2 ? "animation-circle ico-box ico-box-2":"ico-box ico-box-2"}>
                       <img
                         src={Musicnotesvgrepo}
                         alt=""
@@ -208,9 +222,9 @@ export function SlideView({ title, itemId, children }) {
                   <Col lg={4} xl={3} xs={6}>
                     <div
                       className="main-text-box"
-                      onMouseEnter={() => setActiveStep(3)}
+                     // onMouseEnter={() => setActiveStep(3)}
                     >
-                      <div className={activeStep === 2 ? "animation-circle ico-box ico-box-3":"ico-box ico-box-3"}>
+                      <div className={activeStep === 3 ? "animation-circle ico-box ico-box-3":"ico-box ico-box-3"}>
                         <img
                           src={Musicnotesvgrepoand}
                           alt=""
@@ -229,9 +243,9 @@ export function SlideView({ title, itemId, children }) {
                   <Col lg={4} xl={3} xs={6}>
                     <div
                       className="main-text-box"
-                      onMouseEnter={() => setActiveStep(4)}
+                     // onMouseEnter={() => setActiveStep(4)}
                     >
-                      <div className={activeStep === 3 ? "animation-circle ico-box ico-box-4":"ico-box ico-box-4"}>
+                      <div className={activeStep === 4 ? "animation-circle ico-box ico-box-4":"ico-box ico-box-4"}>
                         <img src={Musicnotesvgrepobold} alt="" className="" />
                       </div>
                       {activeStep === 4 && (
@@ -285,7 +299,7 @@ export function SlideView({ title, itemId, children }) {
               <div className="steps-box-sec d-none d-sm-none d-md-none d-lg-block">
                 <Row>
                   <Col xl={2} lg={3} md={12}>
-                    <div className="step-inner-box">
+                    <div className="step-inner-box liveTunesWelcomeEasyStep1">
                       <div className="d-flex">
                         <div className="number-sec khf l-m">1</div>
                         <div className="st-text-sec l-r">
@@ -301,7 +315,7 @@ export function SlideView({ title, itemId, children }) {
                     </div>
                   </Col>
                   <Col xl={2} lg={3} md={12}>
-                    <div className="step-inner-box">
+                    <div className="step-inner-box liveTunesWelcomeEasyStep2">
                       <div className="d-flex">
                         <div className="number-sec khf l-m">2</div>
                         <div className="st-text-sec l-r">
@@ -317,7 +331,7 @@ export function SlideView({ title, itemId, children }) {
                     </div>
                   </Col>
                   <Col xl={2} lg={3} md={12}>
-                    <div className="step-inner-box">
+                    <div className="step-inner-box liveTunesWelcomeEasyStep3">
                       <div className="d-flex">
                         <div className="number-sec khf l-m">3</div>
                         <div className="st-text-sec l-r">
@@ -335,7 +349,7 @@ export function SlideView({ title, itemId, children }) {
                 </Row>
                 <Row>
                   <Col xl={2} lg={3} md={12}>
-                    <div className="step-inner-box step-inner-box4">
+                    <div className="step-inner-box step-inner-box4 liveTunesWelcomeEasyStep4">
                       <div className="d-flex">
                         <div className="number-sec khf l-m">4</div>
                         <div className="st-text-sec l-r">
@@ -356,7 +370,7 @@ export function SlideView({ title, itemId, children }) {
               <div className="steps-box-sec steps-box-sec-mob d-sm-block d-md-block d-lg-none">
                 <Row>
                   <Col xl={2} lg={3} xs={6} sm={6}>
-                    <div className="step-inner-box">
+                    <div className="step-inner-box liveTunesWelcomeEasyStep1">
                       <div className="d-flex">
                         <div className="number-sec khf l-m">1</div>
                         <div className="st-text-sec l-r">
@@ -372,7 +386,7 @@ export function SlideView({ title, itemId, children }) {
                     </div>
                   </Col>
                   <Col xl={2} lg={3} xs={6} sm={6}>
-                    <div className="step-inner-box">
+                    <div className="step-inner-box liveTunesWelcomeEasyStep2">
                       <div className="d-flex">
                         <div className="number-sec khf l-m">2</div>
                         <div className="st-text-sec l-r">
@@ -388,7 +402,7 @@ export function SlideView({ title, itemId, children }) {
                     </div>
                   </Col>
                   <Col xl={2} lg={3} xs={6} sm={6}>
-                    <div className="step-inner-box">
+                    <div className="step-inner-box liveTunesWelcomeEasyStep3">
                       <div className="d-flex">
                         <div className="number-sec khf l-m">3</div>
                         <div className="st-text-sec l-r">
@@ -404,7 +418,7 @@ export function SlideView({ title, itemId, children }) {
                     </div>
                   </Col>
                   <Col xl={2} lg={3} xs={6} sm={6}>
-                    <div className="step-inner-box step-inner-box4">
+                    <div className="step-inner-box step-inner-box4 liveTunesWelcomeEasyStep4">
                       <div className="d-flex">
                         <div className="number-sec khf l-m">4</div>
                         <div className="st-text-sec l-r">
@@ -459,7 +473,7 @@ export function SlideView({ title, itemId, children }) {
               <div className="events-box events-box-desk">
                 <Row>
                   <Col lg={2} md={3}>
-                    <div className="events-inner-box">
+                    <div className="events-inner-box liveTunesWelcomeEasyStep1 white-color">
                       <div className="ico-sec">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -499,7 +513,7 @@ export function SlideView({ title, itemId, children }) {
                               data-name="Path 6092"
                               d="M140.646,39.2a4.616,4.616,0,0,0-1.449.2c-3.02.92-5.171,4.493-5.171,10.029a51.2,51.2,0,0,1-.511,9.128c-.3,1.439-.4,1.389-.909,1.8a9.917,9.917,0,0,0-2.7,2.936c-1.017,1.719-1.973,4.309-2.983,8.866-3.013,11.671-3.636,16.631-5.341,18.663-.854,1.017-2.11,1.7-4.716,2.5s-6.407,1.62-11.875,2.994A1.91,1.91,0,0,0,103.6,98.15l.171,19.186a1.912,1.912,0,0,0,1.818,1.86h27.955a1.912,1.912,0,0,0,1.818-1.86V111.7a8.857,8.857,0,0,0,5.738-1.6,11,11,0,0,0,2.5-2.326,11.033,11.033,0,0,0,2.5,2.326,8.86,8.86,0,0,0,5.739,1.6v5.639a1.912,1.912,0,0,0,1.818,1.86h27.955a1.912,1.912,0,0,0,1.818-1.86L183.6,98.15a1.91,1.91,0,0,0-1.392-1.831c-5.468-1.374-9.269-2.2-11.875-2.994s-3.863-1.483-4.716-2.5c-1.706-2.033-2.326-6.985-5.341-18.663-1.009-4.552-1.967-7.148-2.983-8.866a9.927,9.927,0,0,0-2.7-2.936c-.5-.413-.6-.363-.909-1.8a51.2,51.2,0,0,1-.511-9.128c0-5.536-2.15-9.109-5.171-10.029a4.578,4.578,0,0,0-4.4.959,4.593,4.593,0,0,0-2.954-1.163Zm0,3.692a.873.873,0,0,1,.54.261,2.4,2.4,0,0,1,.6,1.86v57.878a5.84,5.84,0,0,1-2.7,4.1c-4.383,2.112-8.722-.86-11.307-4.535-1.781-2.622-2.923-6.56-1.307-13.14,1.209-3.429,1.933-8.3,3.977-16.221v-.058c.965-4.364,1.889-6.642,2.585-7.82a5.582,5.582,0,0,1,1.847-1.948,6.8,6.8,0,0,0,2.188-3.9,52.005,52.005,0,0,0,.6-9.942c0-4.563,1.732-6.193,2.585-6.454a1.233,1.233,0,0,1,.4-.087Zm5.881,0a1.387,1.387,0,0,1,.426.087c.854.26,2.585,1.891,2.585,6.454a51.958,51.958,0,0,0,.6,9.942,6.791,6.791,0,0,0,2.188,3.9,5.574,5.574,0,0,1,1.847,1.948c.7,1.178,1.62,3.456,2.585,7.82v.058c2.04,7.9,2.773,12.765,3.977,16.192v.029c1.616,6.579.474,10.517-1.307,13.14-2.641,3.385-7.514,7.019-11.335,4.535a5.792,5.792,0,0,1-2.67-4.1V45.011a2.394,2.394,0,0,1,.6-1.86.806.806,0,0,1,.511-.261ZM122.1,95.126a16.7,16.7,0,0,0,2.7,9.448,17.444,17.444,0,0,0,6.932,5.755v5.146H107.378L107.236,99.6c4.673-1.156,8.077-1.936,10.682-2.732a18.307,18.307,0,0,0,4.176-1.744Zm43.012,0a18.291,18.291,0,0,0,4.176,1.744c2.6.8,5.981,1.576,10.654,2.732l-.142,15.872H155.476v-5.146a17.471,17.471,0,0,0,6.932-5.755,16.7,16.7,0,0,0,2.7-9.448Z"
                               transform="translate(0 0)"
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                             />
                           </g>
                         </svg>
@@ -525,35 +539,35 @@ export function SlideView({ title, itemId, children }) {
                               data-name="Path 6088"
                               d="M180.118,189.8a1.849,1.849,0,0,1,1.534,1.331,44.629,44.629,0,0,1,1.96,13.156,42.414,42.414,0,0,1-13.353,31.392,6.645,6.645,0,0,1,1.762,1.028,2.97,2.97,0,0,1,0,4.717,6.87,6.87,0,0,1-1.9,1.089,26.836,26.836,0,0,1-5.511,1.451,104.9,104.9,0,0,1-17.33,1.27,104.57,104.57,0,0,1-17.3-1.27,27.205,27.205,0,0,1-5.54-1.451,6.717,6.717,0,0,1-1.875-1.089,2.97,2.97,0,0,1,0-4.717,6.359,6.359,0,0,1,1.591-.968,38.8,38.8,0,0,1-4.177-4.446,14.55,14.55,0,0,1-6.563-.423,12.06,12.06,0,0,1-8.268-8.075,41.592,41.592,0,0,1-1.449-14.4,39.6,39.6,0,0,1,.653-5.625,11.414,11.414,0,0,1,.54-1.935,3.726,3.726,0,0,1,.483-.877,1.918,1.918,0,0,1,1.505-.877h.029c.875-.059,2.8-.19,4.148-.272a44.13,44.13,0,0,1,1.62-7.682,1.831,1.831,0,0,1,1.733-1.331h65.514a1.63,1.63,0,0,1,.2,0Zm-1.534,3.871H115.768a40.474,40.474,0,0,0-1.336,7.984c-.053.886-.085,1.753-.085,2.631a39.563,39.563,0,0,0,6.08,21.322h.029c.273.431.572.859.881,1.3a34.773,34.773,0,0,0,7.131,7.53c.479-.1.983-.18,1.505-.272a104.578,104.578,0,0,1,17.3-1.27,104.83,104.83,0,0,1,17.33,1.27c.455.08.885.156,1.307.242,8.484-6.61,14.063-17.624,14.063-30.122a40.619,40.619,0,0,0-1.392-10.615Zm-67.843,9.042c-.989.061-1.8.125-2.67.182-.055.2-.114.42-.171.7a36.953,36.953,0,0,0-.568,5.051,38.718,38.718,0,0,0,1.25,12.884,8.006,8.006,0,0,0,5.8,5.625,11.524,11.524,0,0,0,2.926.423,43.657,43.657,0,0,1-6.591-23.287c0-.537.009-1.052.029-1.573Z"
                               transform="translate(0 -115.813)"
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                             />
                             <path
                               id="Path_6089"
                               data-name="Path 6089"
                               d="M352.281,49.418a1.958,1.958,0,0,1,1.5.692c2.172,2.489,3.081,4.784,2.824,6.879a8.782,8.782,0,0,1-2.447,4.642,7.848,7.848,0,0,0-1.786,2.742c-.163.738-.1,1.675,1.4,3.614h0a1.96,1.96,0,1,1-3.1,2.4c-1.916-2.48-2.566-4.846-2.12-6.859a10.15,10.15,0,0,1,2.615-4.419,5.823,5.823,0,0,0,1.555-2.595c.087-.706-.112-1.791-1.887-3.825a1.96,1.96,0,0,1,1.453-3.269Z"
                               transform="translate(-205.384 0)"
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                             />
                             <path
                               id="Path_6090"
                               data-name="Path 6090"
                               d="M411.282,95.491a1.96,1.96,0,0,1,1.381.509,5.534,5.534,0,0,1,2.2,4.331,5.753,5.753,0,0,1-1.453,3.227,6.967,6.967,0,0,0-.967,1.5c-.059.223-.18.247.442,1a1.96,1.96,0,1,1-3.016,2.5,5.224,5.224,0,0,1-1.214-4.506,7.719,7.719,0,0,1,1.629-2.856,3.938,3.938,0,0,0,.668-1.118c0-.06.081-.288-.883-1.138h0a1.96,1.96,0,0,1,1.213-3.446Z"
                               transform="translate(-255.72 -38.011)"
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                             />
                             <path
                               id="Path_6091"
                               data-name="Path 6091"
                               d="M301.933,95.491a1.961,1.961,0,0,1,1.381.509,5.534,5.534,0,0,1,2.2,4.331,5.753,5.753,0,0,1-1.453,3.227,6.97,6.97,0,0,0-.967,1.5c-.059.223-.18.247.442,1h0a1.96,1.96,0,1,1-3.016,2.5,5.221,5.221,0,0,1-1.213-4.506,7.72,7.72,0,0,1,1.629-2.856,3.933,3.933,0,0,0,.668-1.118c0-.06.081-.288-.883-1.138h0a1.96,1.96,0,0,1,1.213-3.446Z"
                               transform="translate(-164.014 -38.011)"
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                             />
                           </g>
                         </svg>
                       </div>
                       <p className="head khf l-m">Café gigs</p>
                     </div>
-                    <div className="events-inner-box">
+                    <div className="events-inner-box liveTunesWelcomeEasyStep1 white-color">
                       <div className="ico-sec">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -770,7 +784,7 @@ export function SlideView({ title, itemId, children }) {
                     </div>
                   </Col>
                   <Col lg={2} md={3}>
-                    <div className="events-inner-box">
+                    <div className="events-inner-box liveTunesWelcomeEasyStep1 white-color">
                       <div className="ico-sec">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -890,7 +904,7 @@ export function SlideView({ title, itemId, children }) {
                               transform="translate(-280.918 -190.931)"
                               fill="none"
                               stroke="#000"
-                              stroke-width="1"
+                              strokeWidth="1"
                             />
                             <path
                               id="Path_6098"
@@ -899,7 +913,7 @@ export function SlideView({ title, itemId, children }) {
                               transform="translate(-147.495 -265.739)"
                               fill="none"
                               stroke="#000"
-                              stroke-width="1"
+                              strokeWidth="1"
                             />
                           </g>
                         </svg>
@@ -949,7 +963,7 @@ export function SlideView({ title, itemId, children }) {
                       </div>
                       <p className="head khf l-m">Private Parties</p>
                     </div>
-                    <div className="events-inner-box">
+                    <div className="events-inner-box liveTunesWelcomeEasyStep1 white-color">
                       <div className="ico-sec">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1178,7 +1192,7 @@ export function SlideView({ title, itemId, children }) {
                               data-name="Path 6092"
                               d="M140.646,39.2a4.616,4.616,0,0,0-1.449.2c-3.02.92-5.171,4.493-5.171,10.029a51.2,51.2,0,0,1-.511,9.128c-.3,1.439-.4,1.389-.909,1.8a9.917,9.917,0,0,0-2.7,2.936c-1.017,1.719-1.973,4.309-2.983,8.866-3.013,11.671-3.636,16.631-5.341,18.663-.854,1.017-2.11,1.7-4.716,2.5s-6.407,1.62-11.875,2.994A1.91,1.91,0,0,0,103.6,98.15l.171,19.186a1.912,1.912,0,0,0,1.818,1.86h27.955a1.912,1.912,0,0,0,1.818-1.86V111.7a8.857,8.857,0,0,0,5.738-1.6,11,11,0,0,0,2.5-2.326,11.033,11.033,0,0,0,2.5,2.326,8.86,8.86,0,0,0,5.739,1.6v5.639a1.912,1.912,0,0,0,1.818,1.86h27.955a1.912,1.912,0,0,0,1.818-1.86L183.6,98.15a1.91,1.91,0,0,0-1.392-1.831c-5.468-1.374-9.269-2.2-11.875-2.994s-3.863-1.483-4.716-2.5c-1.706-2.033-2.326-6.985-5.341-18.663-1.009-4.552-1.967-7.148-2.983-8.866a9.927,9.927,0,0,0-2.7-2.936c-.5-.413-.6-.363-.909-1.8a51.2,51.2,0,0,1-.511-9.128c0-5.536-2.15-9.109-5.171-10.029a4.578,4.578,0,0,0-4.4.959,4.593,4.593,0,0,0-2.954-1.163Zm0,3.692a.873.873,0,0,1,.54.261,2.4,2.4,0,0,1,.6,1.86v57.878a5.84,5.84,0,0,1-2.7,4.1c-4.383,2.112-8.722-.86-11.307-4.535-1.781-2.622-2.923-6.56-1.307-13.14,1.209-3.429,1.933-8.3,3.977-16.221v-.058c.965-4.364,1.889-6.642,2.585-7.82a5.582,5.582,0,0,1,1.847-1.948,6.8,6.8,0,0,0,2.188-3.9,52.005,52.005,0,0,0,.6-9.942c0-4.563,1.732-6.193,2.585-6.454a1.233,1.233,0,0,1,.4-.087Zm5.881,0a1.387,1.387,0,0,1,.426.087c.854.26,2.585,1.891,2.585,6.454a51.958,51.958,0,0,0,.6,9.942,6.791,6.791,0,0,0,2.188,3.9,5.574,5.574,0,0,1,1.847,1.948c.7,1.178,1.62,3.456,2.585,7.82v.058c2.04,7.9,2.773,12.765,3.977,16.192v.029c1.616,6.579.474,10.517-1.307,13.14-2.641,3.385-7.514,7.019-11.335,4.535a5.792,5.792,0,0,1-2.67-4.1V45.011a2.394,2.394,0,0,1,.6-1.86.806.806,0,0,1,.511-.261ZM122.1,95.126a16.7,16.7,0,0,0,2.7,9.448,17.444,17.444,0,0,0,6.932,5.755v5.146H107.378L107.236,99.6c4.673-1.156,8.077-1.936,10.682-2.732a18.307,18.307,0,0,0,4.176-1.744Zm43.012,0a18.291,18.291,0,0,0,4.176,1.744c2.6.8,5.981,1.576,10.654,2.732l-.142,15.872H155.476v-5.146a17.471,17.471,0,0,0,6.932-5.755,16.7,16.7,0,0,0,2.7-9.448Z"
                               transform="translate(0 0)"
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                             />
                           </g>
                         </svg>
@@ -1204,28 +1218,28 @@ export function SlideView({ title, itemId, children }) {
                               data-name="Path 6088"
                               d="M180.118,189.8a1.849,1.849,0,0,1,1.534,1.331,44.629,44.629,0,0,1,1.96,13.156,42.414,42.414,0,0,1-13.353,31.392,6.645,6.645,0,0,1,1.762,1.028,2.97,2.97,0,0,1,0,4.717,6.87,6.87,0,0,1-1.9,1.089,26.836,26.836,0,0,1-5.511,1.451,104.9,104.9,0,0,1-17.33,1.27,104.57,104.57,0,0,1-17.3-1.27,27.205,27.205,0,0,1-5.54-1.451,6.717,6.717,0,0,1-1.875-1.089,2.97,2.97,0,0,1,0-4.717,6.359,6.359,0,0,1,1.591-.968,38.8,38.8,0,0,1-4.177-4.446,14.55,14.55,0,0,1-6.563-.423,12.06,12.06,0,0,1-8.268-8.075,41.592,41.592,0,0,1-1.449-14.4,39.6,39.6,0,0,1,.653-5.625,11.414,11.414,0,0,1,.54-1.935,3.726,3.726,0,0,1,.483-.877,1.918,1.918,0,0,1,1.505-.877h.029c.875-.059,2.8-.19,4.148-.272a44.13,44.13,0,0,1,1.62-7.682,1.831,1.831,0,0,1,1.733-1.331h65.514a1.63,1.63,0,0,1,.2,0Zm-1.534,3.871H115.768a40.474,40.474,0,0,0-1.336,7.984c-.053.886-.085,1.753-.085,2.631a39.563,39.563,0,0,0,6.08,21.322h.029c.273.431.572.859.881,1.3a34.773,34.773,0,0,0,7.131,7.53c.479-.1.983-.18,1.505-.272a104.578,104.578,0,0,1,17.3-1.27,104.83,104.83,0,0,1,17.33,1.27c.455.08.885.156,1.307.242,8.484-6.61,14.063-17.624,14.063-30.122a40.619,40.619,0,0,0-1.392-10.615Zm-67.843,9.042c-.989.061-1.8.125-2.67.182-.055.2-.114.42-.171.7a36.953,36.953,0,0,0-.568,5.051,38.718,38.718,0,0,0,1.25,12.884,8.006,8.006,0,0,0,5.8,5.625,11.524,11.524,0,0,0,2.926.423,43.657,43.657,0,0,1-6.591-23.287c0-.537.009-1.052.029-1.573Z"
                               transform="translate(0 -115.813)"
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                             />
                             <path
                               id="Path_6089"
                               data-name="Path 6089"
                               d="M352.281,49.418a1.958,1.958,0,0,1,1.5.692c2.172,2.489,3.081,4.784,2.824,6.879a8.782,8.782,0,0,1-2.447,4.642,7.848,7.848,0,0,0-1.786,2.742c-.163.738-.1,1.675,1.4,3.614h0a1.96,1.96,0,1,1-3.1,2.4c-1.916-2.48-2.566-4.846-2.12-6.859a10.15,10.15,0,0,1,2.615-4.419,5.823,5.823,0,0,0,1.555-2.595c.087-.706-.112-1.791-1.887-3.825a1.96,1.96,0,0,1,1.453-3.269Z"
                               transform="translate(-205.384 0)"
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                             />
                             <path
                               id="Path_6090"
                               data-name="Path 6090"
                               d="M411.282,95.491a1.96,1.96,0,0,1,1.381.509,5.534,5.534,0,0,1,2.2,4.331,5.753,5.753,0,0,1-1.453,3.227,6.967,6.967,0,0,0-.967,1.5c-.059.223-.18.247.442,1a1.96,1.96,0,1,1-3.016,2.5,5.224,5.224,0,0,1-1.214-4.506,7.719,7.719,0,0,1,1.629-2.856,3.938,3.938,0,0,0,.668-1.118c0-.06.081-.288-.883-1.138h0a1.96,1.96,0,0,1,1.213-3.446Z"
                               transform="translate(-255.72 -38.011)"
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                             />
                             <path
                               id="Path_6091"
                               data-name="Path 6091"
                               d="M301.933,95.491a1.961,1.961,0,0,1,1.381.509,5.534,5.534,0,0,1,2.2,4.331,5.753,5.753,0,0,1-1.453,3.227,6.97,6.97,0,0,0-.967,1.5c-.059.223-.18.247.442,1h0a1.96,1.96,0,1,1-3.016,2.5,5.221,5.221,0,0,1-1.213-4.506,7.72,7.72,0,0,1,1.629-2.856,3.933,3.933,0,0,0,.668-1.118c0-.06.081-.288-.883-1.138h0a1.96,1.96,0,0,1,1.213-3.446Z"
                               transform="translate(-164.014 -38.011)"
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                             />
                           </g>
                         </svg>
@@ -1569,7 +1583,7 @@ export function SlideView({ title, itemId, children }) {
                               transform="translate(-280.918 -190.931)"
                               fill="none"
                               stroke="#000"
-                              stroke-width="1"
+                              strokeWidth="1"
                             />
                             <path
                               id="Path_6098"
@@ -1578,7 +1592,7 @@ export function SlideView({ title, itemId, children }) {
                               transform="translate(-147.495 -265.739)"
                               fill="none"
                               stroke="#000"
-                              stroke-width="1"
+                              strokeWidth="1"
                             />
                           </g>
                         </svg>
@@ -2005,9 +2019,9 @@ export function SlideView({ title, itemId, children }) {
                       height="100%"
                       src="https://www.youtube.com/embed/f1b6pHeMaRY"
                       title="Yamaha teens rock 2019 - Don Bosco school, Kolkata- Winners. -Feeling Good new version -Live Prfmnce"
-                      frameborder="0"
+                      frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
+                      allowFullScreen
                     ></iframe>
                   </div>
                 </Col>
@@ -2194,7 +2208,6 @@ export function SlideView({ title, itemId, children }) {
               <img src={Eventmanager} alt="" className="eventmanager-img-sec" />
               <div className="eventmanager-btn-sec">
               <Link to="/signup">
-
                 <button
                   type="button"
                   className="l-sb wbtnn back-btn btn btn-primary"

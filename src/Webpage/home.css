@@ -427,3 +427,23 @@
 
 
 }
+
+.liveTunesWelcomeEasyStep1 {
+  background: #FD3743 !important;
+}
+
+.liveTunesWelcomeEasyStep1 SVG {
+  fill: white;
+}
+
+.liveTunesWelcomeEasyStep2 {
+  background: #3486ff !important;
+}
+
+.liveTunesWelcomeEasyStep3 {
+  background: #a4a417 !important;
+}
+
+.liveTunesWelcomeEasyStep4 {
+  background: #7fe27f !important;
+}

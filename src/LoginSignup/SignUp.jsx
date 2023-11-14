@@ -85,7 +85,13 @@ const SignUp = () => {
               <h3 className="l-b form-head">
                 Create Your <samp className="red-color">Free Account</samp>
               </h3>
-              <p className="form-sub-head l-r">A place to find live events</p>
+              {joiningType == 'User' && (
+                <p className="form-sub-head l-r">A place to find live events</p>
+              )}
+              {joiningType == 'Artist' && (
+                <p className="form-sub-head l-r">A place to perform live events</p>
+              )}
+              
               <Form onSubmit={handleSignup}>
                 <Form.Group className="mb-3" controlId="">
                   <Form.Label className="l-sb main-label">

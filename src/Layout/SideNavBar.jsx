@@ -235,9 +235,17 @@ const SideNavBar = () => {
 							)
 						)
 					))}
+					<Link
+						key={'logout_mobile'}
+						onClick={handleLogout}
+						className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} d-block d-md-none`}
+					>
+						<IoIosLogOut />
+						{isExpanded && <p className="l-sb">Logout</p>}
+					</Link>
 				</div>
 			</div>
-			<div className="nav-footer">
+			<div className="nav-footer d-none d-md-block">
 				<IoIosLogOut onClick={handleLogout} className="footer-logout mx-auto cursor-pointer"/>
 			</div>
 		</div>

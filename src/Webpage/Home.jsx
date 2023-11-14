@@ -53,7 +53,7 @@ const Home = () => {
           <ScrollMenu
             // LeftArrow={LeftArrow}
             // RightArrow={RightArrow}
-            onWheel={onWheel}
+            //onWheel={onWheel}
           >
             {items.map(({ id }) => (
               <SlideView title={id} itemId={id} key={id} />

@@ -18,6 +18,7 @@ const mLocalizer = momentLocalizer(moment)
 
 const ArtistAvailSlot = () => {
   const dispatch = useDispatch();
+  const today = new Date();
   const { artistSlotsloading, artistSlotsAddUpdateLoading, artistSlotsError, artistSlots } = useSelector(state => state.artist);
   const { ArtistId } = useSelector(state => state.userAuth);
 
@@ -223,6 +224,15 @@ const ArtistAvailSlot = () => {
                   <Calendar
                       longPressThreshold={1}
                       defaultDate={defaultDate}
+                      min={
+                        new Date(
+                          today.getFullYear(), 
+                          today.getMonth(), 
+                          today.getDate(), 
+                          6
+                        )
+                      }
+
                       defaultView={Views.WEEK}
                       components={{event: (ev) => <EventComponent eventData={ev} />}}
                       formats={formats}
