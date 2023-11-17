@@ -8,6 +8,7 @@ import { getArtistProofData } from "./actions/artist";
 import { fetchUserProfile } from "./redux/userProfileSlice";
 
 import { useParams } from 'react-router-dom';
+import LogoGif from './assets/images/livtunes.gif'
 
 const WelcomeLoader = () => {
 	const dispatch = useDispatch();
@@ -60,9 +61,10 @@ const WelcomeLoader = () => {
 
   return (
    <div className="logo-wrap">
-	  <svg x="0px" y="0px" viewBox="0 0 945 150" id="Слой_1" xmlns="http://www.w3.org/2000/svg"  >
+   		<img src={LogoGif} />
+	  {/*<svg x="0px" y="0px" viewBox="0 0 945 150" id="Слой_1" xmlns="http://www.w3.org/2000/svg"  >
 	    <text transform="matrix(1 0 0 1 0 125.5508)" className="st0 st1 st2">LIVETUNES</text>
-	  </svg>
+	  </svg>*/}
 	</div>
   )
 }

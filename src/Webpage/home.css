@@ -447,3 +447,12 @@
 .liveTunesWelcomeEasyStep4 {
   background: #7fe27f !important;
 }
+
+
+.wbtnn .text-box{transition: 1s;background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 0px 3px 15px #00000029;border-radius: 0px 24px 24px 24px;padding: 15px;display: none; width: 235px;color: #000000;    font-size: 0.9rem;
+    text-align: left;
+    line-height: 1.4;}
+
+.wbtnn:hover .text-box.text-box-1{display: block; transition: 0.5s all;z-index: 9;position: absolute;
+    bottom: 100%;} 
+

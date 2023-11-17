@@ -19,7 +19,8 @@ const UpcomeBookings = (props) => {
               <h4 className="l-sb">Booking ID : {props.data.TransactId}</h4>
               <h4 className="l-sb ms-auto">{moment(props.data.EventDate).format("DD, MMM, YYYY")}}</h4>
               <h5 className="l-b red-color text-decoration-underline">
-              <Link to={`/cart/${btoa(props.data.TransactId)}`} className="text-reset cursor-pointer">Invoice</Link></h5>
+              {/*<Link to={`/cart/${btoa(props.data.TransactId)}`} className="text-reset cursor-pointer">Invoice</Link>*/}
+              </h5>
             </Stack>
           </div>
           <div className="d-flex postion-r">
@@ -64,7 +65,6 @@ const UpcomeBookings = (props) => {
                   fillColor="#fd3743"
                   readonly={true}
                 />
-               <h5 className="l-r">(overall ratings)</h5>
             </div>
           </Stack>
         </div>

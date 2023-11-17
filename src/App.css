@@ -1309,3 +1309,9 @@ numberInput.input[type=number] {
 .address_pre_box p {
     margin-bottom: 5px;
 }
+
+.walk_through_again {
+  font-size: 12px;
+  cursor: pointer;
+}
+

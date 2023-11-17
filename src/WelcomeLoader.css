@@ -4,7 +4,12 @@ body .logo-wrap {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70%;
+  width: 500px;
+  max-width: 100%;
+}
+
+body .logo-wrap img {
+  width: 100%;
 }
 
 #Слой_1 {
@@ -70,3 +75,9 @@ body .logo-wrap {
 .st0{fill:none;stroke:#FD3743;stroke-width:2;stroke-miterlimit:10;}
     .st1{font-family:'open sans';}
     .st2{font-size:150px;}
+
+@media (max-width:768px) {
+  body .logo-wrap img {
+    max-width: 100%;
+  }
+}

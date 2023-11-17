@@ -144,7 +144,6 @@ const PastBookings = (props) => {
                   fillColor="#fd3743"
                   readonly={true}
                 />
-               <h5 className="l-r">(overall ratings)</h5>
             </div>
             {props?.selBookFeedback?.length == 0 && (
               <div className="ms-auto">

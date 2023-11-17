@@ -39,9 +39,11 @@ import Client3 from "../assets/images/client3.png";
 import { BsFillStarFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { setJoiningType, setWelcomeSeen } from '../redux/userAuth';
+import { Navigate, useNavigate  } from 'react-router-dom';
 
 export function SlideView({ title, itemId, children }) {
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const {
     isFirstItemVisible,
@@ -78,6 +80,11 @@ export function SlideView({ title, itemId, children }) {
   const joinAs = (joiningFor) => {
     dispatch(setWelcomeSeen(true));
     dispatch(setJoiningType(joiningFor));
+  }
+
+  const walkThroughAgain = () => {
+    dispatch(setWelcomeSeen(false));
+    navigate("/");
   }
 
   useEffect(() => {
@@ -2196,6 +2203,7 @@ export function SlideView({ title, itemId, children }) {
                       Want to be a part of Livetunes{" "}
                       <span className="red-color">Community</span>?
                     </p>
+                    <p className="walk_through_again">Wanna check <span className="red-color" onClick={walkThroughAgain}>walkthrough</span> again..?</p>
                   </div>
                 </Col>
                 <Col lg={5}>
@@ -2214,7 +2222,11 @@ export function SlideView({ title, itemId, children }) {
                   onClick={() => {joinAs('User')}}
                   >
                   Join as a <br /> Organiser
+                  <div className="text-box text-box-1 l-r">
+                  Some information about Joining as Organiser
+                </div>
                 </button>
+
               </Link>
               </div>
 

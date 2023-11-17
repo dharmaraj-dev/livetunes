@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
 import {TfiDashboard, TfiAgenda } from "react-icons/tfi";
-import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock, TfiMedallAlt, TfiMenu } from "react-icons/tfi";
+import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock, TfiMedallAlt, TfiMenu, TfiMoney } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
 import { SlCalender, SlSettings } from "react-icons/sl";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
@@ -58,6 +58,9 @@ const SideNavBar = () => {
 	const showPopupAlert = (text, linkToNavigate) => {
 		if(text == 'Support') {
 			Swal.fire('Comming Soon.', '', 'info');
+		} else if(linkToNavigate == '#' || linkToNavigate == '#') {
+			Swal.fire('Comming Soon.', '', 'info');
+			return false;
 		}
 	}
 
@@ -106,7 +109,17 @@ const SideNavBar = () => {
 					text: "Dashboard",
 					icon: <TfiDashboard className="menu-item-icon"/>,
 					links: "/judgment-panel"
-				}
+				},
+				{
+					text: "Profile",
+					icon: <TfiUser className="menu-item-icon"/>,
+					links: "#"
+				},
+				{
+					text: "Payments",
+					icon: <TfiMoney className="menu-item-icon"/>,
+					links: "#"
+				},
 			]);
 		}else{
 			setMenuItemsDynamic([
@@ -188,7 +201,7 @@ const SideNavBar = () => {
 						</div>
 					
 						<span 
-						onClick={() => {audio.play();}}
+						// onClick={() => {audio.play();}}
 							>
 							<button
 								className={
