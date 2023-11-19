@@ -49,6 +49,7 @@ import { Navigate, useNavigate  } from 'react-router-dom';
 import 'react-loading-skeleton/dist/skeleton.css'
 import { setJoiningType } from './redux/userAuth';
 import ArtistAvailSlot from './Artist/ArtistAvailSlot';
+import GeneralStuffs from './Admin/GeneralStuffs';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { fetchUserProfile } from "./redux/userProfileSlice";
 import { getFeedLogs } from "./redux/userSlice";
@@ -69,7 +70,7 @@ function App() {
       dispatch(fetchUserProfile());
       dispatch(getFeedLogs());
     }
-    if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"){
+    if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User" && joiningType !== "Admin"){
       dispatch(setJoiningType("User"));
     }
   }, [isLoggedIn])
@@ -120,6 +121,8 @@ function App() {
         <Route path="/judge-login" element={<LogIn/>}/>
         <Route path="/judge-test-login" element={<TestLogIn/>}/>
         <Route path="/application-status" element={<ArtistApplicationStatus/>}/>
+        <Route path="/admin-dashboard" element={<ArtistDashboard/>}/>
+        <Route path="/admin/:id" element={<GeneralStuffs/>}/>
      
 
       </Routes>

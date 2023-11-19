@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
 import {TfiDashboard, TfiAgenda } from "react-icons/tfi";
-import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock, TfiMedallAlt, TfiMenu, TfiMoney } from "react-icons/tfi";
+import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock, TfiMedallAlt, TfiMenu, TfiMoney, TfiWrite, TfiBriefcase,  TfiArrowUp, TfiArrowDown } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
 import { SlCalender, SlSettings } from "react-icons/sl";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
@@ -46,6 +46,8 @@ const SideNavBar = () => {
 
 	const audio = new Audio(Gaudio);
 	const [isExpanded, setExpendState] = useState(false);
+	const [dropdown, setDropdown] = useState(false);
+
 
 	const [menuItemsDynamic, setMenuItemsDynamic] = useState([
 				{
@@ -121,7 +123,67 @@ const SideNavBar = () => {
 					links: "#"
 				},
 			]);
-		}else{
+		} else if(joiningType === "Admin") {
+			setMenuItemsDynamic([
+				{
+					text: "Dashboard",
+					icon: <TfiDashboard className="menu-item-icon"/>,
+					links: "/admin-dashboard"
+				},
+				{
+					text: "Manage Accounts",
+					icon: <SlSettings className="menu-item-icon"/>,
+					links: "#",
+					submenu: [
+			      {
+			        title: 'Users',
+			        url: '/admin/all-organisers',
+			        icon:<TfiWrite className="menu-item-icon"/>,
+			      },
+			      {
+			        title: 'Artists',
+			        url: '/admin/all-artists',
+			        icon:<TfiWrite className="menu-item-icon"/>,
+			      },
+			      {
+			        title: 'Judges',
+			        url: '/admin/all-judges',
+			        icon:<TfiWrite className="menu-item-icon"/>,
+			      },
+			    ],
+			    isSubMenuActive: false
+				},
+				{
+					text:"General",
+					icon:<TfiBriefcase className="menu-item-icon"/>,
+					links:`#`,
+					submenu: [
+			      {
+			        title: 'States',
+			        url: '/admin/all-states',
+			        icon:<TfiWrite className="menu-item-icon"/>,
+			      },
+			      {
+			        title: 'Cities',
+			        url: '/admin/all-cities',
+			        icon:<TfiWrite className="menu-item-icon"/>,
+			      },
+			      {
+			        title: 'Events',
+			        url: '/admin/all-events',
+			        icon:<TfiWrite className="menu-item-icon"/>,
+			      },
+			    ],
+			    isSubMenuActive: false
+				},
+				{
+					text: "Support",
+					icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
+					links: "#"
+				}
+			]);
+		}
+		 else{
 			setMenuItemsDynamic([
 				{
 					text: "Dashboard",
@@ -184,7 +246,23 @@ const SideNavBar = () => {
             Swal.fire('Successfully logout.', '', 'success');
           }
         })
+	}
+
+	const enableDisabledDropdown = (item, val) => {
 		
+
+    const updatedMenus = menuItemsDynamic.map(obj => {
+      if (obj.text == item) {
+        return {...obj, isSubMenuActive: !val};
+      } else {
+      	return {...obj, isSubMenuActive: false};
+      }
+      return obj;
+    });
+
+    setMenuItemsDynamic(updatedMenus);
+
+		console.log(menuItemsDynamic);
 	}
 	return (
 		<div
@@ -215,7 +293,7 @@ const SideNavBar = () => {
 						</span>
 				</div>
 				<div className="nav-menu">
-					{menuItemsDynamic.map(({ text, icon, links }) => (
+					{menuItemsDynamic.map(({ text, icon, links, submenu = null, isSubMenuActive = false },index) => (
 						!isLoggedIn ? (
 							<Link
 								key={text+'_'+links}
@@ -236,15 +314,48 @@ const SideNavBar = () => {
 									{isExpanded && <p className="l-sb">{text}</p>}
 								</Link>
 							):(
-							<Link
-								key={text+'_'+links}
-								onClick={() => showPopupAlert(text, links)}
-								to={links}
-								className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
-							>
-								{icon}
-								{isExpanded && <p className="l-sb">{text}</p>}
-							</Link>
+							submenu != null ? (
+				        <>
+				          <Link
+										key={text+'_submenu_'+links+index}
+										aria-expanded={isSubMenuActive ? "true" : "false"}
+      							onClick={() => {enableDisabledDropdown(text, isSubMenuActive)}}
+										className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
+									>
+
+				            {icon}
+										{isExpanded && <p className="l-sb">{text}</p>}
+										{isSubMenuActive ? (
+											<TfiArrowUp className="menu_drop_down_icon" />
+										):(
+											<TfiArrowDown className="menu_drop_down_icon" />
+										)}
+				          </Link>
+				          <ul className={`sub_menu_dropdown ${isSubMenuActive ? "show_sub_menu" : ""}`}>
+							      {submenu.map((submenu, indx) => (
+							      	<Link
+												key={submenu.title+'_submenu_child_'+submenu.url+indx}
+												onClick={() => showPopupAlert(text, submenu.url)}
+												className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == submenu.url ? ' active' : ''}`}
+												to={submenu.url}
+											>
+												{submenu.icon}
+												{isExpanded && <p className="l-sb">{submenu.title}</p>}
+						          </Link>
+							      ))}
+							    </ul>
+				        </>
+				      ) : (
+				        <Link
+									key={text+'_side_menu_'+links+'_'+index}
+									onClick={() => showPopupAlert(text, links)}
+									to={links}
+									className={`${isExpanded ? "menu-item" : "menu-item menu-item-NX"} ${location.pathname == links ? ' active' : ''}`}
+								>
+									{icon}
+									{isExpanded && <p className="l-sb">{text}</p>}
+								</Link>
+				      )
 							)
 						)
 					))}

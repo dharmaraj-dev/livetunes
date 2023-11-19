@@ -49,6 +49,7 @@ const slice = createSlice({
     },
     setJoiningType: (state, action) => {
       state.joiningType = action.payload;
+      console.log('action.payload', action.payload);
       localStorage.setItem("joiningFor", action.payload);
     },
     setIsArtistProfileSend: (state, action) => {

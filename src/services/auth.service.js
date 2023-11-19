@@ -60,10 +60,6 @@ const welcomeSeen = (data) => {
   localStorage.setItem("welcomeSeen", data);
 };
 
-const joiningType = (data) => {
-  localStorage.setItem("joiningFor", data);
-};
-
 const logout = (authToken) => {
   return axios
     .post(API_URL + "LogMethods/Logout", {}, { headers: {"Authorization":authToken} })
@@ -81,6 +77,5 @@ export default {
   resendOtp,
   validateOtp,
   welcomeSeen,
-  joiningType,
   logout
 };

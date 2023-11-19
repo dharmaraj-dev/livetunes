@@ -50,6 +50,8 @@ const OneTimepass = () => {
     } else {
       <Navigate to="/preferred-languages" />
     }
+  } else if(isLoggedIn && joiningType === "Admin"){
+    <Navigate to="/admin-dashboard" />
   }
 
   if(otpSentTo == undefined) {

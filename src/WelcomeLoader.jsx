@@ -26,7 +26,7 @@ const WelcomeLoader = () => {
 		}
 
 		
-	    if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"){
+	    if(joiningType !== "Artist" && joiningType !== "Judge" && joiningType !== "User"  && joiningType !== "Admin"){
 	    	//adding Joining Type manually if not found...
 	      dispatch(setJoiningType("User"));
 	    }
@@ -48,13 +48,15 @@ const WelcomeLoader = () => {
 	        }
 	      } else if(joiningType === 'Judge') {
 	        navigate("/judgment-panel");
+	      } else if(joiningType === 'Admin') {
+	        navigate("/admin-dashboard");
 	      } else if(joiningType === 'User'){
-	        if(isSettingsSaved) {
-	        	dispatch(fetchUserProfile());
-	          navigate("/dashboard");
-	        } else {
-	          navigate("/preferred-languages");
-	        }
+		        if(isSettingsSaved) {
+		        	dispatch(fetchUserProfile());
+		          navigate("/dashboard");
+		        } else {
+		          navigate("/preferred-languages");
+		        }
 	      }
 	    }
 	  }, [])

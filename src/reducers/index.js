@@ -11,6 +11,7 @@ import userAuth from "../redux/userAuth";
 import user from "../redux/userSlice";
 import artist from "../redux/artistSlice";
 import commonStates from "../redux/commonSlice";
+import admin from "../redux/admin";
 
 const rootReducer = combineReducers({
     common,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
     userProfile,
     userAuth,
     user,
-    commonStates
+    commonStates,
+    admin
 });
 
 export default (state, action) =>

@@ -1315,3 +1315,29 @@ numberInput.input[type=number] {
   cursor: pointer;
 }
 
+.ml-auto {
+  margin-left: auto;
+}
+
+.sub_menu_dropdown {
+ display: none;
+ padding-left: 5px;
+}
+
+.sub_menu_dropdown .menu-item{
+    font-size: 0.8rem;
+}
+
+.sub_menu_dropdown .menu-item svg{
+    font-size: 1.5rem;
+}
+
+.show_sub_menu {
+  display: block;
+}
+
+.menu_drop_down_icon {
+    font-size: 0.8rem !important;
+    margin-left: auto;
+}
+
