@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
 import {TfiDashboard, TfiAgenda } from "react-icons/tfi";
-import {TfiMicrophoneAlt, TfiHeart, TfiUser,TfiAlarmClock, TfiMedallAlt, TfiMenu, TfiMoney, TfiWrite, TfiBriefcase,  TfiArrowUp, TfiArrowDown } from "react-icons/tfi";
+import {TfiMicrophoneAlt, TfiList, TfiHeart, TfiUser,TfiAlarmClock, TfiMedallAlt, TfiMenu, TfiMoney, TfiWrite, TfiBriefcase,  TfiArrowUp, TfiArrowDown } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
 import { SlCalender, SlSettings } from "react-icons/sl";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
@@ -131,47 +131,29 @@ const SideNavBar = () => {
 					links: "/admin-dashboard"
 				},
 				{
+					text: "All Masters",
+					icon: <TfiList className="menu-item-icon"/>,
+					links: "/admin/all-masters"
+				},
+				{
 					text: "Manage Accounts",
-					icon: <SlSettings className="menu-item-icon"/>,
+					icon: <TfiUser className="menu-item-icon"/>,
 					links: "#",
 					submenu: [
 			      {
 			        title: 'Users',
 			        url: '/admin/all-organisers',
-			        icon:<TfiWrite className="menu-item-icon"/>,
+			        icon:<TfiList className="menu-item-icon"/>,
 			      },
 			      {
 			        title: 'Artists',
 			        url: '/admin/all-artists',
-			        icon:<TfiWrite className="menu-item-icon"/>,
+			        icon:<TfiList className="menu-item-icon"/>,
 			      },
 			      {
 			        title: 'Judges',
 			        url: '/admin/all-judges',
-			        icon:<TfiWrite className="menu-item-icon"/>,
-			      },
-			    ],
-			    isSubMenuActive: false
-				},
-				{
-					text:"General",
-					icon:<TfiBriefcase className="menu-item-icon"/>,
-					links:`#`,
-					submenu: [
-			      {
-			        title: 'States',
-			        url: '/admin/all-states',
-			        icon:<TfiWrite className="menu-item-icon"/>,
-			      },
-			      {
-			        title: 'Cities',
-			        url: '/admin/all-cities',
-			        icon:<TfiWrite className="menu-item-icon"/>,
-			      },
-			      {
-			        title: 'Events',
-			        url: '/admin/all-events',
-			        icon:<TfiWrite className="menu-item-icon"/>,
+			        icon:<TfiList className="menu-item-icon"/>,
 			      },
 			    ],
 			    isSubMenuActive: false

@@ -13,7 +13,27 @@ const slice = createSlice({
     allStatesLoading: false,
     allCities: [],
     allCitiesLoading: false,
-    addItemLoading: false
+    addItemLoading: false,
+    allEventsLoading: false,
+    allEvents: [],
+    allEventModesLoading: false,
+    allEventModes: [],
+    allCategoriesLoading: false,
+    allCategories: [],
+    allGenreLoading: false,
+    allGenres: [],
+    allLanguagesLoading: false,
+    allLanguages: [],
+    allBanksLoading: false,
+    allBanks: [],
+    allBranchesLoading: false,
+    allBranches: [],
+    allAddresProofsLoading: false,
+    allAddresProofs: [],
+    allEventTypesLoading: false,
+    allEventTypes: [],
+    allIdProofsLoading: false,
+    allIdProofs: [],
   },
   reducers: {
     startStopLoading: (state, action) => {
@@ -21,6 +41,26 @@ const slice = createSlice({
         state.allStatesLoading = action.payload.data;
       } else if(action.payload.type == "cities") {
         state.allCitiesLoading = action.payload.data;
+      } else if(action.payload.type == "events") {
+        state.allEventsLoading = action.payload.data;
+      } else if(action.payload.type == "eventModes") {
+        state.allEventModesLoading = action.payload.data;
+      } else if(action.payload.type == "categories") {
+        state.allCategoriesLoading = action.payload.data;
+      } else if(action.payload.type == "genre") {
+        state.allGenreLoading = action.payload.data;
+      } else if(action.payload.type == "language") {
+        state.allLanguagesLoading = action.payload.data;
+      } else if(action.payload.type == "banks") {
+        state.allBanksLoading = action.payload.data;
+      } else if(action.payload.type == "branches") {
+        state.allBranchesLoading = action.payload.data;
+      } else if(action.payload.type == "addressProofs") {
+        state.allAddresProofsLoading = action.payload.data;
+      } else if(action.payload.type == "eventTypes") {
+        state.allEventTypesLoading = action.payload.data;
+      } else if(action.payload.type == "idProofs") {
+        state.allIdProofsLoading = action.payload.data;
       }
     },
     setData: (state, action) => {
@@ -28,14 +68,52 @@ const slice = createSlice({
         state.allStates = action.payload.data;
       } else if(action.payload.type == "cities") {
         state.allCities = action.payload.data;
+      } else if(action.payload.type == "events") {
+        state.allEvents = action.payload.data;
+      } else if(action.payload.type == "eventModes") {
+        state.allEventModes = action.payload.data;
+      } else if(action.payload.type == "categories") {
+        state.allCategories = action.payload.data;
+      } else if(action.payload.type == "genre") {
+        state.allGenres = action.payload.data;
+      } else if(action.payload.type == "language") {
+        state.allLanguages = action.payload.data;
+      } else if(action.payload.type == "banks") {
+        state.allBanks = action.payload.data;
+      } else if(action.payload.type == "branches") {
+        state.allBranches = action.payload.data;
+      } else if(action.payload.type == "addressProofs") {
+        state.allAddresProofs = action.payload.data;
+      } else if(action.payload.type == "eventTypes") {
+        state.allEventTypes = action.payload.data;
+      } else if(action.payload.type == "idProofs") {
+        state.allIdProofs = action.payload.data;
       }
     },
     updateData: (state, action) => {
       if(action.payload.type == "add") {
         if(action.payload.from == "state") {
-          state.allStates = [...state.allStates, {"StateId": action.payload.item, "StateName": action.payload.item}]
+          state.allStates = [...state.allStates, action.payload.item]
         } else if(action.payload.from == "city") {
           state.allCities = [...state.allCities, action.payload.item]
+        } else if(action.payload.from == "event") {
+          state.allEvents = [...state.allEvents, action.payload.item]
+        } else if(action.payload.from == "eventMode") {
+          state.allEventModes = [...state.allEventModes, action.payload.item]
+        } else if(action.payload.from == "category") {
+          state.allCategories = [...state.allCategories, action.payload.item]
+        } else if(action.payload.from == "genre") {
+          state.allGenres = [...state.allGenres, action.payload.item]
+        } else if(action.payload.from == "languages") {
+          state.allLanguages = [...state.allLanguages, action.payload.item]
+        } else if(action.payload.from == "banks") {
+          state.allBanks = [...state.allBanks, action.payload.item]
+        } else if(action.payload.from == "branches") {
+          state.allBranches = [...state.allBranches, action.payload.item]
+        } else if(action.payload.from == "addressProofs") {
+          state.allAddresProofs = [...state.allAddresProofs, action.payload.item]
+        } else if(action.payload.from == "idProofs") {
+          state.allIdProofs = [...state.allIdProofs, action.payload.item]
         }
       } else if(action.payload.type == "update") {
         if(action.payload.from == "city") {
@@ -52,6 +130,26 @@ const slice = createSlice({
           state.allStates = state.allStates.filter((item) => item.StateId !== action.payload.item)
         } else if(action.payload.from == "city") {
           state.allCities = state.allCities.filter((item) => item.CityId !== action.payload.item)
+        } else if(action.payload.from == "event") {
+          state.allEvents = state.allEvents.filter((item) => item.EventsId !== action.payload.item)
+        } else if(action.payload.from == "eventMode") {
+          state.allEventModes = state.allEventModes.filter((item) => item.EventModeId !== action.payload.item)
+        } else if(action.payload.from == "category") {
+          state.allCategories = state.allCategories.filter((item) => item.CategoryId !== action.payload.item)
+        } else if(action.payload.from == "genre") {
+          state.allGenres = state.allGenres.filter((item) => item.GenreId !== action.payload.item)
+        } else if(action.payload.from == "genre") {
+          state.allGenres = state.allGenres.filter((item) => item.GenreId !== action.payload.item)
+        } else if(action.payload.from == "languages") {
+          state.allLanguages = state.allLanguages.filter((item) => item.LanguageId !== action.payload.item)
+        } else if(action.payload.from == "banks") {
+          state.allBanks = state.allBanks.filter((item) => item.BankId !== action.payload.item)
+        } else if(action.payload.from == "branches") {
+          state.allBranches = state.allBranches.filter((item) => item.BankBranchId !== action.payload.item)
+        } else if(action.payload.from == "addressProofs") {
+          state.allAddresProofs = state.allAddresProofs.filter((item) => item.AddressProofId !== action.payload.item)
+        } else if(action.payload.from == "idProofs") {
+          state.allIdProofs = state.allIdProofs.filter((item) => item.IdProofId !== action.payload.item)
         }
       }
     },
@@ -128,38 +226,6 @@ export const addState = (itemName) => async dispatch => {
   }
 };
 
-export const deleteState = (itemId) => async dispatch => {
-  dispatch(updateData({"from": "state", "type": "type", "item": itemId}));
-  try {
-   return await axios
-      .post(API_URL + `State/Delete`, {"StateId": itemId}, {headers:authHeader()})
-      .then(response => {
-        if(response.data.IsSuccess) {
-          successToast("State deleted.");
-        }
-        return response;
-      });
-  } catch (e) {
-   errorToast("State not deleted");
-  }
-};
-
-export const deleteCity = (itemId) => async dispatch => {
-  dispatch(updateData({"from": "city", "type": "type", "item": itemId}));
-  try {
-   return await axios
-      .post(API_URL + `City/Delete`, {"CityId": itemId}, {headers:authHeader()})
-      .then(response => {
-        if(response.data.IsSuccess) {
-          successToast("City deleted.");
-        }
-        return response;
-      });
-  } catch (e) {
-   errorToast("City not deleted");
-  }
-};
-
 export const addCity = (itemName) => async dispatch => {
   dispatch(startItemLoading())
   try {
@@ -192,6 +258,214 @@ export const updateCity = (data) => async dispatch => {
       });
   } catch (e) {
     errorToast("Action on city not updated.");
+  }
+};
+
+export const getAllEvents = () => async dispatch => {
+  dispatch(startStopLoading({"type": "events", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `Events/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "events", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "events", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "events", "data": false}));
+  }
+};
+
+export const getAllEventModes = () => async dispatch => {
+  dispatch(startStopLoading({"type": "eventModes", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `EventMode/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "eventModes", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "eventModes", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "eventModes", "data": false}));
+  }
+};
+
+export const getAllCategories = () => async dispatch => {
+  dispatch(startStopLoading({"type": "categories", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `Category/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "categories", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "categories", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "categories", "data": false}));
+  }
+};
+
+export const getGenre = () => async dispatch => {
+  dispatch(startStopLoading({"type": "genre", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `Genre/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "genre", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "genre", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "genre", "data": false}));
+  }
+};
+
+export const getLanguages = () => async dispatch => {
+  dispatch(startStopLoading({"type": "language", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `Language/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "language", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "language", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "language", "data": false}));
+  }
+};
+
+export const getBanks = () => async dispatch => {
+  dispatch(startStopLoading({"type": "banks", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `Bank/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "banks", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "banks", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "banks", "data": false}));
+  }
+};
+
+export const getBranches = () => async dispatch => {
+  dispatch(startStopLoading({"type": "branches", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `BankBranch/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "branches", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "branches", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "branches", "data": false}));
+  }
+};
+
+export const getAddressProofs = () => async dispatch => {
+  dispatch(startStopLoading({"type": "addressProofs", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `AddressProof/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "addressProofs", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "addressProofs", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "addressProofs", "data": false}));
+  }
+};
+
+export const getEventTypes = () => async dispatch => {
+  dispatch(startStopLoading({"type": "eventTypes", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `Event Type/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "eventTypes", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "eventTypes", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "eventTypes", "data": false}));
+  }
+};
+
+export const getIdProofs = () => async dispatch => {
+  dispatch(startStopLoading({"type": "idProofs", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `IdProof/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "idProofs", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "idProofs", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "idProofs", "data": false}));
+  }
+};
+
+export const addMasterCommon = (url, itemName, from) => async dispatch => {
+  dispatch(startItemLoading())
+  try {
+   return await axios
+      .post(API_URL + url, itemName, {headers:authHeader()})
+      .then(response => {
+        dispatch(stopItemLoading())
+        if(response.data.IsSuccess) {
+          successToast(`${from} added`);
+          dispatch(updateData({"type": "add", "from": from,  "item": itemName}));
+        }
+        return response;
+      });
+  } catch (e) {
+    dispatch(stopItemLoading())
+    errorToast(`${from} not added`);
+  }
+};
+
+export const deleteMasterCommon = (url, itemName, from, data) => async dispatch => {
+  dispatch(startItemLoading())
+  try {
+   return await axios
+      .post(API_URL + url, data, {headers:authHeader()})
+      .then(response => {
+        dispatch(stopItemLoading())
+        if(response.data.IsSuccess) {
+          successToast(`${from} added`);
+          dispatch(updateData({"type": "delete", from,  "item": itemName}));
+        }
+        return response;
+      });
+  } catch (e) {
+    dispatch(stopItemLoading())
+    errorToast(`${from} not added`);
   }
 };
 
