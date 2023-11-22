@@ -52,7 +52,13 @@
 /* .ico-box.ico-box-2:hover + .text-box.text-box-1 + {opacity: 0 !important;} */
 
 .section4 {background-repeat: no-repeat !important;background-size: contain !important;background-position: bottom !important;}
-.join-step-text-sec .sub-head,.join-step-text-sec .heading {font-size: 84px;margin: 0;line-height: 90px;}
+.join-step-text-sec .sub-head,.join-step-text-sec .heading {
+/*  font-size: 84px;*/
+  font-size: 3rem;
+  text-align: center;
+  margin: 0;
+  line-height: 90px;
+}
 .join-step-text-sec{position: absolute;bottom: 40px;left: 350px;}
 .section4 .welcome-btn-sec button{width: 170px;height: 170px;bottom: 24px;right: 167px;border: 1px solid #000000;}
 .section4 .steps-box-sec .row{justify-content: flex-end!important;}
@@ -61,7 +67,7 @@
 .steps-box-sec .step-inner-box .head{font-size: 26px;margin: -14px 0 0;}
 .steps-box-sec .step-inner-box .sub-head{font-size: 19px;margin: 0;line-height: 25px;}
 .steps-box-sec .step-inner-box {background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 0px 4px 20px #00000029;border: 0.5px solid #000000;border-radius: 24px;padding: 5px 15px 15px;transition: 0.5s;}
-.steps-box-sec .step-inner-box:hover{color: #fff;background: #F13743;}
+/*.steps-box-sec .step-inner-box:hover{color: #fff;background: #F13743;}*/
 .steps-box-sec .step-inner-box.step-inner-box4{margin: 20px 0 0;}
 
 .ico-bg-1{position: absolute;width: 42px;left: 360px;top: 55px;transform: rotate(21deg);}
@@ -195,7 +201,10 @@
     .proto-img-text img {width: 82%;}
     .section8 .join-step-text-sec {position: initial;margin: 0 0 0 102px;}
     .video-sec {width: 84%;margin: 130px auto 0;}
-    .video-sec iframe{height: 550px;}
+    .video-sec iframe{
+/*      height: 550px;*/
+      height: 700px;
+    }
     
     .inner-client-box .dream-title{padding: 0;}
     .inner-client-box {padding: 0 32px;}
@@ -436,7 +445,7 @@
   fill: white;
 }
 
-.liveTunesWelcomeEasyStep2 {
+/*.liveTunesWelcomeEasyStep2 {
   background: #3486ff !important;
 }
 
@@ -446,7 +455,7 @@
 
 .liveTunesWelcomeEasyStep4 {
   background: #7fe27f !important;
-}
+}*/
 
 
 .wbtnn .text-box{transition: 1s;background: #FFFFFF 0% 0% no-repeat padding-box;box-shadow: 0px 3px 15px #00000029;border-radius: 0px 24px 24px 24px;padding: 15px;display: none; width: 235px;color: #000000;    font-size: 0.9rem;

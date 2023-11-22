@@ -7,14 +7,14 @@ const SocialIcon = () => {
     <>  
         <ul className="share-btn-icon">
           <li>
-            <FacebookShareButton url={shareUrl}>
-            <FacebookIcon size={32} round={true} />
-            </FacebookShareButton>
-          </li>
-          <li>
             <WhatsappShareButton url={shareUrl}>
             <WhatsappIcon size={32} round={true} />
             </WhatsappShareButton>
+          </li>
+          <li>
+            <FacebookShareButton url={shareUrl}>
+            <FacebookIcon size={32} round={true} />
+            </FacebookShareButton>
           </li>
           <li>
             <EmailShareButton url={shareUrl}>

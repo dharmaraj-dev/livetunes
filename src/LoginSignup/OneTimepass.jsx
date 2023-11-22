@@ -33,6 +33,7 @@ const OneTimepass = () => {
   const [otpTimer, setOtpTimer] = useState(30);
   const [loading, setLoading] = useState(false);
   const [otpVerifyLoading, setOtpVerifyLoading] = useState(false);
+  const [agreeTerms, setAgreTerms] = useState("");
 
   useEffect(()=>{
     const inputfield = document.querySelector(
@@ -64,6 +65,10 @@ const OneTimepass = () => {
 
   const verifyOtp = () => {
     if(input1 !== "" && input2 !== "" && input3 !== "" && input4 !== "" && input5 !== "") {
+      if(!agreeTerms) {
+        errorToast("Check terms & conditions first. ");
+        return false;
+      }
       setOtpVerifyLoading(true);
       setIsOtpValid("");
       const usersOtp = input1+''+input2+''+input3+''+input4+''+input5;
@@ -225,13 +230,13 @@ const OneTimepass = () => {
                       )}
                     </div>
                   <div className="terms-use-text">
-                    <p className="l-r">By clicking Continue I agree that I have read and<br/>accepted the Terms of Use.</p>
+                    <p className="l-r"><input style={{"minHeight":"20px"}} className="form-check-input" type="checkbox" name="termsConditions" value={agreeTerms} onChange={(e) => {setAgreTerms(e.target.checked)}} /> I agree that I have read and<br/>accepted the <a href="/terms-conditions">Terms of Use</a>.</p>
                   </div>
                       <Button
                         variant="primary"
                         className="btn w-100 sign-btn white-color l-sb btnn"
                         onClick={verifyOtp}
-                        disabled={otpVerifyLoading}
+                        disabled={otpVerifyLoading || !agreeTerms}
                         ref={continueButton}
                         >
                         {otpVerifyLoading && (

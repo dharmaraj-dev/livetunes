@@ -2,6 +2,7 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import moment from 'moment';
 
 const AtmCard = (props) => {
 
@@ -38,7 +39,7 @@ const AtmCard = (props) => {
                         Expiry date
                         </Form.Label>
                         <Col sm={7}>
-                        <h5 className="l-r mt-2">{props?.cardData?.ExpiryNo}</h5>
+                        <h5 className="l-r mt-2">{moment(props?.cardData?.ExpiryNo).format("MM/YY")}</h5>
                         </Col>
                     </Form.Group>
                     </Col>

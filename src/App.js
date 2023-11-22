@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import './App.css';
 import {Routes, Route} from 'react-router-dom';
 import WelcomeLoader from './WelcomeLoader';
+import TermsConditions from './TermsConditions';
 import SideNavBar from './Layout/SideNavBar';
 import OneTimepass from './LoginSignup/OneTimepass';
 import SignUp from './LoginSignup/SignUp';
@@ -123,6 +124,7 @@ function App() {
         <Route path="/application-status" element={<ArtistApplicationStatus/>}/>
         <Route path="/admin-dashboard" element={<ArtistDashboard/>}/>
         <Route path="/admin/:id" element={<GeneralStuffs/>}/>
+        <Route path="/terms-conditions" element={<TermsConditions/>}/>
      
 
       </Routes>

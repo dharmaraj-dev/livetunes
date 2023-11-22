@@ -209,7 +209,7 @@ const SingleArtist = () => {
                                                     <HiOutlineMusicalNote className="red-color inner-ico-img"/>
                                                 </div>
                                                 <div className="right-text-sec">
-                                                    <h2>Performance Gernes</h2>
+                                                    <h2>Performance Genres</h2>
                                                     <div className="per-lang">
                                                         {
                                                             artistDetails?.selAPDetails?.GenreName
@@ -223,7 +223,7 @@ const SingleArtist = () => {
                                         </Col>
                                         <Col lg={6}>
                                             <div className="main-social-sec">
-                                                <h2>Performance Gernes</h2>
+                                                <h2>Performance Genres</h2>
                                                 <div className="inner-social-sec">
                                                     <Stack direction="horizontal">
                                                         <div className="ico-text-sec">
@@ -298,49 +298,61 @@ const SingleArtist = () => {
                                             <div className="pre-evnt-ico">
                                                 <img src={Nounwed} alt="" />
                                             </div>
-                                            <p className="l-r sub-head">weddings</p>
+                                            <p className="l-r sub-head">Birthdays</p>
                                         </div>
                                         <div className="inner-preferred-event-box">
                                             <div className="pre-evnt-ico">
                                                 <img src={Nouncafe} alt="" />
                                             </div>
-                                            <p className="l-r sub-head">Cafes</p>
-                                        </div>
-                                        <div className="inner-preferred-event-box">
-                                            <div className="pre-evnt-ico">
-                                                <img src={Nounpray} alt="" />
-                                            </div>
-                                            <p className="l-r sub-head">Religious</p>
-                                        </div>
-                                        <div className="inner-preferred-event-box">
-                                            <div className="pre-evnt-ico">
-                                                <img src={Nounconcert} alt="" />
-                                            </div>
-                                            <p className="l-r sub-head">Concerts</p>
+                                            <p className="l-r sub-head">Proposals</p>
                                         </div>
                                         <div className="inner-preferred-event-box">
                                             <div className="pre-evnt-ico">
                                                 <img src={Nounbirthday} alt="" />
                                             </div>
-                                            <p className="l-r sub-head">Kids</p>
+                                            <p className="l-r sub-head">Anniversaries</p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounconcert} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Wedding Events</p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounpray} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Religious Events</p>
                                         </div>
                                         <div className="inner-preferred-event-box">
                                             <div className="pre-evnt-ico">
                                                 <img src={Nounpub} alt="" />
                                             </div>
-                                            <p className="l-r sub-head">Pubs</p>
+                                            <p className="l-r sub-head">Bhajans & Kirtan's</p>
                                         </div>
                                         <div className="inner-preferred-event-box">
                                             <div className="pre-evnt-ico">
                                                 <img src={Nounfestival} alt="" />
                                             </div>
-                                            <p className="l-r sub-head">Festivals</p>
+                                            <p className="l-r sub-head">House Parties</p>
                                         </div>
                                         <div className="inner-preferred-event-box">
                                             <div className="pre-evnt-ico">
                                                 <img src={Nounparty} alt="" />
                                             </div>
-                                            <p className="l-r sub-head">Parties</p>
+                                            <p className="l-r sub-head">Restaurant Shows</p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounbirthday} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Pubs & Bars (Live Music) </p>
+                                        </div>
+                                        <div className="inner-preferred-event-box">
+                                            <div className="pre-evnt-ico">
+                                                <img src={Nounconcert} alt="" />
+                                            </div>
+                                            <p className="l-r sub-head">Corporate Shows</p>
                                         </div>
                                     </div>
                                 </section>

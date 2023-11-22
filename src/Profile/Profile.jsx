@@ -203,7 +203,7 @@ const Profile = () => {
                                     </Stack>    
 
                                     <div className="head">
-                                        <h2>General information</h2>
+                                        <h2>General Information</h2>
                                     </div>
                                     <Form onSubmit={(e) => {userProfileSubmit(e)}} method="post">
                                         <Row className="align-items-center">
@@ -217,7 +217,7 @@ const Profile = () => {
                                             </Col>
                                             <Col lg={6} md="12" className="mb-4">
                                                 <Form.Label className="l-sb">Date of birth</Form.Label>
-                                                <Form.Control placeholder="DOB" type="date" value={dob} onChange={(e) => {setDob(e.target.value)}} required disabled={!canEdit}/>
+                                                <Form.Control type="date" value={dob} onChange={(e) => {setDob(e.target.value)}} required disabled={!canEdit}/>
                                             </Col>
                                             <Col lg={6} md="12" className="mb-4">
                                                 <Form.Label className="l-sb">Gender</Form.Label>
@@ -232,7 +232,7 @@ const Profile = () => {
                                                     <div className="form-check">
                                                         <input className="form-check-input" type="radio" name="gender" id="flexRadioDefault2" value={"Female"} onChange={(e) => {setGender(e.target.value)}} required checked={gender == "Female" ? true : false} disabled={!canEdit}/>
                                                         <label className="form-check-label" htmlFor="flexRadioDefault2">
-                                                        Fmale
+                                                        Female
                                                         </label>
                                                     </div>
 

@@ -19,7 +19,7 @@ const RangeSlider = () => {
         <div className="range-slider postion-r">
             <MultiRangeSlider
                 min={5000}
-                max={250000}
+                max={100000}
                 step={10000}
                 stepOnly= 'true'
                 minValue={userMinimumBudget}

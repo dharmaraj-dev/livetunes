@@ -166,7 +166,7 @@ const Filter = (props) => {
                             />
                            <RangeSlider 
                                 min={5000}
-                                max={250000}
+                                max={100000}
                                 step={1000}
                                 defaultValue={[userMinimumBudget, userMaximumBudget]}
                                 id="range-slider-ab"

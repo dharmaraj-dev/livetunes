@@ -91,9 +91,10 @@ export function SlideView({ title, itemId, children }) {
     if(itemId == 1) {
       let tmpStep = 1;
       let activeStepInterval = setInterval(() => {
-        setActiveStep(tmpStep++);
+        tmpStep+=1;
+        setActiveStep(tmpStep);
         if(tmpStep > 5) {
-          setActiveStep(0);
+          //setActiveStep(0);
           clearInterval(activeStepInterval);
          }
       },3000);
@@ -189,14 +190,12 @@ export function SlideView({ title, itemId, children }) {
                     className="main-text-box"
                     //onMouseEnter={() => setActiveStep(1)}
                   >
-                    <div className={activeStep === 1 ? "animation-circle ico-box ico-box-1":"ico-box ico-box-1"}>
+                    <div className={activeStep >= 1 ? "animation-circle ico-box ico-box-1":"ico-box ico-box-1"}>
                       <img src={Musicnotes} alt="" className="" />
                     </div>
-                    {activeStep === 1 && (
+                    {activeStep >= 1 && (
                       <div className="text-box text-box-1 l-r">
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the
-                        industry's standard
+                        Welcome to LiveTunes.ai—a unique platform bridging the gap between music enthusiasts and artists. Join us for a one-of-a-kind musical journey where passion meets performance.
                       </div>
                     )}
                   </div>
@@ -206,18 +205,16 @@ export function SlideView({ title, itemId, children }) {
                     className="main-text-box"
                    // onMouseEnter={() => setActiveStep(2)}
                   >
-                    <div className={activeStep === 2 ? "animation-circle ico-box ico-box-2":"ico-box ico-box-2"}>
+                    <div className={activeStep >= 2 ? "animation-circle ico-box ico-box-2":"ico-box ico-box-2"}>
                       <img
                         src={Musicnotesvgrepo}
                         alt=""
                         className=""
                       />
                     </div>
-                    {activeStep === 2 && (
+                    {activeStep >= 2 && (
                       <div className="text-box text-box-1 l-r">
-                        2 Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the
-                        industry's standard
+                        Book music artists for your personalised gigs to grand shows for weddings and special events effortlessly. We put the power of live music in your hands.
                       </div>
                     )}
                   </div>
@@ -231,18 +228,16 @@ export function SlideView({ title, itemId, children }) {
                       className="main-text-box"
                      // onMouseEnter={() => setActiveStep(3)}
                     >
-                      <div className={activeStep === 3 ? "animation-circle ico-box ico-box-3":"ico-box ico-box-3"}>
+                      <div className={activeStep >= 3 ? "animation-circle ico-box ico-box-3":"ico-box ico-box-3"}>
                         <img
                           src={Musicnotesvgrepoand}
                           alt=""
                           className=""
                         />
                       </div>
-                      {activeStep === 3 && (
+                      {activeStep >= 3 && (
                         <div className="text-box text-box-1 l-r">
-                          3 Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's standard
+                          Your safety is our priority. We verify all profiles—both music enthusiasts and artists—ensuring a community built on quality and security. Enjoy peace of mind as you immerse yourself in the world of live music.
                         </div>
                       )}
                     </div>
@@ -252,14 +247,12 @@ export function SlideView({ title, itemId, children }) {
                       className="main-text-box"
                      // onMouseEnter={() => setActiveStep(4)}
                     >
-                      <div className={activeStep === 4 ? "animation-circle ico-box ico-box-4":"ico-box ico-box-4"}>
+                      <div className={activeStep >= 4 ? "animation-circle ico-box ico-box-4":"ico-box ico-box-4"}>
                         <img src={Musicnotesvgrepobold} alt="" className="" />
                       </div>
-                      {activeStep === 4 && (
+                      {activeStep >= 4 && (
                         <div className="text-box text-box-1 l-r">
-                          4 Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's standard
+                          <a href="https://livetunes.ai" target="_blank">Livetunes.ai</a> A Catalyst for connecting live music lovers while supporting the growth of our local artists in a global community.
                         </div>
                       )}
                     </div>
@@ -300,13 +293,13 @@ export function SlideView({ title, itemId, children }) {
               <img src={Musicnotesvgrepoand} alt="" className="ico-bg-6" />
               <img src={Musicnotesvgrepobold} alt="" className="ico-bg-7" />
               <div className="join-step-text-sec">
-                <p className="sub-head khf black-color l-m">Join Livetunes</p>
-                <p className="heading khf red-color l-m">in 4 easy steps</p>
+                <p className="sub-head khf black-color l-m">Book a Gig</p>
+                <p className="heading khf red-color l-m">in 4 Easy Steps</p>
               </div>
               <div className="steps-box-sec d-none d-sm-none d-md-none d-lg-block">
                 <Row>
                   <Col xl={2} lg={3} md={12}>
-                    <div className="step-inner-box liveTunesWelcomeEasyStep1">
+                    <div className="step-inner-box">
                       <div className="d-flex">
                         <div className="number-sec khf l-m">1</div>
                         <div className="st-text-sec l-r">
@@ -315,9 +308,9 @@ export function SlideView({ title, itemId, children }) {
                           Step
                         </div>
                       </div>
-                      <p className="head khf l-m">Signup</p>
+                      <p className="head khf l-m">Sign up</p>
                       <p className="sub-head l-r">
-                        Signup to livetune with easy steps
+                        Embark on a musical journey – Sign up
                       </p>
                     </div>
                   </Col>
@@ -331,9 +324,9 @@ export function SlideView({ title, itemId, children }) {
                           Step
                         </div>
                       </div>
-                      <p className="head khf l-m">Setup your Profile</p>
+                      <p className="head khf l-m">Setup Profile</p>
                       <p className="sub-head l-r">
-                        Setup your profile to find desired artists
+                        Make it a personalised and verified musical journey.
                       </p>
                     </div>
                   </Col>
@@ -347,9 +340,9 @@ export function SlideView({ title, itemId, children }) {
                           Step
                         </div>
                       </div>
-                      <p className="head khf l-m">Find Artists easily</p>
+                      <p className="head khf l-m">Find Artists</p>
                       <p className="sub-head l-r">
-                        Find the Livetunes artists on the protal
+                        Discover musical talent
                       </p>
                     </div>
                   </Col>
@@ -365,9 +358,9 @@ export function SlideView({ title, itemId, children }) {
                           Step
                         </div>
                       </div>
-                      <p className="head khf l-m">Book the artist</p>
+                      <p className="head khf l-m">Book the Gig</p>
                       <p className="sub-head l-r">
-                        Book the artists for your events
+                        Book your favorite artist with ease.
                       </p>
                     </div>
                   </Col>
@@ -377,7 +370,7 @@ export function SlideView({ title, itemId, children }) {
               <div className="steps-box-sec steps-box-sec-mob d-sm-block d-md-block d-lg-none">
                 <Row>
                   <Col xl={2} lg={3} xs={6} sm={6}>
-                    <div className="step-inner-box liveTunesWelcomeEasyStep1">
+                    <div className="step-inner-box">
                       <div className="d-flex">
                         <div className="number-sec khf l-m">1</div>
                         <div className="st-text-sec l-r">
@@ -386,9 +379,9 @@ export function SlideView({ title, itemId, children }) {
                           Step
                         </div>
                       </div>
-                      <p className="head khf l-m">Signup</p>
+                      <p className="head khf l-m">Sign up</p>
                       <p className="sub-head l-r">
-                        Signup to livetune with easy steps
+                        Embark on a musical journey – Sign up
                       </p>
                     </div>
                   </Col>
@@ -402,9 +395,9 @@ export function SlideView({ title, itemId, children }) {
                           Step
                         </div>
                       </div>
-                      <p className="head khf l-m">Setup your Profile</p>
+                      <p className="head khf l-m">Setup Profile</p>
                       <p className="sub-head l-r">
-                        Setup your profile to find desired artists
+                        Make it a personalised and verified musical journey.
                       </p>
                     </div>
                   </Col>
@@ -418,9 +411,9 @@ export function SlideView({ title, itemId, children }) {
                           Step
                         </div>
                       </div>
-                      <p className="head khf l-m">Find Artists easily</p>
+                      <p className="head khf l-m">Find Artists</p>
                       <p className="sub-head l-r">
-                        Find the LiveTunes artists on the portal
+                        Discover musical talent
                       </p>
                     </div>
                   </Col>
@@ -434,9 +427,9 @@ export function SlideView({ title, itemId, children }) {
                           Step
                         </div>
                       </div>
-                      <p className="head khf l-m">Book the artist</p>
+                      <p className="head khf l-m">Book the Gig</p>
                       <p className="sub-head l-r">
-                        Book the artists for your events
+                        Book your favorite artist with ease.
                       </p>
                     </div>
                   </Col>
@@ -501,7 +494,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Wedding ceremonies</p>
+                      <p className="head khf l-m">Birthdays</p>
                     </div>
                     <div className="events-inner-box">
                       <div className="ico-sec">
@@ -572,7 +565,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Café gigs</p>
+                      <p className="head khf l-m">Proposals</p>
                     </div>
                     <div className="events-inner-box liveTunesWelcomeEasyStep1 white-color">
                       <div className="ico-sec">
@@ -787,7 +780,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Kids friendly events</p>
+                      <p className="head khf l-m">House Parties</p>
                     </div>
                   </Col>
                   <Col lg={2} md={3}>
@@ -866,9 +859,75 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">College Festivals</p>
+                      <p className="head khf l-m">Anniversaries</p>
                     </div>
                     <div className="events-inner-box">
+                       <div className="ico-sec">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="80"
+                          height="80"
+                          viewBox="0 0 80 80"
+                        >
+                          <g
+                            id="noun-restaurant-5001458"
+                            transform="translate(-69.994 0.005)"
+                          >
+                            <path
+                              id="Path_6321"
+                              data-name="Path 6321"
+                              d="M145.827,69.995h-.833V35.785a8.294,8.294,0,0,0,3.333-6.623,1.117,1.117,0,0,0-.088-.373L138.327,8.964v-4.8a4.167,4.167,0,0,0-4.166-4.167H85.827a4.167,4.167,0,0,0-4.166,4.167v4.8L71.749,28.789a1.158,1.158,0,0,0-.088.373,8.294,8.294,0,0,0,3.333,6.623v34.21h-.833a4.167,4.167,0,0,0-4.167,4.167v1.667h0a4.167,4.167,0,0,0,4.167,4.167h71.666a4.167,4.167,0,0,0,4.167-4.167V74.161h0a4.167,4.167,0,0,0-4.167-4.167Zm-5.833-34.167a6.675,6.675,0,0,1-6.615-5.833h13.23a6.675,6.675,0,0,1-6.615,5.833Zm-52.5,29.167h45a4.167,4.167,0,0,0,4.167-4.167V36.788a8.216,8.216,0,0,0,6.666,0V70H76.662V36.788a8.216,8.216,0,0,0,6.666,0v24.04a4.167,4.167,0,0,0,4.167,4.167Zm30.753-36.667L116.414,10h9.461l5.5,18.333Zm13.362,1.667a6.667,6.667,0,0,1-13.23,0Zm-15.036-1.667H103.406L105.239,10h9.5Zm.035,1.667a6.667,6.667,0,0,1-13.23,0ZM101.74,28.328H88.613L94.113,10h9.461Zm-.132,1.667a6.667,6.667,0,0,1-13.23,0Zm-6.615,7.5a8.322,8.322,0,0,0,7.5-4.767,8.283,8.283,0,0,0,15,0,8.283,8.283,0,0,0,15,0,8.351,8.351,0,0,0,2.5,3.057V60.828a2.5,2.5,0,0,1-2.5,2.5h-7.5V42.508a4.136,4.136,0,0,0-3.207-4.064c-3.033-.643-5.772,1.422-7.125,5.4-1.425,4.187-1.022,9.618,2,11.553v7.928h-10V55.082a9.732,9.732,0,0,0,3.333-7.588c0-5.054-3.363-9.167-7.5-9.167s-7.5,4.113-7.5,9.167a9.732,9.732,0,0,0,3.333,7.588v8.245H87.493a2.5,2.5,0,0,1-2.5-2.5V35.785a8.352,8.352,0,0,0,2.5-3.057,8.322,8.322,0,0,0,7.5,4.767Zm22.86,16.667c-2.5-1.2-2.86-6.115-1.613-9.778.4-1.182,1.965-5,5.2-4.305a2.459,2.459,0,0,1,1.885,2.43v20.82h-5V54.912a.833.833,0,0,0-.473-.75Zm-18.2-.167a8.062,8.062,0,0,1-2.99-6.5c0-4.135,2.617-7.5,5.833-7.5s5.833,3.365,5.833,7.5a8.057,8.057,0,0,1-2.99,6.5.832.832,0,0,0-.343.675v8.658h-5V54.673a.836.836,0,0,0-.343-.679Zm46.494-25.667H133.112L127.612,10h9.365ZM83.326,4.163a2.5,2.5,0,0,1,2.5-2.5H134.16a2.5,2.5,0,0,1,2.5,2.5V8.329H83.326ZM83.008,10h9.365l-5.5,18.333H73.841Zm-9.63,20h13.23a6.667,6.667,0,0,1-13.23,0Zm74.948,45.832a2.5,2.5,0,0,1-2.5,2.5H74.161a2.5,2.5,0,0,1-2.5-2.5V74.161h0a2.5,2.5,0,0,1,2.5-2.5h71.666a2.5,2.5,0,0,1,2.5,2.5Z"
+                            />
+                          </g>
+                        </svg>
+                      </div>
+                      <p className="head khf l-m">Restaurant Shows</p>
+                    </div>
+                  </Col>
+                  <Col lg={2} md={3}>
+                    <div className="events-inner-box events-inner-box2">
+                      <div className="ico-sec">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="80"
+                          height="96"
+                          viewBox="0 0 80 96"
+                        >
+                          <g
+                            id="noun-party-2914343"
+                            transform="translate(-90.895 -10.94)"
+                          >
+                            <path
+                              id="Path_6099"
+                              data-name="Path 6099"
+                              d="M126.116,183.09a1.19,1.19,0,1,0-.469,2.332l18.071,3.632h0a1.19,1.19,0,1,0,.469-2.332l-7.87-1.582,4.355-21.67h0A15.625,15.625,0,0,0,157.951,151l6.931-34.5h0a1.189,1.189,0,0,0-.932-1.4l-28.4-5.706a1.19,1.19,0,0,0-1.4.932l-6.93,34.493-.018.089h0A15.623,15.623,0,0,0,138.339,163l-4.355,21.67Zm10.133-71.122,26.066,5.238-3.135,15.605-29.213,10.425Zm-4.725,43.354a13.159,13.159,0,0,1-2.087-9.371l29.2-10.419-3.016,15.007a13.251,13.251,0,0,1-15.575,10.426l-.073-.015h-.006a13.168,13.168,0,0,1-8.439-5.626Z"
+                              transform="translate(-33.794 -82.14)"
+                            />
+                            <path
+                              id="Path_6100"
+                              data-name="Path 6100"
+                              d="M393.433,58.207A15.524,15.524,0,0,0,395.87,46.5l-6.461-34.586a1.189,1.189,0,0,0-1.388-.952L359.548,16.28a1.19,1.19,0,0,0-.952,1.388l6.46,34.582.017.091h0a15.554,15.554,0,0,0,17.09,12.616l4.059,21.727-7.891,1.474h0a1.19,1.19,0,0,0,.436,2.339l18.12-3.385h0a1.19,1.19,0,1,0-.436-2.339l-7.891,1.474L384.5,64.519a15.509,15.509,0,0,0,8.932-6.311Zm-6.143-44.69,5.434,29.092L364.759,37.7l-3.6-19.3ZM372.972,60.379a13.164,13.164,0,0,1-5.561-8.482l-2.186-11.7,27.964,4.911.342,1.832a13.251,13.251,0,0,1-10.548,15.49l-.075.014H382.9a13.165,13.165,0,0,1-9.93-2.066Z"
+                              transform="translate(-226.964 0)"
+                            />
+                            <path
+                              id="Path_6101"
+                              data-name="Path 6101"
+                              d="M205.42,304.075V301l1.492.67h0a1.19,1.19,0,0,0,1.573-.6l3.339-7.435a1.189,1.189,0,0,0-.6-1.573l-7.435-3.339h0a1.19,1.19,0,0,0-1.573.6l-2.432,5.412H196.08a1.19,1.19,0,0,0-1.19,1.19v8.15a1.19,1.19,0,0,0,1.19,1.19h8.151a1.19,1.19,0,0,0,1.19-1.189ZM203.9,291.384l5.263,2.365-2.364,5.264-1.381-.621v-2.466a1.189,1.189,0,0,0-1.19-1.19H202.4Zm-.862,11.5H197.27v-5.77h5.771Z"
+                              transform="translate(-91.601 -228.308)"
+                            />
+                            <path
+                              id="Path_6102"
+                              data-name="Path 6102"
+                              d="M438.235,206.7a1.19,1.19,0,0,0,.649-.638l3.183-7.5a1.191,1.191,0,0,0-.631-1.56l-5.463-2.317-.078-3.707a1.2,1.2,0,0,0-1.214-1.165l-8.148.171a1.19,1.19,0,0,0-1.164,1.214l.171,8.148h0a1.189,1.189,0,0,0,1.19,1.164h.026l3.075-.064-.639,1.505a1.19,1.19,0,0,0,.631,1.56l7.5,3.183a1.19,1.19,0,0,0,.911.008Zm-10.461-14.364,5.769-.121.121,5.769-2.017.043h0l-3.747.079Zm9.385,11.7-5.312-2.254.592-1.394,2.464-.052a1.19,1.19,0,0,0,1.164-1.214l-.038-1.833,3.383,1.435Z"
+                              transform="translate(-281.649 -147.067)"
+                            />
+                          </g>
+                        </svg>
+                      </div>
+                      <p className="head khf l-m">Wedding Events</p>
+                    </div>
+                    <div className="events-inner-box liveTunesWelcomeEasyStep1 white-color">
+                     
                       <div className="ico-sec">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -925,78 +984,13 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Live Concerts</p>
-                    </div>
-                  </Col>
-                  <Col lg={2} md={3}>
-                    <div className="events-inner-box events-inner-box2">
-                      <div className="ico-sec">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="80"
-                          height="96"
-                          viewBox="0 0 80 96"
-                        >
-                          <g
-                            id="noun-party-2914343"
-                            transform="translate(-90.895 -10.94)"
-                          >
-                            <path
-                              id="Path_6099"
-                              data-name="Path 6099"
-                              d="M126.116,183.09a1.19,1.19,0,1,0-.469,2.332l18.071,3.632h0a1.19,1.19,0,1,0,.469-2.332l-7.87-1.582,4.355-21.67h0A15.625,15.625,0,0,0,157.951,151l6.931-34.5h0a1.189,1.189,0,0,0-.932-1.4l-28.4-5.706a1.19,1.19,0,0,0-1.4.932l-6.93,34.493-.018.089h0A15.623,15.623,0,0,0,138.339,163l-4.355,21.67Zm10.133-71.122,26.066,5.238-3.135,15.605-29.213,10.425Zm-4.725,43.354a13.159,13.159,0,0,1-2.087-9.371l29.2-10.419-3.016,15.007a13.251,13.251,0,0,1-15.575,10.426l-.073-.015h-.006a13.168,13.168,0,0,1-8.439-5.626Z"
-                              transform="translate(-33.794 -82.14)"
-                            />
-                            <path
-                              id="Path_6100"
-                              data-name="Path 6100"
-                              d="M393.433,58.207A15.524,15.524,0,0,0,395.87,46.5l-6.461-34.586a1.189,1.189,0,0,0-1.388-.952L359.548,16.28a1.19,1.19,0,0,0-.952,1.388l6.46,34.582.017.091h0a15.554,15.554,0,0,0,17.09,12.616l4.059,21.727-7.891,1.474h0a1.19,1.19,0,0,0,.436,2.339l18.12-3.385h0a1.19,1.19,0,1,0-.436-2.339l-7.891,1.474L384.5,64.519a15.509,15.509,0,0,0,8.932-6.311Zm-6.143-44.69,5.434,29.092L364.759,37.7l-3.6-19.3ZM372.972,60.379a13.164,13.164,0,0,1-5.561-8.482l-2.186-11.7,27.964,4.911.342,1.832a13.251,13.251,0,0,1-10.548,15.49l-.075.014H382.9a13.165,13.165,0,0,1-9.93-2.066Z"
-                              transform="translate(-226.964 0)"
-                            />
-                            <path
-                              id="Path_6101"
-                              data-name="Path 6101"
-                              d="M205.42,304.075V301l1.492.67h0a1.19,1.19,0,0,0,1.573-.6l3.339-7.435a1.189,1.189,0,0,0-.6-1.573l-7.435-3.339h0a1.19,1.19,0,0,0-1.573.6l-2.432,5.412H196.08a1.19,1.19,0,0,0-1.19,1.19v8.15a1.19,1.19,0,0,0,1.19,1.19h8.151a1.19,1.19,0,0,0,1.19-1.189ZM203.9,291.384l5.263,2.365-2.364,5.264-1.381-.621v-2.466a1.189,1.189,0,0,0-1.19-1.19H202.4Zm-.862,11.5H197.27v-5.77h5.771Z"
-                              transform="translate(-91.601 -228.308)"
-                            />
-                            <path
-                              id="Path_6102"
-                              data-name="Path 6102"
-                              d="M438.235,206.7a1.19,1.19,0,0,0,.649-.638l3.183-7.5a1.191,1.191,0,0,0-.631-1.56l-5.463-2.317-.078-3.707a1.2,1.2,0,0,0-1.214-1.165l-8.148.171a1.19,1.19,0,0,0-1.164,1.214l.171,8.148h0a1.189,1.189,0,0,0,1.19,1.164h.026l3.075-.064-.639,1.505a1.19,1.19,0,0,0,.631,1.56l7.5,3.183a1.19,1.19,0,0,0,.911.008Zm-10.461-14.364,5.769-.121.121,5.769-2.017.043h0l-3.747.079Zm9.385,11.7-5.312-2.254.592-1.394,2.464-.052a1.19,1.19,0,0,0,1.164-1.214l-.038-1.833,3.383,1.435Z"
-                              transform="translate(-281.649 -147.067)"
-                            />
-                          </g>
-                        </svg>
-                      </div>
-                      <p className="head khf l-m">Private Parties</p>
-                    </div>
-                    <div className="events-inner-box liveTunesWelcomeEasyStep1 white-color">
-                      <div className="ico-sec">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="80"
-                          height="80"
-                          viewBox="0 0 80 80"
-                        >
-                          <g
-                            id="noun-restaurant-5001458"
-                            transform="translate(-69.994 0.005)"
-                          >
-                            <path
-                              id="Path_6321"
-                              data-name="Path 6321"
-                              d="M145.827,69.995h-.833V35.785a8.294,8.294,0,0,0,3.333-6.623,1.117,1.117,0,0,0-.088-.373L138.327,8.964v-4.8a4.167,4.167,0,0,0-4.166-4.167H85.827a4.167,4.167,0,0,0-4.166,4.167v4.8L71.749,28.789a1.158,1.158,0,0,0-.088.373,8.294,8.294,0,0,0,3.333,6.623v34.21h-.833a4.167,4.167,0,0,0-4.167,4.167v1.667h0a4.167,4.167,0,0,0,4.167,4.167h71.666a4.167,4.167,0,0,0,4.167-4.167V74.161h0a4.167,4.167,0,0,0-4.167-4.167Zm-5.833-34.167a6.675,6.675,0,0,1-6.615-5.833h13.23a6.675,6.675,0,0,1-6.615,5.833Zm-52.5,29.167h45a4.167,4.167,0,0,0,4.167-4.167V36.788a8.216,8.216,0,0,0,6.666,0V70H76.662V36.788a8.216,8.216,0,0,0,6.666,0v24.04a4.167,4.167,0,0,0,4.167,4.167Zm30.753-36.667L116.414,10h9.461l5.5,18.333Zm13.362,1.667a6.667,6.667,0,0,1-13.23,0Zm-15.036-1.667H103.406L105.239,10h9.5Zm.035,1.667a6.667,6.667,0,0,1-13.23,0ZM101.74,28.328H88.613L94.113,10h9.461Zm-.132,1.667a6.667,6.667,0,0,1-13.23,0Zm-6.615,7.5a8.322,8.322,0,0,0,7.5-4.767,8.283,8.283,0,0,0,15,0,8.283,8.283,0,0,0,15,0,8.351,8.351,0,0,0,2.5,3.057V60.828a2.5,2.5,0,0,1-2.5,2.5h-7.5V42.508a4.136,4.136,0,0,0-3.207-4.064c-3.033-.643-5.772,1.422-7.125,5.4-1.425,4.187-1.022,9.618,2,11.553v7.928h-10V55.082a9.732,9.732,0,0,0,3.333-7.588c0-5.054-3.363-9.167-7.5-9.167s-7.5,4.113-7.5,9.167a9.732,9.732,0,0,0,3.333,7.588v8.245H87.493a2.5,2.5,0,0,1-2.5-2.5V35.785a8.352,8.352,0,0,0,2.5-3.057,8.322,8.322,0,0,0,7.5,4.767Zm22.86,16.667c-2.5-1.2-2.86-6.115-1.613-9.778.4-1.182,1.965-5,5.2-4.305a2.459,2.459,0,0,1,1.885,2.43v20.82h-5V54.912a.833.833,0,0,0-.473-.75Zm-18.2-.167a8.062,8.062,0,0,1-2.99-6.5c0-4.135,2.617-7.5,5.833-7.5s5.833,3.365,5.833,7.5a8.057,8.057,0,0,1-2.99,6.5.832.832,0,0,0-.343.675v8.658h-5V54.673a.836.836,0,0,0-.343-.679Zm46.494-25.667H133.112L127.612,10h9.365ZM83.326,4.163a2.5,2.5,0,0,1,2.5-2.5H134.16a2.5,2.5,0,0,1,2.5,2.5V8.329H83.326ZM83.008,10h9.365l-5.5,18.333H73.841Zm-9.63,20h13.23a6.667,6.667,0,0,1-13.23,0Zm74.948,45.832a2.5,2.5,0,0,1-2.5,2.5H74.161a2.5,2.5,0,0,1-2.5-2.5V74.161h0a2.5,2.5,0,0,1,2.5-2.5h71.666a2.5,2.5,0,0,1,2.5,2.5Z"
-                            />
-                          </g>
-                        </svg>
-                      </div>
-                      <p className="head khf l-m">Restaurants Shows</p>
+                      <p className="head khf l-m">Pubs & Bars (Live Music) </p>
                     </div>
                   </Col>
                   <Col lg={2} md={6}>
                     <Row>
                       <Col lg={12} md={6}>
-                        <div className="events-inner-box events-inner-box-last">
+                        <div className="events-inner-box events-inner-box-last liveTunesWelcomeEasyStep1 white-color">
                           <div className="ico-sec">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1042,7 +1036,7 @@ export function SlideView({ title, itemId, children }) {
                             </svg>
                           </div>
                           <p className="head khf l-m">
-                            Pubs & Bars (live music)
+                            Bhajans & Kirtan's
                           </p>
                         </div>
                       </Col>
@@ -1145,7 +1139,7 @@ export function SlideView({ title, itemId, children }) {
                               </g>
                             </svg>
                           </div>
-                          <p className="head khf l-m">Corporate shows</p>
+                          <p className="head khf l-m">Corporate Shows</p>
                         </div>
                       </Col>
                     </Row>
@@ -1180,7 +1174,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Wedding ceremonies</p>
+                      <p className="head khf l-m">Birthdays</p>
                     </div>
                     <div className="events-inner-box">
                       <div className="ico-sec">
@@ -1251,7 +1245,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Café gigs</p>
+                      <p className="head khf l-m">Proposals</p>
                     </div>
                     <div className="events-inner-box">
                       <div className="ico-sec">
@@ -1466,7 +1460,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Kids friendly events</p>
+                      <p className="head khf l-m">House Parties</p>
                     </div>
                   </Col>
                   <Col xs={3}>
@@ -1545,7 +1539,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">College Festivals</p>
+                      <p className="head khf l-m">Anniversaries</p>
                     </div>
                     <div className="events-inner-box">
                       <div className="ico-sec">
@@ -1604,7 +1598,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Live Concerts</p>
+                      <p className="head khf l-m">Restaurant Shows</p>
                     </div>
                   </Col>
                   <Col xs={3}>
@@ -1647,7 +1641,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Private Parties</p>
+                      <p className="head khf l-m">Wedding Events</p>
                     </div>
                     <div className="events-inner-box">
                       <div className="ico-sec">
@@ -1669,7 +1663,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Restaurants Shows</p>
+                      <p className="head khf l-m">Pubs & Bars (Live Music)</p>
                     </div>
                   </Col>
                 </Row>
@@ -1773,7 +1767,7 @@ export function SlideView({ title, itemId, children }) {
                           </g>
                         </svg>
                       </div>
-                      <p className="head khf l-m">Corporate shows</p>
+                      <p className="head khf l-m">Corporate Shows</p>
                     </div>
                   </Col>
                 </Row>
@@ -1824,11 +1818,9 @@ export function SlideView({ title, itemId, children }) {
                     <Col lg={4} md={4} xs={4}>
                       <div className="inner-dream-box text-center">
                         <div className="d-box-img">
-                          <img src={Dreamimg1} alt="" />
+                          <img src={Dreamimg3} alt="" />
                         </div>
-                        <p className="dream-title l-sb">
-                          Valentine's day Surprise
-                        </p>
+                        <p className="dream-title l-sb">Proposal Surprise</p>
                       </div>
                     </Col>
                     <Col lg={4} md={4} xs={4}>
@@ -1837,16 +1829,18 @@ export function SlideView({ title, itemId, children }) {
                           <img src={Dreamimg2} alt="" />
                         </div>
                         <p className="dream-title l-sb">
-                          A musical gift to say SORRY
+                          A Musical Gift to say Sorry
                         </p>
                       </div>
                     </Col>
                     <Col lg={4} md={4} xs={4}>
                       <div className="inner-dream-box text-center">
                         <div className="d-box-img">
-                          <img src={Dreamimg3} alt="" />
+                          <img src={Dreamimg1} alt="" />
                         </div>
-                        <p className="dream-title l-sb">Proposal surprise</p>
+                        <p className="dream-title l-sb">
+                          House Party with Live Music
+                        </p>
                       </div>
                     </Col>
                   </Row>
@@ -1882,7 +1876,7 @@ export function SlideView({ title, itemId, children }) {
               <Row>
                 <Col lg={8}>
                   <p className="about-heading khf red-color l-m">
-                    Featured <span className="black-color l-sb">artists</span>
+                    Trending <span className="black-color l-sb">Artists</span>
                   </p>
                 </Col>
               </Row>
@@ -2014,8 +2008,8 @@ export function SlideView({ title, itemId, children }) {
                   <div className="proto-img-text">
                     <img src={Mikeimg} alt="" className="" />
                     <div className="join-step-text-sec">
-                      <p className="sub-head khf black-color l-m">Livetunes</p>
-                      <p className="heading khf red-color l-m">Portfolio</p>
+                      <p className="sub-head khf black-color l-m">Most Popular with</p>
+                      <p className="heading khf red-color l-m">Livetunes</p>
                     </div>
                   </div>
                 </Col>
@@ -2027,8 +2021,8 @@ export function SlideView({ title, itemId, children }) {
                       src="https://www.youtube.com/embed/f1b6pHeMaRY"
                       title="Yamaha teens rock 2019 - Don Bosco school, Kolkata- Winners. -Feeling Good new version -Live Prfmnce"
                       frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
+                      allow="picture-in-picture"
+                      allowFullScreen={false}
                     ></iframe>
                   </div>
                 </Col>
@@ -2063,9 +2057,9 @@ export function SlideView({ title, itemId, children }) {
               <div className="">
                 <div className="join-step-text-sec">
                   <p className="sub-head khf black-color l-m">
-                    What our <span className="red-color">Clients</span>
+                    <span className="red-color">Livetunes</span> Music
                   </p>
-                  <p className="heading khf black-color l-m">wrote about us</p>
+                  <p className="heading khf black-color l-m">Enthusiasts Said</p>
                 </div>
               </div>
               <Row>
@@ -2077,7 +2071,7 @@ export function SlideView({ title, itemId, children }) {
                         <div className="d-box-img">
                           <img src={Client1} alt="" />
                         </div>
-                        <p className="dream-title l-sb">Rohit kumar</p>
+                        <p className="dream-title l-sb">Sagar Khapre</p>
                         <div className="star-mark">
                           <span>
                             <BsFillStarFill />
@@ -2096,18 +2090,44 @@ export function SlideView({ title, itemId, children }) {
                           </span>
                         </div>
                         <p className="client-para l-m">
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's
+                          "Booking an artist through <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> for my wife's birthday surprise was an absolute game-changer! The process was seamless, and the live music experience surpassed all expectations. My wife was truly touched, and the uniqueness of the surprise added an unforgettable layer to her celebration. Thank you, <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a>, for making the moment magical!" 
                         </p>
                       </div>
                     </Col>
                     <Col lg={4} md={4} xs={4}>
                       <div className="inner-dream-box inner-dream-box2 inner-client-box">
                         <div className="d-box-img">
+                          <img src={Client3} alt="" />
+                        </div>
+                        <p className="dream-title l-sb">Ritesh Bisen</p>
+                        <div className="star-mark">
+                          <span>
+                            <BsFillStarFill />
+                          </span>
+                          <span>
+                            <BsFillStarFill />
+                          </span>
+                          <span>
+                            <BsFillStarFill />
+                          </span>
+                          <span>
+                            <BsFillStarFill />
+                          </span>
+                          <span >
+                            <BsFillStarFill />
+                          </span>
+                        </div>
+                        <p className="client-para l-m">
+                          "Booking an artist through <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> to perform live music for my wife was the perfect celebration of our journey into parenthood. It was an emotional and joyous experience that truly captured the essence of this special moment. <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> helped me create a unique and heartfelt surprise that made the celebration of becoming parents together even more extraordinary. Thank you for making it an unforgettable experience!"
+                        </p>
+                      </div>
+                    </Col>
+                    <Col lg={4} md={4} xs={4}>
+                      <div className="inner-dream-box inner-client-box">
+                        <div className="d-box-img">
                           <img src={Client2} alt="" />
                         </div>
-                        <p className="dream-title l-sb">Shreeya K</p>
+                        <p className="dream-title l-sb">Yuga Deshmukh</p>
                         <div className="star-mark">
                           <span>
                             <BsFillStarFill />
@@ -2126,39 +2146,7 @@ export function SlideView({ title, itemId, children }) {
                           </span>
                         </div>
                         <p className="client-para l-m">
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's
-                        </p>
-                      </div>
-                    </Col>
-                    <Col lg={4} md={4} xs={4}>
-                      <div className="inner-dream-box inner-client-box">
-                        <div className="d-box-img">
-                          <img src={Client3} alt="" />
-                        </div>
-                        <p className="dream-title l-sb">Rajesh Shah</p>
-                        <div className="star-mark">
-                          <span>
-                            <BsFillStarFill />
-                          </span>
-                          <span>
-                            <BsFillStarFill />
-                          </span>
-                          <span>
-                            <BsFillStarFill />
-                          </span>
-                          <span>
-                            <BsFillStarFill />
-                          </span>
-                          <span>
-                            <BsFillStarFill />
-                          </span>
-                        </div>
-                        <p className="client-para l-m">
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry. Lorem Ipsum has been the
-                          industry's
+                          Booking an artist through <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> for my husband's promotion day was an absolute hit! As a music lover, there couldn't have been a better surprise. The live performance added a touch of magic to the celebration, making it an unforgettable day. Thank you, <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a>, for helping me create a surprise that perfectly resonated with my husband's passion for music and made his promotion day even more special!"
                         </p>
                       </div>
                     </Col>
@@ -2203,7 +2191,7 @@ export function SlideView({ title, itemId, children }) {
                       Want to be a part of Livetunes{" "}
                       <span className="red-color">Community</span>?
                     </p>
-                    <p className="walk_through_again">Wanna check <span className="red-color" onClick={walkThroughAgain}>walkthrough</span> again..?</p>
+                    <p className="walk_through_again">Revisit the <span className="red-color" onClick={walkThroughAgain}>Journey</span></p>
                   </div>
                 </Col>
                 <Col lg={5}>
@@ -2221,9 +2209,9 @@ export function SlideView({ title, itemId, children }) {
                   className="l-sb wbtnn back-btn btn btn-primary"
                   onClick={() => {joinAs('User')}}
                   >
-                  Join as a <br /> Organiser
+                  Join as an <br /> Enthusiast
                   <div className="text-box text-box-1 l-r">
-                  Some information about Joining as Organiser
+                  You have the power to book a music artist for live performances at various events. Choose from a diverse pool of talented artists to elevate your gatherings, celebrations, and special occasions with the magic of live music. Unleash your creativity and curate unforgettable experiences that resonate with your unique taste. <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> puts the stage in your hands—book now and let the music play!"
                 </div>
                 </button>
 

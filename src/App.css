@@ -1348,3 +1348,153 @@ numberInput.input[type=number] {
 .all_masters .nav-tabs .nav-link.active {
   color: #FD3743
 }
+
+
+
+/*Terms & conditions*/
+#terms-of-servicea  a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #FD3743;
+    font-family: Arial;
+    cursor: pointer;
+}
+
+#terms-of-service a:hover {
+    color: white;
+}
+
+#terms-of-service .card {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    height : 1950px;
+    width: 1200px;
+    border-radius: 30px;
+    background-color: #FD3743;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#terms-of-service .card .primary-heading {
+    text-align: center;
+    font-family: josefin sans;
+    color: white;
+    padding-top: 50px ;
+    font-size: 4em;
+}
+
+#terms-of-service .paragraph {
+    font-family: josefin sans;
+    color: white;
+    margin-left: 50px;
+    margin-right: 25px;
+    padding-top: 50px;
+    font-size: 1.5em;
+    line-height: 1.3em;
+    font-weight: 500;
+}
+
+#terms-of-service .bold {
+    font-weight: 700;
+    color: white;
+}
+
+@media only screen and (max-width: 1218px) {
+   #terms-of-service  .card {
+        margin-top: 100px;
+        margin-bottom: 100px;
+        height : 2050px;
+        width: 1000px;
+        border-radius: 30px;
+        background-color: #FD3743;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media only screen and (max-width: 1012px) {
+    #terms-of-service .card {
+        margin-top: 100px;
+        margin-bottom: 100px;
+        height : 2350px;
+        width: 800px;
+        border-radius: 30px;
+        background-color: #FD3743;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media only screen and (max-width: 832px) {
+   #terms-of-service  .card {
+        margin-top: 100px;
+        margin-bottom: 100px;
+        height : 2950px;
+        width: 600px;
+        border-radius: 30px;
+        background-color: #FD3743;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #terms-of-service .card .primary-heading {
+        font-size: 3.5em;
+    }
+}
+
+@media only screen and (max-width: 626px) {
+   #terms-of-service  .card {
+        margin-top: 100px;
+        margin-bottom: 100px;
+        height : 3850px;
+        width: 450px;
+        border-radius: 30px;
+        background-color: #FD3743;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+   #terms-of-service  .card .primary-heading {
+        font-size: 3em;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #terms-of-service .card {
+        margin-top: 100px;
+        margin-bottom: 100px;
+        height : 5050px;
+        width: 350px;
+        border-radius: 30px;
+        background-color: #FD3743;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #terms-of-service .card .primary-heading {
+        font-size: 2em;
+    }
+}
+
+@media only screen and (max-width: 365px) {
+    #terms-of-service .card {
+        margin-top: 100px;
+        margin-bottom: 100px;
+        height : 6300px;
+        width: 290px;
+        border-radius: 30px;
+        background-color: #FD3743;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #terms-of-service .card .primary-heading {
+        font-size: 2em;
+    }
+}
+
+.go_back_button {
+    cursor: pointer;
+    padding: 1rem;
+    padding-bottom: 0;
+    color: white;
+}

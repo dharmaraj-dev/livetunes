@@ -458,14 +458,14 @@ export const deleteMasterCommon = (url, itemName, from, data) => async dispatch 
       .then(response => {
         dispatch(stopItemLoading())
         if(response.data.IsSuccess) {
-          successToast(`${from} added`);
+          successToast(`${from} deleted`);
           dispatch(updateData({"type": "delete", from,  "item": itemName}));
         }
         return response;
       });
   } catch (e) {
     dispatch(stopItemLoading())
-    errorToast(`${from} not added`);
+    errorToast(`${from} not deleted`);
   }
 };
 

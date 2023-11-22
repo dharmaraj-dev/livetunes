@@ -25,7 +25,7 @@ const GeneralStuffs = () => {
     const dispatch = useDispatch();
     const MySwal = withReactContent(Swal);
     const pageName = params.id.split('-')[1];
-    const { allStatesLoading, allCitiesLoading, allStates, allCities, addItemLoading, allEventsLoadingm, allEvents, allEventModesLoading, allEventModes, allEventTypesLoading, allEventTypes, allCategoriesLoading, allCategories, allGenreLoading, allGenres, allLanguagesLoading, allLanguages, allBanksLoading, allBanks, allBranchesLoading, allBranches, allAddresProofsLoading, allAddresProofs, allIdProofsLoading, allIdProofs } = useSelector((state) => state.admin);
+    const { allStatesLoading, allCitiesLoading, allStates, allCities, addItemLoading, allEventsLoading, allEvents, allEventModesLoading, allEventModes, allEventTypesLoading, allEventTypes, allCategoriesLoading, allCategories, allGenreLoading, allGenres, allLanguagesLoading, allLanguages, allBanksLoading, allBanks, allBranchesLoading, allBranches, allAddresProofsLoading, allAddresProofs, allIdProofsLoading, allIdProofs } = useSelector((state) => state.admin);
     const { states } = useSelector((state) => state.common);
 
     const [showModel, setShowModel] = useState(false);
@@ -92,6 +92,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('State/Insert', {"StateName": newName}, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -106,6 +108,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('City/Insert', dataToSend, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -115,6 +119,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('Events/Insert', {"EventsName": newName}, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -124,6 +130,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('EventMode/Insert', {"EventModeName": newName}, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -133,6 +141,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('Category/Insert',  {"CategoryName": newName}, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -142,6 +152,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('genre/Insert',  {"GenreName": newName}, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -151,6 +163,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('language/Insert',  {"LanguageName": newName}, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -160,6 +174,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('Bank/Insert', {"BankName": newName}, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -174,6 +190,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('BankBranch/Insert', dataToSend, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -183,6 +201,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('AddressProof/Insert', {"AddressProofName": newName}, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -192,6 +212,8 @@ const GeneralStuffs = () => {
             dispatch(addMasterCommon('IDProof/Insert', {"IdProofName": newName}, showModelFor)).then((res) => {
                 if(res.data.IsSuccess) {
                     setShowModel(false);
+                    setNewName("");
+                    setNewDependedSelectName("");
                 }
             }).catch((err) => {
                 setShowModel(false);
@@ -434,7 +456,7 @@ const GeneralStuffs = () => {
                         )}
                       </Tab>
                       <Tab eventKey="events" title="Events">
-                          {allEventsLoadingm ? (
+                          {allEventsLoading ? (
                             <>
                                 <div className="head-top-sec p-3">
                                     <Stack direction="horizontal" gap={3}>

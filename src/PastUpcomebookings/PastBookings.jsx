@@ -147,7 +147,7 @@ const PastBookings = (props) => {
             </div>
             {props?.selBookFeedback?.length == 0 && (
               <div className="ms-auto">
-                  <h5 className="l-b red-color"><a className="text-reset cursor-pointer"  onClick={handleShow}>Give Feedback</a></h5>
+                  <h5 className="l-b red-color"><a className="text-reset cursor-pointer"  onClick={handleShow}>Share Feedback</a></h5>
               </div>
             )}
             
