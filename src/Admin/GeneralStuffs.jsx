@@ -13,25 +13,38 @@ import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { getAllStates, getAllCities, addMasterCommon, deleteMasterCommon, updateCity, getAllEvents, getAllEventModes, getAllCategories, getGenre, getLanguages, getBanks, getBranches, getAddressProofs, getEventTypes, getIdProofs } from '../redux/admin';
+import { getAllStates, getAllCities, addMasterCommon, deleteMasterCommon, updateCity, getAllEvents, getAllEventModes, getAllCategories, getGenre, getLanguages, getBanks, getBranches, getAddressProofs, getEventTypes, getIdProofs, getAllArtists, getAllJudges, getAllUsers, sendArtistToJudge } from '../redux/admin';
 import Skeleton from 'react-loading-skeleton'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
 import Modal from 'react-bootstrap/Modal';
 import { Tabs, Tab} from "react-bootstrap";
+import DefaultProfile from "../assets/images/default_profile.jpeg";
+import { useLocation  } from 'react-router-dom';
 
 const GeneralStuffs = () => {
     const params = useParams();
+    let loc = useLocation();
+    
     const dispatch = useDispatch();
     const MySwal = withReactContent(Swal);
-    const pageName = params.id.split('-')[1];
-    const { allStatesLoading, allCitiesLoading, allStates, allCities, addItemLoading, allEventsLoading, allEvents, allEventModesLoading, allEventModes, allEventTypesLoading, allEventTypes, allCategoriesLoading, allCategories, allGenreLoading, allGenres, allLanguagesLoading, allLanguages, allBanksLoading, allBanks, allBranchesLoading, allBranches, allAddresProofsLoading, allAddresProofs, allIdProofsLoading, allIdProofs } = useSelector((state) => state.admin);
+    const pageName = loc.pathname.includes("all-accounts") ? 'accounts' : 'masters' ;//params.id.split('-')[1];
+    console.log(pageName)
+    const { allStatesLoading, allCitiesLoading, allStates, allCities, addItemLoading, allEventsLoading, allEvents, allEventModesLoading, allEventModes, allEventTypesLoading, allEventTypes, allCategoriesLoading, allCategories, allGenreLoading, allGenres, allLanguagesLoading, allLanguages, allBanksLoading, allBanks, allBranchesLoading, allBranches, allAddresProofsLoading, allAddresProofs, allIdProofsLoading, allIdProofs,
+    allArtists,
+    allJudges,
+    allUsers,
+    allArtistsLoading,
+    allJudgesLoading,
+    allUsersLoading
+ } = useSelector((state) => state.admin);
     const { states } = useSelector((state) => state.common);
 
     const [showModel, setShowModel] = useState(false);
     const [newName, setNewName] = useState("");
     const [newDependedSelectName, setNewDependedSelectName] = useState("");
     const [showModelFor, setShowModelFor] = useState("");
+    const [selectedTab, setSelectedTab] = useState(pageName == "masters" ? "states" : "artist_list");
 
     function capitalizeFirstLetter(stringName) {
         return stringName.charAt(0).toUpperCase() + stringName.slice(1);
@@ -248,6 +261,7 @@ const GeneralStuffs = () => {
     }
 
     const onMasterTabChange = (e) => {
+        setSelectedTab(e)
         if(e === "states") {
             dispatch(getAllStates())
         } else if(e === "cities") {
@@ -273,18 +287,36 @@ const GeneralStuffs = () => {
             dispatch(getAddressProofs())
         } else if(e === "idProofs") {
             dispatch(getIdProofs())
+        } else if(e === "artists") {
+            dispatch(getAllArtists())
+        } else if(e === "judges") {
+            dispatch(getAllJudges())
+        } else if(e === "organisers") {
+            dispatch(getAllUsers())
+        } else if(e === "assign_to") {
+            dispatch(getAllArtists());
+            dispatch(getAllJudges())
         }
 
         console.log(e)
     }
 
     useEffect(() => {
-        if(pageName == "states" || pageName == "masters") {
+        
+        if(pageName == "masters") {
+            setSelectedTab('states')
             dispatch(getAllStates())
-        } else if(pageName == "cities") {
-            dispatch(getAllCities())
+        } else
+        if(pageName == "accounts") {
+            setSelectedTab('artist_list')
+            dispatch(getAllArtists())
         }
-    }, [dispatch, params.id])
+
+        setTimeout(() => {
+            setSelectedTab(selectedTab)
+        }, 2000)
+        console.log(params, selectedTab)
+    }, [pageName])
 
   return (
     <>
@@ -301,7 +333,7 @@ const GeneralStuffs = () => {
                     {pageName == "masters" ? (
                     <>
                     <h4 className="l-b mb-3">All {capitalizeFirstLetter(pageName)}</h4>
-                    <Tabs defaultActiveKey="states" id="uncontrolled-tab-example" className="mb-1 justify-content-start" onSelect={(e) => {onMasterTabChange(e)}}>
+                    <Tabs defaultActiveKey={selectedTab} id="uncontrolled-tab-example-1" className="mb-1 justify-content-start" onSelect={(e) => {onMasterTabChange(e)}}>
                       <Tab eventKey="states" title="States">
                         {allStatesLoading ? (
                             <>
@@ -430,7 +462,7 @@ const GeneralStuffs = () => {
                                                     <td>{st.StateName}</td>
                                                     <td>
                                                         {st.MImgURL !== "" ? (
-                                                            <img width="100px" src={st.MImgURL} alt="city image"/>
+                                                            <img width="100px" src={st.MImgURL == "" ? DefaultProfile : st.MImgURL} alt="city image"/>
                                                         ) : (
                                                             <input style={{width:"150px"}} type="file"/>
                                                         )}
@@ -714,7 +746,7 @@ const GeneralStuffs = () => {
                                                         <td>{st.GenreName}</td>
                                                         <td>
                                                             {st.MImgURL !== "" ? (
-                                                                <img width="100px" src={st.MImgURL} alt="city image"/>
+                                                                <img width="100px" src={st.MImgURL == "" ? DefaultProfile : st.MImgURL} alt="city image"/>
                                                             ) : (
                                                                 <input style={{width:"150px"}} type="file"/>
                                                             )}
@@ -1071,172 +1103,295 @@ const GeneralStuffs = () => {
                     </Tabs>
                     </>
                     ):(
-                    <div className="main-artists-list">
-                        <h4 className="l-b mb-3">All {capitalizeFirstLetter(pageName)}</h4>
-                        <Row>
-                            <Col sm={12} md={12}>
-                                <div className="main-booking-history-sec mt-3">
-                                    {pageName === "states" && (
-                                        allStatesLoading ? (
-                                            <>
-                                                <div className="head-top-sec">
-                                                    <Stack direction="horizontal" gap={3}>
-                                                        <Skeleton count={1} width="140px" height={30} /> 
-                                                    <div className="l-m red-color cursor-pointer text-small ml-auto">
-                                                        <Skeleton count={1} width="140px" height={30} /> 
-                                                    </div>
-                                                    </Stack>
-                                                </div>
-                                                <div className="table-scroll">
-                                                    <Table className="table-responsive">
-                                                        <thead>
-                                                        <tr>
-                                                            <th colSpan={5}>
-                                                                <Skeleton count={1} width={"100%"} height={30} /> 
-                                                            </th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {
-                                                                [...Array(5)].map((e, i) => {
-                                                                  return (
-                                                                    <tr key={`skeleton_table_${i}`}>
-                                                                        <td colSpan={5}>
-                                                                            <Skeleton count={1} width={"100%"} height={30} /> 
-                                                                        </td>
-                                                                    </tr>
-                                                                  )
-                                                                })
-                                                            }
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
-                                            </>
-                                        ):(
-                                            <>
-                                                <div className="head-top-sec">
-                                                    <Stack direction="horizontal" gap={3}>
-                                                    <h2 className="fs-5 mb-0 ">{capitalizeFirstLetter(pageName)}</h2>
-                                                    <div className="l-m filter-denld-btn red-color cursor-pointer text-small ml-auto" onClick={() => {addAction('state')}}><FiPlus/> Add New </div>
-                                                    </Stack>
-                                                </div>
-                                                <div className="table-scroll">
-                                                    <Table className="table-responsive">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>State Name</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {allStates.map((st,indx) => {
-                                                                return (
-                                                                    <tr key={`state_${indx}`}>
-                                                                        <td>{st.StateName}</td>
-                                                                        <td>
-                                                                            <FiTrash className="cursor-pointer" onClick={() => {deleteItem(st.StateId, "state")}}/>
-                                                                        </td>
-                                                                    </tr>
-                                                                )
-                                                            })}
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
-                                            </>
-                                        )
-                                    )}
-                                    {pageName === "cities" && (
-                                        allCitiesLoading ? (
-                                            <>
-                                                <div className="head-top-sec">
-                                                    <Stack direction="horizontal" gap={3}>
-                                                        <Skeleton count={1} width="140px" height={30} /> 
-                                                    <div className="l-m red-color cursor-pointer text-small ml-auto">
-                                                        <Skeleton count={1} width="140px" height={30} /> 
-                                                    </div>
-                                                    </Stack>
-                                                </div>
-                                                <div className="table-scroll">
-                                                    <Table className="table-responsive">
-                                                        <thead>
-                                                        <tr>
-                                                            <th colSpan={5}>
-                                                                <Skeleton count={1} width={"100%"} height={30} /> 
-                                                            </th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {
-                                                                [...Array(5)].map((e, i) => {
-                                                                  return (
-                                                                    <tr key={`skeleton_table_${i}`}>
-                                                                        <td colSpan={5}>
-                                                                            <Skeleton count={1} width={"100%"} height={30} /> 
-                                                                        </td>
-                                                                    </tr>
-                                                                  )
-                                                                })
-                                                            }
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
-                                            </>
-                                        ):(
-                                            <>
-                                                <div className="head-top-sec">
-                                                    <Stack direction="horizontal" gap={3}>
-                                                    <h2 className="fs-5 mb-0 ">{capitalizeFirstLetter(pageName)}</h2>
-                                                    <div className="l-m filter-denld-btn red-color cursor-pointer text-small ml-auto" onClick={() => {addAction('city')}}><FiPlus/> Add New </div>
-                                                    </Stack>
-                                                </div>
-                                                <div className="table-scroll">
-                                                    <Table className="table-responsive">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>City Name</th>
-                                                            <th>State Name</th>
-                                                            <th>Image</th>
-                                                            <th>Is LT Active</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {allCities.map((st,indx) => {
-                                                                return (
-                                                                    <tr key={`state_${indx}`}>
-                                                                        <td>{st.CityName}</td>
-                                                                        <td>{st.StateName}</td>
-                                                                        <td>
-                                                                            {st.MImgURL !== "" ? (
-                                                                                <img width="100px" src={st.MImgURL} alt="city image"/>
-                                                                            ) : (
-                                                                                <input style={{width:"150px"}} type="file"/>
-                                                                            )}
-                                                                        </td>
-                                                                        <td>
-                                                                            <div className="form-check">
-                                                                                <input className="form-check-input" type="checkbox"
-                                                                                    checked={st.IsLTLive}
-                                                                                    onChange={(e) => {makeCityLTActive(st, e.target.checked)}}
-                                                                                 />
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <FiTrash className="cursor-pointer" onClick={() => {deleteItem(st.CityId, "city")}}/>
-                                                                        </td>
-                                                                    </tr>
-                                                                )
-                                                            })}
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
-                                            </>
-                                        )
-                                    )}
+                    <>
+                    <h4 className="l-b mb-3">All {capitalizeFirstLetter(pageName)}</h4>
+                    <Tabs defaultActiveKey={selectedTab} id="uncontrolled-tab-example" className="mb-1 justify-content-start" onSelect={(e) => {onMasterTabChange(e)}}>
+                        <Tab eventKey="artist_list" title="Artists" className={`${selectedTab == 'artist_list' ? 'active' : ''}`}>
+                        {allArtistsLoading ? (
+                            <>
+                                <div className="table-scroll">
+                                    <Table className="table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th colSpan={5}>
+                                                <Skeleton count={1} width={"100%"} height={30} /> 
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                [...Array(5)].map((e, i) => {
+                                                  return (
+                                                    <tr key={`skeleton_table_${i}`}>
+                                                        <td colSpan={5}>
+                                                            <Skeleton count={1} width={"100%"} height={30} /> 
+                                                        </td>
+                                                    </tr>
+                                                  )
+                                                })
+                                            }
+                                        </tbody>
+                                    </Table>
                                 </div>
-                            </Col>
-                        </Row>
-                    </div>
+                            </>
+                        ):(
+                            <>
+                                <div className="table-scroll">
+                                    <Table className="table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Profile</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Mobile</th>
+                                            <th>State</th>
+                                            <th>City</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {allArtists.map((st,indx) => {
+                                                return (
+                                                    <tr key={`state_${indx}`}>
+                                                        <td>
+                                                            <img className="img_with_name" src={st.ArtistProfileImg == "" ? DefaultProfile : st.ArtistProfileImg} />
+                                                        </td>
+                                                        <td>
+                                                            <span>{st.ArtistName}</span>
+                                                        </td>
+                                                        <td>{st.EmailId}</td>
+                                                        <td>{st.MobileNo}</td>
+                                                        <td>{st.ArtistState}</td>
+                                                        <td>{st.ArtistCity}</td>
+                                                        <td>{"NA"}</td>
+                                                        <td>
+                                                            <FiTrash className="cursor-pointer" onClick={() => {deleteItem(st.ArtistId, "artist")}}/>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            </>
+                        )}
+                        </Tab>
+                        <Tab eventKey="judges" title="Judges">
+                        {allJudgesLoading ? (
+                        <>
+                            <div className="table-scroll">
+                                <Table className="table-responsive">
+                                    <thead>
+                                    <tr>
+                                        <th colSpan={5}>
+                                            <Skeleton count={1} width={"100%"} height={30} /> 
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            [...Array(5)].map((e, i) => {
+                                              return (
+                                                <tr key={`skeleton_table_${i}`}>
+                                                    <td colSpan={5}>
+                                                        <Skeleton count={1} width={"100%"} height={30} /> 
+                                                    </td>
+                                                </tr>
+                                              )
+                                            })
+                                        }
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </>
+                        ):(
+                        <>
+                            <div className="head-top-sec p-3">
+                                <Stack direction="horizontal" gap={3}>
+                                <div className="l-m filter-denld-btn red-color cursor-pointer text-small ml-auto" onClick={() => {addAction('judge')}}><FiPlus/> Add New </div>
+                                </Stack>
+                            </div>
+                            <div className="table-scroll">
+                                <Table className="table-responsive">
+                                    <thead>
+                                    <tr>
+                                        <th>Profile</th>
+                                        <th>Name</th>
+                                        <th>Mobile</th>
+                                        <th>Total Requests</th>
+                                        <th>Approved</th>
+                                        <th>Pending</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {allJudges.map((st,indx) => {
+                                            return (
+                                                <tr key={`state_${indx}`}>
+                                                    <td>
+                                                        <img className="img_with_name" src={st.JudgeProfileImg == "" ? DefaultProfile : st.JudgeProfileImg} />
+                                                    </td>
+                                                    <td>{st.JudgeName}</td>
+                                                    <td>{st.MobileNo}</td>
+                                                    <td>{st.TotalRequests}</td>
+                                                    <td>{st.TotalApproved}</td>
+                                                    <td>{st.TotalPending}</td>
+                                                    <td>
+                                                        <FiTrash className="cursor-pointer" onClick={() => {deleteItem(st.JudgeId, "judge")}}/>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </>
+                        )}
+                        </Tab>
+                        <Tab eventKey="organisers" title="Organisers">
+                          {allUsersLoading ? (
+                            <>
+                                <div className="table-scroll">
+                                    <Table className="table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th colSpan={5}>
+                                                <Skeleton count={1} width={"100%"} height={30} /> 
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                [...Array(5)].map((e, i) => {
+                                                  return (
+                                                    <tr key={`skeleton_table_${i}`}>
+                                                        <td colSpan={5}>
+                                                            <Skeleton count={1} width={"100%"} height={30} /> 
+                                                        </td>
+                                                    </tr>
+                                                  )
+                                                })
+                                            }
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            </>
+                        ):(
+                            <>
+                                <div className="table-scroll">
+                                    <Table className="table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Profile</th>
+                                            <th>Name</th>
+                                            <th>Mobile</th>
+                                            <th>Gender</th>
+                                            <th>Total Bookings</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {allUsers.map((st,indx) => {
+                                                return (
+                                                    <tr key={`event_${indx}`}>
+                                                        <td>
+                                                            <img className="img_with_name" src={st.UserProfileImg == "" ? DefaultProfile : st.UserProfileImg} />
+                                                        </td>
+                                                        <td>{st.UserName}</td>
+                                                        <td>{st.MobileNo}</td>
+                                                        <th>{st.Gender}</th>
+                                                        <td>{st.TotalBookings}</td>
+                                                        <td>
+                                                            <FiTrash className="cursor-pointer" onClick={() => {deleteItem(st.UserId, "user")}}/>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            </>
+                        )}
+                        </Tab>
+                        <Tab eventKey="assign_to" title="Assign Artist To Judge">
+                        {allArtistsLoading ? (
+                            <>
+                                <div className="table-scroll">
+                                    <Table className="table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th colSpan={5}>
+                                                <Skeleton count={1} width={"100%"} height={30} /> 
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                [...Array(5)].map((e, i) => {
+                                                  return (
+                                                    <tr key={`skeleton_table_${i}`}>
+                                                        <td colSpan={5}>
+                                                            <Skeleton count={1} width={"100%"} height={30} /> 
+                                                        </td>
+                                                    </tr>
+                                                  )
+                                                })
+                                            }
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            </>
+                        ):(
+                            <>
+                                <div className="table-scroll">
+                                    <Table className="table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Mobile</th>
+                                            <th>State</th>
+                                            <th>City</th>
+                                            <th>Assign To</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {allArtists.map((st,indx) => {
+                                                return (
+                                                    <tr key={`state_${indx}`}>
+                                                        <td>
+                                                            <span>{st.ArtistName}</span>
+                                                        </td>
+                                                        <td>{st.MobileNo}</td>
+                                                        <td>{st.ArtistState}</td>
+                                                        <td>{st.ArtistCity}</td>
+                                                        <td>
+                                                            <Form.Select
+                                                                name="judge"
+                                                                className="form-control"
+                                                                required
+                                                                // value={newDependedSelectName}
+                                                                // onChange={(e) => {setNewDependedSelectName(e.target.value)}}
+                                                            >
+                                                                <option value="">Select Judge</option>
+                                                                {allJudges?.filter((key) => !key.IsCancelled).map((judge, index) => {
+                                                                    return (<option key={`${judge.JudgeId}'_'${judge.JudgeName}`} value={`${judge.JudgeId}'_'${judge.JudgeName}`}>{judge.JudgeName}</option>)
+                                                                })}
+                                                            </Form.Select>
+                                                        </td>
+                                                        <td>{"NA"}</td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            </>
+                        )}
+                        </Tab>
+                    </Tabs>
+                      </>
                     )}
                     <Modal
                         show={showModel}

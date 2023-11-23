@@ -13,7 +13,10 @@ const slice = createSlice({
       dob: "",
       gender: "",
       address: "",
-      profileImg: ""
+      profileImg: "",
+      state: "",
+      city: "",
+      pincode: ""
     },
     profileDataLoading: false,
     profileDataError: false,
@@ -38,16 +41,28 @@ const slice = createSlice({
           state.profileData.lastName = action.payload.selApInfo[0].LastName;
           state.profileData.dob = action.payload.selApInfo[0].DateOfBirth;
           state.profileData.gender = action.payload.selApInfo[0].Gender;
+          state.profileData.state = `${action.payload.selApInfo[0].StateId}_${action.payload.selApInfo[0].StateName}`;
+          state.profileData.city = `${action.payload.selApInfo[0].CityId}_${action.payload.selApInfo[0].CityName}`;
+          state.profileData.pincode = action.payload.selApInfo[0].PinCode;
         } else {
           state.profileData.firstName = "";
           state.profileData.lastName = "";
           state.profileData.dob = "";
-          state.profileData.gender = ""
+          state.profileData.gender = "";
+          state.profileData.state = "";
+          state.profileData.city = "";
+          state.profileData.pincode = "";
         }
         if(action.payload.selAddress.length > 0) {
           state.profileData.address = action.payload.selAddress[0].Address1;
+          state.profileData.state = `${action.payload.selApInfo[0].StateId}_${action.payload.selApInfo[0].StateName}`;
+          state.profileData.city = `${action.payload.selApInfo[0].CityId}_${action.payload.selApInfo[0].CityName}`;
+          state.profileData.pincode = action.payload.selApInfo[0].PinCode;
         } else {
           state.profileData.address = "";
+          state.profileData.state = ""
+          state.profileData.city = ""
+          state.profileData.pincode = ""
         }
         if(action.payload.selProfileImage.length > 0) {
           state.profileData.profileImg = action.payload.selProfileImage[0].LTMediaURL;

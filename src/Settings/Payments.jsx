@@ -33,7 +33,6 @@ const Payments = (props) => {
 
 
   const selectStateAndGetItsCities = (stateId) => {
-    console.log(stateId.split("_")[0])
       if(stateId !== "") {
           const data = cities.filter((cts)=>cts.StateId == stateId.split("_")[0]);
           setFilteredCities(data)

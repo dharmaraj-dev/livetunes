@@ -124,6 +124,8 @@ function App() {
         <Route path="/application-status" element={<ArtistApplicationStatus/>}/>
         <Route path="/admin-dashboard" element={<ArtistDashboard/>}/>
         <Route path="/admin/:id" element={<GeneralStuffs/>}/>
+        <Route path="/admin/all-masters" element={<GeneralStuffs/>}/>
+        <Route path="/admin/all-accounts" element={<GeneralStuffs/>}/>
         <Route path="/terms-conditions" element={<TermsConditions/>}/>
      
 

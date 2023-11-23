@@ -230,7 +230,7 @@ const OneTimepass = () => {
                       )}
                     </div>
                   <div className="terms-use-text">
-                    <p className="l-r"><input style={{"minHeight":"20px"}} className="form-check-input" type="checkbox" name="termsConditions" value={agreeTerms} onChange={(e) => {setAgreTerms(e.target.checked)}} /> I agree that I have read and<br/>accepted the <a href="/terms-conditions">Terms of Use</a>.</p>
+                    <p className="l-r"><input style={{"minHeight":"20px"}} className="form-check-input" type="checkbox" name="termsConditions" value={agreeTerms} onChange={(e) => {setAgreTerms(e.target.checked)}} /> I agree that I have read and accepted the <a href="/#/terms-conditions" className="red-color cursor-pointer">Terms of Use</a>.</p>
                   </div>
                       <Button
                         variant="primary"

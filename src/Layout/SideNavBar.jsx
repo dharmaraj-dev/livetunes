@@ -131,33 +131,39 @@ const SideNavBar = () => {
 					links: "/admin-dashboard"
 				},
 				{
+					text: "All Accounts",
+					icon: <TfiUser className="menu-item-icon"/>,
+					links: "/admin/all-accounts"
+				},
+				{
 					text: "All Masters",
 					icon: <TfiList className="menu-item-icon"/>,
 					links: "/admin/all-masters"
 				},
-				{
-					text: "Manage Accounts",
-					icon: <TfiUser className="menu-item-icon"/>,
-					links: "#",
-					submenu: [
-			      {
-			        title: 'Users',
-			        url: '/admin/all-organisers',
-			        icon:<TfiList className="menu-item-icon"/>,
-			      },
-			      {
-			        title: 'Artists',
-			        url: '/admin/all-artists',
-			        icon:<TfiList className="menu-item-icon"/>,
-			      },
-			      {
-			        title: 'Judges',
-			        url: '/admin/all-judges',
-			        icon:<TfiList className="menu-item-icon"/>,
-			      },
-			    ],
-			    isSubMenuActive: false
-				},
+				
+				// {
+				// 	text: "Manage Accounts",
+				// 	icon: <TfiUser className="menu-item-icon"/>,
+				// 	links: "#",
+				// 	submenu: [
+			  //     {
+			  //       title: 'Users',
+			  //       url: '/admin/all-organisers',
+			  //       icon:<TfiList className="menu-item-icon"/>,
+			  //     },
+			  //     {
+			  //       title: 'Artists',
+			  //       url: '/admin/all-artists',
+			  //       icon:<TfiList className="menu-item-icon"/>,
+			  //     },
+			  //     {
+			  //       title: 'Judges',
+			  //       url: '/admin/all-judges',
+			  //       icon:<TfiList className="menu-item-icon"/>,
+			  //     },
+			  //   ],
+			  //   isSubMenuActive: false
+				// },
 				{
 					text: "Support",
 					icon: <TfiHeadphoneAlt className="menu-item-icon"/>,

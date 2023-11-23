@@ -33,11 +33,30 @@ const Profile = () => {
     const [dob, setDob] = useState("");
     const [gender, setGender] = useState("");
     const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [pincode, setPincode] = useState("");
+    const [filteredCities,setFilteredCities] = useState([]);
     const [canEdit, setCanEdit] = useState(false);
     const [profilePic, setProfilePic] = useState([])
-    const [profilePicPrev, setProfilePicPrev] = useState(DefaultProfile)
+    const [profilePicPrev, setProfilePicPrev] = useState(DefaultProfile);
 
     const {profileData, profileDataLoading, profileDataError, saveProfileDataLoading, saveProfileDataError, saveProfileDataSuccess, saveProfileDataMessage} = useSelector(state => state.userProfile);
+    const { cities, states} = useSelector(state => state.common);
+
+    const selectStateAndGetItsCities = (stateId) => {
+          if(stateId !== "") {
+              const data = cities.filter((cts)=>cts.StateId == stateId.split("_")[0]);
+              setFilteredCities(data)
+          }
+          else{
+              setFilteredCities([])
+          }
+    }
+
+    function validatePIN (pin) {
+        return /^(\d{4}|\d{6})$/.test(pin);
+    }
 
     const handleUpdate = (fileItems) => {
         if(fileItems[0]) {
@@ -47,13 +66,22 @@ const Profile = () => {
 
     const userProfileSubmit = (e) => {
         e.preventDefault();
+        if(!validatePIN(pincode)) {
+          errorToast("Invalid Pincode");
+          return false;
+        }
         const data = {
             "FirstName": firstName,
             "LastName": lastName,
             "FullName": firstName + ' '+ lastName,
             "DateOfBirth": dob,
             "Gender": gender,
-            "Address1": address
+            "Address1": address,
+            "CityId": city.split('_')[0],
+            "CityName": city.split('_')[1],
+            "StateId": state.split('_')[0],
+            "StateName": state.split('_')[1],
+            "PinCode": pincode
         }
 
         dispatch(saveProfileData(data));
@@ -74,6 +102,10 @@ const Profile = () => {
             setDob(profileData.dob != "" ? moment(profileData.dob).format("YYYY-MM-DD") : "");
             setGender(profileData.gender);
             setAddress(profileData.address);
+            setState(profileData.state);
+            selectStateAndGetItsCities(profileData.state);
+            setCity(profileData.city);
+            setPincode(profileData.pincode);
             setProfilePicPrev(profileData.profileImg != "" ? profileData.profileImg : DefaultProfile);
         }
     }, [profileData, saveProfileDataError, saveProfileDataSuccess]);
@@ -247,6 +279,58 @@ const Profile = () => {
                                             <Col lg={12} md="12" className="mb-4">
                                                 <Form.Label className="l-sb">Default address</Form.Label>
                                                 <Form.Control placeholder="AG-4, Lorence Apartment, New West Side, WB, India" type="text" value={address} onChange={(e) => {setAddress(e.target.value)}} required disabled={!canEdit} />
+                                            </Col>
+                                            <Col lg={4} md="4" className="mb-4">
+                                                <Form.Label className="l-sb">State</Form.Label>
+                                                <Form.Select 
+                                                    name="state" 
+                                                    className="form-control"
+                                                    value={state}
+                                                    disabled={!canEdit}
+                                                    onChange={(e) => {
+                                                        selectStateAndGetItsCities(e.target.value);
+                                                        setState(e.target.value);
+                                                        setCity("");
+                                                      }
+                                                    }
+                                                    required
+                                                    >
+                                                    <option value="">Select state</option>
+                                                    {states?.filter((key) => !key.IsCancelled).map((state, index) => {
+                                                        return (
+                                                            <option key={`${state.StateId}_${state.StateName}`}
+                                                            value={`${state.StateId}_${state.StateName}`}
+                                                            >
+                                                            {state.StateName}
+                                                            </option>)
+                                                    })}
+                                                </Form.Select>
+                                            </Col>
+                                            <Col lg={4} md="4" className="mb-4">
+                                                <Form.Label className="l-sb">City</Form.Label>
+                                                <Form.Select 
+                                                  className="form-control"
+                                                  value={city}
+                                                  disabled={!canEdit}
+                                                  onChange={(e) => {setCity(e.target.value)}
+                                                  }
+                                                  required
+                                                  >
+                                                    <option>Select city</option>
+                                                    {filteredCities?.filter((key) => !key.IsCancelled).map((city, index) => {
+                                                        return (
+                                                          <option
+                                                            key={`${city.CityId}_${city.CityName}`}
+                                                            value={`${city.CityId}_${city.CityName}`}
+                                                          >
+                                                            {city.CityName}
+                                                          </option>)
+                                                    })}
+                                                </Form.Select>
+                                            </Col>
+                                            <Col lg={4} md="4" className="mb-4">
+                                                <Form.Label className="l-sb">Pincode</Form.Label>
+                                                <Form.Control type="number" value={pincode} onChange={(e) => {setPincode(e.target.value)}} placeholder="440026" required disabled={!canEdit}/>
                                             </Col>
                                             {canEdit && (
                                             <Col lg={12} md="12" className="mb-4 text-right">

@@ -34,6 +34,12 @@ const slice = createSlice({
     allEventTypes: [],
     allIdProofsLoading: false,
     allIdProofs: [],
+    allArtists: [],
+    allJudges: [],
+    allUsers: [],
+    allArtistsLoading: false,
+    allJudgesLoading: false,
+    allUsersLoading: false
   },
   reducers: {
     startStopLoading: (state, action) => {
@@ -61,6 +67,12 @@ const slice = createSlice({
         state.allEventTypesLoading = action.payload.data;
       } else if(action.payload.type == "idProofs") {
         state.allIdProofsLoading = action.payload.data;
+      } else if(action.payload.type == "arists") {
+        state.allArtistsLoading = action.payload.data;
+      } else if(action.payload.type == "judges") {
+        state.allJudgesLoading = action.payload.data;
+      } else if(action.payload.type == "users") {
+        state.allUsersLoading = action.payload.data;
       }
     },
     setData: (state, action) => {
@@ -88,6 +100,12 @@ const slice = createSlice({
         state.allEventTypes = action.payload.data;
       } else if(action.payload.type == "idProofs") {
         state.allIdProofs = action.payload.data;
+      } else if(action.payload.type == "arists") {
+        state.allArtists = action.payload.data;
+      } else if(action.payload.type == "judges") {
+        state.allJudges = action.payload.data;
+      } else if(action.payload.type == "users") {
+        state.allUsers = action.payload.data;
       }
     },
     updateData: (state, action) => {
@@ -466,6 +484,75 @@ export const deleteMasterCommon = (url, itemName, from, data) => async dispatch 
   } catch (e) {
     dispatch(stopItemLoading())
     errorToast(`${from} not deleted`);
+  }
+};
+
+export const getAllArtists = () => async dispatch => {
+  dispatch(startStopLoading({"type": "arists", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `AdminProfile/GetAllArtist`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "arists", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "arists", "data": response.data.selArtist}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "arists", "data": false}));
+  }
+};
+
+export const getAllJudges = () => async dispatch => {
+  dispatch(startStopLoading({"type": "judges", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `AdminProfile/GetAllJudge`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "judges", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "judges", "data": response.data.selJudge}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "judges", "data": false}));
+  }
+};
+
+export const getAllUsers = () => async dispatch => {
+  dispatch(startStopLoading({"type": "users", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `AdminProfile/GetAllUser`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "users", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "users", "data": response.data.selUser}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "users", "data": false}));
+  }
+};
+
+export const sendArtistToJudge = (data) => async dispatch => {
+  dispatch(startItemLoading())
+  try {
+   return await axios
+      .post(API_URL + `AdminProfile/TransferAJ`, data, {headers:authHeader()})
+      .then(response => {
+        dispatch(stopItemLoading())
+        if(response.data.IsSuccess) {
+          successToast("Artist profile sent to judge.");
+        }
+        return response;
+      });
+  } catch (e) {
+    dispatch(stopItemLoading())
+    errorToast("Artist profile not sent to judge");
   }
 };
 
