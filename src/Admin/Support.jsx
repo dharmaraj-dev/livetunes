@@ -7,18 +7,19 @@ import Container from 'react-bootstrap/Container';
 import { useDispatch, useSelector } from "react-redux";
 import Skeleton from "react-loading-skeleton";
 import Faq from "../OnBoard/Faq";
+import { getSupportFaqs } from "../redux/commonSlice";
 
 
 
 const SingleArtist = () => {
   const dispatch = useDispatch();
   
-const { artistDetails, artistDetailsLoading } = useSelector(state => state.artist);
+const { supportFaqs, supportFaqsLoading } = useSelector(state => state.commonStates);
 
 
   useEffect(()=>{
     window.scrollTo(0, 0);
-   // dispatch(fetchArtistDetails(artistId,userId));
+   dispatch(getSupportFaqs());
   },[]);  
   return (
     <>
@@ -32,22 +33,32 @@ const { artistDetails, artistDetailsLoading } = useSelector(state => state.artis
             </div>
             <div className="main-content">
                 {
-                    artistDetailsLoading ? (
+                    supportFaqsLoading ? (
                         <>
-                            <Skeleton className="l-sb head mb-2" width="160px" count={1}  />
-                            <Skeleton className="l-l sub-head mb-2" width="240px" count={1}  />
-                            <Skeleton className="l-l sub-head mb-2" width="380px" count={1}  />
-                            <Skeleton className="l-l sub-head mb-5" width="500px" count={1}  />
-                            <Skeleton className="hello-header" count={1}  />    
+                            <Skeleton className="l-sb head mb-2" width="100%" height="60px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
+                            <Skeleton className="l-sb head mb-2" width="100%" height="50px" count={1}  />
                         </>
                     ) : (
                         <Container fluid>
                             <div className="main-artists-list">
-                                <section className="main-livetune-details">
+                                <section className="main-livetune-details mt-2">
                                     <div className="s-heading">
                                         <p className="s-head l-b">Frequently asked questions</p>
                                     </div>
-                                    <Faq data={artistDetails?.selQuestLog}/>
+                                    <Faq data={supportFaqs}/>
                                 </section> 
                             </div>
                         </Container>

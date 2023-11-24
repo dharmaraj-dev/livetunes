@@ -13,7 +13,9 @@ const slice = createSlice({
     getGeneralSettingsLoading: false,
     addCardLoading: false,
     addAddressLoading: false,
-    generalSettings
+    generalSettings,
+    supportFaqs: [],
+    supportFaqsLoading: false
   },
   reducers: {
     setGeneralSettingsLoading: (state, action) => {
@@ -54,7 +56,13 @@ const slice = createSlice({
         }
       }
       localStorage.setItem('generalSettings', JSON.stringify(state.generalSettings))
-    }
+    },
+    startStopSupportFaqLoading: (state, action) => {
+      state.supportFaqsLoading = action.payload;
+    },
+    setSupportFaqData: (state, action) => {
+      state.supportFaqs = action.payload;
+    },
   }
 });
 
@@ -69,7 +77,9 @@ export const {
   stopAddCardLoading,
   setAddAddressLoading,
   stopAddAddressLoading,
-  updateGeneralSettings
+  updateGeneralSettings,
+  startStopSupportFaqLoading,
+  setSupportFaqData
 } = slice.actions;
 
 export const getGeneralSettings = (data) => async dispatch => {
@@ -176,5 +186,24 @@ export const deleteAddress = (data) => async dispatch => {
         return response;
       });
   } catch (e) {
+  }
+};
+
+export const getSupportFaqs = () => async dispatch => {
+  dispatch(startStopSupportFaqLoading(true))
+  try {
+   return await axios
+      .get(API_URL + `SFaq/GetAll` , {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopSupportFaqLoading(false))
+        if(response.data.IsSuccess) {
+          dispatch(setSupportFaqData(response.data.output_data))
+        } else {
+          errorToast(response.data.Message)
+        }
+        return response;
+      });
+  } catch (e) {
+    dispatch(startStopSupportFaqLoading(false))
   }
 };

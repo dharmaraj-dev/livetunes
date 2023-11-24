@@ -58,9 +58,9 @@ const SideNavBar = () => {
 			]);
 
 	const showPopupAlert = (text, linkToNavigate) => {
-		if(text == 'Support') {
-			Swal.fire('Comming Soon.', '', 'info');
-		} else 
+		// if(text == 'Support') {
+		// 	Swal.fire('Comming Soon.', '', 'info');
+		// } else 
 		if(linkToNavigate == '#' || linkToNavigate == '#') {
 			Swal.fire('Comming Soon.', '', 'info');
 			return false;

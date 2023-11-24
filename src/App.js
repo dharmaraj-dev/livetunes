@@ -57,6 +57,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { fetchUserProfile } from "./redux/userProfileSlice";
 import { getFeedLogs } from "./redux/userSlice";
 import './responsive.css';
+import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
   const dispatch = useDispatch();

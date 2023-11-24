@@ -1514,3 +1514,7 @@ numberInput.input[type=number] {
   font-size: 13px;
 }
 
+
+.exp_date_picker .react-datepicker-popper {
+    z-index: 5;
+}

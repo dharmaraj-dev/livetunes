@@ -26,6 +26,9 @@ const SignUp = () => {
       if (!phone.match(/^\+?[0-9]{2}-?[0-9]{6,12}$/) || phone.length !== 12) {
          setIsPhoneValid(false);
         return false;
+      }else if(email === ""){
+        errorToast("Email is required");
+        return false;
       } else if (email !== "" && email.match(/^\S+@\S+\.\S+$/) === null) {
         setIsEmailValid(false);
         return false;
@@ -115,9 +118,9 @@ const SignUp = () => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="">
                   <Form.Label className="l-sb main-label">
-                    Your Email <span className="l-r">(Secondary)</span>
+                    Your Email*
                   </Form.Label>
-                  <Form.Control name="email" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={loading}/>
+                  <Form.Control required name="email" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={loading}/>
                   {!isEmailValid && (
                     <Form.Text className="text-muted text_invalid">
                       Invalid Email Address.

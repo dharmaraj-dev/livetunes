@@ -13,6 +13,8 @@ import SaveAddress from './SaveAddress';
 import { useDispatch, useSelector } from "react-redux";
 import { successToast, errorToast } from "../services/toast-service";
 import { addCard, saveAddress } from "../redux/commonSlice";
+import DatePicker from "react-datepicker";
+
 const Payments = (props) => {
   const dispatch = useDispatch();
 
@@ -192,8 +194,9 @@ const Payments = (props) => {
                                       <Form.Label column sm={6}>
                                        Expiry date
                                       </Form.Label>
-                                      <Col sm={6}>
-                                        <Form.Control type="date" value={cardExpDate} onChange={(e) => {setCardExpDate(e.target.value)}}  required/>
+                                      <Col sm={6} className="exp_date_picker">
+                                        <DatePicker className="form-control" selected={cardExpDate} onChange={(date) => setCardExpDate(date)} dateFormat="MM/yy"/>
+                                        {/*<Form.Control type="date" value={cardExpDate} onChange={(e) => {setCardExpDate(e.target.value)}}  required/>*/}
                                       </Col>
                                     </Form.Group>
                                   </Col>
