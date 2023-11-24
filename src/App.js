@@ -51,6 +51,8 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { setJoiningType } from './redux/userAuth';
 import ArtistAvailSlot from './Artist/ArtistAvailSlot';
 import GeneralStuffs from './Admin/GeneralStuffs';
+import AllMasters from './Admin/AllMasters';
+import Support from './Admin/Support';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { fetchUserProfile } from "./redux/userProfileSlice";
 import { getFeedLogs } from "./redux/userSlice";
@@ -124,9 +126,10 @@ function App() {
         <Route path="/application-status" element={<ArtistApplicationStatus/>}/>
         <Route path="/admin-dashboard" element={<ArtistDashboard/>}/>
         <Route path="/admin/:id" element={<GeneralStuffs/>}/>
-        <Route path="/admin/all-masters" element={<GeneralStuffs/>}/>
+        <Route path="/admin/all-masters" element={<AllMasters/>}/>
         <Route path="/admin/all-accounts" element={<GeneralStuffs/>}/>
         <Route path="/terms-conditions" element={<TermsConditions/>}/>
+        <Route path="/support" element={<Support/>}/>
      
 
       </Routes>

@@ -21,7 +21,9 @@ const slice = createSlice({
     artistSlots: [],
     artistApplicationQuotes: [],
     artistApplicationQuizes: [],
-    artistApplicationStatusQuotesLoading: false
+    artistApplicationStatusQuotesLoading: false,
+    artistDashboardData: [],
+    artistDashboardLoading: true
   },
   reducers: {
     setArtistProofData: (state, action) => {
@@ -100,6 +102,12 @@ const slice = createSlice({
     },
     setArtistApplicationStateQuizes: (state, action) => {
       state.artistApplicationQuizes = action.payload;
+    },
+    setArtistDashboardData: (state, action) => {
+      state.artistDashboardData = action.payload;
+    },
+    startStopArtistDashboardLoading: (state, action) => {
+      state.artistDashboardLoading = action.payload;
     }
   }
 });
@@ -121,7 +129,9 @@ export const {
   updateSlotsSuccess,
   startArtistApplicationStatusQuotesLoading,
   setArtistApplicationStateQuotes,
-  setArtistApplicationStateQuizes
+  setArtistApplicationStateQuizes,
+  setArtistDashboardData,
+  startStopArtistDashboardLoading
 } = slice.actions;
 
 export const fetchArtistDetails = (artistId,userId) => async dispatch => {
@@ -219,3 +229,16 @@ export const submitArtistApplicationTJudge = () => async dispatch => {
   }
 };
 
+export const getArtistDashboardData  = (data) => async dispatch => {
+  dispatch(startStopArtistDashboardLoading(true));
+  try {
+    await axios
+      .get(API_URL + `ArtistProfile/GetArtistDashboard `, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopArtistDashboardLoading(false));
+        dispatch(setArtistDashboardData(response.data.selArtistDashboard));
+      });
+  } catch (e) {
+    dispatch(startStopArtistDashboardLoading(false));
+  }
+};

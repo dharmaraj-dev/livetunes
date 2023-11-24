@@ -4,7 +4,7 @@ import SideNavBar from "../Layout/SideNavBar";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ArtistInfo from "../OnBoard/ArtistInfo";
+import ArtistInfoForDashboard from "../Admin/ArtistInfoForDashboard";
 import Stack from 'react-bootstrap/Stack';
 import ArtistTransactions from "./ArtistTransactions";
 import Income from '../assets/images/noun-total-income.png';
@@ -17,14 +17,16 @@ import Dfestival from '../assets/images/noun-festival.png';
 import Dbirthday from '../assets/images/noun-birthday.png';
 import { Link } from "react-router-dom";
 import { useDispatch ,useSelector } from "react-redux";
-import { getArtistDetails } from "../redux/artistSlice";
+import Skeleton from "react-loading-skeleton";
+import { getArtistDetails, getArtistDashboardData } from "../redux/artistSlice";
 
 const ArtistDashboard = () => {
     const dispatch = useDispatch();
-    const {artistDetailsLoading, artistDetails} = useSelector(state => state.artist);
+    const {artistDashboardLoading, artistDashboardData, artistDetailsLoading, artistDetails} = useSelector(state => state.artist);
     //const { ArtistId } = useSelector(state => state.userAuth);
     useEffect(()=>{
         window.scrollTo(0, 0);
+        dispatch(getArtistDashboardData());
         dispatch(getArtistDetails());
       },[]);  
   return (
@@ -40,6 +42,66 @@ const ArtistDashboard = () => {
             <div className="main-content">
                 <Container fluid>
                    <div className="main-artists-list">
+                        {artistDashboardLoading ? (
+                        <>
+                        <h4 className="l-b mb-3">
+                            <Skeleton width="200px" height="30px"/>
+                        </h4>
+                        <Row>
+                            <Col xl={8} lg={6} md={12}>
+                              <Row>
+                                <Col xl={5} lg={12}>
+                                    <Skeleton className="earned-sec mb-4" width="100%" height="130px"/>
+                                    <h4 className="l-b mb-3">
+                                        <Skeleton width="200px" height="30px"/>
+                                    </h4>
+                                    <Skeleton className="earned-sec mb-4" width="100%" height="130px"/>
+                                </Col>
+                                <Col xl={7} lg={12}>
+                                    <Row>
+                                        {
+                                            [...Array(6)].map((e, i) => {
+                                              return (
+                                                <Col md={6} key={`events_${i}`}>
+                                                    <Skeleton className="earned-sec mb-3" count={1} width={"100%"} height={"103px"} /> 
+                                                </Col>
+                                              )
+                                            })
+                                        }
+                                    </Row>
+                                </Col>
+                              </Row>
+                            </Col>
+                            <Col xl={4} lg={6} md={12}>
+                                <div className="artist-dashboard-artist-info-sec">
+                                    <ArtistInfoForDashboard loading={artistDashboardLoading} artistDetails={artistDashboardData.selArtistProfile}/>
+                                </div>
+                                <div className="main-artist-transacation">
+                                    <div className="header-sec">
+                                        <Stack direction="horizontal" gap={3}>
+                                            <div>
+                                                <h2 className="head">
+                                                    <Skeleton count={1} width={"100px"} height={"30px"} /> 
+                                                </h2>
+                                            </div>
+                                            <div className="ms-auto l-sb">
+                                                <Link to="#">
+                                                <span>
+                                                    <Skeleton count={1} width={"50px"} height={"30px"} /> 
+                                                </span>
+                                                </Link>
+                                            </div>
+                                        </Stack>
+                                    </div>
+                                    <div className="main-inner-transactions-sec">
+                                        <ArtistTransactions loading={artistDashboardLoading} data={artistDashboardData.selArtistBooking}/>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                        </>
+                        ):(
+                        <>
                         <h4 className="l-b mb-3">Your Earnings</h4>
                         <Row>
                             <Col xl={8} lg={6} md={12}>
@@ -52,7 +114,7 @@ const ArtistDashboard = () => {
                                             </div>
                                             <div className="">
                                                 <p className="mb-0 sub-head fs-5">Total Earned</p>
-                                                <p className="l-bl fs-2 m-0 head">₹ 0/-</p>
+                                                <p className="l-bl fs-2 m-0 head">{artistDashboardData.TotalEarned}/-</p>
                                             </div>
                                         </Stack>
                                     </div>
@@ -71,91 +133,30 @@ const ArtistDashboard = () => {
                                 </Col>
                                 <Col xl={7} lg={12}>
                                     <Row>
-                                        <Col md={6}>
-                                            <div className="earned-sec mb-3">
-                                                <Stack direction="horizontal" gap={3}>
-                                                    <div className="img-sec faint-img-sec">
-                                                        <img src={Dwedding} alt="img" />
-                                                    </div>
-                                                    <div className="">
-                                                        <p className="mb-0 sub-head fs-6">Wedding events</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
-                                                    </div>
-                                                </Stack>
-                                            </div>
-                                        </Col>
-                                        <Col md={6}>
-                                            <div className="earned-sec mb-3">
-                                                <Stack direction="horizontal" gap={3}>
-                                                    <div className="img-sec faint-img-sec">
-                                                        <img src={Party} alt="img" />
-                                                    </div>
-                                                    <div className="">
-                                                        <p className="mb-0 sub-head fs-6">Private Parties</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
-                                                    </div>
-                                                </Stack>
-                                            </div>
-                                        </Col>
-                                        <Col md={6}>
-                                            <div className="earned-sec mb-3">
-                                                <Stack direction="horizontal" gap={3}>
-                                                    <div className="img-sec faint-img-sec">
-                                                        <img src={Dcafe} alt="img" />
-                                                    </div>
-                                                    <div className="">
-                                                        <p className="mb-0 sub-head fs-6">Café Gigs</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
-                                                    </div>
-                                                </Stack>
-                                            </div>
-                                        </Col>
-                                        <Col md={6}>
-                                            <div className="earned-sec mb-3">
-                                                <Stack direction="horizontal" gap={3}>
-                                                    <div className="img-sec faint-img-sec">
-                                                        <img src={Dpray} alt="img" />
-                                                    </div>
-                                                    <div className="">
-                                                        <p className="mb-0 sub-head fs-6">Religious Events</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
-                                                    </div>
-                                                </Stack>
-                                            </div>
-                                        </Col>
-                                        <Col md={6}>
-                                            <div className="earned-sec mb-3">
-                                                <Stack direction="horizontal" gap={3}>
-                                                    <div className="img-sec faint-img-sec">
-                                                        <img src={Dfestival} alt="img" />
-                                                    </div>
-                                                    <div className="">
-                                                        <p className="mb-0 sub-head fs-6">College Fests</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
-                                                    </div>
-                                                </Stack>
-                                            </div>
-                                        </Col>
-                                        <Col md={6}>
-                                            <div className="earned-sec mb-3">
-                                                <Stack direction="horizontal" gap={3}>
-                                                    <div className="img-sec faint-img-sec">
-                                                        <img src={Dbirthday} alt="img" />
-                                                    </div>
-                                                    <div className="">
-                                                        <p className="mb-0 sub-head fs-6">Kids Shows</p>
-                                                        <p className="l-bl fs-5 m-0 head">₹ 0/-</p>
-                                                    </div>
-                                                </Stack>
-                                            </div>
-                                        </Col>
+                                    {artistDashboardData.selEventsLog.map((eve,index) => {
+                                        return (
+                                            <Col md={6} key={`eve_${index}`}>
+                                                <div className="earned-sec mb-3">
+                                                    <Stack direction="horizontal" gap={3}>
+                                                        <div className="img-sec faint-img-sec">
+                                                            <img width="55px" src={eve.EventTypeUrl} alt="img" />
+                                                        </div>
+                                                        <div className="">
+                                                            <p className="mb-0 sub-head fs-6">{eve.EventType}</p>
+                                                            <p className="l-bl fs-5 m-0 head">{eve.EventAmt}/-</p>
+                                                        </div>
+                                                    </Stack>
+                                                </div>
+                                            </Col>
+                                        )
+                                    })}
                                     </Row>
                                 </Col>
                               </Row>
                             </Col>
                             <Col xl={4} lg={6} md={12}>
                                 <div className="artist-dashboard-artist-info-sec">
-                                    <ArtistInfo loading={artistDetailsLoading} artistDetails={artistDetails}/>
+                                    <ArtistInfoForDashboard loading={artistDashboardLoading} artistDetails={artistDashboardData.selArtistProfile}/>
                                 </div>
                                 <div className="main-artist-transacation">
                                     <div className="header-sec">
@@ -164,18 +165,20 @@ const ArtistDashboard = () => {
                                                 <h2 className="head">Your transactions</h2>
                                             </div>
                                             <div className="ms-auto see-all-text l-sb">
-                                                <Link to="/billinginvoice">
+                                                <Link to="#">
                                                 <span className="red-color">See all</span>
                                                 </Link>
                                             </div>
                                         </Stack>
                                     </div>
                                     <div className="main-inner-transactions-sec">
-                                        <ArtistTransactions/>
+                                        <ArtistTransactions loading={artistDashboardLoading} data={artistDashboardData.selArtistBooking}/>
                                     </div>
                                 </div>
                             </Col>
                         </Row>
+                        </>
+                        )}
                     </div>
                 </Container>
             </div>

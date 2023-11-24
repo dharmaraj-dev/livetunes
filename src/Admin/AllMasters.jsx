@@ -22,13 +22,14 @@ import { Tabs, Tab} from "react-bootstrap";
 import DefaultProfile from "../assets/images/default_profile.jpeg";
 import { useLocation  } from 'react-router-dom';
 
-const GeneralStuffs = () => {
+const AllMasters = () => {
     const params = useParams();
     let loc = useLocation();
     
     const dispatch = useDispatch();
     const MySwal = withReactContent(Swal);
     const pageName = loc.pathname.includes("all-accounts") ? 'accounts' : 'masters' ;//params.id.split('-')[1];
+    console.log(pageName);
     const { allStatesLoading, allCitiesLoading, allStates, allCities, addItemLoading, allEventsLoading, allEvents, allEventModesLoading, allEventModes, allEventTypesLoading, allEventTypes, allCategoriesLoading, allCategories, allGenreLoading, allGenres, allLanguagesLoading, allLanguages, allBanksLoading, allBanks, allBranchesLoading, allBranches, allAddresProofsLoading, allAddresProofs, allIdProofsLoading, allIdProofs,
     allArtists,
     allJudges,
@@ -60,6 +61,7 @@ const GeneralStuffs = () => {
           showLoaderOnConfirm: false,
           allowOutsideClick: () => false
         }).then((result) => {
+            console.log(result, item, type);
           if (result.isConfirmed && result.value) {
             if(type == "state") {
                 dispatch(deleteMasterCommon('State/Delete', item, type, {"StateId": item}));
@@ -108,6 +110,7 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         } else if(showModelFor === "city") {
             const dataToSend = {
@@ -123,6 +126,7 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         } else if(showModelFor === "event") {
             dispatch(addMasterCommon('Events/Insert', {"EventsName": newName}, showModelFor)).then((res) => {
@@ -133,6 +137,7 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         } else if(showModelFor === "eventMode") {
             dispatch(addMasterCommon('EventMode/Insert', {"EventModeName": newName}, showModelFor)).then((res) => {
@@ -143,6 +148,7 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         } else if(showModelFor === "category") {
             dispatch(addMasterCommon('Category/Insert',  {"CategoryName": newName}, showModelFor)).then((res) => {
@@ -153,6 +159,7 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         } else if(showModelFor === "genre") {
             dispatch(addMasterCommon('genre/Insert',  {"GenreName": newName}, showModelFor)).then((res) => {
@@ -163,6 +170,7 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         } else if(showModelFor === "languages") {
             dispatch(addMasterCommon('language/Insert',  {"LanguageName": newName}, showModelFor)).then((res) => {
@@ -173,6 +181,7 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         } else if(showModelFor === "banks") {
             dispatch(addMasterCommon('Bank/Insert', {"BankName": newName}, showModelFor)).then((res) => {
@@ -183,6 +192,7 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         } else if(showModelFor === "branches") {
             const dataToSend = {
@@ -198,6 +208,7 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         } else if(showModelFor === "addressProofs") {
             dispatch(addMasterCommon('AddressProof/Insert', {"AddressProofName": newName}, showModelFor)).then((res) => {
@@ -208,6 +219,7 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         } else if(showModelFor === "idProofs") {
             dispatch(addMasterCommon('IDProof/Insert', {"IdProofName": newName}, showModelFor)).then((res) => {
@@ -218,11 +230,13 @@ const GeneralStuffs = () => {
                 }
             }).catch((err) => {
                 setShowModel(false);
+                console.log(err);
             })
         }
     }
 
     const makeCityLTActive = (item,value) => {
+        console.log(item)
         MySwal.fire({
           title: '<strong>Are you sure!!</strong>',
           icon: 'warning',
@@ -302,6 +316,7 @@ const GeneralStuffs = () => {
         setTimeout(() => {
             setSelectedTab(selectedTab)
         }, 2000)
+        console.log(params, selectedTab)
     }, [pageName])
 
   return (
@@ -1150,7 +1165,7 @@ const GeneralStuffs = () => {
                                                         <td>{st.MobileNo}</td>
                                                         <td>{st.ArtistState}</td>
                                                         <td>{st.ArtistCity}</td>
-                                                        <td><span className="artist_status">{st.ProfileStatus}</span></td>
+                                                        <td>{"NA"}</td>
                                                         <td>
                                                             <FiTrash className="cursor-pointer" onClick={() => {deleteItem(st.ArtistId, "artist")}}/>
                                                         </td>
@@ -1357,7 +1372,7 @@ const GeneralStuffs = () => {
                                                                 name="judge"
                                                                 className="form-control"
                                                                 required
-                                                                value={st.JudgeId}
+                                                                //value={newDependedSelectName}
                                                                 onChange={(e) => {assignToJudge(st.ArtistId, e.target.value)}}
                                                             >
                                                                 <option value="">Select Judge</option>
@@ -1366,7 +1381,7 @@ const GeneralStuffs = () => {
                                                                 })}
                                                             </Form.Select>
                                                         </td>
-                                                        <td><span className="artist_status">{st.ProfileStatus}</span></td>
+                                                        <td>{"NA"}</td>
                                                     </tr>
                                                 )
                                             })}
@@ -1544,4 +1559,4 @@ const GeneralStuffs = () => {
   )
 }
 
-export default GeneralStuffs
+export default AllMasters

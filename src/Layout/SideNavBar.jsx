@@ -60,7 +60,8 @@ const SideNavBar = () => {
 	const showPopupAlert = (text, linkToNavigate) => {
 		if(text == 'Support') {
 			Swal.fire('Comming Soon.', '', 'info');
-		} else if(linkToNavigate == '#' || linkToNavigate == '#') {
+		} else 
+		if(linkToNavigate == '#' || linkToNavigate == '#') {
 			Swal.fire('Comming Soon.', '', 'info');
 			return false;
 		}
@@ -97,7 +98,7 @@ const SideNavBar = () => {
 				{
 					text: "Support",
 					icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
-					links: "#"
+					links: "/support"
 				},
 				{
 					text: "Settings",
@@ -125,11 +126,11 @@ const SideNavBar = () => {
 			]);
 		} else if(joiningType === "Admin") {
 			setMenuItemsDynamic([
-				{
-					text: "Dashboard",
-					icon: <TfiDashboard className="menu-item-icon"/>,
-					links: "/admin-dashboard"
-				},
+				// {
+				// 	text: "Dashboard",
+				// 	icon: <TfiDashboard className="menu-item-icon"/>,
+				// 	links: "/admin-dashboard"
+				// },
 				{
 					text: "All Accounts",
 					icon: <TfiUser className="menu-item-icon"/>,
@@ -167,7 +168,7 @@ const SideNavBar = () => {
 				{
 					text: "Support",
 					icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
-					links: "#"
+					links: "/support"
 				}
 			]);
 		}
@@ -196,7 +197,7 @@ const SideNavBar = () => {
 				{
 					text: "Support",
 					icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
-					links: "#"
+					links: "/support"
 				},
 				{
 					text: "Settings ",

@@ -1505,3 +1505,12 @@ numberInput.input[type=number] {
     border-radius: 50%;
     margin-right: 5px;
 }
+
+.img-round {
+  border-radius: 50%;
+}
+
+.artist_status {
+  font-size: 13px;
+}
+

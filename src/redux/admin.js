@@ -143,6 +143,16 @@ const slice = createSlice({
           });
           state.allCities = el;
         }
+        else if(action.payload.from == "artist") {
+          let el = state.allArtists.map((item) => {
+            if(item.ArtistId === action.payload.item.RegId){
+              item.JudgeId=action.payload.item.JudgeId;
+              item.ProfileStatus=action.payload.status;
+            }
+            return item
+          });
+          state.allArtists = el;
+        }
       } else {
         if(action.payload.from == "state") {
           state.allStates = state.allStates.filter((item) => item.StateId !== action.payload.item)
@@ -546,7 +556,8 @@ export const sendArtistToJudge = (data) => async dispatch => {
       .then(response => {
         dispatch(stopItemLoading())
         if(response.data.IsSuccess) {
-          successToast("Artist profile sent to judge.");
+          dispatch(updateData({"type": "update", "from": "artist",  "item": data, "status": response.data.Message}));
+          successToast(response.data.Message);
         }
         return response;
       });
