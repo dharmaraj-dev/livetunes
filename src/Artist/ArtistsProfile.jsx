@@ -50,7 +50,7 @@ const ArtistsProfile = () => {
     //step 1 form
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [contactNo, setContactNo] = useState("");
+    const [contactNo, setContactNo] = useState(otpSentTo);
     const [email, setEmail] = useState("");
     const [stateId, setStateId] = useState("");
     const [stateName, setStateName] = useState("");
