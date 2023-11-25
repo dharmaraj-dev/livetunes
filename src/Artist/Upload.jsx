@@ -147,6 +147,11 @@ const Upload = () => {
                             allowRevert={false}
                             allowRemove={false}
                             oninit={() => {handleInit()}}
+                            onwarning={(e) => {
+                                if(e.type === "warning") {
+                                    infoToast(`File upload error, please try another file.`)
+                                }
+                            }}
                             onupdatefiles={(fileItems,e) => {
                                 setProfilePic(fileItems);
                                 handleUpdate(fileItems)
@@ -204,8 +209,6 @@ const Upload = () => {
                                         },
                                     };
                                 },
-                                //url: 'https://livetunesapi.azurewebsites.net/api/LTMedia/uploadp-image',
-                             
                             }
                             }
                             labelIdle='<span class="profile_upload_browse"></span>'

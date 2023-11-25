@@ -118,18 +118,6 @@ const ArtistDashboard = () => {
                                             </div>
                                         </Stack>
                                     </div>
-                                    <h4 className="l-b mb-3">Rewards</h4>
-                                    <div className="earned-sec mb-4">
-                                        <Stack direction="horizontal" gap={3}>
-                                            <div className="img-sec">
-                                                <img src={Prize} alt="img" />
-                                            </div>
-                                            <div className="">
-                                                <p className="mb-0 sub-head fs-5">Total rewards earned</p>
-                                                <p className="l-bl fs-2 m-0 head">₹ 0/-</p>
-                                            </div>
-                                        </Stack>
-                                    </div>
                                 </Col>
                                 <Col xl={7} lg={12}>
                                     <Row>

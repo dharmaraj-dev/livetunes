@@ -14,6 +14,12 @@ import {fetchUserProfile, saveProfileData } from "../redux/userProfileSlice";
 import { errorToast, infoToast, successToast } from "../services/toast-service";
 import moment from "moment";
 import Skeleton from "react-loading-skeleton";
+import { useNavigate  } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Lang from '../assets/images/lang.png';
+import RangeSlider from "../OnBoard/RangeSlider";
+import MusictypeSlider from "../OnBoard/MusictypeSlider";
+import SelectLanguages from "../OnBoard/SelectLanguages";
 import { FilePond, File, registerPlugin } from 'react-filepond'
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
@@ -22,12 +28,14 @@ import FilePondPluginImageTransform from 'filepond-plugin-image-transform'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import authHeader, { authToken } from "../services/auth-header";
+import { setUserSettings, setSelectedCity, setSettingsSaveStatus } from '../redux/userSettings';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginImageCrop, FilePondPluginImageTransform, FilePondPluginFileValidateType)
-
 
 const Profile = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const [showStep, setShowStep] = useState(0);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [dob, setDob] = useState("");
@@ -87,6 +95,49 @@ const Profile = () => {
         dispatch(saveProfileData(data));
     }
 
+    const updateStep = (stp) => {
+        setShowStep(stp);
+    }
+
+    const { selectedLanguages, selectedCity, userRequestedCities, userMusicalityTypes, userMinimumBudget, userMaximumBudget} = useSelector(state => state.userSettings);
+    const { user } = useSelector(state => state.userAuth);
+
+    const proceedToNextPage = (stp) => {
+        if(stp === 4) {
+            let dataToSend = {
+                "LangId":selectedLanguages.map((language)=>language.LanguageId).join(','),
+                "LangName":selectedLanguages.map((language)=>language.LanguageName).join(','),
+                "MType":userMusicalityTypes.join(','),
+                "MinBudget":userMinimumBudget,
+                "MaxBudget":userMaximumBudget,
+                "RegId":user.RegId
+            };
+
+            if(selectedCity != "") {
+                dataToSend.CityId = selectedCity.split('_')[0];
+                dataToSend.CityName = selectedCity.split('_')[1];
+            } 
+        
+            dispatch(setUserSettings(dataToSend));
+            dispatch(setSettingsSaveStatus());
+            navigate('/artist-list');
+        } else {
+            setShowStep(stp);
+        }
+    }
+
+    const checkIfDisabled = () => {
+        if(selectedCity != "") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const selectPrefferedCity = (cityId, cityName) => {
+        dispatch(setSelectedCity(`${cityId}_${cityName}`))
+    }
+
     useEffect(() => {
         dispatch(fetchUserProfile());
 
@@ -137,6 +188,8 @@ const Profile = () => {
                                 </Col>
                             </Row>
                         ):(
+                        <>
+                        {showStep === 0 && (
                         <Row>
                             <Col lg={4}>
                                 <div className="main-profile-upload-sec">
@@ -336,7 +389,7 @@ const Profile = () => {
                                             <Col lg={12} md="12" className="mb-4 text-right">
                                                 <button
                                                     type="submit"
-                                                    className={`l-sb btnn btn profile_save_button`}
+                                                    className={`l-sb btnn btn profile_save_button mr-2`}
                                                     disabled={saveProfileDataLoading}
                                                 >
                                                 {saveProfileDataLoading && (
@@ -349,6 +402,120 @@ const Profile = () => {
                                 </div>
                             </Col>
                         </Row>
+                        )}
+                        {showStep === 1 && (
+                            <section className="main-language-sec">
+                                <div className="heading-sec">
+                                    <p className="l-bl head">Music has vivid languages</p>
+                                    <p className="l-l sub-head">What’s Your Choice Of Language?</p>
+                                </div>
+                                <div className="chosen-sec clearfix">
+                                    <Row>
+                                        <Col md={6} lg={5}>
+                                            <div className="chosen-left-sec">
+                                                <img src={Lang} alt="" className="w-100" />
+                                            <p className="l-bl inner-head">Most Chosen <br/> Language</p>
+                                            </div>
+                                        </Col>
+                                        <Col md={6} lg={5} className="postion-r">
+                                            <div className="chosen-right-sec select-multi">
+                                                <div className="inner-heading-sec">
+                                                    <p className="l-bl head">Select your preffered languages.</p>
+                                                    <p className="l-l sub-head">No worries! You can always change them later.</p>
+                                                </div>    
+                                                <SelectLanguages/>
+                                            </div>
+                                        </Col>
+                                        <Col md={12} lg={12} >
+                                            <div className="text-right">
+                                                <Button variant="primary" disabled={selectedLanguages.length === 0} onClick={() => {proceedToNextPage(2)}} className="l-sb btnn new_next_btn">Next</Button>
+                                             </div>
+                                        </Col>
+                                    </Row>
+                                    
+                                </div>
+                            </section>
+                        )}
+                        {showStep === 2 && (
+                            <section className="main-location-sec">
+                                <div className="">
+                                    <Row>
+                                        <Col md={12} lg={5} xl={4}>
+                                            <div className="heading-sec">
+                                                <p className="l-bl head">Our Delivery Circumference</p>
+                                                <p className="l-l sub-head">Check For Your Location</p>
+                                            </div>
+                                            <div className="map-box">
+                                            <iframe title="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15272027.669187387!2d73.72888197555253!3d20.850984767574634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1674543089151!5m2!1sen!2sin" ></iframe>
+                                            </div>
+                                        </Col>
+                                        <Col md={12} lg={7} xl={7}>
+                                            <div className="location-right-sec select-multi">
+                                                 <div className="head-loco-img">
+                                                    <h1>Are You From Our Top Trending Cities?</h1>
+                                                    <div className="loco-box">
+                                                        {cities?.filter((key) => key.IsLTLive).map((ct,index) => {
+                                                            return (
+                                                                <div key={`city_${index}`} className="text-center" onClick={()=>selectPrefferedCity(ct.CityId, ct.CityName)}>
+                                                                        {ct.MImgURL == null ? (
+                                                                            <span className="default-city mr-2">
+                                                                                <span>{ct.CityName.charAt(0)}</span>
+                                                                            </span>
+                                                                        ):(
+                                                                            <img className="mr-2 cursor-pointer" src={ct.MImgURL} alt={ct.CityName} id={`avail-city-${index}`}/>
+                                                                        )}
+                                                                        <p className={`l-m city-name ${`${ct.CityId}_${ct.CityName}` == selectedCity ? 'active_city' : ''}`}>{ct.CityName}</p>
+                                                                </div>)
+                                                        })}
+                                                    </div>
+                                                 </div>
+                                            </div>
+                                             {checkIfDisabled() && (
+                                             <div className="text-right">
+                                                <Button className="l-sb btnn new_next_btn" onClick={()=>{proceedToNextPage(3)}}>Next</Button>
+                                             </div>
+                                             )}
+                                        </Col>
+                                        
+                                    </Row>
+                                    
+                                </div>
+                            </section>
+                        )}
+                        {showStep === 3 && (
+                            <Container fluid>
+                                <section className="main-budget-mtype-sec postion-r">
+                                    <div className="inner-budget-mtype-sec">
+                                        <div className="heading-sec">
+                                            <p className="l-bl head">High Budget, Good Performer!</p>
+                                            <p className="l-l sub-head">Whats Your Budget</p>
+                                        </div>
+                                        <RangeSlider/>
+                                    </div>
+                                    <div className="inner-budget-mtype-sec">
+                                        <div className="heading-sec">
+                                            <p className="l-bl head">What’s Your Musicality Type</p>
+                                            <p className="l-l sub-head">Choose From Vivid Genre</p>
+                                        </div>
+                                        <MusictypeSlider/>
+                                    </div>
+                                    <div className="text-right">
+                                        <Button disabled={userMusicalityTypes.length === 0} onClick={()=>{proceedToNextPage(4)}} className="l-sb btnn new_next_btn" >Next</Button>
+                                     </div>
+                                </section>
+                            </Container>
+                        )}
+                        </>
+                        )}
+                        {showStep == 0 && (
+                        <div className="text-right">
+                             <button
+                                type="button"
+                                className={`l-sb btnn btn profile_save_button`}
+                                onClick={() => {updateStep(1)}}
+                            >
+                            Next</button>
+                        </div>
                         )}
                     </div>
                 </Container>

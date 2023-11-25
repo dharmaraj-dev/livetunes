@@ -102,7 +102,7 @@ const Settings = () => {
                                     <LoginSetting mail={generalSettings?.CurrentEmailId} phone={generalSettings?.CurrentMobileNo} />
                                     <Payments preSavedCard={generalSettings?.lstCarddetails} preSavedAddress={generalSettings?.lstAddressProof}/>
                                     {/*<NotificationSettings preSavedNotificationsSettings={generalSettings?.lstNotSettings} /> */}
-                                    <div className="cart-details-box  login-setting-cart">
+                                    {/*<div className="cart-details-box  login-setting-cart">
                                         <div className="cart-header">
                                             <Stack direction="horizontal" gap={5}>
                                                 <h4 className="l-sb">Select Language</h4>
@@ -144,7 +144,7 @@ const Settings = () => {
                                             </Stack>
                                         </div>
                                         <MusictypeSlider />
-                                    </div>
+                                    </div>*/}
                                     <div className="text-right">
                                         <Button 
                                             disabled={updateSettingsLoading}
