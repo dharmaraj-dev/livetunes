@@ -86,13 +86,13 @@ const SignUp = () => {
           <div className="col-lg-9 col-xxl-8">
             <div className="inner-sign-white-sec shadow">
               <h3 className="l-b form-head">
-                Create your <samp className="red-color">free Account</samp>
+                Create your <samp className="red-color">Account</samp>
               </h3>
               {joiningType == 'User' && (
                 <p className="form-sub-head l-r">To Book a Music Gig</p>
               )}
               {joiningType == 'Artist' && (
-                <p className="form-sub-head l-r">A place to perform live events</p>
+                <p className="form-sub-head l-r">Get your next Performance of Live Music.</p>
               )}
               
               <Form onSubmit={handleSignup}>

@@ -326,7 +326,7 @@ export function SlideView({ title, itemId, children }) {
                       </div>
                       <p className="head khf l-m">Setup Profile</p>
                       <p className="sub-head l-r">
-                        Make it a personalised and verified musical journey.
+                        Setup your profile and select your preferences.
                       </p>
                     </div>
                   </Col>
@@ -342,7 +342,7 @@ export function SlideView({ title, itemId, children }) {
                       </div>
                       <p className="head khf l-m">Find Artists</p>
                       <p className="sub-head l-r">
-                        Discover musical talent
+                        Discover musical talent from your local community.
                       </p>
                     </div>
                   </Col>
@@ -2021,8 +2021,8 @@ export function SlideView({ title, itemId, children }) {
                     <iframe
                       width="100%"
                       height="100%"
-                      src="https://www.youtube.com/embed/f1b6pHeMaRY"
-                      title="Yamaha teens rock 2019 - Don Bosco school, Kolkata- Winners. -Feeling Good new version -Live Prfmnce"
+                      src="https://www.youtube.com/watch?v=7Pnw5tVYQFQ"
+                      title="Captivated by the soulful melodies of Nagpur's musical maestro, Mangesh Deshpande, as he beautifully presents 'Sach Keh Raha Hai Deewana' from the timeless movie 'Rehna Hai Tere Dil Mein.' 🎶✨ #MusicalMangesh #RHTDM #BollywoodMagic"
                       frameBorder="0"
                       allow="picture-in-picture"
                       allowFullScreen={false}
@@ -2121,7 +2121,7 @@ export function SlideView({ title, itemId, children }) {
                           </span>
                         </div>
                         <p className="client-para l-m">
-                          "Booking an artist through <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> to perform live music for my wife was the perfect celebration of our journey into parenthood. It was an emotional and joyous experience that truly captured the essence of this special moment. <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> helped me create a unique and heartfelt surprise that made the celebration of becoming parents together even more extraordinary. Thank you for making it an unforgettable experience!"
+                          Booking an artist through <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> for my husband's promotion day was an absolute hit! As a music lover, there couldn't have been a better surprise. The live performance added a touch of magic to the celebration, making it an unforgettable day. Thank you, <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a>, for helping me create a surprise that perfectly resonated with my husband's passion for music and made his promotion day even more special!"
                         </p>
                       </div>
                     </Col>
@@ -2149,7 +2149,7 @@ export function SlideView({ title, itemId, children }) {
                           </span>
                         </div>
                         <p className="client-para l-m">
-                          Booking an artist through <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> for my husband's promotion day was an absolute hit! As a music lover, there couldn't have been a better surprise. The live performance added a touch of magic to the celebration, making it an unforgettable day. Thank you, <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a>, for helping me create a surprise that perfectly resonated with my husband's passion for music and made his promotion day even more special!"
+                          "Booking an artist through <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> to perform live music for my wife was the perfect celebration of our journey into parenthood. It was an emotional and joyous experience that truly captured the essence of this special moment. <a href="https://livetunes.ai" target="_blank">LiveTunes.ai</a> helped me create a unique and heartfelt surprise that made the celebration of becoming parents together even more extraordinary. Thank you for making it an unforgettable experience!"
                         </p>
                       </div>
                     </Col>

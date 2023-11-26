@@ -15,10 +15,10 @@ const SignUpContainer = (props) => {
             <div className='inner-sign-red-sec vh-100 d-flex align-items-center justify-content-center'>
               <div>
               <div className='livetune-logo text-center'><img src={Sitelogo} alt="" />
-                {joiningType == 'Artist' && (
+                {joiningType == 'User' && (
                   <p className="text-center white-color">Join the Music Enthusiast Community</p>
                 )}
-                {joiningType == 'User' && (
+                {joiningType == 'Artist' && (
                   <p className="text-center white-color">Join the Music Artist Community</p>
                 )}
               </div>
@@ -28,10 +28,10 @@ const SignUpContainer = (props) => {
           </div>
           <div className='col-lg-6 col-sm-6 show_for_mobole_view'>
             <div className='logo_img_mobile'><img src={Sitelogo} alt="" />
-            {joiningType == 'Artist' && (
+            {joiningType == 'User' && (
                 <p className="text-center white-color pb-3">Join the Music Enthusiast Community</p>
               )}
-              {joiningType == 'User' && (
+              {joiningType == 'Artist' && (
                 <p className="text-center white-color pb-3">Join the Music Artist Community</p>
               )}
             </div>
