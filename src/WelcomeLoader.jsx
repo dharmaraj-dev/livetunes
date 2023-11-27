@@ -38,7 +38,6 @@ const WelcomeLoader = () => {
 	    } else {
 	      if(joiningType === 'Artist') {
 	        if(ArtistIsNotSubmitted) {
-	        	console.log('aaaaa')
 	          navigate("/artists-profile");
 	        }else if(ArtistIsPending) {
 	          navigate("/application-status");

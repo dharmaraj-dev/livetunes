@@ -532,8 +532,8 @@ const ArtistsProfile = () => {
                 dispatch(setArtistIsPending(res.data.is_pending));
                 dispatch(setArtistIsApproved(false));
                 dispatch(setArtistRejected(false));
-                
                 setApplicationStatus(1);
+                navigate("/application-status");
             } else if(res.data.is_rejection) {
                 localStorage.setItem('is_rejection', res.data.is_rejection);
                 localStorage.setItem('is_pending', false);
@@ -543,6 +543,7 @@ const ArtistsProfile = () => {
                 dispatch(setArtistIsApproved(false));
                 setApplicationStatus(2);
             }
+            navigate("/application-status");
         }).catch((err) => {
             navigate('/')
         })
@@ -709,6 +710,10 @@ const ArtistsProfile = () => {
                     setProfileSentToJusgeForVerification(true);
                     setApplicationStatus(3);
                     setShow(true);
+                }
+
+                if(res.data.is_pending) {
+                    navigate("/application-status");
                 }
             }).catch((err) => {
                 navigate('/')
