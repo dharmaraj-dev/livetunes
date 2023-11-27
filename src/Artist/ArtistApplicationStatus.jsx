@@ -14,7 +14,7 @@ import DimensionsProvider from '../hooks/DimensionsProvider';
 import SoundfontProvider from '../hooks/SoundfontProvider';
 import { RxClipboard, RxClipboardCopy, RxComponent2, RxMagicWand, RxDotFilled } from "react-icons/rx";
 import { Navigate, useNavigate  } from 'react-router-dom';
-import { getArtistsApplicationStatusQuotes, getArtistsApplicationStatusQuizes } from "../redux/artistSlice";
+import { getArtistDetails, getArtistsApplicationStatusQuotes, getArtistsApplicationStatusQuizes } from "../redux/artistSlice";
 
 const ArtistApplicationStatus = (props) => {
     const dispatch = useDispatch();
@@ -152,6 +152,7 @@ const ArtistApplicationStatus = (props) => {
         if(ArtistIsNotSubmitted) {
             navigate("/");
         }
+        dispatch(getArtistDetails());
         dispatch(getArtistsApplicationStatusQuotes());
         dispatch(getArtistsApplicationStatusQuizes());
       },[]);  
