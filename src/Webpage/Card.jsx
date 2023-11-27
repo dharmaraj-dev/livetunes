@@ -2021,13 +2021,16 @@ export function SlideView({ title, itemId, children }) {
                     <iframe
                       width="100%"
                       height="100%"
-                      src="https://www.youtube.com/watch?v=7Pnw5tVYQFQ"
+                      src="https://www.youtube.com/embed/7Pnw5tVYQFQ?si=6zYEpsVsGP8UV1Fe"
                       title="Captivated by the soulful melodies of Nagpur's musical maestro, Mangesh Deshpande, as he beautifully presents 'Sach Keh Raha Hai Deewana' from the timeless movie 'Rehna Hai Tere Dil Mein.' 🎶✨ #MusicalMangesh #RHTDM #BollywoodMagic"
                       frameBorder="0"
                       allow="picture-in-picture"
                       allowFullScreen={false}
                     ></iframe>
                   </div>
+                  <p className="video_caption">
+                      "Captivated by the soulful melodies of Nagpur's musical maestro, Mangesh Deshpande, as he beautifully presents 'Sach Keh Raha Hai Deewana' from the timeless movie 'Rehna Hai Tere Dil Mein.' 🎶✨ #MusicalMangesh #RHTDM #BollywoodMagic" 
+                    </p>
                 </Col>
               </Row>
 

@@ -129,7 +129,14 @@
 .section8{background-repeat: no-repeat !important;background-size: contain !important;background-position: top !important;}
 .section8 .join-step-text-sec {position: initial;margin: 0 0 0 80px;}
 .proto-img-text img{width: 76%;display: block;margin: 0 auto;}
-.video-sec{width: 80%;height: 50%;margin: 26px auto 0;display: flex;}
+.video-sec{
+  width: 80%;
+/*  height: 50%;*/
+  margin: 26px auto 0;display: flex;}
+  .video_caption {
+    width: 80%;
+    margin: 26px auto 0;
+  }
 .video-sec iframe{border-radius: 20px;height: 400px;}
 .section8 .welcome-btn-sec button{width: 170px;height: 170px;border: 1px solid #000000;bottom: 20px;right: 50px;}
 
