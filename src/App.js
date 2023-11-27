@@ -89,6 +89,7 @@ function App() {
         <Route path="/sidenavbar" element={<SideNavBar />}/>
         <Route path="/login" element={<LogIn/>}/>
         <Route path="/artist-test-login" element={<TestLogIn/>}/>
+        <Route path="/admin-login" element={<TestLogIn/>}/>
         <Route path="/otp" element={<OneTimepass />}/>
         <Route path="/navbar" element={<NavBar/>}/>
         <Route path="/dashboard" element={<HelloScreen/>}/>
