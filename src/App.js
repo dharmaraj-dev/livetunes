@@ -51,6 +51,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { setJoiningType } from './redux/userAuth';
 import ArtistAvailSlot from './Artist/ArtistAvailSlot';
 import GeneralStuffs from './Admin/GeneralStuffs';
+import GeneralSettings from './Admin/GeneralSettings';
 import AllMasters from './Admin/AllMasters';
 import Support from './Admin/Support';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -131,6 +132,7 @@ function App() {
         <Route path="/admin/all-masters" element={<AllMasters/>}/>
         <Route path="/admin/all-accounts" element={<GeneralStuffs/>}/>
         <Route path="/terms-conditions" element={<TermsConditions/>}/>
+        <Route path="/admin/all-settings" element={<GeneralSettings/>}/>
         <Route path="/support" element={<Support/>}/>
      
 

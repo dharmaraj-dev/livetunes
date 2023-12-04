@@ -13,7 +13,7 @@ import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { getAllStates, getAllCities, addMasterCommon, deleteMasterCommon, updateCity, getAllEvents, getAllEventModes, getAllCategories, getGenre, getLanguages, getBanks, getBranches, getAddressProofs, getEventTypes, getIdProofs, getAllArtists, getAllJudges, getAllUsers, sendArtistToJudge } from '../redux/admin';
+import { getAllStates, getAllCities, addMasterCommon, deleteMasterCommon, updateCity, getAllEvents, getAllEventModes, getAllCategories, getGenre, getLanguages, getBanks, getBranches, getAddressProofs, getEventTypes, getIdProofs, getAllArtists, getAllJudges, getAllUsers, sendArtistToJudge, setImageForMaster } from '../redux/admin';
 import Skeleton from 'react-loading-skeleton'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content';
@@ -21,6 +21,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Tabs, Tab} from "react-bootstrap";
 import DefaultProfile from "../assets/images/default_profile.jpeg";
 import { useLocation  } from 'react-router-dom';
+import DefaultImg from "../assets/images/default.png";
 
 const AllMasters = () => {
     const params = useParams();
@@ -303,6 +304,14 @@ const AllMasters = () => {
         dispatch(sendArtistToJudge({"RegId": artId,"JudgeId":judId}));
     }
 
+    const changeCityImage = (e,CityId) => {
+
+        var fData = new FormData();
+        fData.append("file", e.target.files[0], e.target.files[0].type);
+        console.log(fData)
+        //dispatch(setImageForMaster('city', fData, CityId));
+    }
+
     useEffect(() => {
         if(pageName == "masters") {
             setSelectedTab('states')
@@ -462,11 +471,8 @@ const AllMasters = () => {
                                                     <td>{st.CityName}</td>
                                                     <td>{st.StateName}</td>
                                                     <td>
-                                                        {st.MImgURL !== "" ? (
-                                                            <img width="100px" src={st.MImgURL == "" ? DefaultProfile : st.MImgURL} alt="city image"/>
-                                                        ) : (
-                                                            <input style={{width:"150px"}} type="file"/>
-                                                        )}
+                                                        <img width="50px" src={st.MImgURL == "" ? DefaultImg : st.MImgURL} alt="city image" className="cursor-pointer" onClick={() => {document.getElementById("city_img_picker").click()}}/>
+                                                        <input type="file" className="d-none" id="city_img_picker"  onChange={(e) => {changeCityImage(e, st.CityId)}} />
                                                     </td>
                                                     <td>
                                                         <div className="form-check">

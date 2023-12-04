@@ -745,7 +745,7 @@ const ArtistBankDetails = () => {
                                             </Col>
 
                                             <Col lg={6} md="12" className="mb-4">
-                                                {artistProofData?.selAProof?.IdNo === "" ? (
+                                                {(artistProofData?.selAProof?.IdNo === "" || artistProofData?.selAProof?.IdNo === null) ? (
                                                     <>
                                                         <Form.Label className="l-sb">Id No.<sup className="red-color">*</sup></Form.Label>
                                                         <Form.Control placeholder="Id no." type="text" value={photoIdProofId} onChange={(e) => {setPhotoIdProofId(e.target.value)}}/>

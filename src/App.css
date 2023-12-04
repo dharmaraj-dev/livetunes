@@ -1517,3 +1517,9 @@ numberInput.input[type=number] {
 .exp_date_picker .react-datepicker-popper {
     z-index: 5;
 }
+
+.special_events .look-slide-sec img {
+  min-height: 164px;
+  height: 200px;
+  max-height: 200px;
+}

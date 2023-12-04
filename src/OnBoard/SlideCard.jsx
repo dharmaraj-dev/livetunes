@@ -58,7 +58,7 @@ const SlideCard = (props) => {
         },[props])
 
         const displaySpecialEvents = specialEvents?.map((sEvent,index) => 
-               <div key={`sEvent_${index}`}>
+               <div key={`sEvent_${index}`} className="special_events">
                   <div className="look-slide-sec">
                     <img src={sEvent.SEImgURL} className="mx-auto w-100" alt="" />
                     <div className="inner-look-slide">

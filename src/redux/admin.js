@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { successToast, errorToast } from "../services/toast-service";
 import axios from 'axios';
-import authHeader from "../services/auth-header";
+import authHeader, {authToken} from "../services/auth-header";
 import AuthService from "../services/auth.service";
 const API_URL = "https://livetunesapi.azurewebsites.net/api/";
 
@@ -39,7 +39,10 @@ const slice = createSlice({
     allUsers: [],
     allArtistsLoading: false,
     allJudgesLoading: false,
-    allUsersLoading: false
+    allUsersLoading: false,
+    addImgLoading: false,
+    allSpecialEventLoading: false,
+    allSpecialEvent: [],
   },
   reducers: {
     startStopLoading: (state, action) => {
@@ -73,6 +76,8 @@ const slice = createSlice({
         state.allJudgesLoading = action.payload.data;
       } else if(action.payload.type == "users") {
         state.allUsersLoading = action.payload.data;
+      } else if(action.payload.type == "specialEvents") {
+        state.allSpecialEventLoading = action.payload.data;
       }
     },
     setData: (state, action) => {
@@ -106,6 +111,8 @@ const slice = createSlice({
         state.allJudges = action.payload.data;
       } else if(action.payload.type == "users") {
         state.allUsers = action.payload.data;
+      } else if(action.payload.type == "specialEvents") {
+        state.allSpecialEvent = action.payload.data;
       }
     },
     updateData: (state, action) => {
@@ -178,6 +185,8 @@ const slice = createSlice({
           state.allAddresProofs = state.allAddresProofs.filter((item) => item.AddressProofId !== action.payload.item)
         } else if(action.payload.from == "idProofs") {
           state.allIdProofs = state.allIdProofs.filter((item) => item.IdProofId !== action.payload.item)
+        } else if(action.payload.from == "specialEvent") {
+          state.allSpecialEvent = state.allSpecialEvent.filter((item) => item.SpecialEventsId !== action.payload.item)
         }
       }
     },
@@ -186,6 +195,9 @@ const slice = createSlice({
     },
     stopItemLoading: (state, action) => {
       state.addItemLoading = false;
+    },
+    startImgLoading: (state, action) => {
+      state.addImgLoading = action.payload;
     },
   }
 });
@@ -198,7 +210,8 @@ export const {
   setData,
   updateData,
   startItemLoading,
-  stopItemLoading
+  stopItemLoading,
+  startImgLoading
 } = slice.actions;
 
 export const getAllStates = () => async dispatch => {
@@ -564,6 +577,78 @@ export const sendArtistToJudge = (data) => async dispatch => {
   } catch (e) {
     dispatch(stopItemLoading())
     errorToast("Artist profile not sent to judge");
+  }
+};
+
+export const setImageForMaster = (type, fileData, id) => async dispatch => {
+  dispatch(startImgLoading(true))
+  try {
+    
+   return await axios
+      .post(API_URL + `LTMMedia/uploadm-image?MiscId=${id}&IsCity=true&IsGenre=false&IsEvents=false`,{data:fileData}, {headers:{"Authorization" : authToken(), ...fileData.getHeaders()}})
+      .then(response => {
+        console.log(response);
+        dispatch(startImgLoading(false))
+        if(response.data.IsSuccess) {
+          //dispatch(updateData({"type": "update", "from": "artist",  "item": data, "status": response.data.Message}));
+          successToast(response.data.Message);
+        }
+        return response;
+      });
+  } catch (e) {
+    console.log(e)
+    dispatch(startImgLoading(false))
+    //errorToast("Artist profile not sent to judge");
+  }
+};
+
+
+export const getAllSpecialEvents = () => async dispatch => {
+  dispatch(startStopLoading({"type": "specialEvents", "data": true}));
+  try {
+   return await axios
+      .get(API_URL + `SpecialEvents/GetAll`, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "specialEvents", "data": false}));
+        if(response.data.IsSuccess) {
+          dispatch(setData({"type": "specialEvents", "data": response.data.output_data}));
+        }
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "specialEvents", "data": false}));
+  }
+};
+
+export const addSpecialEvent = (data,paramsData) => async dispatch => {
+  var myHeaders = new Headers();
+    myHeaders.append("Authorization", authToken());
+    myHeaders.append("Cookie", "ARRAffinity=a6e48b9e9d2653435be7b61998d8624b44115214104213d6c8b8c526cc56dc70; ARRAffinitySameSite=a6e48b9e9d2653435be7b61998d8624b44115214104213d6c8b8c526cc56dc70");
+
+    var formdata = new FormData();
+    formdata.append("file", data, data.name);
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formdata,
+      redirect: 'follow'
+    };
+  dispatch(startItemLoading());
+  try {
+      return await fetch(API_URL+ `SpecialEvents/Save?Special_Events={"IsHeadBanner":${paramsData.IsHeadBanner ? true : false},"IsSBanner":${paramsData.IsSBanner ? true : false},"HeadText":"${paramsData.HeadText}","SubText":"${paramsData.SubText}","SubText1":"${paramsData.SubText1}","SubText2":"","SubText3":"","GenreId": "${paramsData.GenreId}","GenreName":"${paramsData.GenreName}","EventsId":"${paramsData.EventsId}","EventsName":"${paramsData.EventsName}","StartDate": "${paramsData.StartDate}","EndDate":"${paramsData.EndDate}"}`, requestOptions)
+          .then(response => response.json())
+          .then(result => {
+            dispatch(stopItemLoading())
+            if(result.IsSuccess) {
+              successToast("Special event added.")
+            }
+            //dispatch(updateData({"type": "add", "from": "state",  "item": itemName}));
+            return result;
+          });
+  } catch (e) {
+    dispatch(stopItemLoading());
+    successToast("Special event not added.")
   }
 };
 

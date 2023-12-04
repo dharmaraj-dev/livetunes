@@ -141,6 +141,11 @@ const SideNavBar = () => {
 					icon: <TfiList className="menu-item-icon"/>,
 					links: "/admin/all-masters"
 				},
+				{
+					text: "All Settings",
+					icon: <SlSettings className="menu-item-icon"/>,
+					links: "/admin/all-settings"
+				},
 				
 				// {
 				// 	text: "Manage Accounts",

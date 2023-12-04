@@ -53,42 +53,42 @@ const MusictypeSlider = () => {
 
     function handleClick(mType){
       let checkInput = "";
-      if(mType === "Electronic Music" && userMusicalityTypes.includes("Electronic Music")){
-        dispatch(setMusicalityTypes({type: "remove", data: "Electronic Music"}));
+      if(mType === "Classical" && userMusicalityTypes.includes("Classical")){
+        dispatch(setMusicalityTypes({type: "remove", data: "Classical"}));
         checkInput = document.getElementById("electronic");
-      }else if(mType === "POP Music" && userMusicalityTypes.includes("POP Music")){
-        dispatch(setMusicalityTypes({type: "remove", data: "POP Music"}));
+      }else if(mType === "Bollywood" && userMusicalityTypes.includes("Bollywood")){
+        dispatch(setMusicalityTypes({type: "remove", data: "Bollywood"}));
         checkInput = document.getElementById("pop");
-      }else if(mType === "Rock" && userMusicalityTypes.includes("Rock")){
-        dispatch(setMusicalityTypes({type: "remove", data: "Rock"}));
-        checkInput = document.getElementById("rock");
-      }else if(mType === "Concert" && userMusicalityTypes.includes("Concert")){
-        dispatch(setMusicalityTypes({type: "remove", data: "Concert"}));
-        checkInput = document.getElementById("concert");
+      }else if(mType === "Retro Theme" && userMusicalityTypes.includes("Retro Theme")){
+        dispatch(setMusicalityTypes({type: "remove", data: "Retro Theme"}));
+        checkInput = document.getElementById("Retro Theme");
+      }else if(mType === "Ghazals" && userMusicalityTypes.includes("Ghazals")){
+        dispatch(setMusicalityTypes({type: "remove", data: "Ghazals"}));
+        checkInput = document.getElementById("Ghazals");
       }
       checkInput.checked = false;
     }
 
     function handleChange(e){
       if(e.target.checked){
-        if(e.target.name === "electronic" && !userMusicalityTypes.includes("Electronic Music")){
-          dispatch(setMusicalityTypes({type: "add", data: "Electronic Music"}));
-        }else if(e.target.name === "pop" && !userMusicalityTypes.includes("POP Music")){
-          dispatch(setMusicalityTypes({type: "add", data: "POP Music"}));
-        }else if(e.target.name === "rock" && !userMusicalityTypes.includes("Rock")){
-          dispatch(setMusicalityTypes({type: "add", data: "Rock"}));
-        }else if(e.target.name === "concert" && !userMusicalityTypes.includes("Concert")){
-          dispatch(setMusicalityTypes({type: "add", data: "Concert"}));
+        if(e.target.name === "electronic" && !userMusicalityTypes.includes("Classical")){
+          dispatch(setMusicalityTypes({type: "add", data: "Classical"}));
+        }else if(e.target.name === "pop" && !userMusicalityTypes.includes("Bollywood")){
+          dispatch(setMusicalityTypes({type: "add", data: "Bollywood"}));
+        }else if(e.target.name === "Retro Theme" && !userMusicalityTypes.includes("Retro Theme")){
+          dispatch(setMusicalityTypes({type: "add", data: "Retro Theme"}));
+        }else if(e.target.name === "Ghazals" && !userMusicalityTypes.includes("Ghazals")){
+          dispatch(setMusicalityTypes({type: "add", data: "Ghazals"}));
         }
       }else{
-        if(e.target.name === "electronic" && userMusicalityTypes.includes("Electronic Music")){
-          dispatch(setMusicalityTypes({type: "remove", data: "Electronic Music"}));
-        }else if(e.target.name === "pop" && userMusicalityTypes.includes("POP Music")){
-          dispatch(setMusicalityTypes({type: "remove", data: "POP Music"}));
-        }else if(e.target.name === "rock" && userMusicalityTypes.includes("Rock")){
-          dispatch(setMusicalityTypes({type: "remove", data: "Rock"}));
-        }else if(e.target.name === "concert" && userMusicalityTypes.includes("Concert")){
-          dispatch(setMusicalityTypes({type: "remove", data: "Concert"}));
+        if(e.target.name === "electronic" && userMusicalityTypes.includes("Classical")){
+          dispatch(setMusicalityTypes({type: "remove", data: "Classical"}));
+        }else if(e.target.name === "pop" && userMusicalityTypes.includes("Bollywood")){
+          dispatch(setMusicalityTypes({type: "remove", data: "Bollywood"}));
+        }else if(e.target.name === "Retro Theme" && userMusicalityTypes.includes("Retro Theme")){
+          dispatch(setMusicalityTypes({type: "remove", data: "Retro Theme"}));
+        }else if(e.target.name === "Ghazals" && userMusicalityTypes.includes("Ghazals")){
+          dispatch(setMusicalityTypes({type: "remove", data: "Ghazals"}));
         }
       }
     }
@@ -96,14 +96,14 @@ const MusictypeSlider = () => {
     useEffect(()=>{
       userMusicalityTypes.map((musicalityType)=>{
         let checkInput = "";
-        if(musicalityType === "Electronic Music"){
+        if(musicalityType === "Classical"){
           checkInput = document.getElementById("electronic");
-        }else if(musicalityType === "POP Music"){
+        }else if(musicalityType === "Bollywood"){
           checkInput = document.getElementById("pop");
-        }else if(musicalityType === "Rock"){
-          checkInput = document.getElementById("rock");
-        }else if(musicalityType === "Concert"){
-          checkInput = document.getElementById("concert");
+        }else if(musicalityType === "Retro Theme"){
+          checkInput = document.getElementById("Retro Theme");
+        }else if(musicalityType === "Ghazals"){
+          checkInput = document.getElementById("Ghazals");
         }
         checkInput.checked = true;
       })
@@ -116,39 +116,39 @@ const MusictypeSlider = () => {
           </div>
           <Slider {...settings}>
             <div>
-                <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Electronic Music") && "active"}`} style={{cursor:'pointer'}}>
+                <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Classical") && "active"}`} style={{cursor:'pointer'}}>
                   <input type="checkbox" name="electronic" id="electronic"
                     onChange={(e)=>handleChange(e)}
                   />
                   <img src={Musicimg1} className="mx-auto w-100" alt="img" />
-                  <span className="l-b white-color music-type-text">Electronic Music</span>
+                  <span className="l-b white-color music-type-text">Classical</span>
                 </label>
             </div>
             <div>
-              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("POP Music") && "active"}`} style={{cursor:'pointer'}}>
+              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Bollywood") && "active"}`} style={{cursor:'pointer'}}>
                 <input type="checkbox" name="pop" id="pop"
                   onChange={(e)=>handleChange(e)}
                 />
                 <img src={Musicimg2} className="mx-auto w-100" alt="img"/>
-                <span className="l-b white-color music-type-text">POP Music</span>
+                <span className="l-b white-color music-type-text">Bollywood</span>
               </label>
             </div>
             <div>
-              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Rock") && "active"}`} style={{cursor:'pointer'}}>
-                <input type="checkbox" name="rock" id="rock"
+              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Retro Theme") && "active"}`} style={{cursor:'pointer'}}>
+                <input type="checkbox" name="Retro Theme" id="Retro Theme"
                   onChange={(e)=>handleChange(e)}
                 />
                 <img src={Musicimg3} className="mx-auto w-100" alt="img" />
-                <span className="l-b white-color music-type-text">Rock</span>
+                <span className="l-b white-color music-type-text">Retro Theme</span>
               </label>
             </div>
             <div>
-              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Concert") && "active"}`} style={{cursor:'pointer'}}>
-                <input type="checkbox" name="concert" id="concert"
+              <label className={`music-type-slide-sec btn-light ${userMusicalityTypes.includes("Ghazals") && "active"}`} style={{cursor:'pointer'}}>
+                <input type="checkbox" name="Ghazals" id="Ghazals"
                   onChange={(e)=>handleChange(e)}
                 />
                 <img src={Musicimg4} className="mx-auto w-100" alt="img" />
-                <span className="l-b white-color music-type-text">Concert</span>
+                <span className="l-b white-color music-type-text">Ghazals</span>
               </label>
             </div>
           </Slider>
