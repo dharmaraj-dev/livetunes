@@ -82,7 +82,7 @@
 .artists-card-sec{padding: 26px 0 0;}
 .artists-found-card{margin: 40px 0 0;}
 .inner-artist-card{display: flex;}
-.inner-artist-card{background: #fff;box-shadow: 0px 3px 6px #00000029;border-radius: 106px 24px 24px 24px !important;padding: 24px;margin: 0 0 30px;}
+.inner-artist-card{background: #fff;box-shadow: 0px 3px 6px #00000029;border-radius: 106px 24px 24px 24px !important;padding: 24px;margin: 0 0 30px;height: 100%}
 .inner-artist-card .avtar-sec{display: grid;text-align: center;}
 .inner-artist-card .avtar-sec .avtar-img{display: inline-block;width: 180px;margin: 0 0 20px 0;border-radius: 91px;}
 .inner-artist-card .avtar-sec .avtar-img img {
@@ -101,7 +101,12 @@
 .artist-list-like{position: absolute;right: 24px;top: 24px;}
 .heart-like-sec{width: 26px;}
 .sc-bcXHqe {stroke: #fd3743 !important;}
-.inner-adsec{background: #fff;box-shadow: 0px 3px 6px #00000029;border-radius: 24px;padding: 50px 30px; margin: 15px 0 0;content: " ";background-image: url("../assets/images/heart-bg.png");background-repeat: no-repeat; background-position: bottom right 27px;background-size: auto;}
+.inner-adsec{background: #fff;box-shadow: 0px 3px 6px #00000029;border-radius: 24px;padding: 20px 20px; margin-top: 15px;content: " ";background-image: url("../assets/images/heart-bg.png");background-repeat: no-repeat; background-position: bottom right 27px;background-size: auto;}
+.inner-adsec img {
+    border-radius: 24px;
+    min-height: 280px;
+    max-height: 280px;
+}
 .adbutton button{font-size: 26px;padding: 10px 20px;box-shadow: 0px 8px 12px #0000004D;}
 .adhead{font-size: 40px;line-height: 50px;}
 .inner-adhead-sec{padding: 0 340px 0 30px;}

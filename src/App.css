@@ -1048,7 +1048,7 @@ numberInput.input[type=number] {
 }
 
 .advertise_slider .slick-slide.slick-active.slick-current {
-  padding: 10px;
+  padding: 1px;
 }
 
 .slots-list {
@@ -1522,4 +1522,23 @@ numberInput.input[type=number] {
   min-height: 164px;
   height: 200px;
   max-height: 200px;
+}
+
+.add_edit_sp_events .react-datepicker-wrapper {
+  width: 100%;
+}
+
+.select_img_empty {
+    background: gray;
+    width: 100%;
+    height: 130px;
+    cursor: pointer;
+    color: white;
+    line-height: 130px;
+    text-align: center;
+}
+
+.special_event_banner {
+    height: 150px;
+    object-fit: contain;
 }

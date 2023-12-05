@@ -39,11 +39,11 @@ const slice = createSlice({
         state.specialEvents = [];
         state.addBanner = [];
       } else if(action.payload.output_data.length > 0) {
-        state.specialEvents = action.payload.output_data.length > 0 ? 
+        state.addBanner = action.payload.output_data.length > 0 ? 
         action.payload.output_data.filter((dt) => {return !dt.IsHeadBanner && !dt.IsSBanner}):action.payload.default_data.filter((dt)=>{return !dt.IsHeadBanner && !dt.IsSBanner});
         state.headerBanner = action.payload.output_data.length > 0 ? 
           action.payload.output_data.filter((dt) => {return dt.IsHeadBanner}) : action.payload.default_data.filter((dt)=> {return dt.IsHeadBanner});
-        state.addBanner = action.payload.output_data.length>0 ? action.payload.output_data.filter((dt) => {return dt.IsSBanner}) : action.payload.default_data.filter((dt)=> {return dt.IsSBanner});
+        state.specialEvents = action.payload.output_data.length>0 ? action.payload.output_data.filter((dt) => {return dt.IsSBanner}) : action.payload.default_data.filter((dt)=> {return dt.IsSBanner});
       }
 			 state.homeLoading = false;
 		} else {

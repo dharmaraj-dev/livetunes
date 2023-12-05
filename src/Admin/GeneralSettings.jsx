@@ -24,6 +24,7 @@ import { useLocation  } from 'react-router-dom';
 import moment from 'moment';
 import DatePicker from "react-datepicker";
 import Multiselect from 'multiselect-react-dropdown';
+import DefaultImg from "../assets/images/gray_bg.jpeg";
 
 const GeneralSettings = () => {
     const params = useParams();
@@ -37,17 +38,20 @@ const GeneralSettings = () => {
     const [showModel, setShowModel] = useState(false);
     const [newName, setNewName] = useState("");
     const [showModelFor, setShowModelFor] = useState("");
+    const [showModelForType, setShowModelForType] = useState("add");
     const [selectedTab, setSelectedTab] = useState("allEvents");
 
     const [specialEventImage, setSpecialEventImage] = useState([]);
+    const [specialEventId, setSpecialEventId] = useState([]);
+    const [specialEventImagePrev, setSpecialEventImagePrev] = useState("");
     const [specialEventType, setSpecialEventType] = useState("headerBanner");
     const [specialEventHeadText, setSpecialEventHeadText] = useState("");
     const [specialEventSubText, setSpecialEventSubText] = useState("");
     const [specialEventSubText2, setSpecialEventSubText2] = useState("");
     const [specialEventGenres, setSpecialEventGenres] = useState("");
     const [specialEventEvents, setSpecialEventEvents] = useState("");
-    const [specialEventStartDate, setSpecialEventStartDate] = useState("");
-    const [specialEventEndDate, setSpecialEventEndDate] = useState("");
+    const [specialEventStartDate, setSpecialEventStartDate] = useState(moment());
+    const [specialEventEndDate, setSpecialEventEndDate] = useState(moment());
 
     function capitalizeFirstLetter(stringName) {
         return stringName.charAt(0).toUpperCase() + stringName.slice(1);
@@ -74,15 +78,59 @@ const GeneralSettings = () => {
 
     const addAction = (from) => {
         setShowModelFor(from);
+        setShowModelForType('add');
+        setShowModel(true);
+    }
+
+    const editAction = (from, data) => {
+        setShowModelFor(from);
+        setShowModelForType('edit');
+        let eveType = "";
+        if(data.IsHeadBanner) {
+            eveType = "headerBanner";
+        } else if(data.IsSBanner) {
+            eveType = "addBanner";
+        } else {
+            eveType = "specialBanner";
+        }
+
+        let preSelGenres = [];
+        preSelGenres = allGenres.filter(item => data.GenreId.split(',').some(d => d == item.GenreId));
+        let preSelEvents = [];
+        preSelEvents = allGenres.filter(item => data.EventsId.split(',').some(d => d == item.EventsId))
+
+
+        setSpecialEventId(data.SpecialEventsId);
+        setSpecialEventImagePrev(data.SEImgURL);
+        setSpecialEventType(eveType)
+        setSpecialEventHeadText(data.HeadText);
+        setSpecialEventSubText(data.SubText);
+        setSpecialEventSubText2(data.SubText1);
+        setSpecialEventGenres(preSelGenres);
+        setSpecialEventEvents(preSelEvents);
+        setSpecialEventStartDate(moment(data.StartDate).format("YYYY-MM-DD"));
+        setSpecialEventEndDate(moment(data.EndDate).format("YYYY-MM-DD"));
         setShowModel(true);
     }
 
     const handleClose = () => {
+        setSpecialEventImagePrev("");
+        setSpecialEventId("");
+        setSpecialEventType("headerBanner");
+        setSpecialEventHeadText("");
+        setSpecialEventSubText("");
+        setSpecialEventSubText2("");
+
+        setSpecialEventGenres([]);
+        setSpecialEventEvents([]);
+        setSpecialEventStartDate(moment());
+        setSpecialEventEndDate(moment());
         setShowModel(false);
     }
 
     const addNewEntry = (e) => {
         e.preventDefault();
+        console.log(showModelFor)
         if(showModelFor === "specialEvent") {
             let paramsData = {
                 IsHeadBanner: specialEventType === "headerBanner" ? true : false,
@@ -97,12 +145,41 @@ const GeneralSettings = () => {
                 StartDate: moment(specialEventStartDate).format("YYYY-MM-DD hh:mm:ss"),
                 EndDate: moment(specialEventEndDate).format("YYYY-MM-DD hh:mm:ss"),
             };
+
+            // if(showModelForType === "edit") {
+            //     paramsData.SpecialEventsId = specialEventId;
+            // }
+
+            console.log(paramsData)
+
             dispatch(addSpecialEvent(specialEventImage, paramsData)).then((res) => {
                 console.log(res);
                 if(res.data.IsSuccess) {
+                    setSpecialEventImagePrev("");
+                    setSpecialEventId("");
+                    setSpecialEventType("headerBanner");
+                    setSpecialEventHeadText("");
+                    setSpecialEventSubText("");
+                    setSpecialEventSubText2("");
+
+                    setSpecialEventGenres([]);
+                    setSpecialEventEvents([]);
+                    setSpecialEventStartDate(moment());
+                    setSpecialEventEndDate(moment());
                     setShowModel(false);
                 }
             }).catch((err) => {
+                setSpecialEventImagePrev("");
+                setSpecialEventId("");
+                setSpecialEventType("headerBanner");
+                setSpecialEventHeadText("");
+                setSpecialEventSubText("");
+                setSpecialEventSubText2("");
+
+                setSpecialEventGenres([]);
+                setSpecialEventEvents([]);
+                setSpecialEventStartDate(moment());
+                setSpecialEventEndDate(moment());
                 setShowModel(false);
             })
         } 
@@ -128,7 +205,8 @@ const GeneralSettings = () => {
     }
 
     const specialEventImageChange = (e) => {
-        setSpecialEventImage(e.target.files[0])
+        setSpecialEventImage(e.target.files[0]);
+        setSpecialEventImagePrev(URL.createObjectURL(e.target.files[0]));
     }
 
 
@@ -221,11 +299,7 @@ const GeneralSettings = () => {
                                                 return (
                                                     <tr key={`state_${indx}`}>
                                                         <td>
-                                                            {st.SEImgURL !== "" ? (
-                                                                <img width="100px" src={st.SEImgURL == "" ? DefaultProfile : st.SEImgURL} alt="city image"/>
-                                                            ) : (
-                                                                <input style={{width:"150px"}} type="file"/>
-                                                            )}
+                                                            <img width="100px" src={st.SEImgURL == "" ? DefaultImg : st.SEImgURL} alt="city image"/>
                                                         </td>
 
                                                         <td>
@@ -247,6 +321,7 @@ const GeneralSettings = () => {
                                                         <td>{moment(st.StartDate).format('DD-MM-yyyy')}</td>
                                                         <td>{moment(st.EndDate).format('DD-MM-yyyy')}</td>
                                                         <td>
+                                                            <FaRegEdit className="cursor-pointer mr-2" onClick={() => {editAction('specialEvent', st)}}/>
                                                             <FiTrash className="cursor-pointer" onClick={() => {deleteItem(st.SpecialEventsId, "specialEvent")}}/>
                                                         </td>
                                                     </tr>
@@ -280,14 +355,27 @@ const GeneralSettings = () => {
                             </div>
                            
                             <section>
-                                <Form method="post" onSubmit={(e) => {addNewEntry(e)}}>
+                                <Form className="add_edit_sp_events" method="post" onSubmit={(e) => {addNewEntry(e)}}>
                                 <Row>
                                     {showModelFor === "specialEvent" && (
                                         <>
-                                       <Col lg="6" className="mt-3">
-                                            <Form.Label className="artist_status">Image</Form.Label>
+                                       <Col lg="12" className="mt-3">
+                                            <Form.Label className="artist_status">BG Image</Form.Label>
                                             <br />
-                                            <Form.Control placeholder="Event Image" type="file" onChange={(e) => {specialEventImageChange(e)}} required />
+                                            {specialEventImagePrev === "" ? (
+                                            <>
+                                            <div className="select_img_empty" onClick={() => {document.getElementById("sp_event_img_picker").click()}}>
+                                                <p>Click/Select to upload</p>
+                                            </div>
+                                            <Form.Control type="file" className="d-none" id="sp_event_img_picker"  onChange={(e) => {specialEventImageChange(e)}} required />
+                                            </>
+                                            ):(
+                                            <>
+                                                <img width="100%" src={specialEventImagePrev == "" ? DefaultImg : specialEventImagePrev} alt="city image" className="cursor-pointer special_event_banner" onClick={() => {document.getElementById("sp_event_img_picker").click()}}/>
+                                                <Form.Control type="file" className="d-none" id="sp_event_img_picker"  onChange={(e) => {specialEventImageChange(e)}} accept="image/png, image/gif, image/jpeg"/>
+                                            </>
+                                            )}
+                                            
                                         </Col>
                                         <Col lg="6" className="mt-3">
                                             <Form.Label className="artist_status">Event Type</Form.Label>
@@ -296,7 +384,7 @@ const GeneralSettings = () => {
                                                 name="eventType"
                                                 className="form-control"
                                                 required
-                                                defaultValue="headerBanner"
+                                                defaultValue={specialEventType}
                                                 required
                                                 onChange={(e) => {setSpecialEventType(e.target.value)}}
                                             >
@@ -320,7 +408,6 @@ const GeneralSettings = () => {
                                             <br />
                                             <Form.Control placeholder="Sub Text 2" type="text" value={specialEventSubText2} onChange={(e) =>{setSpecialEventSubText2(e.target.value)}}  />
                                         </Col>
-                                        <Col lg="6" className="mt-3"></Col>
                                         <Col lg="6" className="mt-3">
                                             <Form.Label className="artist_status">Genres Filter</Form.Label>
                                             <br />
@@ -356,11 +443,11 @@ const GeneralSettings = () => {
                                         <Col lg="6" className="mt-3">
                                             <Form.Label className="artist_status">Start Date</Form.Label>
                                             <br />
-                                            <DatePicker className="form-control"  dateFormat="dd-MM-yyyy" onChange={(date) => setSpecialEventStartDate(date)} selected={specialEventStartDate} required/>
+                                            <DatePicker  className="form-control"  dateFormat="dd-MM-yyyy" onChange={(date) => setSpecialEventStartDate(date)} selected={moment(specialEventStartDate).toDate()} required/>
                                         </Col>
                                         <Col lg="6" className="mt-3">
                                             <Form.Label className="artist_status">End Date</Form.Label> <br />
-                                            <DatePicker placeholder="DD-MM-YY" className="form-control" dateFormat="dd-MM-yyyy" onChange={(date) => setSpecialEventEndDate(date)} selected={specialEventEndDate} required/>
+                                            <DatePicker placeholder="DD-MM-YY" className="form-control" dateFormat="dd-MM-yyyy" onChange={(date) => setSpecialEventEndDate(date)} selected={moment(specialEventEndDate).toDate()} required/>
                                         </Col>
                                         </>
                                     )}

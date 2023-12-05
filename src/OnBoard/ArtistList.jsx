@@ -29,9 +29,11 @@ const ArtistList = (props) => {
     window.scrollTo(0, 0)
   }, [])
 
+  const selectedGenre = new URLSearchParams(location.search).get('genre');
+  const selectedEvent = new URLSearchParams(location.search).get('event');
+
   useEffect(() => {
-      const selectedGenre = new URLSearchParams(location.search).get('genre');
-      const selectedEvent = new URLSearchParams(location.search).get('event');
+      window.scrollTo(0, 0)
       let preSelectedGenres = null;
       let preSelectedEvents = null;
       if(selectedGenre !== null){
@@ -53,7 +55,7 @@ const ArtistList = (props) => {
       }
       dispatch(getArtists(filteringCriteria));
      dispatch(fetchHomeData());
-  }, [dispatch]);
+  }, [dispatch, selectedGenre, selectedEvent]);
   
 
   return (

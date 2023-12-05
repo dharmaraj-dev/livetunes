@@ -33,7 +33,7 @@ const ArtistCard = (props) => {
             })
         ) : (
             filteredArtists.map((artist, index) =>
-                <Col xs={12} lg={12} xl={6} key={`artist_${index}`}>
+                <Col className="mb-4" xs={12} lg={12} xl={6} key={`artist_${index}`}>
                     <div className="inner-artist-card postion-r">
                         <div className="avtar-sec">
                             <div className="avtar-img">

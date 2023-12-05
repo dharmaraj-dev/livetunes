@@ -626,8 +626,9 @@ export const addSpecialEvent = (data,paramsData) => async dispatch => {
     myHeaders.append("Cookie", "ARRAffinity=a6e48b9e9d2653435be7b61998d8624b44115214104213d6c8b8c526cc56dc70; ARRAffinitySameSite=a6e48b9e9d2653435be7b61998d8624b44115214104213d6c8b8c526cc56dc70");
 
     var formdata = new FormData();
-    formdata.append("file", data, data.name);
-
+    if(data.length > 0) {
+      formdata.append("file", data, data.name);
+    }
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
@@ -647,6 +648,7 @@ export const addSpecialEvent = (data,paramsData) => async dispatch => {
             return result;
           });
   } catch (e) {
+    console.log(e);
     dispatch(stopItemLoading());
     successToast("Special event not added.")
   }
