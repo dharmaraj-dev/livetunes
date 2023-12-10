@@ -139,6 +139,8 @@ const slice = createSlice({
           state.allAddresProofs = [...state.allAddresProofs, action.payload.item]
         } else if(action.payload.from == "idProofs") {
           state.allIdProofs = [...state.allIdProofs, action.payload.item]
+        } else if(action.payload.from === "specialEvents") {
+          state.allSpecialEvent = [...state.allSpecialEvent, action.payload.item[0]]
         }
       } else if(action.payload.type == "update") {
         if(action.payload.from == "city") {
@@ -155,6 +157,24 @@ const slice = createSlice({
             if(item.ArtistId === action.payload.item.RegId){
               item.JudgeId=action.payload.item.JudgeId;
               item.ProfileStatus=action.payload.status;
+            }
+            return item
+          });
+          state.allArtists = el;
+        } else if(action.payload.from === "specialEvents") {
+          let el = state.allSpecialEvent.map((item) => {
+            if(item.SpecialEventsId === action.payload.item[0].SpecialEventsId){
+              item = action.payload.item[0];
+            }
+            return item
+          });
+          state.allSpecialEvent = el;
+        } else if(action.payload.from === "trendingArtists") {
+          let el = state.allArtists.map((item) => {
+            if(action.payload.item.includes(item.ArtistId)){
+              item.IsTrending = true;
+            } else {
+              item.IsTrending = false;
             }
             return item
           });
@@ -492,7 +512,8 @@ export const addMasterCommon = (url, itemName, from) => async dispatch => {
 };
 
 export const deleteMasterCommon = (url, itemName, from, data) => async dispatch => {
-  dispatch(startItemLoading())
+  dispatch(startItemLoading());
+  dispatch(updateData({"type": "delete", from,  "item": itemName}));
   try {
    return await axios
       .post(API_URL + url, data, {headers:authHeader()})
@@ -500,7 +521,7 @@ export const deleteMasterCommon = (url, itemName, from, data) => async dispatch 
         dispatch(stopItemLoading())
         if(response.data.IsSuccess) {
           successToast(`${from} deleted`);
-          dispatch(updateData({"type": "delete", from,  "item": itemName}));
+          //dispatch(updateData({"type": "delete", from,  "item": itemName}));
         }
         return response;
       });
@@ -581,24 +602,35 @@ export const sendArtistToJudge = (data) => async dispatch => {
 };
 
 export const setImageForMaster = (type, fileData, id) => async dispatch => {
+  var myHeaders = new Headers();
+    myHeaders.append("Authorization", authToken());
+
+    var formdata = new FormData();
+    formdata.append("file", fileData, fileData.name);
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formdata, 
+      redirect: 'follow'
+    };
   dispatch(startImgLoading(true))
   try {
-    
-   return await axios
-      .post(API_URL + `LTMMedia/uploadm-image?MiscId=${id}&IsCity=true&IsGenre=false&IsEvents=false`,{data:fileData}, {headers:{"Authorization" : authToken(), ...fileData.getHeaders()}})
-      .then(response => {
-        console.log(response);
-        dispatch(startImgLoading(false))
-        if(response.data.IsSuccess) {
-          //dispatch(updateData({"type": "update", "from": "artist",  "item": data, "status": response.data.Message}));
-          successToast(response.data.Message);
-        }
-        return response;
-      });
+   
+      return await fetch(API_URL+ `LTMMedia/uploadm-image?MiscId=${id}&IsCity=true&IsGenre=false&IsEvents=false`, requestOptions)
+          .then(response => response.json())
+          .then(result => {
+            dispatch(startImgLoading(false))
+            if(result.IsSuccess) {
+              successToast("Image attachment updated.");
+              //dispatch(updateData({"type": "update", "from": "artist",  "item": data, "status": response.data.Message}));
+            }
+            return result;
+          });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     dispatch(startImgLoading(false))
-    //errorToast("Artist profile not sent to judge");
+    successToast("Image attachment not added.")
   }
 };
 
@@ -623,28 +655,40 @@ export const getAllSpecialEvents = () => async dispatch => {
 export const addSpecialEvent = (data,paramsData) => async dispatch => {
   var myHeaders = new Headers();
     myHeaders.append("Authorization", authToken());
-    myHeaders.append("Cookie", "ARRAffinity=a6e48b9e9d2653435be7b61998d8624b44115214104213d6c8b8c526cc56dc70; ARRAffinitySameSite=a6e48b9e9d2653435be7b61998d8624b44115214104213d6c8b8c526cc56dc70");
 
     var formdata = new FormData();
-    if(data.length > 0) {
+    if(data.name) {
       formdata.append("file", data, data.name);
     }
+
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
-      body: formdata,
+      body: data.name ? formdata : '', 
       redirect: 'follow'
     };
   dispatch(startItemLoading());
   try {
-      return await fetch(API_URL+ `SpecialEvents/Save?Special_Events={"IsHeadBanner":${paramsData.IsHeadBanner ? true : false},"IsSBanner":${paramsData.IsSBanner ? true : false},"HeadText":"${paramsData.HeadText}","SubText":"${paramsData.SubText}","SubText1":"${paramsData.SubText1}","SubText2":"","SubText3":"","GenreId": "${paramsData.GenreId}","GenreName":"${paramsData.GenreName}","EventsId":"${paramsData.EventsId}","EventsName":"${paramsData.EventsName}","StartDate": "${paramsData.StartDate}","EndDate":"${paramsData.EndDate}"}`, requestOptions)
+    let paramsToSend = '';
+    if(paramsData.SpecialEventsId) {
+      paramsToSend = `SpecialEvents/Save?Special_Events={"IsHeadBanner":${paramsData.IsHeadBanner ? true : false},"IsSBanner":${paramsData.IsSBanner ? true : false},"HeadText":"${paramsData.HeadText}","SubText":"${paramsData.SubText}","SubText1":"${paramsData.SubText1}","SubText2":"","SubText3":"","GenreId": "${paramsData.GenreId}","GenreName":"${paramsData.GenreName}","EventsId":"${paramsData.EventsId}","EventsName":"${paramsData.EventsName}","StartDate": "${paramsData.StartDate}","EndDate":"${paramsData.EndDate}", "SEImgURL": "${paramsData.SEImgURL ? paramsData.SEImgURL : null}", "SpecialEventsId": "${paramsData.SpecialEventsId ? paramsData.SpecialEventsId : null}"}`;
+    } else {
+      paramsToSend = `SpecialEvents/Save?Special_Events={"IsHeadBanner":${paramsData.IsHeadBanner ? true : false},"IsSBanner":${paramsData.IsSBanner ? true : false},"HeadText":"${paramsData.HeadText}","SubText":"${paramsData.SubText}","SubText1":"${paramsData.SubText1}","SubText2":"","SubText3":"","GenreId": "${paramsData.GenreId}","GenreName":"${paramsData.GenreName}","EventsId":"${paramsData.EventsId}","EventsName":"${paramsData.EventsName}","StartDate": "${paramsData.StartDate}","EndDate":"${paramsData.EndDate}"}`;
+    }
+      return await fetch(API_URL+ paramsToSend, requestOptions)
           .then(response => response.json())
           .then(result => {
             dispatch(stopItemLoading())
             if(result.IsSuccess) {
-              successToast("Special event added.")
+              if(paramsData.SpecialEventsId) {
+                successToast("Special event updated.");
+                dispatch(updateData({"type": "update", "from": "specialEvents",  "item": result.selSEvents}));
+              } else {
+                successToast("Special event added.");
+                dispatch(updateData({"type": "add", "from": "specialEvents",  "item": result.selSEvents}));
+              }
+              
             }
-            //dispatch(updateData({"type": "add", "from": "state",  "item": itemName}));
             return result;
           });
   } catch (e) {
@@ -654,3 +698,17 @@ export const addSpecialEvent = (data,paramsData) => async dispatch => {
   }
 };
 
+export const saveTrendingArtists = (data) => async dispatch => {
+  dispatch(updateData({"type": "update", "from": "trendingArtists", "item": data}));
+  dispatch(startStopLoading({"type": "trendingArtists", "data": true}));
+  try {
+   return await axios
+      .post(API_URL + `AdminProfile/SaveTrendArtist`, data, {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopLoading({"type": "trendingArtists", "data": false}));
+        return response;
+      });
+  } catch (e) {
+   dispatch(startStopLoading({"type": "trendingArtists", "data": false}));
+  }
+};

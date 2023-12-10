@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import './App.css';
 import {Routes, Route} from 'react-router-dom';
@@ -59,6 +59,7 @@ import { fetchUserProfile } from "./redux/userProfileSlice";
 import { getFeedLogs } from "./redux/userSlice";
 import './responsive.css';
 import "react-datepicker/dist/react-datepicker.css";
+import OneSignal from 'react-onesignal';
 
 function App() {
   const dispatch = useDispatch();
@@ -67,6 +68,15 @@ function App() {
 
   const { isSettingsSaved } = useSelector(state => state.userSettings);
   const { isLoggedIn, joiningType } = useSelector(state => state.userAuth);
+
+  const [initialized, setInitialized] = useState(false);
+  OneSignal.init({ appId: 'fb157210-c65b-4dc0-b174-74492aa10e4c' }).then((res) => {
+    setInitialized(true);
+    OneSignal.Slidedown.promptPush();
+    console.log('res', res)
+    // do other stuff
+  })
+
 
   useEffect(() => {
     dispatch(getAllMasters());

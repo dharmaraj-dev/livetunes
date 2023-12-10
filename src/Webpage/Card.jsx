@@ -40,10 +40,13 @@ import { BsFillStarFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { setJoiningType, setWelcomeSeen } from '../redux/userAuth';
 import { Navigate, useNavigate  } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton'
+import { getTrendingArtists } from '../redux/commonSlice';
 
 export function SlideView({ title, itemId, children }) {
   const dispatch = useDispatch();
   let navigate = useNavigate();
+  const { trendingArtistsLoading, trendingArtists } = useSelector((state) => state.commonStates);
 
   const {
     isFirstItemVisible,
@@ -98,8 +101,9 @@ export function SlideView({ title, itemId, children }) {
           clearInterval(activeStepInterval);
          }
       },3000);
-     
     }
+
+    dispatch(getTrendingArtists());
   }, [])
 
   return (
@@ -1885,98 +1889,142 @@ export function SlideView({ title, itemId, children }) {
               </Row>
               <div className="main-featured-box">
                 <Row className="gx-1 row-featured-box">
-                  <Col lg={3} xl={3} md={4} xs={6}>
-                    <div className="inner-featured-box postion-r">
-                      <div className="featured-cat">
-                        <span className="star-text l-r">Weddings</span>
-                        <span className="star-text l-r">Gigs</span>
-                      </div>
-                      <img src={Featuredimg1} alt="" className="" />
-                      <div className="name-sec">
-                        <p className="m-name l-sb">Rahul Joshi</p>
-                        <p className="m-city l-r">Mumbai</p>
-                      </div>
-                      <div className="star-sec-home">
-                        <div className="inner-star-sec text-center">
-                          <div>
-                            <p className="m-0">
-                              <BsFillStarFill className="star-class" />
-                            </p>
-                            <p className="star-text l-b">4.5/5</p>
+                  {trendingArtistsLoading ? (
+                      [...Array(4)].map((e, i) => {
+                        return (
+                          <Col key={`trend_${i}`} lg={3} xl={3} md={4} xs={6}>
+                              <div className="inner-featured-box postion-r">
+                                <Skeleton count={1} width={"100%"} height={"350px"}/> 
+                              </div>
+                          </Col>
+                        )
+                      })
+                  ):(
+                    trendingArtists.length > 0 ? (
+                      trendingArtists.map((trendArt, index) => {
+                        return (
+                            <Col key={`trending_artist_${index}`} lg={3} xl={3} md={4} xs={6}>
+                              <div className="inner-featured-box postion-r">
+                                <div className="featured-cat">
+                                  <span className="star-text l-r">Weddings</span>
+                                  <span className="star-text l-r">Gigs</span>
+                                </div>
+                                <img src={trendArt.ArtistProfileImg} alt="" className="" />
+                                <div className="name-sec">
+                                  <p className="m-name l-sb">{trendArt.ArtistName}</p>
+                                  <p className="m-city l-r">{trendArt.ArtistCity}</p>
+                                </div>
+                                <div className="star-sec-home">
+                                  <div className="inner-star-sec text-center">
+                                    <div>
+                                      <p className="m-0">
+                                        <BsFillStarFill className="star-class" />
+                                      </p>
+                                      {/*<p className="star-text l-b">4.5/5</p>*/}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </Col>
+                          )
+                      })
+                    ):(
+                      <>
+                        <Col lg={3} xl={3} md={4} xs={6}>
+                          <div className="inner-featured-box postion-r">
+                            <div className="featured-cat">
+                              <span className="star-text l-r">Weddings</span>
+                              <span className="star-text l-r">Gigs</span>
+                            </div>
+                            <img src={Featuredimg1} alt="" className="" />
+                            <div className="name-sec">
+                              <p className="m-name l-sb">Rahul Joshi</p>
+                              <p className="m-city l-r">Mumbai</p>
+                            </div>
+                            <div className="star-sec-home">
+                              <div className="inner-star-sec text-center">
+                                <div>
+                                  <p className="m-0">
+                                    <BsFillStarFill className="star-class" />
+                                  </p>
+                                  <p className="star-text l-b">4.5/5</p>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col lg={3} xl={3} md={4} xs={6}>
-                    <div className="inner-featured-box postion-r">
-                      <div className="featured-cat">
-                        <span className="star-text l-r">Weddings</span>
-                        <span className="star-text l-r">Gigs</span>
-                      </div>
-                      <img src={Featuredimg2} alt="" className="" />
-                      <div className="name-sec">
-                        <p className="m-name l-sb">Ria Roy</p>
-                        <p className="m-city l-r">Delhi</p>
-                      </div>
-                      <div className="star-sec-home">
-                        <div className="inner-star-sec text-center">
-                          <div>
-                            <p className="m-0">
-                              <BsFillStarFill className="star-class" />
-                            </p>
-                            <p className="star-text l-b">4.5/5</p>
+                        </Col>
+                        <Col lg={3} xl={3} md={4} xs={6}>
+                          <div className="inner-featured-box postion-r">
+                            <div className="featured-cat">
+                              <span className="star-text l-r">Weddings</span>
+                              <span className="star-text l-r">Gigs</span>
+                            </div>
+                            <img src={Featuredimg2} alt="" className="" />
+                            <div className="name-sec">
+                              <p className="m-name l-sb">Ria Roy</p>
+                              <p className="m-city l-r">Delhi</p>
+                            </div>
+                            <div className="star-sec-home">
+                              <div className="inner-star-sec text-center">
+                                <div>
+                                  <p className="m-0">
+                                    <BsFillStarFill className="star-class" />
+                                  </p>
+                                  <p className="star-text l-b">4.5/5</p>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col lg={3} xl={3} md={4} xs={6}>
-                    <div className="inner-featured-box postion-r">
-                      <div className="featured-cat">
-                        <span className="star-text l-r">Weddings</span>
-                        <span className="star-text l-r">Gigs</span>
-                      </div>
-                      <img src={Featuredimg3} alt="" className="" />
-                      <div className="name-sec">
-                        <p className="m-name l-sb">Rohan Rathod</p>
-                        <p className="m-city l-r">Delhi</p>
-                      </div>
-                      <div className="star-sec-home">
-                        <div className="inner-star-sec text-center">
-                          <div>
-                            <p className="m-0">
-                              <BsFillStarFill className="star-class" />
-                            </p>
-                            <p className="star-text l-b">4.5/5</p>
+                        </Col>
+                        <Col lg={3} xl={3} md={4} xs={6}>
+                          <div className="inner-featured-box postion-r">
+                            <div className="featured-cat">
+                              <span className="star-text l-r">Weddings</span>
+                              <span className="star-text l-r">Gigs</span>
+                            </div>
+                            <img src={Featuredimg3} alt="" className="" />
+                            <div className="name-sec">
+                              <p className="m-name l-sb">Rohan Rathod</p>
+                              <p className="m-city l-r">Delhi</p>
+                            </div>
+                            <div className="star-sec-home">
+                              <div className="inner-star-sec text-center">
+                                <div>
+                                  <p className="m-0">
+                                    <BsFillStarFill className="star-class" />
+                                  </p>
+                                  <p className="star-text l-b">4.5/5</p>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col lg={3} xl={3} md={4} xs={6}>
-                    <div className="inner-featured-box postion-r">
-                      <div className="featured-cat">
-                        <span className="star-text l-r">Weddings</span>
-                        <span className="star-text l-r">Gigs</span>
-                      </div>
-                      <img src={Featuredimg4} alt="" className="" />
-                      <div className="name-sec">
-                        <p className="m-name l-sb">Joy Baro</p>
-                        <p className="m-city l-r">Guwahati</p>
-                      </div>
-                      <div className="star-sec-home">
-                        <div className="inner-star-sec text-center">
-                          <div>
-                            <p className="m-0">
-                              <BsFillStarFill className="star-class" />
-                            </p>
-                            <p className="star-text l-b">4.5/5</p>
+                        </Col>
+                        <Col lg={3} xl={3} md={4} xs={6}>
+                          <div className="inner-featured-box postion-r">
+                            <div className="featured-cat">
+                              <span className="star-text l-r">Weddings</span>
+                              <span className="star-text l-r">Gigs</span>
+                            </div>
+                            <img src={Featuredimg4} alt="" className="" />
+                            <div className="name-sec">
+                              <p className="m-name l-sb">Joy Baro</p>
+                              <p className="m-city l-r">Guwahati</p>
+                            </div>
+                            <div className="star-sec-home">
+                              <div className="inner-star-sec text-center">
+                                <div>
+                                  <p className="m-0">
+                                    <BsFillStarFill className="star-class" />
+                                  </p>
+                                  <p className="star-text l-b">4.5/5</p>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
+                        </Col>
+                        </>
+                    )
+                  )}
                 </Row>
               </div>
 

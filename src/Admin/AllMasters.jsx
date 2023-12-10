@@ -29,15 +29,9 @@ const AllMasters = () => {
     
     const dispatch = useDispatch();
     const MySwal = withReactContent(Swal);
-    const pageName = loc.pathname.includes("all-accounts") ? 'accounts' : 'masters' ;//params.id.split('-')[1];
+    const pageName = "masters" ;//params.id.split('-')[1];
     console.log(pageName);
-    const { allStatesLoading, allCitiesLoading, allStates, allCities, addItemLoading, allEventsLoading, allEvents, allEventModesLoading, allEventModes, allEventTypesLoading, allEventTypes, allCategoriesLoading, allCategories, allGenreLoading, allGenres, allLanguagesLoading, allLanguages, allBanksLoading, allBanks, allBranchesLoading, allBranches, allAddresProofsLoading, allAddresProofs, allIdProofsLoading, allIdProofs,
-    allArtists,
-    allJudges,
-    allUsers,
-    allArtistsLoading,
-    allJudgesLoading,
-    allUsersLoading
+    const { allStatesLoading, allCitiesLoading, allStates, allCities, addItemLoading, allEventsLoading, allEvents, allEventModesLoading, allEventModes, allEventTypesLoading, allEventTypes, allCategoriesLoading, allCategories, allGenreLoading, allGenres, allLanguagesLoading, allLanguages, allBanksLoading, allBanks, allBranchesLoading, allBranches, allAddresProofsLoading, allAddresProofs, allIdProofsLoading, allIdProofs,addImgLoading
  } = useSelector((state) => state.admin);
     const { states } = useSelector((state) => state.common);
 
@@ -45,7 +39,7 @@ const AllMasters = () => {
     const [newName, setNewName] = useState("");
     const [newDependedSelectName, setNewDependedSelectName] = useState("");
     const [showModelFor, setShowModelFor] = useState("");
-    const [selectedTab, setSelectedTab] = useState(pageName == "masters" ? "states" : "artist_list");
+    const [selectedTab, setSelectedTab] = useState("states");
 
     function capitalizeFirstLetter(stringName) {
         return stringName.charAt(0).toUpperCase() + stringName.slice(1);
@@ -288,15 +282,6 @@ const AllMasters = () => {
             dispatch(getAddressProofs())
         } else if(e === "idProofs") {
             dispatch(getIdProofs())
-        } else if(e === "artists") {
-            dispatch(getAllArtists())
-        } else if(e === "judges") {
-            dispatch(getAllJudges())
-        } else if(e === "organisers") {
-            dispatch(getAllUsers())
-        } else if(e === "assign_to") {
-            dispatch(getAllArtists());
-            dispatch(getAllJudges())
         }
     }
 
@@ -305,27 +290,14 @@ const AllMasters = () => {
     }
 
     const changeCityImage = (e,CityId) => {
-
-        var fData = new FormData();
-        fData.append("file", e.target.files[0], e.target.files[0].type);
-        console.log(fData)
-        //dispatch(setImageForMaster('city', fData, CityId));
+        dispatch(setImageForMaster('city', e.target.files[0], CityId));
     }
 
     useEffect(() => {
         if(pageName == "masters") {
             setSelectedTab('states')
             dispatch(getAllStates())
-        } else
-        if(pageName == "accounts") {
-            setSelectedTab('artist_list')
-            dispatch(getAllArtists())
         }
-
-        setTimeout(() => {
-            setSelectedTab(selectedTab)
-        }, 2000)
-        console.log(params, selectedTab)
     }, [pageName])
 
   return (
@@ -340,7 +312,6 @@ const AllMasters = () => {
             </div>
             <div className="main-content all_masters">
                 <Container fluid>
-                    {pageName == "masters" ? (
                     <>
                     <h4 className="l-b mb-3">All {capitalizeFirstLetter(pageName)}</h4>
                     <Tabs defaultActiveKey={selectedTab} id="uncontrolled-tab-example-1" className="mb-1 justify-content-start" onSelect={(e) => {onMasterTabChange(e)}}>
@@ -1109,297 +1080,6 @@ const AllMasters = () => {
                       </Tab>
                     </Tabs>
                     </>
-                    ):(
-                    <>
-                    <h4 className="l-b mb-3">All {capitalizeFirstLetter(pageName)}</h4>
-                    <Tabs defaultActiveKey={selectedTab} id="uncontrolled-tab-example" className="mb-1 justify-content-start" onSelect={(e) => {onMasterTabChange(e)}}>
-                        <Tab eventKey="artist_list" title="Artists" className={`${selectedTab == 'artist_list' ? 'active' : ''}`}>
-                        {allArtistsLoading ? (
-                            <>
-                                <div className="table-scroll">
-                                    <Table className="table-responsive">
-                                        <thead>
-                                        <tr>
-                                            <th colSpan={5}>
-                                                <Skeleton count={1} width={"100%"} height={30} /> 
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                [...Array(5)].map((e, i) => {
-                                                  return (
-                                                    <tr key={`skeleton_table_${i}`}>
-                                                        <td colSpan={5}>
-                                                            <Skeleton count={1} width={"100%"} height={30} /> 
-                                                        </td>
-                                                    </tr>
-                                                  )
-                                                })
-                                            }
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </>
-                        ):(
-                            <>
-                                <div className="table-scroll">
-                                    <Table className="table-responsive">
-                                        <thead>
-                                        <tr>
-                                            <th>Profile</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Mobile</th>
-                                            <th>State</th>
-                                            <th>City</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            {allArtists.map((st,indx) => {
-                                                return (
-                                                    <tr key={`state_${indx}`}>
-                                                        <td>
-                                                            <img className="img_with_name" src={st.ArtistProfileImg == "" ? DefaultProfile : st.ArtistProfileImg} />
-                                                        </td>
-                                                        <td>
-                                                            <span>{st.ArtistName}</span>
-                                                        </td>
-                                                        <td>{st.EmailId}</td>
-                                                        <td>{st.MobileNo}</td>
-                                                        <td>{st.ArtistState}</td>
-                                                        <td>{st.ArtistCity}</td>
-                                                        <td>{"NA"}</td>
-                                                        <td>
-                                                            <FiTrash className="cursor-pointer" onClick={() => {deleteItem(st.ArtistId, "artist")}}/>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            })}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </>
-                        )}
-                        </Tab>
-                        <Tab eventKey="judges" title="Judges">
-                        {allJudgesLoading ? (
-                        <>
-                            <div className="table-scroll">
-                                <Table className="table-responsive">
-                                    <thead>
-                                    <tr>
-                                        <th colSpan={5}>
-                                            <Skeleton count={1} width={"100%"} height={30} /> 
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            [...Array(5)].map((e, i) => {
-                                              return (
-                                                <tr key={`skeleton_table_${i}`}>
-                                                    <td colSpan={5}>
-                                                        <Skeleton count={1} width={"100%"} height={30} /> 
-                                                    </td>
-                                                </tr>
-                                              )
-                                            })
-                                        }
-                                    </tbody>
-                                </Table>
-                            </div>
-                        </>
-                        ):(
-                        <>
-                            <div className="head-top-sec p-3">
-                                <Stack direction="horizontal" gap={3}>
-                                <div className="l-m filter-denld-btn red-color cursor-pointer text-small ml-auto" onClick={() => {addAction('judge')}}><FiPlus/> Add New </div>
-                                </Stack>
-                            </div>
-                            <div className="table-scroll">
-                                <Table className="table-responsive">
-                                    <thead>
-                                    <tr>
-                                        <th>Profile</th>
-                                        <th>Name</th>
-                                        <th>Mobile</th>
-                                        <th>Total Requests</th>
-                                        <th>Approved</th>
-                                        <th>Pending</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        {allJudges.map((st,indx) => {
-                                            return (
-                                                <tr key={`state_${indx}`}>
-                                                    <td>
-                                                        <img className="img_with_name" src={st.JudgeProfileImg == "" ? DefaultProfile : st.JudgeProfileImg} />
-                                                    </td>
-                                                    <td>{st.JudgeName}</td>
-                                                    <td>{st.MobileNo}</td>
-                                                    <td>{st.TotalRequests}</td>
-                                                    <td>{st.TotalApproved}</td>
-                                                    <td>{st.TotalPending}</td>
-                                                    <td>
-                                                        <FiTrash className="cursor-pointer" onClick={() => {deleteItem(st.JudgeId, "judge")}}/>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })}
-                                    </tbody>
-                                </Table>
-                            </div>
-                        </>
-                        )}
-                        </Tab>
-                        <Tab eventKey="organisers" title="Organisers">
-                          {allUsersLoading ? (
-                            <>
-                                <div className="table-scroll">
-                                    <Table className="table-responsive">
-                                        <thead>
-                                        <tr>
-                                            <th colSpan={5}>
-                                                <Skeleton count={1} width={"100%"} height={30} /> 
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                [...Array(5)].map((e, i) => {
-                                                  return (
-                                                    <tr key={`skeleton_table_${i}`}>
-                                                        <td colSpan={5}>
-                                                            <Skeleton count={1} width={"100%"} height={30} /> 
-                                                        </td>
-                                                    </tr>
-                                                  )
-                                                })
-                                            }
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </>
-                        ):(
-                            <>
-                                <div className="table-scroll">
-                                    <Table className="table-responsive">
-                                        <thead>
-                                        <tr>
-                                            <th>Profile</th>
-                                            <th>Name</th>
-                                            <th>Mobile</th>
-                                            <th>Gender</th>
-                                            <th>Total Bookings</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            {allUsers.map((st,indx) => {
-                                                return (
-                                                    <tr key={`event_${indx}`}>
-                                                        <td>
-                                                            <img className="img_with_name" src={st.UserProfileImg == "" ? DefaultProfile : st.UserProfileImg} />
-                                                        </td>
-                                                        <td>{st.UserName}</td>
-                                                        <td>{st.MobileNo}</td>
-                                                        <th>{st.Gender}</th>
-                                                        <td>{st.TotalBookings}</td>
-                                                        <td>
-                                                            <FiTrash className="cursor-pointer" onClick={() => {deleteItem(st.UserId, "user")}}/>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            })}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </>
-                        )}
-                        </Tab>
-                        <Tab eventKey="assign_to" title="Assign Artist To Judge">
-                        {allArtistsLoading ? (
-                            <>
-                                <div className="table-scroll">
-                                    <Table className="table-responsive">
-                                        <thead>
-                                        <tr>
-                                            <th colSpan={5}>
-                                                <Skeleton count={1} width={"100%"} height={30} /> 
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                [...Array(5)].map((e, i) => {
-                                                  return (
-                                                    <tr key={`skeleton_table_${i}`}>
-                                                        <td colSpan={5}>
-                                                            <Skeleton count={1} width={"100%"} height={30} /> 
-                                                        </td>
-                                                    </tr>
-                                                  )
-                                                })
-                                            }
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </>
-                        ):(
-                            <>
-                                <div className="table-scroll">
-                                    <Table className="table-responsive">
-                                        <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Mobile</th>
-                                            <th>State</th>
-                                            <th>City</th>
-                                            <th>Assign To</th>
-                                            <th>Status</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                            {allArtists.map((st,indx) => {
-                                                return (
-                                                    <tr key={`state_${indx}`}>
-                                                        <td>
-                                                            <span>{st.ArtistName}</span>
-                                                        </td>
-                                                        <td>{st.MobileNo}</td>
-                                                        <td>{st.ArtistState}</td>
-                                                        <td>{st.ArtistCity}</td>
-                                                        <td>
-                                                            <Form.Select
-                                                                name="judge"
-                                                                className="form-control"
-                                                                required
-                                                                //value={newDependedSelectName}
-                                                                onChange={(e) => {assignToJudge(st.ArtistId, e.target.value)}}
-                                                            >
-                                                                <option value="">Select Judge</option>
-                                                                {allJudges?.filter((key) => !key.IsCancelled).map((judge, index) => {
-                                                                    return (<option key={`${judge.JudgeId}'_'${judge.JudgeName}`} value={judge.JudgeId}>{judge.JudgeName}</option>)
-                                                                })}
-                                                            </Form.Select>
-                                                        </td>
-                                                        <td>{"NA"}</td>
-                                                    </tr>
-                                                )
-                                            })}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </>
-                        )}
-                        </Tab>
-                    </Tabs>
-                      </>
-                    )}
                     <Modal
                         show={showModel}
                         onHide={handleClose}

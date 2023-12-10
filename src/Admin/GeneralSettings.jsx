@@ -42,7 +42,7 @@ const GeneralSettings = () => {
     const [selectedTab, setSelectedTab] = useState("allEvents");
 
     const [specialEventImage, setSpecialEventImage] = useState([]);
-    const [specialEventId, setSpecialEventId] = useState([]);
+    const [specialEventId, setSpecialEventId] = useState("");
     const [specialEventImagePrev, setSpecialEventImagePrev] = useState("");
     const [specialEventType, setSpecialEventType] = useState("headerBanner");
     const [specialEventHeadText, setSpecialEventHeadText] = useState("");
@@ -78,6 +78,7 @@ const GeneralSettings = () => {
 
     const addAction = (from) => {
         setShowModelFor(from);
+        setSpecialEventId("");
         setShowModelForType('add');
         setShowModel(true);
     }
@@ -146,10 +147,12 @@ const GeneralSettings = () => {
                 EndDate: moment(specialEventEndDate).format("YYYY-MM-DD hh:mm:ss"),
             };
 
-            // if(showModelForType === "edit") {
-            //     paramsData.SpecialEventsId = specialEventId;
-            // }
-
+            if(showModelForType === "edit") {
+                paramsData.SpecialEventsId = specialEventId;
+                if(!specialEventImagePrev.includes('blob')) {
+                    paramsData.SEImgURL = specialEventImagePrev;
+                }
+            }
             console.log(paramsData)
 
             dispatch(addSpecialEvent(specialEventImage, paramsData)).then((res) => {
@@ -461,7 +464,7 @@ const GeneralSettings = () => {
                                             {addItemLoading && (
                                                 <span className="spinner-border spinner-border-sm"></span>
                                             )}
-                                          <span> Add</span>
+                                          <span> {specialEventId !== "" ? 'Update' : 'Add New'}</span>
                                         </button>
                                     </p>
                                 </Row>

@@ -1,4 +1,4 @@
-import React, { useEffect }  from "react";
+import React, { useEffect, useState }  from "react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import NavBar from "../Layout/NavBar";
@@ -8,18 +8,30 @@ import { useDispatch, useSelector } from "react-redux";
 import Skeleton from "react-loading-skeleton";
 import Faq from "../OnBoard/Faq";
 import { getSupportFaqs } from "../redux/commonSlice";
+import { Tabs, Tab} from "react-bootstrap";
+import Stack from 'react-bootstrap/Stack';
+import Table from 'react-bootstrap/Table';
 
 
 
 const SingleArtist = () => {
   const dispatch = useDispatch();
   
-const { supportFaqs, supportFaqsLoading } = useSelector(state => state.commonStates);
+    const { supportFaqs, supportFaqsLoading } = useSelector(state => state.commonStates);
+    const [selectedTab, setSelectedTab] = useState("General Information");
+    const [faqTabs, setFaqTabs] = useState([]);
+    const onMasterTabChange = (e) => {
+        setSelectedTab(e);
+    }
 
+    const saveFaqTabsInArray = (faqs) => {
+        
+    }
 
   useEffect(()=>{
     window.scrollTo(0, 0);
    dispatch(getSupportFaqs());
+   setFaqTabs([...new Set(supportFaqs.map(q => q.SFaqTypeName))])
   },[]);  
   return (
     <>
@@ -31,7 +43,7 @@ const { supportFaqs, supportFaqsLoading } = useSelector(state => state.commonSta
             <div className="header">
                 <NavBar />
             </div>
-            <div className="main-content">
+            <div className="main-content all_masters">
                 {
                     supportFaqsLoading ? (
                         <>
@@ -58,7 +70,16 @@ const { supportFaqs, supportFaqsLoading } = useSelector(state => state.commonSta
                                     <div className="s-heading">
                                         <p className="s-head l-b">Frequently asked questions</p>
                                     </div>
-                                    <Faq data={supportFaqs}/>
+                                    <Tabs defaultActiveKey={selectedTab} id="uncontrolled-tab-example-1" className="mb-1 justify-content-start mb-4" onSelect={(e) => {onMasterTabChange(e)}}>
+                                        {faqTabs.map((fq,index) => {
+                                            return (
+                                                <Tab key={`faq_${index}`} eventKey={fq} title={fq}>
+                                                <Faq data={supportFaqs.filter((fqs) => {return (fqs.SFaqTypeName == fq)})}/>
+                                              </Tab>
+                                                  )
+                                        })}
+                                    </Tabs>
+                                    
                                 </section> 
                             </div>
                         </Container>

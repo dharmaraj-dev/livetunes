@@ -15,7 +15,9 @@ const slice = createSlice({
     addAddressLoading: false,
     generalSettings,
     supportFaqs: [],
-    supportFaqsLoading: false
+    supportFaqsLoading: false,
+    trendingArtists: [],
+    trendingArtistsLoading: false
   },
   reducers: {
     setGeneralSettingsLoading: (state, action) => {
@@ -63,6 +65,12 @@ const slice = createSlice({
     setSupportFaqData: (state, action) => {
       state.supportFaqs = action.payload;
     },
+    startStopTrendingArtistLoading: (state, action) => {
+      state.trendingArtistsLoading = action.payload;
+    },
+    saveTrendingArtists: (state, action) => {
+      state.trendingArtists = action.payload;
+    },
   }
 });
 
@@ -79,7 +87,9 @@ export const {
   stopAddAddressLoading,
   updateGeneralSettings,
   startStopSupportFaqLoading,
-  setSupportFaqData
+  setSupportFaqData,
+  startStopTrendingArtistLoading,
+  saveTrendingArtists
 } = slice.actions;
 
 export const getGeneralSettings = (data) => async dispatch => {
@@ -205,5 +215,33 @@ export const getSupportFaqs = () => async dispatch => {
       });
   } catch (e) {
     dispatch(startStopSupportFaqLoading(false))
+  }
+};
+
+export const getTrendingArtists = () => async dispatch => {
+  dispatch(startStopTrendingArtistLoading(true))
+  try {
+   return await axios
+      .get(API_URL + `AdminProfile/GetTrendArtist` , {headers:authHeader()})
+      .then(response => {
+        dispatch(startStopTrendingArtistLoading(false))
+        if(response.data.IsSuccess) {
+          dispatch(saveTrendingArtists(response.data.selArtist))
+        }
+        return response;
+      });
+  } catch (e) {
+    dispatch(startStopTrendingArtistLoading(false))
+  }
+};
+
+export const setPushToken = (PushToken) => async dispatch => {
+  try {
+   return await axios
+      .post(API_URL + `LogMethods/SaveToken` , PushToken, {headers:authHeader()})
+      .then(response => {
+        return response;
+      });
+  } catch (e) {
   }
 };
