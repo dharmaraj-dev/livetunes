@@ -8,7 +8,7 @@ import Lottie from "lottie-react";
 import Musicico from "../components/musicico.json";
 import Nextarrow from "../components/nextarrow.json";
 import Ring from "../assets/images/ring.gif";
-import Eventmanager from "../assets/images/event_manager.png";
+import Eventmanager from "../assets/images/comunity_manager.png";
 import Guitarist from "../assets/images/guitarist.png";
 import Musicnotes from "../assets/images/music-notes.png";
 import Musicnotesvgrepo from "../assets/images/musical-note-svgrepo.png";
@@ -31,6 +31,8 @@ import Featuredimg4 from "../assets/images/featuredimg4.png";
 import Clientbg from "../assets/images/clientbg.png";
 import Protobg from "../assets/images/protobg.png";
 import Mikeimg from "../assets/images/mikeimg.png";
+import MostPopular from "../assets/images/most_popular.png";
+import LiveTunesLogoNew from "../assets/images/liveTunesLogo.png";
 
 import Welcome from "../assets/images/wlecome-img.png";
 import Client1 from "../assets/images/client1.png";
@@ -1904,10 +1906,16 @@ export function SlideView({ title, itemId, children }) {
                       trendingArtists.map((trendArt, index) => {
                         return (
                             <Col key={`trending_artist_${index}`} lg={3} xl={3} md={4} xs={6}>
+                            <Link target="_blank" to={`/artist-details/${trendArt.ArtistName?.replace(/ /g,"-")}/${btoa(trendArt.ArtistId)}/${btoa(0)}`}>
                               <div className="inner-featured-box postion-r">
                                 <div className="featured-cat">
-                                  <span className="star-text l-r">Weddings</span>
-                                  <span className="star-text l-r">Gigs</span>
+                                  {trendArt.MulVariety !== "" && (
+                                    trendArt.MulVariety.split(',').map((spcl,index) => {
+                                      return (
+                                        <span key={`spcl_${index}`} className="star-text l-r">{spcl}</span>
+                                        )
+                                    })
+                                  )}
                                 </div>
                                 <img src={trendArt.ArtistProfileImg} alt="" className="" />
                                 <div className="name-sec">
@@ -1920,11 +1928,12 @@ export function SlideView({ title, itemId, children }) {
                                       <p className="m-0">
                                         <BsFillStarFill className="star-class" />
                                       </p>
-                                      {/*<p className="star-text l-b">4.5/5</p>*/}
+                                      <p className="star-text l-b">{trendArt.Rating}/5</p>
                                     </div>
                                   </div>
                                 </div>
                               </div>
+                              </Link>
                             </Col>
                           )
                       })
@@ -2057,10 +2066,12 @@ export function SlideView({ title, itemId, children }) {
               <Row>
                 <Col lg={4}>
                   <div className="proto-img-text">
-                    <img src={Mikeimg} alt="" className="" />
+                    <img src={MostPopular} alt="" className="most_popular_img" />
                     <div className="join-step-text-sec">
                       <p className="sub-head khf black-color l-m">Most Popular with</p>
-                      <p className="heading khf red-color l-m">Livetunes</p>
+                      <p className="heading khf red-color l-m">
+                        <img className="liveTunesNewLogo" src={LiveTunesLogoNew} />
+                      </p>
                     </div>
                   </div>
                 </Col>
@@ -2245,7 +2256,7 @@ export function SlideView({ title, itemId, children }) {
                       Want to be a part of Livetunes{" "}
                       <span className="red-color">Community</span>?
                     </p>
-                    <p className="walk_through_again">Revisit the <span className="red-color" onClick={walkThroughAgain}>Journey</span></p>
+                    <button className="btn btn-primary" onClick={walkThroughAgain}>Revisit the Journey</button>
                   </div>
                 </Col>
                 <Col lg={5}>

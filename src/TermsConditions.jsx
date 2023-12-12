@@ -1,7 +1,7 @@
 import React from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
-import Sitelogo from './assets/images/wlecome-img.png';
+import Sitelogo from './assets/images/liveTunesLogo.png';
 import subtraction from './assets/images/subtraction.png';
 
 const TermsConditions = () => {
@@ -11,7 +11,7 @@ const TermsConditions = () => {
   return (
 	 <section id="terms-of-service">
         <div className="logo_img_terms">
-            <img src={Sitelogo} />
+            <img src={Sitelogo} className="mt-4" />
         </div>
         <div className="card">
         	<p onClick={()=> {navigate('/welcome')}} className="go_back_button"> <BsArrowLeft /> Go back</p>

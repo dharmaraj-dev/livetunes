@@ -1365,7 +1365,8 @@ numberInput.input[type=number] {
 }
 
 .logo_img_terms img{
-  width: 100px;
+  width: 250px;
+  max-width: 100%;
 }
 
 #terms-of-service a:hover {
@@ -1373,7 +1374,7 @@ numberInput.input[type=number] {
 }
 
 #terms-of-service .card {
-    margin-top: 2rem;
+    margin-top: 1.2rem;
     margin-bottom: 100px;
     height : 1950px;
     width: 1200px;

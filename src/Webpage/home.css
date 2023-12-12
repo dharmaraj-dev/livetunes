@@ -8,7 +8,7 @@
 .musicico svg{width: 58% !important;margin: -18px 0 0 -118px;}
 
 .section1{background-repeat: no-repeat !important;background-position: bottom -110px right -30px !important;background-size: contain !important;}
-.eventmanager-img-sec{position: absolute;left: 254px;width: 27%;bottom: 56px;}
+.eventmanager-img-sec{position: absolute;left: 300px;width: 27%;bottom: 56px;}
 .guitarist-img-sec{position: absolute;right: 73px;width: 17%;bottom: 49px;}
 .eventmanager-btn-sec button{width: 150px;height: 150px;border-radius: 100%;position: absolute;bottom: 85px;left: 55px;border: 1px solid #000000;font-size: 19px;line-height: 24px;}
 .eventmanager-btn-sec button:hover,.eventmanager-btn-sec button:first-child:active,
@@ -117,7 +117,7 @@
 .inner-featured-box{padding: 25px;}
 .inner-featured-box img{width: 100%;margin: 0 auto;display: block;border-radius: 12px;box-shadow: 0px 3px 25px #ABABAB;}
 .inner-featured-box .featured-cat{position: absolute;left: 40px;top: 40px;}
-.inner-featured-box .featured-cat .star-text{background: #fff;padding: 4px 15px;border-radius: 30px;margin: 0 6px 0 0;}
+.inner-featured-box .featured-cat .star-text{background: #fff;padding: 4px 15px;border-radius: 30px;margin: 0 6px 0 0; margin-bottom: 5px; display: inline-block;}
 .inner-featured-box .name-sec{color: #fff;position: absolute;bottom: 40px;left: 40px;}
 .inner-featured-box .name-sec .m-name{margin: 0;font-size: 20px;}
 .inner-featured-box .name-sec .m-city{margin: 0;}
@@ -127,7 +127,7 @@
 .inner-star-sec .star-text{margin: 6px 0 0;font-size: 20px;}
 
 .section8{background-repeat: no-repeat !important;background-size: contain !important;background-position: top !important;}
-.section8 .join-step-text-sec {position: initial;margin: 0 0 0 80px;}
+.section8 .join-step-text-sec {position: initial;}
 .proto-img-text img{width: 76%;display: block;margin: 0 auto;}
 .video-sec{
   width: 80%;
@@ -214,7 +214,7 @@
     .section7 .welcome-btn-sec button {width: 200px;height: 200px;top: 63px;right: 318px;}
 
     .proto-img-text img {width: 82%;}
-    .section8 .join-step-text-sec {position: initial;margin: 0 0 0 102px;}
+    .section8 .join-step-text-sec {position: initial;}
     .video-sec {width: 84%;margin: 130px auto 0;}
     .video-sec iframe{
 /*      height: 550px;*/
@@ -287,7 +287,6 @@
 
     .section8{background-position: center !important;}
     .proto-img-text img {width: 100%;}
-    .section8 .join-step-text-sec{margin: 0 0 0 30px;}
     .video-sec {width: 90%;margin: 110px auto 0;}
     .section8 .welcome-btn-sec button{width: 120px;height: 120px;}
 
@@ -480,3 +479,13 @@
 .wbtnn:hover .text-box.text-box-1{display: block; transition: 0.5s all;z-index: 9;position: absolute;
     bottom: 100%;} 
 
+.section8 .liveTunesNewLogo {
+    width: 230px;
+    max-width: 100%;
+}
+
+.section8 .proto-img-text .most_popular_img {
+    margin: 6rem auto 0;
+    width: 250px;
+    max-width: 100%;
+}

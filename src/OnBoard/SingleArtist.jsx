@@ -197,7 +197,7 @@ const SingleArtist = () => {
                                                     <h2>Performance Languages</h2>
                                                     <div className="per-lang">
                                                         {
-                                                           artistDetails?.selAPDetails.LanguageName ? artistDetails?.selAPDetails?.LanguageName.split(",").map((language,index) => {
+                                                           artistDetails?.selAPDetails?.LanguageName !== null ? artistDetails?.selAPDetails?.LanguageName?.split(",").map((language,index) => {
                                                                 return <div key={`lang_${index}`} className="inner-per-lang l-sb">{language}</div>
                                                             }) : <></>
                                                         }
@@ -212,10 +212,10 @@ const SingleArtist = () => {
                                                     <h2>Performance Genres</h2>
                                                     <div className="per-lang">
                                                         {
-                                                            artistDetails?.selAPDetails?.GenreName
-                                                            .split(",").map((genre,index) => {
+                                                            artistDetails?.selAPDetails?.GenreName !== null ?
+                                                            artistDetails?.selAPDetails?.GenreName.split(",").map((genre,index) => {
                                                                 return <div key={`gen_${index}`} className="inner-per-lang l-sb">{genre}</div>
-                                                            })
+                                                            }) : <></>
                                                         }
                                                     </div>
                                                 </div>
