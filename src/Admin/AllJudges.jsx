@@ -126,9 +126,9 @@ const AllJudges = () => {
     }
 
     useEffect(() => {
-        if(pageName == "accounts") {
-            setSelectedTab('artist_list')
-            dispatch(getAllArtists())
+        if(pageName == "judges") {
+            setSelectedTab('judges')
+            dispatch(getAllJudges())
         }
     }, [pageName])
 

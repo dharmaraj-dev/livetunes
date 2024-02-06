@@ -126,7 +126,7 @@ const AllPartners = () => {
     }
 
     useEffect(() => {
-        if(pageName == "accounts") {
+        if(pageName == "partners") {
             setSelectedTab('artist_list')
             dispatch(getAllArtists())
         }

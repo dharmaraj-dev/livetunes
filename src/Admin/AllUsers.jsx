@@ -126,9 +126,9 @@ const AllUsers = () => {
     }
 
     useEffect(() => {
-        if(pageName == "accounts") {
-            setSelectedTab('artist_list')
-            dispatch(getAllArtists())
+        if(pageName == "users") {
+            setSelectedTab('organisers')
+            dispatch(getAllUsers())
         }
     }, [pageName])
 

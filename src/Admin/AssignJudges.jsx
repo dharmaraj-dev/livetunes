@@ -30,7 +30,7 @@ const AssignJudges = () => {
     
     const dispatch = useDispatch();
     const MySwal = withReactContent(Swal);
-    const pageName = 'accounts';
+    const pageName = 'Judges';
     const {
     allArtists,
     allJudges,
@@ -126,9 +126,10 @@ const AssignJudges = () => {
     }
 
     useEffect(() => {
-        if(pageName == "accounts") {
-            setSelectedTab('artist_list')
-            dispatch(getAllArtists())
+        if(pageName == "judges") {
+            setSelectedTab('assign_to')
+            dispatch(getAllArtists());
+            dispatch(getAllJudges())
         }
     }, [pageName])
 
