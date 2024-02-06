@@ -48,7 +48,7 @@ const WelcomeLoader = () => {
 	      } else if(joiningType === 'Judge') {
 	        navigate("/judgment-panel");
 	      } else if(joiningType === 'Admin') {
-	        navigate("/admin/all-accounts");
+	        navigate("/admin-dashboard");
 	      } else if(joiningType === 'User'){
 		        if(isSettingsSaved) {
 		        	dispatch(fetchUserProfile());

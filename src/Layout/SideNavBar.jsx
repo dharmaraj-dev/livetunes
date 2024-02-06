@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import Sitelogo from '../assets/images/logo.png';
 import Minisitelogo from '../assets/images/mini-logo.png';
 import {TfiDashboard, TfiAgenda } from "react-icons/tfi";
-import {TfiMicrophoneAlt, TfiList, TfiHeart, TfiUser,TfiAlarmClock, TfiMedallAlt, TfiMenu, TfiMoney, TfiWrite, TfiBriefcase,  TfiArrowUp, TfiArrowDown } from "react-icons/tfi";
+import {TfiMicrophoneAlt, TfiList, TfiHeart, TfiUser, TfiAlarmClock, TfiMedallAlt, TfiMenu, TfiMoney, TfiWrite, TfiBriefcase,  TfiArrowUp, TfiArrowDown } from "react-icons/tfi";
 import { IoTicketOutline } from "react-icons/io5";
-import { SlCalender, SlSettings } from "react-icons/sl";
+import { SlCalender, SlSettings, SlGraduation } from "react-icons/sl";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
 import { IoIosLogOut } from "react-icons/io";
 import { BsChevronDoubleRight } from "react-icons/bs";
@@ -126,23 +126,43 @@ const SideNavBar = () => {
 			]);
 		} else if(joiningType === "Admin") {
 			setMenuItemsDynamic([
-				// {
-				// 	text: "Dashboard",
-				// 	icon: <TfiDashboard className="menu-item-icon"/>,
-				// 	links: "/admin-dashboard"
-				// },
 				{
-					text: "All Accounts",
-					icon: <TfiUser className="menu-item-icon"/>,
-					links: "/admin/all-accounts"
+					text: "Dashboard",
+					icon: <TfiDashboard className="menu-item-icon"/>,
+					links: "/admin-dashboard"
 				},
 				{
-					text: "All Masters",
+					text: "Manage Bookings",
+					icon: <IoTicketOutline className="menu-item-icon"/>,
+					links: "/admin-bookings"
+				},
+				{
+					text: "Manage Users",
+					icon: <TfiUser className="menu-item-icon"/>,
+					links: "/admin/all-users"
+				},
+				{
+					text: "Manage Partners",
+					icon: <TfiMedallAlt className="menu-item-icon"/>,
+					links: "/admin/all-partners"
+				},
+				{
+					text: "Manage Judges",
+					icon: <SlGraduation className="menu-item-icon"/>,
+					links: "/admin/all-judges"
+				},
+				{
+					text: "Assign Judges",
+					icon: <TfiMicrophoneAlt className="menu-item-icon"/>,
+					links: "/admin/assign-judges"
+				},
+				{
+					text: "Manage CMS",
 					icon: <TfiList className="menu-item-icon"/>,
 					links: "/admin/all-masters"
 				},
 				{
-					text: "All Settings",
+					text: "Manage Settings",
 					icon: <SlSettings className="menu-item-icon"/>,
 					links: "/admin/all-settings"
 				},
@@ -171,7 +191,7 @@ const SideNavBar = () => {
 			  //   isSubMenuActive: false
 				// },
 				{
-					text: "Support",
+					text: "Support Centre",
 					icon: <TfiHeadphoneAlt className="menu-item-icon"/>,
 					links: "/support"
 				}
@@ -286,7 +306,7 @@ const SideNavBar = () => {
 							</button>
 						</span>
 				</div>
-				<div className="nav-menu">
+				<div className={`${joiningType  === "Admin" ? 'admin_menu' : '' } nav-menu`}>
 					{menuItemsDynamic.map(({ text, icon, links, submenu = null, isSubMenuActive = false },index) => (
 						!isLoggedIn ? (
 							<Link

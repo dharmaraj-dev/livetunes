@@ -2,6 +2,11 @@
   display: block;
 }
 
+.side-nav-container .admin_menu {
+  height: 80%;
+  overflow: auto;
+}
+
 .side-nav-container.side-nav-container-NX {
     height: 100vh;
 }

@@ -51,6 +51,10 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { setJoiningType } from './redux/userAuth';
 import ArtistAvailSlot from './Artist/ArtistAvailSlot';
 import GeneralStuffs from './Admin/GeneralStuffs';
+import AllUsers from './Admin/AllUsers';
+import AllPartners from './Admin/AllPartners';
+import AllJudges from './Admin/AllJudges';
+import AssignJudges from './Admin/AssignJudges';
 import GeneralSettings from './Admin/GeneralSettings';
 import AllMasters from './Admin/AllMasters';
 import Support from './Admin/Support';
@@ -60,6 +64,8 @@ import { getFeedLogs } from "./redux/userSlice";
 import './responsive.css';
 import "react-datepicker/dist/react-datepicker.css";
 import OneSignal from 'react-onesignal';
+import AdminDashboard from './Admin/AdminDashboard';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -137,13 +143,18 @@ function App() {
         <Route path="/judge-login" element={<LogIn/>}/>
         <Route path="/judge-test-login" element={<TestLogIn/>}/>
         <Route path="/application-status" element={<ArtistApplicationStatus/>}/>
-        <Route path="/admin-dashboard" element={<ArtistDashboard/>}/>
+        <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
         <Route path="/admin/:id" element={<GeneralStuffs/>}/>
         <Route path="/admin/all-masters" element={<AllMasters/>}/>
         <Route path="/admin/all-accounts" element={<GeneralStuffs/>}/>
         <Route path="/terms-conditions" element={<TermsConditions/>}/>
         <Route path="/admin/all-settings" element={<GeneralSettings/>}/>
         <Route path="/support" element={<Support/>}/>
+        <Route path="/admin-bookings" element={<Bookings/>}/>
+        <Route path="/admin/all-users" element={<AllUsers/>}/>
+        <Route path="/admin/all-partners" element={<AllPartners/>}/>
+        <Route path="/admin/all-judges" element={<AllJudges/>}/>
+        <Route path="/admin/assign-judges" element={<AssignJudges/>}/>
      
 
       </Routes>

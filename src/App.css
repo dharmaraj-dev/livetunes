@@ -1543,3 +1543,12 @@ numberInput.input[type=number] {
     height: 150px;
     object-fit: contain;
 }
+
+.coming_soon {
+  color: #FD3743;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}

@@ -239,7 +239,7 @@ const GeneralSettings = () => {
                     <>
                     <h4 className="l-b mb-3">All {capitalizeFirstLetter(pageName)}</h4>
                     <Tabs defaultActiveKey={selectedTab} id="uncontrolled-tab-example-1" className="mb-1 justify-content-start" onSelect={(e) => {onMasterTabChange(e)}}>
-                      <Tab eventKey="allEvents" title="All Events">
+                      <Tab eventKey="allEvents" title="User Dashboard">
                         {allSpecialEventLoading ? (
                             <>
                                 <div className="head-top-sec p-3">
