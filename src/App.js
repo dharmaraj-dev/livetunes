@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './App.css';
 import {Routes, Route} from 'react-router-dom';
 import WelcomeLoader from './WelcomeLoader';
@@ -65,6 +65,7 @@ import './responsive.css';
 import "react-datepicker/dist/react-datepicker.css";
 import OneSignal from 'react-onesignal';
 import AdminDashboard from './Admin/AdminDashboard';
+import Policies from './Policies';
 
 
 function App() {
@@ -155,9 +156,26 @@ function App() {
         <Route path="/admin/all-partners" element={<AllPartners/>}/>
         <Route path="/admin/all-judges" element={<AllJudges/>}/>
         <Route path="/admin/assign-judges" element={<AssignJudges/>}/>
+        <Route path="/policies/:id" element={<Policies/>}/>
      
 
       </Routes>
+      <footer className='footerNavigation'>
+        <ul className='policiesNavigation'>
+          <li>
+            <Link to="policies/disclaimer" target='_blank'>Disclaimer</Link>
+          </li>
+          <li>
+            <Link to="policies/privacy" target='_blank'>Privacy</Link>
+          </li>
+          <li>
+            <Link to="policies/terms" target='_blank'>Terms</Link>
+          </li>
+          <li>
+            <Link to="policies/refund" target='_blank'>Refund</Link>
+          </li>
+        </ul>
+      </footer>
       <h1 className="mob-view-sec" style={{ display: "none"}}>Please go Tab and Desktop view for the best experience </h1>
     </div>
   );
