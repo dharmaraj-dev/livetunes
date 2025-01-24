@@ -68,6 +68,7 @@ import AdminDashboard from './Admin/AdminDashboard';
 import Policies from './Policies';
 
 
+
 function App() {
   const dispatch = useDispatch();
   let navigate = useNavigate();
@@ -157,6 +158,7 @@ function App() {
         <Route path="/admin/all-judges" element={<AllJudges/>}/>
         <Route path="/admin/assign-judges" element={<AssignJudges/>}/>
         <Route path="/policies/:id" element={<Policies/>}/>
+        
      
 
       </Routes>
