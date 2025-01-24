@@ -66,7 +66,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import OneSignal from 'react-onesignal';
 import AdminDashboard from './Admin/AdminDashboard';
 import Policies from './Policies';
-
+import CcavenuePaymentLink from './testccavenue/ccavenuepaymentlink.js';
 
 
 function App() {
@@ -158,6 +158,7 @@ function App() {
         <Route path="/admin/all-judges" element={<AllJudges/>}/>
         <Route path="/admin/assign-judges" element={<AssignJudges/>}/>
         <Route path="/policies/:id" element={<Policies/>}/>
+        <Route path="/testpaymentlink" element={<CcavenuePaymentLink/>}/>
         
      
 
