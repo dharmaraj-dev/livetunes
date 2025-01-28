@@ -67,6 +67,7 @@ import OneSignal from 'react-onesignal';
 import AdminDashboard from './Admin/AdminDashboard';
 import Policies from './Policies';
 import CcavenuePaymentLink from './testccavenue/ccavenuepaymentlink.js';
+import PaymentLinkGenerator from './testccavenue/paymentlinkgenerator';
 
 
 function App() {
@@ -159,6 +160,8 @@ function App() {
         <Route path="/admin/assign-judges" element={<AssignJudges/>}/>
         <Route path="/policies/:id" element={<Policies/>}/>
         <Route path="/testpaymentlink" element={<CcavenuePaymentLink/>}/>
+        <Route path="/paymentlinkgenerator" element={<PaymentLinkGenerator/>}/>
+
         
      
 
