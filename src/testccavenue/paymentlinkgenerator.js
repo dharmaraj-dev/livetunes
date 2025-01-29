@@ -8,7 +8,7 @@ const PaymentLinkGenerator = () => {
 
   // CCAvenue credentials
   const merchant_id = '3728091';
-  const access_code = 'AVTL36LK05CG86LTGC';
+  const access_code = 'ATTL36LK05CG86LTGC';
   const encRequest = '7127c4060f410649464bafffa05d648d74f17e7bd96ab5ee7eefdb785d7c5d4517c7bd649d8ad4e19bbf852429dbbea1cbf9ffe7689f5cd2debd9eb87c1ffa11d6b97ac2623a3c3e41b8d66f047fe46516da56acb477bd395c62a077a4a14df034bbc0c2aa55ec16dd4fffaaf7cc69e3b7ccad1ab99f74b3e16c76ceaee956ce41c98831ab01c7616f2a8a4ff3164400138013c6ebabf1e4f18baa1999553df34f9328983dc4bd207bc49cffbfc1ee4a39809e76a365f61265d49c19ab8ead19';
 
   const handleGenerateLink = () => {
