@@ -68,6 +68,7 @@ import AdminDashboard from './Admin/AdminDashboard';
 import Policies from './Policies';
 import CcavenuePaymentLink from './testccavenue/ccavenuepaymentlink.js';
 import PaymentLinkGenerator from './testccavenue/paymentlinkgenerator';
+import PaymentCallback from './Payment/Callback';
 
 
 function App() {
@@ -79,12 +80,12 @@ function App() {
   const { isLoggedIn, joiningType } = useSelector(state => state.userAuth);
 
   const [initialized, setInitialized] = useState(false);
-  OneSignal.init({ appId: 'fb157210-c65b-4dc0-b174-74492aa10e4c' }).then((res) => {
-    setInitialized(true);
-    OneSignal.Slidedown.promptPush();
-    console.log('res', res)
-    // do other stuff
-  })
+  // OneSignal.init({ appId: 'fb157210-c65b-4dc0-b174-74492aa10e4c' }).then((res) => {
+  //   setInitialized(true);
+  //   OneSignal.Slidedown.promptPush();
+  //   console.log('res', res)
+  //   // do other stuff
+  // })
 
 
   useEffect(() => {
@@ -161,6 +162,7 @@ function App() {
         <Route path="/policies/:id" element={<Policies/>}/>
         <Route path="/testpaymentlink" element={<CcavenuePaymentLink/>}/>
         <Route path="/paymentlinkgenerator" element={<PaymentLinkGenerator/>}/>
+        <Route path="/payment/callback" element={<PaymentCallback/>}/>
 
         
      
