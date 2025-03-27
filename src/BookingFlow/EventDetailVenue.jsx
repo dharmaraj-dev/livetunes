@@ -60,6 +60,13 @@ const EventDetailVenue = forwardRef((props, ref) => {
         dispatch(setExMiscCharges(isChecked))
     }
 
+    const generatePaymentLinkForArtist = (resp) => {
+        const access_code = 'ATTL36LK05CG86LTGC';
+        const encRequest = resp.CCEnqRequest;
+        const paymentLink = `https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction&encRequest=${encRequest}&access_code=${access_code}`;
+        window.open(paymentLink, '_blank');
+    }
+
 
     useImperativeHandle(
         ref,
@@ -132,7 +139,12 @@ const EventDetailVenue = forwardRef((props, ref) => {
                                                 }
                                             ]
                                     }
-                                    dispatch(payForBooking(paymentData));
+                                    dispatch(payForBooking(paymentData)).then((response) => {
+                                        console.log('response', response);
+                                        if (response.IsSuccess) {
+                                            generatePaymentLinkForArtist(response);
+                                        }
+                                    });
                                 } else {
                                     infoToast(res.Message);
                                 }
